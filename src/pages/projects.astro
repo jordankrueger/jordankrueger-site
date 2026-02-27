@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = [
+  {
+    title: 'ChangeKit',
+    description: `<p>One of my biggest frustrations is finding a great new tool for a client, but then realizing that the per-seat pricing puts it out of the realm of budgetary possibility for them. Enough is enough with charging by seat for a service that some of the team might not even use regularly!</p><p>That's why I founded ChangeKit, which uses the Cloudron platform to host open-source software with no per-seat charges. The cost is simple: One, minimal yearly subscription fee and then whatever it takes to host the server — anywhere from $12 to $40 a month.</p><p>With replacement software for Zoom, Slack, and other commonly used tools, it's a great option for small organizations just getting started and wanting more breathing room before they commit to much larger software providers.</p>`,
+    image: '/images/logo-changekit-full.png',
+    href: 'https://changekit.io/',
+    bgClass: 'bg-green',
+  },
+  {
+    title: 'User Manuals',
+    description: `<p>One of the greatest workplace tools I was introduced to at CREDO Action was the "user manual," which helps guide employees through an exercise in explaining to their team members what they need to be a whole person in the workplace.</p><p>So many of us struggle to manage needs and emotions that — if explained — might actually help our coworkers better coordinate so everyone can feel accepted and thrive in the workplace.</p><p>User manuals will not only help each person explain what they need, but also help everyone on the team understand each other better.</p>`,
+    image: '/images/logos/logo-usermanuals.png',
+    href: 'https://usermanuals.guide/',
+    bgClass: 'bg-peach',
+  },
+  {
+    title: 'The Transparent Hiring Pledge',
+    description: `<p>Hiring processes are often opaque and frustrating — especially for job seekers in the progressive space who expect more from movement employers. After years of seeing friends and colleagues burned by "ghost jobs," misleading postings, and silence after interviews, I created the Transparent Hiring Pledge to push for change. It's a simple commitment: organizations pledge to adopt a handful of clear, respectful practices — like posting salary ranges, closing job listings when filled, and communicating outcomes to all applicants.</p><p>I believe transparency in hiring is more than a best practice — it's a signal of respect. When organizations are honest and responsive in how they recruit, they help build trust and equity into the very first steps of a working relationship.</p>`,
+    image: '/images/logo-hiringpledge.jpg',
+    href: 'https://hiringpledge.com/',
+    bgClass: 'bg-blue',
+  },
+  {
+    title: 'Four Days with AI',
+    description: `<p>After reading about how a lot of companies are hoping to make workers more efficient with Artificial Intelligence, it dawned on me that we're already headed in the wrong direction with this technology that fascinates and delights me on a daily basis: Instead of taking the gains from Artificial Intelligence tools to finally — FINALLY — start cutting back on the work week and give back some rest and rejuvenation to workers, many startups and techbros are looking for ways to expand OKRs and make workers produce even more!</p><p>The four-day work week has been a growing movement over the past few years, and I feel like it's a good time to try and combine both the four-day work week movement with the gains of Artificial Intelligence, as they start to ramp up, to wrestle back the work week from employers.</p><p><strong>We need a movement that will remind everyone in society that we aren't made to work ever-increasing amounts under ever straining pace indefinitely.</strong></p><p>It's time to embrace Artificial Intelligence <em>and</em> use it to help us take more time off.</p>`,
+    image: '/images/logo-fourdayswithai.jpg',
+    href: 'https://fourdayswithai.com/',
+    bgClass: 'bg-warm',
+  },
+  {
+    title: 'Tracking progress on "Machines of Loving Grace" predictions',
+    description: `<p>The future of AI is unfolding fast — and it's easy to lose track of what's hype, what's real, and what's still just theory. When Anthropic CEO Dario Amodei published "Machines of Loving Grace," it stood out as one of the most thoughtful, concrete predictions about where AI is headed in the coming years. But thoughtful predictions still need accountability. That's why I created the AI Progress Tracker — to help document, fact-check, and annotate the progress we're actually making toward the world Amodei describes.</p><p>This isn't a fan site or a hit piece. It's a living record. By mapping each of Amodei's milestones and claims to real-world developments, the AI Progress Tracker offers a way to stay grounded in reality — whether you're excited about what's coming or deeply skeptical.</p>`,
+    href: 'https://aiprogresstracker.com/',
+    bgClass: 'bg-green',
+  },
+  {
+    title: 'Password Setup Help',
+    description: `<p>Passwords and digital security are not only a huge concern in my work, they're something I've been dealing with for years — but feel like I've finally conquered, with 1Password!</p><p>With so many onboarding sessions under my belt, I felt like it would be a shame to only share my extreme and detailed understanding of the 1Password system with just my clients, and so I'm now offering one-hour coaching sessions to help anyone get set up with 1Password and transfer in all of their passwords. <strong>Howabout you?</strong></p>`,
+    image: '/images/logo-passwordsetuphelp-banner.jpg',
+    href: 'https://passwordsetuphelp.com/',
+    bgClass: 'bg-peach',
+  },
+  {
+    title: 'StarBase 118 PBEM RPG',
+    description: `<p>That's a lot of letters, right? PBEM stands for "Play By Email," and RPG stands for "Role-Playing Game."</p><p>In 1994, on AOL, I co-founded a Star Trek role-playing game soon after learning about them in chat rooms. I was a Star Trek fanatic, as a kid, and I loved the utopian vision of the future mixed with the sense of cool, calm competency that everyone on the show gave off amidst the vast interplay of species in the galaxy.</p><p>That game grew into a community that I still have a hard time believing exists to this day, and which I've led for over 30 years.</p><p>Over the years I've watched people go through many phases of life, meet fellow members and get married, have kids, and even divorce. It's been the privilege of a lifetime to lead and watch all of this happen.</p><p>Beyond all that, the game provided me with a testing ground for leadership, community, and technology like perhaps nothing else could have.</p>`,
+    image: '/images/logo-starbase118.jpg',
+    href: 'https://www.starbase118.net',
+    secondaryLink: { href: 'https://medium.com/@jordankrueger/how-roleplaying-gives-lgbtq-and-non-binary-people-an-outlet-to-explore-themselves-b119813bb23b', label: 'RPGs & LGBTQ+' },
+    bgClass: 'bg-blue',
+  },
+];
+
+const tools = [
+  { label: 'Sites: Carrd.co' },
+  { label: 'Domains: NameCheap' },
+  { label: 'Graphics Creation: Canva' },
+  { label: 'AI: ChatGPT & Claude' },
+];
+---
+
+<BaseLayout title="Projects — Jordan Krueger" description="I love tinkering with new technologies and launching ideas.">
+  <!-- Intro -->
+  <section class="section bg-green">
+    <div class="container projects-intro">
+      <div class="projects-intro-text">
+        <h1>I love tinkering with new technologies and launching ideas.</h1>
+        <hr class="section-divider" />
+      </div>
+      <div class="projects-intro-image">
+        <img src="/images/projects-hero.jpg" alt="Projects" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Description + Tools -->
+  <section class="section">
+    <div class="container projects-desc">
+      <div class="projects-desc-text">
+        <p>I've always been drawn to new tools and technologies — especially the ones that feel just a little bit ahead of their time, and I've never quite been able to resist the urge to try things for myself. That impulse runs deep: my dad was an entrepreneur, and I grew up watching him chase ideas and take risks! I think that shaped me more than I realized.</p>
+        <p>This page is where I keep track of the projects I've started outside my core consulting work — experiments, tools, and resources sparked by a mix of curiosity, admiration, and a deep love for what's possible when people build with purpose.</p>
+        <p>Some projects are polished, some are scrappy, but all come from that same drive to explore what's next and put it into practice.</p>
+      </div>
+      <div class="tools-sidebar">
+        <h3>Favorite Tools</h3>
+        <ul class="tools-list">
+          {tools.map(tool => (
+            <li class="tool-item">{tool.label}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Cards -->
+  {projects.map(project => (
+    <ProjectCard {...project} />
+  ))}
+</BaseLayout>
+
+<style>
+  .projects-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: center;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 2px solid var(--color-border);
+    width: 60px;
+    margin-top: var(--spacing-sm);
+  }
+
+  .projects-intro-image img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+  }
+
+  .projects-desc {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+  }
+
+  .tools-sidebar {
+    background: var(--color-bg-warm);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+  }
+
+  .tools-sidebar h3 {
+    font-family: var(--font-heading);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .tools-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tool-item {
+    padding: 0.5rem 0.75rem;
+    background: var(--color-bg-white);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 640px) {
+    .projects-intro,
+    .projects-desc {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

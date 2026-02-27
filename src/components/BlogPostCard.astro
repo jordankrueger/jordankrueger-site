@@ -1,0 +1,92 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  slug: string;
+  coverImage?: string;
+  tags?: string[];
+}
+const { title, description, pubDate, slug, coverImage, tags = [] } = Astro.props;
+
+const dateStr = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<a href={`/blog/${slug}/`} class="blog-card">
+  {coverImage && (
+    <img src={coverImage} alt={title} loading="lazy" class="blog-card-image" />
+  )}
+  <div class="blog-card-body">
+    <time datetime={pubDate.toISOString()}>{dateStr}</time>
+    <h3>{title}</h3>
+    <p>{description}</p>
+    {tags.length > 0 && (
+      <div class="blog-card-tags">
+        {tags.map(tag => <span class="tag">{tag}</span>)}
+      </div>
+    )}
+  </div>
+</a>
+
+<style>
+  .blog-card {
+    display: block;
+    text-decoration: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-bg-white);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .blog-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .blog-card-body {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .blog-card-body time {
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+  }
+
+  .blog-card-body h3 {
+    margin: 0.35rem 0 0.5rem;
+    font-size: 1.15rem;
+    color: var(--color-text);
+  }
+
+  .blog-card-body p {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    line-height: 1.5;
+  }
+
+  .blog-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 1rem;
+    background: var(--color-bg);
+    color: var(--color-text-light);
+  }
+</style>

@@ -1,0 +1,308 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+
+const services = [
+  {
+    title: 'CampaignHelp',
+    description: 'Help your organization with technology or campaign operations like production and strategy.',
+    image: '/images/logo-campaignhelp.jpg',
+    href: 'https://campaign.help',
+  },
+  {
+    title: 'PasswordSetupHelp',
+    description: 'Stress-free onboarding to 1Password to protect yourself from data breaches and easy hacks.',
+    image: '/images/logo-passwordsetuphelp.png',
+    href: 'https://passwordsetuphelp.com/',
+  },
+  {
+    title: 'Technology Coaching',
+    description: 'Technology coaching & education.',
+    image: '/images/coaching-tech-education.jpg',
+    href: 'https://coaching.jordankrueger.com/',
+  },
+  {
+    title: 'ChangeKit',
+    description: 'Help your organization pay less for the tools you use to work.',
+    image: '/images/logo-changekit.jpg',
+    href: 'https://changekit.io/',
+  },
+];
+
+const projectHighlights = [
+  { name: 'ChangeKit', href: 'https://changekit.io/' },
+  { name: 'User Manuals', href: 'https://usermanuals.guide/' },
+  { name: 'Transparent Hiring Pledge', href: 'https://hiringpledge.com/' },
+  { name: 'Four Days with AI', href: 'https://fourdayswithai.com/' },
+  { name: 'StarBase 118', href: 'https://www.starbase118.net' },
+];
+---
+
+<BaseLayout title="Jordan Krueger: Operations nerd, tech translator.">
+  <Hero />
+
+  <NewsletterSignup />
+
+  <!-- Services -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-heading">What can I do for you?</h2>
+      <div class="services-grid">
+        {services.map(service => (
+          <ServiceCard {...service} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- AK Template -->
+  <section class="section bg-peach">
+    <div class="container ak-template">
+      <div class="ak-video">
+        <a href="https://youtu.be/6qwYy_W1k3c" target="_blank" rel="noopener">
+          <img src="/images/ak-template-video.jpg" alt="ActionKit Production Template: Introduction" loading="lazy" />
+        </a>
+      </div>
+      <div class="ak-text">
+        <h3>My ActionKit Production Template</h3>
+        <p>Watch the presentation on the template from the Email Strategy Summit to get a link to download it, or simply use the box below to sign up for my list and get the link directly.</p>
+        <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="ak-form">
+          <input type="email" name="your-email" placeholder="Your email" required maxlength="256" />
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Preview -->
+  <section class="section bg-white">
+    <div class="container about-preview">
+      <div class="about-preview-text">
+        <h2>About Me</h2>
+        <hr class="section-divider" />
+      </div>
+      <div>
+        <p>Hi, I'm Jordan — Founder & CEO of CampaignHelp, where I expand capacity in operations and technology for progressive advocacy organizations.</p>
+        <p>I'm a social justice operations leader known for my highly communicative, low-ego style of work. I help nonprofits and advocacy orgs navigate everything from Google Workspace chaos to Apple hardware headaches to "oh no, this tool again" project management dilemmas — and I do it in a way that makes people feel empowered, not overwhelmed.</p>
+        <a href="/about" class="read-more">Read my full story &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Blog Posts -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-heading">My recent blog posts</h2>
+      {posts.length > 0 ? (
+        <div class="posts-grid">
+          {posts.map(post => (
+            <a href={`/blog/${post.id}/`} class="post-card">
+              {post.data.coverImage && (
+                <img src={post.data.coverImage} alt={post.data.title} loading="lazy" class="post-card-image" />
+              )}
+              <p class="post-card-title">{post.data.title}</p>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="placeholder-text">Blog posts coming soon. Stay tuned!</p>
+      )}
+      <div class="center-link">
+        <a href="/blog" class="btn btn-outline">Read more</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter (second placement) -->
+  <NewsletterSignup variant="compact" />
+
+  <!-- Project Highlights -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-heading">Projects I've Built</h2>
+      <div class="project-links">
+        {projectHighlights.map(p => (
+          <a href={p.href} class="project-pill" target="_blank" rel="noopener">{p.name}</a>
+        ))}
+      </div>
+      <div class="center-link">
+        <a href="/projects" class="btn btn-outline">See all projects</a>
+      </div>
+    </div>
+  </section>
+
+  <ContactForm />
+</BaseLayout>
+
+<style>
+  .section-heading {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 2px solid var(--color-border);
+    width: 60px;
+    margin-top: var(--spacing-xs);
+  }
+
+  /* Services */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  /* AK Template */
+  .ak-template {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: center;
+  }
+
+  .ak-video img {
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+
+  .ak-text h3 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .ak-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: var(--spacing-sm);
+  }
+
+  .ak-form input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    background: var(--color-bg-white);
+  }
+
+  .ak-form input:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -1px;
+    border-color: var(--color-accent);
+  }
+
+  /* About Preview */
+  .about-preview {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: var(--spacing-sm);
+    font-weight: 500;
+  }
+
+  /* Posts Grid */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .post-card {
+    display: block;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-white);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .post-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .post-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .post-card-title {
+    padding: var(--spacing-sm);
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .placeholder-text {
+    text-align: center;
+    color: var(--color-text-light);
+    font-style: italic;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .center-link {
+    text-align: center;
+    margin-top: var(--spacing-md);
+  }
+
+  /* Project Highlights */
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .project-pill {
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    text-decoration: none;
+    background: var(--color-bg-white);
+    transition: all 0.2s ease;
+  }
+
+  .project-pill:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .services-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .ak-template,
+    .about-preview {
+      grid-template-columns: 1fr;
+    }
+
+    .ak-form {
+      flex-direction: column;
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

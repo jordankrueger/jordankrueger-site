@@ -1,0 +1,73 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  href: string;
+  secondaryLink?: { href: string; label: string };
+  bgClass?: string;
+}
+const { title, description, image, href, secondaryLink, bgClass = '' } = Astro.props;
+---
+
+<div class:list={["project-card-section", bgClass]}>
+  <div class="container project-card-inner">
+    <div class="project-card-header">
+      <h2>{title}</h2>
+      {image && (
+        <a href={href} target="_blank" rel="noopener">
+          <img src={image} alt={title} loading="lazy" class="project-card-image" />
+        </a>
+      )}
+    </div>
+    <div class="project-card-body">
+      <Fragment set:html={description} />
+      <div class="project-card-actions">
+        <a href={href} class="btn btn-outline" target="_blank" rel="noopener">Learn More</a>
+        {secondaryLink && (
+          <a href={secondaryLink.href} class="btn btn-outline" target="_blank" rel="noopener">{secondaryLink.label}</a>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .project-card-section {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .project-card-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+  }
+
+  .project-card-image {
+    width: 100%;
+    border-radius: var(--radius-md);
+    margin-top: var(--spacing-sm);
+    transition: opacity 0.2s ease;
+  }
+
+  .project-card-image:hover {
+    opacity: 0.9;
+  }
+
+  .project-card-body :global(p) {
+    margin-bottom: 1rem;
+  }
+
+  .project-card-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: var(--spacing-sm);
+  }
+
+  @media (max-width: 640px) {
+    .project-card-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

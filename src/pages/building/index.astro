@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogPostCard from '../../components/BlogPostCard.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft && data.tags.includes('claude-code')))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const startHere = posts.length > 0 ? posts[posts.length - 1] : null;
+const otherPosts = posts.length > 1 ? posts.slice(0, -1) : [];
+---
+
+<BaseLayout title="Building in Public with AI — Jordan Krueger" description="A series documenting what it's like to build projects with Claude Code as a non-developer.">
+  <main>
+    <!-- Series Intro -->
+    <section class="section bg-warm">
+      <div class="container series-intro">
+        <h1>Building in Public with AI</h1>
+        <p class="series-desc">I'm not a developer. I'm an operations consultant who runs a small business. But with Claude Code, I'm building real software — websites, automations, tools — and documenting the entire journey here.</p>
+        <p class="series-desc">This series covers what works, what doesn't, and what it actually looks like when a non-technical person builds with AI as their co-pilot.</p>
+      </div>
+    </section>
+
+    {startHere && (
+      <section class="section bg-white">
+        <div class="container">
+          <h2 class="start-heading">Start Here</h2>
+          <div class="start-card">
+            <BlogPostCard
+              title={startHere.data.title}
+              description={startHere.data.description}
+              pubDate={startHere.data.pubDate}
+              slug={startHere.id}
+              coverImage={startHere.data.coverImage}
+              tags={startHere.data.tags}
+            />
+          </div>
+        </div>
+      </section>
+    )}
+
+    {otherPosts.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <h2>All Posts in the Series</h2>
+          <div class="series-grid">
+            {otherPosts.map(post => (
+              <BlogPostCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                slug={post.id}
+                coverImage={post.data.coverImage}
+                tags={post.data.tags}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {posts.length === 0 && (
+      <section class="section">
+        <div class="container">
+          <p class="empty-state">The first post in this series is coming soon. Subscribe below to get notified when it drops.</p>
+        </div>
+      </section>
+    )}
+
+    <NewsletterSignup variant="compact" />
+  </main>
+</BaseLayout>
+
+<style>
+  .series-intro {
+    max-width: 720px;
+  }
+
+  .series-intro h1 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .series-desc {
+    font-size: 1.05rem;
+    color: var(--color-text);
+  }
+
+  .start-heading {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .start-card {
+    max-width: 500px;
+  }
+
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--color-text-light);
+    font-style: italic;
+    padding: var(--spacing-lg) 0;
+  }
+
+  @media (max-width: 640px) {
+    .series-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

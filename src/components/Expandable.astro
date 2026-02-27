@@ -1,0 +1,43 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<details class="expandable">
+  <summary>{title}</summary>
+  <div class="expandable-content">
+    <slot />
+  </div>
+</details>
+
+<style>
+  .expandable {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    margin: var(--spacing-sm) 0;
+  }
+
+  summary {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    user-select: none;
+  }
+
+  summary:hover {
+    background: var(--color-bg-warm);
+  }
+
+  .expandable[open] summary {
+    border-bottom: 1px solid var(--color-border);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  }
+
+  .expandable-content {
+    padding: var(--spacing-sm) 1rem;
+  }
+</style>

@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogPostCard from '../../components/BlogPostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Extract all unique tags
+const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
+---
+
+<BaseLayout title="Blog — Jordan Krueger" description="Thoughts on technology, nonprofit operations, AI, and building in public.">
+  <main class="section">
+    <div class="container">
+      <h1>Blog</h1>
+      <p class="blog-subtitle">Thoughts on technology, nonprofit operations, AI, and building in public.</p>
+
+      {allTags.length > 0 && (
+        <div class="tag-filter" id="tag-filter">
+          <button class="filter-tag active" data-tag="all">All</button>
+          {allTags.map(tag => (
+            <button class="filter-tag" data-tag={tag}>{tag}</button>
+          ))}
+        </div>
+      )}
+
+      {posts.length > 0 ? (
+        <div class="blog-grid" id="blog-grid">
+          {posts.map(post => (
+            <div class="blog-grid-item" data-tags={post.data.tags.join(',')}>
+              <BlogPostCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                slug={post.id}
+                coverImage={post.data.coverImage}
+                tags={post.data.tags}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">Blog posts coming soon. Stay tuned!</p>
+      )}
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .blog-subtitle {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .tag-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .filter-tag {
+    padding: 0.35rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: 1.5rem;
+    background: var(--color-bg-white);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .filter-tag:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .filter-tag.active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .blog-grid-item[hidden] {
+    display: none;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--color-text-light);
+    font-style: italic;
+    padding: var(--spacing-xl) 0;
+  }
+
+  @media (max-width: 640px) {
+    .blog-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const filterBtns = document.querySelectorAll('.filter-tag');
+  const items = document.querySelectorAll('.blog-grid-item');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tag = btn.getAttribute('data-tag');
+
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      items.forEach(item => {
+        const tags = (item.getAttribute('data-tags') || '').split(',');
+        if (tag === 'all' || tags.includes(tag)) {
+          item.removeAttribute('hidden');
+        } else {
+          item.setAttribute('hidden', '');
+        }
+      });
+    });
+  });
+
+  // Handle URL tag parameter
+  const urlTag = new URLSearchParams(window.location.search).get('tag');
+  if (urlTag) {
+    const btn = document.querySelector(`.filter-tag[data-tag="${urlTag}"]`);
+    if (btn) btn.click();
+  }
+</script>

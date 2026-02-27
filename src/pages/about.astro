@@ -1,0 +1,165 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatsStack from '../components/StatsStack.astro';
+import PodcastEmbed from '../components/PodcastEmbed.astro';
+import DecadeSection from '../components/DecadeSection.astro';
+---
+
+<BaseLayout title="About — Jordan Krueger" description="I'm Jordan! I love Star Trek, synthwave music, and technology.">
+  <!-- Intro -->
+  <section class="section bg-white">
+    <div class="container about-intro">
+      <div class="about-intro-text">
+        <h1>I'm Jordan! I love<br />Star Trek,<br />synthwave music, and<br />technology</h1>
+        <hr class="section-divider" />
+      </div>
+      <div class="about-intro-image">
+        <img src="/images/jordan-portrait.jpg" alt="Jordan Krueger" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Bio + Stats -->
+  <section class="section">
+    <div class="container about-bio">
+      <div class="about-bio-text">
+        <h2>What I Do (and Why I Do It)</h2>
+        <p><em>What gets me out of bed is helping people do mission-driven work without tech-induced migraines.</em></p>
+        <p>My clients are some of the sharpest, most passionate people in the progressive movement — but let's be real: <strong>Tech sometimes confounds and befuddles the best of us.</strong></p>
+        <p>My job is to resolve trouble and confusion as quickly as possible.</p>
+        <p>Whether that means helping to implement a new process that makes work easier, or onboarding new hires with as little muss & fuss as possible, or even organizing shared Google Drives — I'm the person they call when "this shouldn't be this hard" turns into "wow, that was easier than I expected."</p>
+
+        <h2>What I'm Known For</h2>
+        <p>Here's what people say when they work with me:</p>
+        <blockquote>"Jordan has never seemed like just a consultant — he's an integral part of my team who's always thinking about how to set us up for success."</blockquote>
+        <blockquote>"Jordan is the single most reliable person I've worked with in the progressive movement... a force multiplier for organizational capacity."</blockquote>
+        <p>I'm especially good at:</p>
+        <ul>
+          <li>Turning messy ops systems into intuitive ones</li>
+          <li>Spotting simple fixes others miss</li>
+          <li>Teaching tech without condescension</li>
+          <li>And keeping things running — calmly, reliably, and well</li>
+        </ul>
+      </div>
+      <div class="about-bio-sidebar">
+        <StatsStack />
+      </div>
+    </div>
+  </section>
+
+  <PodcastEmbed />
+
+  <!-- Timeline -->
+  <section class="section">
+    <div class="container">
+      <h2 class="timeline-heading">How I got here</h2>
+    </div>
+
+    <DecadeSection title="The 80s" image="/images/timeline-80s.jpg" bgClass="bg-white">
+      <p>I was born in Miami, Florida but also lived in New Jersey near Philadelphia during pre-school and first grade before moving back to Miami for elementary school.</p>
+    </DecadeSection>
+
+    <DecadeSection title="The 90s" image="/images/timeline-90s.jpg" bgClass="bg-warm">
+      <p>I really found technology when I was introduced to computers by my dad, and fell in love with all they could do. A few years later, when we got a subscription to America Online (AOL), at an awkward time for myself as a new kid at school and discovering that I might be gay, I began role playing in the "Red Dragon Inn" online, and later formed a Star Trek roleplaying organization, StarBase 118 PBEM RPG, that still exists today — over 30 years later.</p>
+      <p>That group taught me a great deal about communication, leadership, and the technology of building a community, which served me very well in the future.</p>
+      <p>I've also been an activist since I was young. Even back in high school, I was elected president of the "Respect Club," the closest we could get to a "Gay-Straight Alliance" at our school.</p>
+      <p>I got my first taste of the oppressive power of the institution when we were denied the ability to hang up pictures of LGBTQ+ (or, in those days, "GLBT") icons for LGBTQ History Month, which started in 1994.</p>
+    </DecadeSection>
+
+    <DecadeSection title="Early 2000s" image="/images/timeline-2000s.jpg" bgClass="bg-blue">
+      <p>I started college at Loyola University of Chicago in late 1999, where I met an incredible group of friends and even participated in protests against the college administration, which were slashing staff and programs due to a budget shortfall.</p>
+      <p>Come the next fall, I attended the Disney College program and got to not only study Disney's legendary hospitality, but also work in the parks — a dream since I was a kid living in Florida and going to Disney World on a regular basis!</p>
+      <p>Considering Loyola's financial troubles, I decided to continue my education at Hendrix College — a "liberal bastion in the heart of Arkansas," where I earned my Bachelor's Degree in English Literature and ran the college's Gay-Straight Alliance for a year.</p>
+    </DecadeSection>
+
+    <DecadeSection title="Late 2000s" image="/images/timeline-late2000s.jpg" bgClass="bg-peach">
+      <p>I co-organized the 2007 Little Rock Capital Pride celebration, with the largest attendance recorded and headlined by gay folk rocker Eric Himan.</p>
+      <p>My path really crystallized soon after, in 2008, when Prop 8 (the ballot proposition that overturned marriage equality in California) passed the night President Obama was elected.</p>
+      <p>Just months before, I had volunteered at the Los Angeles Gay & Lesbian Center — after my experience organizing Capital Pride — and had been assigned to work the door at comedy shows, instead of organizing! When Prop. 8 passed, I promised I'd never let anyone define my activism that way again.</p>
+      <p>After live-tweeting (a very new thing at that time!) one of the first marches against Prop. 8's passage, I met one of the march's organizers, David Comfort, and we co-founded Equality Network in the fight to restore marriage equality to California.</p>
+      <p>What followed was more than two years of intense activism, civil disobedience, and even co-signing a ballot proposition for marriage equality in California as part of the interim administrative committee of a campaign.</p>
+    </DecadeSection>
+
+    <DecadeSection title="The 2010s" image="/images/timeline-2010s.jpg" bgClass="bg-white">
+      <p>My experience with Prop. 8 led me to the New Organizing Institute's "New Media Bootcamp," the primary training for people looking to get into digital campaigning. It was an incredibly valuable institution that no longer exists, much to the detriment of the progressive movement.</p>
+      <p>I was then hired by the Progressive Change Campaign Committee to lobby the Progressive Caucus in Congress, and spent many days in Capitol Office Buildings sitting with stubborn legislative directors and chiefs of staff!</p>
+      <p>Fed up with Congress' unwillingness to use its power, I found a new home back in California with CREDO Action, where I served as a Campaigner and later Director of Operations for over seven years and learned more about the power of organizing from the outside with an email list of 5 million members.</p>
+    </DecadeSection>
+
+    <DecadeSection title="The 2020s" bgClass="bg-warm">
+      <p>CREDO Action was my home, my dream job, and where I thought I'd stay for many more years. I was devastated when we were told that CREDO was laying off its advocacy team in January of 2020. But as they say, <em>when one door closes, another opens</em>, and wow was that true for me!</p>
+      <p>When the job hunt didn't go anywhere fast, I started taking on projects with organizations that I had worked in alliance with at CREDO Action. Soon, that transformed into a full-time consulting practice with <a href="https://campaign.help">CampaignHelp</a>.</p>
+      <p>Since then, I've worked with a dozen organizations to streamline processes, take the burden of technology off campaigners, and implement new tools that make work more efficient. Although, at times, it can be a bit scary running my own business, I wouldn't trade it for anything!</p>
+    </DecadeSection>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: center;
+  }
+
+  .about-intro h1 {
+    line-height: 1.4;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 2px solid var(--color-border);
+    width: 60px;
+    margin-top: var(--spacing-sm);
+  }
+
+  .about-intro-image img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+  }
+
+  .about-bio {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+  }
+
+  .about-bio-text h2 {
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .about-bio-text h2:first-child {
+    margin-top: 0;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding-left: var(--spacing-sm);
+    margin: var(--spacing-sm) 0;
+    font-style: italic;
+    color: var(--color-text-light);
+  }
+
+  .timeline-heading {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  @media (max-width: 640px) {
+    .about-intro,
+    .about-bio {
+      grid-template-columns: 1fr;
+    }
+
+    .about-intro-image {
+      order: -1;
+    }
+
+    .about-intro-image img {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+  }
+</style>

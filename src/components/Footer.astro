@@ -1,0 +1,120 @@
+---
+import SocialIcons from './SocialIcons.astro';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-col footer-brand">
+      <p class="footer-logo">Jordan Krueger</p>
+      <p class="footer-copyright">&copy; Jordan Krueger {year}. All rights reserved.</p>
+      <SocialIcons />
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-heading">More</p>
+      <ul>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/about">About me</a></li>
+        <li><a href="#subscribe">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-heading">Free Content</p>
+      <ul>
+        <li><a href="#subscribe">Newsletter</a></li>
+        <li><a href="/building">Building in Public</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-heading">Others</p>
+      <ul>
+        <li><a href="https://passwordsetuphelp.com/" target="_blank" rel="noopener">1Password Onboarding</a></li>
+        <li><a href="https://changekit.io/" target="_blank" rel="noopener">ChangeKit</a></li>
+        <li><a href="https://usermanuals.guide/" target="_blank" rel="noopener">User Manuals</a></li>
+        <li><a href="https://www.starbase118.net" target="_blank" rel="noopener">StarBase 118</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p class="photo-credit">Computer & cell photo by <a href="https://unsplash.com/@omar_d" target="_blank" rel="noopener">Omar D</a> on <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-bg-white);
+    border-top: 1px solid var(--color-border);
+    padding: var(--spacing-xl) 0 var(--spacing-md);
+    margin-top: var(--spacing-xl);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .footer-logo {
+    font-family: var(--font-signature);
+    font-size: 1.2rem;
+    color: var(--color-text-logo);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .footer-copyright {
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .footer-heading {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-col ul li {
+    margin-bottom: 0.4rem;
+  }
+
+  .footer-col ul a {
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+
+  .footer-col ul a:hover {
+    color: var(--color-accent);
+  }
+
+  .footer-bottom {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .photo-credit {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+  }
+
+  @media (max-width: 640px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

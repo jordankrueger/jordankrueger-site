@@ -1,0 +1,74 @@
+---
+
+---
+
+<section class="contact-section" id="contact">
+  <div class="container contact-inner">
+    <div class="contact-heading">
+      <h2>Let's connect!</h2>
+      <hr class="contact-divider" />
+    </div>
+    <div class="contact-form-wrap">
+      <form id="contact-form" class="contact-form">
+        <input type="text" name="name" placeholder="Your name" maxlength="128" required />
+        <input type="email" name="email" placeholder="Your email address" maxlength="128" required />
+        <textarea name="message" placeholder="What should we talk about?" maxlength="16384" rows="5" required></textarea>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-section {
+    background-color: var(--color-bg-blue);
+    padding: var(--spacing-xl) 0;
+  }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+  }
+
+  .contact-heading h2 {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .contact-divider {
+    border: none;
+    border-top: 2px solid var(--color-border);
+    width: 60px;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    background: var(--color-bg-white);
+    resize: vertical;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -1px;
+    border-color: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .contact-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

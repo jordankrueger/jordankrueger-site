@@ -1,0 +1,102 @@
+---
+interface Props {
+  variant?: 'default' | 'compact';
+}
+const { variant = 'default' } = Astro.props;
+---
+
+<section class:list={["newsletter", variant]} id="subscribe">
+  <div class="container newsletter-inner">
+    <div class="newsletter-text">
+      <p class="newsletter-label">Subscribe to</p>
+      <p class="newsletter-title">Mission Control</p>
+      <hr class="newsletter-divider" />
+    </div>
+    <div class="newsletter-form-wrap">
+      <p class="newsletter-desc">I share thoughts on online tools, learnings from my nonprofit advocacy consulting business, projects I'm launching, Artificial Intelligence, and personal updates — directly to your inbox.</p>
+      <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="newsletter-form">
+        <input type="email" name="your-email" placeholder="Your email" required maxlength="256" />
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .newsletter {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .newsletter.default {
+    background-color: var(--color-bg-warm);
+  }
+
+  .newsletter.compact {
+    background-color: var(--color-bg-peach);
+  }
+
+  .newsletter-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--spacing-lg);
+    align-items: center;
+  }
+
+  .newsletter-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+  }
+
+  .newsletter-title {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  .newsletter-divider {
+    border: none;
+    border-top: 2px solid var(--color-border);
+    margin-top: var(--spacing-sm);
+    width: 60px;
+  }
+
+  .newsletter-desc {
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    background: var(--color-bg-white);
+  }
+
+  .newsletter-form input:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -1px;
+    border-color: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .newsletter-inner {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+    }
+  }
+</style>

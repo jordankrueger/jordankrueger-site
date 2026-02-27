@@ -1,0 +1,96 @@
+---
+import SocialIcons from './SocialIcons.astro';
+---
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <h2 class="hero-greeting">Hiya & welcome!</h2>
+      <p class="hero-intro">I'm Jordan: Operations nerd, tech translator.</p>
+      <p class="hero-sub">I help progressive orgs cut through the noise, simplify their systems, and get back to the work that matters.</p>
+      <div class="hero-actions">
+        <a href="/about" class="btn btn-primary">Learn more</a>
+        <a href="https://calendly.com/campaignhelp/30min" class="btn btn-outline" target="_blank" rel="noopener">Hire me</a>
+      </div>
+      <SocialIcons />
+    </div>
+    <div class="hero-image">
+      <img src="/images/hero-jordan.png" alt="Jordan Krueger" width="512" height="512" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background-color: var(--color-bg-white);
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+  }
+
+  .hero-greeting {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .hero-intro {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-image img {
+    width: 100%;
+    max-width: 420px;
+    border-radius: var(--radius-lg);
+    margin-left: auto;
+    display: block;
+  }
+
+  @media (max-width: 640px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .hero-greeting {
+      font-size: 2rem;
+    }
+
+    .hero-actions {
+      justify-content: center;
+    }
+
+    .hero-image {
+      order: -1;
+    }
+
+    .hero-image img {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    .hero :global(.social-icons) {
+      justify-content: center;
+    }
+  }
+</style>

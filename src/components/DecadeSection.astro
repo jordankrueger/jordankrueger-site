@@ -1,0 +1,53 @@
+---
+interface Props {
+  title: string;
+  image?: string;
+  bgClass?: string;
+}
+const { title, image, bgClass = '' } = Astro.props;
+---
+
+<div class:list={["decade", bgClass]}>
+  <div class="container decade-inner">
+    <div class="decade-header">
+      <h2>{title}</h2>
+      {image && <img src={image} alt={title} loading="lazy" class="decade-image" />}
+    </div>
+    <div class="decade-text">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .decade {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .decade-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+  }
+
+  .decade-image {
+    width: 100%;
+    border-radius: var(--radius-md);
+    margin-top: var(--spacing-sm);
+  }
+
+  .decade-text :global(p) {
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .decade-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .decade-image {
+      max-width: 300px;
+    }
+  }
+</style>
