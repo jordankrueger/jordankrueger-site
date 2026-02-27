@@ -2,9 +2,11 @@
 interface Props {
   title: string;
   image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   bgClass?: string;
 }
-const { title, image, bgClass = '' } = Astro.props;
+const { title, image, imageWidth, imageHeight, bgClass = '' } = Astro.props;
 ---
 
 <div class="decade-wrap">
@@ -12,7 +14,7 @@ const { title, image, bgClass = '' } = Astro.props;
     <div class="decade-inner">
       <div class="decade-header">
         <h2>{title}</h2>
-        {image && <img src={image} alt={title} loading="lazy" class="decade-image" />}
+        {image && <img src={image} alt={title} loading="lazy" class="decade-image" width={imageWidth} height={imageHeight} />}
       </div>
       <div class="decade-text">
         <slot />

@@ -47,6 +47,21 @@ const projectHighlights = [
 ---
 
 <BaseLayout title="Jordan Krueger: Operations nerd, tech translator.">
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jordan Krueger",
+    "url": "https://jordankrueger.com",
+    "jobTitle": "Founder & CEO",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "CampaignHelp"
+    },
+    "sameAs": [
+      "https://bsky.app/profile/jordankrueger.com",
+      "https://www.linkedin.com/in/jordankrueger/"
+    ]
+  })} />
   <Hero />
 
   <NewsletterSignup />
@@ -67,7 +82,7 @@ const projectHighlights = [
       <div class="ak-template">
         <div class="ak-video">
           <a href="https://youtu.be/6qwYy_W1k3c" target="_blank" rel="noopener">
-            <img src="/images/ak-template-video.jpg" alt="ActionKit Production Template: Introduction" loading="lazy" />
+            <img src="/images/ak-template-video.jpg" alt="ActionKit Production Template: Introduction" loading="lazy" width="940" height="788" />
           </a>
         </div>
         <div class="ak-text">
@@ -124,7 +139,7 @@ const projectHighlights = [
   </section>
 
   <!-- Newsletter (second placement) -->
-  <NewsletterSignup variant="compact" />
+  <NewsletterSignup variant="compact" id="subscribe-bottom" />
 
   <ContactForm />
 </BaseLayout>

@@ -2,6 +2,11 @@
 import BaseLayout from './BaseLayout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 
+interface PostRef {
+  id: string;
+  data: { title: string };
+}
+
 interface Props {
   frontmatter: {
     title: string;
@@ -12,9 +17,11 @@ interface Props {
     coverAlt?: string;
     tags: string[];
   };
+  prevPost?: PostRef | null;
+  nextPost?: PostRef | null;
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, prevPost, nextPost } = Astro.props;
 
 const dateStr = frontmatter.pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -28,7 +35,21 @@ const words = content.replace(/<[^>]*>/g, '').split(/\s+/).length;
 const readingTime = Math.max(1, Math.ceil(words / 250));
 ---
 
-<BaseLayout title={`${frontmatter.title} — Jordan Krueger`} description={frontmatter.description} ogImage={frontmatter.coverImage}>
+<BaseLayout title={`${frontmatter.title} — Jordan Krueger`} description={frontmatter.description} ogImage={frontmatter.coverImage} ogType="article">
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": frontmatter.title,
+    "description": frontmatter.description,
+    "datePublished": frontmatter.pubDate.toISOString(),
+    ...(frontmatter.updatedDate && { "dateModified": frontmatter.updatedDate.toISOString() }),
+    ...(frontmatter.coverImage && { "image": new URL(frontmatter.coverImage, Astro.site).href }),
+    "author": {
+      "@type": "Person",
+      "name": "Jordan Krueger",
+      "url": "https://jordankrueger.com/about"
+    }
+  })} />
   <article class="blog-post">
     <div class="container">
       <header class="post-header">
@@ -57,6 +78,22 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
 
       <footer class="post-footer">
         <a href="/blog" class="back-link">&larr; Back to all posts</a>
+        {(prevPost || nextPost) && (
+          <nav class="post-nav" aria-label="Post navigation">
+            {prevPost ? (
+              <a href={`/blog/${prevPost.id}/`} class="post-nav-link post-nav-prev">
+                <span class="post-nav-label">Older</span>
+                <span class="post-nav-title">{prevPost.data.title}</span>
+              </a>
+            ) : <span />}
+            {nextPost ? (
+              <a href={`/blog/${nextPost.id}/`} class="post-nav-link post-nav-next">
+                <span class="post-nav-label">Newer</span>
+                <span class="post-nav-title">{nextPost.data.title}</span>
+              </a>
+            ) : <span />}
+          </nav>
+        )}
       </footer>
     </div>
   </article>
@@ -191,9 +228,53 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
     font-weight: 500;
   }
 
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+  }
+
+  .post-nav-link {
+    text-decoration: none;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: background 0.2s ease;
+  }
+
+  .post-nav-link:hover {
+    background: var(--color-bg-warm);
+  }
+
+  .post-nav-next {
+    text-align: right;
+  }
+
+  .post-nav-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.25rem;
+  }
+
+  .post-nav-title {
+    font-weight: 500;
+    color: var(--color-text);
+    font-size: 0.9rem;
+  }
+
   @media (max-width: 640px) {
     .post-header h1 {
       font-size: 1.75rem;
+    }
+
+    .post-nav {
+      grid-template-columns: 1fr;
+    }
+
+    .post-nav-next {
+      text-align: left;
     }
   }
 </style>

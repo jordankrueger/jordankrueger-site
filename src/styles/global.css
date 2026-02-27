@@ -169,6 +169,26 @@ ul, ol {
 .bg-green { background-color: var(--color-bg-green); }
 .bg-white { background-color: var(--color-bg-white); }
 
+/* Skip-nav — visible only on focus */
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 0.5rem 1.5rem;
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-nav:focus {
+  top: 0.5rem;
+  color: #fff;
+}
+
 /* Section divider — the tan line from Carrd */
 .section-rule {
   border: none;

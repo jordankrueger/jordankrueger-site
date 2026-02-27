@@ -1,11 +1,12 @@
 ---
 interface Props {
   variant?: 'default' | 'compact';
+  id?: string;
 }
-const { variant = 'default' } = Astro.props;
+const { variant = 'default', id = 'subscribe' } = Astro.props;
 ---
 
-<div class:list={["newsletter-wrap", variant]} id="subscribe">
+<div class:list={["newsletter-wrap", variant]} id={id}>
   <section class:list={["newsletter-panel", variant]}>
     <div class="newsletter-inner">
       <div class="newsletter-text">

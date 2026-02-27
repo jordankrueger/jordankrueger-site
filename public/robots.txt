@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jordankrueger.com/sitemap-index.xml
