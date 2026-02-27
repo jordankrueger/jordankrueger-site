@@ -10,11 +10,12 @@
         <hr class="section-rule" />
       </div>
       <div class="contact-form-wrap">
-        <form id="contact-form" class="contact-form">
+        <form id="contact-form" class="contact-form" action="https://jordankrueger-contact-form.restless-salad-a31e.workers.dev" method="POST">
           <input type="text" name="name" placeholder="Your name" maxlength="128" required />
           <input type="email" name="email" placeholder="Your email address" maxlength="128" required />
           <textarea name="message" placeholder="What should we talk about?" maxlength="16384" rows="5" required></textarea>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary" id="contact-submit">Submit</button>
+          <p id="contact-status" class="contact-status" hidden></p>
         </form>
       </div>
     </div>
@@ -70,6 +71,20 @@
     border-color: var(--color-accent);
   }
 
+  .contact-status {
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+    text-align: center;
+  }
+
+  .contact-status.success {
+    color: #2d7a3a;
+  }
+
+  .contact-status.error {
+    color: #c0392b;
+  }
+
   @media (max-width: 640px) {
     .contact-panel {
       padding: var(--spacing-md) var(--spacing-sm);
@@ -81,3 +96,42 @@
     }
   }
 </style>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const btn = document.getElementById('contact-submit');
+  const status = document.getElementById('contact-status');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    status.hidden = true;
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        status.textContent = 'Message sent! I\'ll get back to you soon.';
+        status.className = 'contact-status success';
+        status.hidden = false;
+        form.reset();
+      } else {
+        status.textContent = data.error || 'Something went wrong. Please try again.';
+        status.className = 'contact-status error';
+        status.hidden = false;
+      }
+    } catch {
+      status.textContent = 'Network error. Please try again.';
+      status.className = 'contact-status error';
+      status.hidden = false;
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Submit';
+  });
+</script>

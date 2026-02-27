@@ -41,7 +41,7 @@ Tag `claude-code` to include in the Building in Public series at `/building`.
 
 ## External Services
 - **Newsletter signup:** POST to `https://progressives-signup.restless-salad-a31e.workers.dev`
-- **Contact form:** Needs a Cloudflare Worker (not yet built)
+- **Contact form:** POST to `https://jordankrueger-contact-form.restless-salad-a31e.workers.dev` (sends email via Resend to jordan@jordankrueger.com). Worker source in `workers/contact-form/`. Deploy with `CLOUDFLARE_API_TOKEN="$PERSONAL_CLOUDFLARE_API_TOKEN" npx wrangler deploy` from that directory.
 - **Analytics:** Google Analytics `G-QJQ0PD6XHD`
 
 ## Deployment

@@ -1,0 +1,8 @@
+name = "jordankrueger-contact-form"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://jordankrueger.com"
+TO_EMAIL = "jordan@jordankrueger.com"
+FROM_EMAIL = "contact@jordankrueger.com"
