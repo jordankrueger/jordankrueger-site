@@ -10,31 +10,41 @@ interface Props {
 const { title, description, image, href, secondaryLink, bgClass = '' } = Astro.props;
 ---
 
-<div class:list={["project-card-section", bgClass]}>
-  <div class="container project-card-inner">
-    <div class="project-card-header">
-      <h2>{title}</h2>
-      {image && (
-        <a href={href} target="_blank" rel="noopener">
-          <img src={image} alt={title} loading="lazy" class="project-card-image" />
-        </a>
-      )}
-    </div>
-    <div class="project-card-body">
-      <Fragment set:html={description} />
-      <div class="project-card-actions">
-        <a href={href} class="btn btn-outline" target="_blank" rel="noopener">Learn More</a>
-        {secondaryLink && (
-          <a href={secondaryLink.href} class="btn btn-outline" target="_blank" rel="noopener">{secondaryLink.label}</a>
+<div class="project-card-wrap">
+  <div class:list={["project-card-panel", bgClass]}>
+    <div class="project-card-inner">
+      <div class="project-card-header">
+        <h2>{title}</h2>
+        {image && (
+          <a href={href} target="_blank" rel="noopener">
+            <img src={image} alt={title} loading="lazy" class="project-card-image" />
+          </a>
         )}
+      </div>
+      <div class="project-card-body">
+        <Fragment set:html={description} />
+        <div class="project-card-actions">
+          <a href={href} class="btn btn-outline" target="_blank" rel="noopener">Learn More</a>
+          {secondaryLink && (
+            <a href={secondaryLink.href} class="btn btn-outline" target="_blank" rel="noopener">{secondaryLink.label}</a>
+          )}
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <style>
-  .project-card-section {
-    padding: var(--spacing-lg) 0;
+  .project-card-wrap {
+    padding: 0 var(--spacing-md);
+  }
+
+  .project-card-panel {
+    max-width: var(--max-width);
+    margin: var(--spacing-sm) auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg) var(--spacing-lg);
   }
 
   .project-card-inner {
@@ -66,6 +76,11 @@ const { title, description, image, href, secondaryLink, bgClass = '' } = Astro.p
   }
 
   @media (max-width: 640px) {
+    .project-card-panel {
+      padding: var(--spacing-md) var(--spacing-sm);
+      border-radius: var(--radius-md);
+    }
+
     .project-card-inner {
       grid-template-columns: 1fr;
     }

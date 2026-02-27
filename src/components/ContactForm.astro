@@ -2,27 +2,37 @@
 
 ---
 
-<section class="contact-section" id="contact">
-  <div class="container contact-inner">
-    <div class="contact-heading">
-      <h2>Let's connect!</h2>
-      <hr class="contact-divider" />
+<div class="contact-wrap" id="contact">
+  <section class="contact-panel">
+    <div class="contact-inner">
+      <div class="contact-heading">
+        <h2>Let's connect!</h2>
+        <hr class="section-rule" />
+      </div>
+      <div class="contact-form-wrap">
+        <form id="contact-form" class="contact-form">
+          <input type="text" name="name" placeholder="Your name" maxlength="128" required />
+          <input type="email" name="email" placeholder="Your email address" maxlength="128" required />
+          <textarea name="message" placeholder="What should we talk about?" maxlength="16384" rows="5" required></textarea>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
     </div>
-    <div class="contact-form-wrap">
-      <form id="contact-form" class="contact-form">
-        <input type="text" name="name" placeholder="Your name" maxlength="128" required />
-        <input type="email" name="email" placeholder="Your email address" maxlength="128" required />
-        <textarea name="message" placeholder="What should we talk about?" maxlength="16384" rows="5" required></textarea>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>
-  </div>
-</section>
+  </section>
+</div>
 
 <style>
-  .contact-section {
+  .contact-wrap {
+    padding: 0 var(--spacing-md);
+  }
+
+  .contact-panel {
+    max-width: var(--max-width);
+    margin: var(--spacing-md) auto;
     background-color: var(--color-bg-blue);
-    padding: var(--spacing-xl) 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg) var(--spacing-lg);
   }
 
   .contact-inner {
@@ -36,12 +46,6 @@
     margin-bottom: var(--spacing-xs);
   }
 
-  .contact-divider {
-    border: none;
-    border-top: 2px solid var(--color-border);
-    width: 60px;
-  }
-
   .contact-form {
     display: flex;
     flex-direction: column;
@@ -52,7 +56,7 @@
   .contact-form textarea {
     padding: 0.75rem 1rem;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-lg);
     font-family: var(--font-body);
     font-size: 0.95rem;
     background: var(--color-bg-white);
@@ -67,6 +71,11 @@
   }
 
   @media (max-width: 640px) {
+    .contact-panel {
+      padding: var(--spacing-md) var(--spacing-sm);
+      border-radius: var(--radius-md);
+    }
+
     .contact-inner {
       grid-template-columns: 1fr;
     }

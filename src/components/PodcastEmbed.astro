@@ -2,29 +2,40 @@
 
 ---
 
-<div class="podcast-section bg-green">
-  <div class="container podcast-inner">
-    <div class="podcast-text">
-      <h3>Interview on "The Great Battlefield" podcast</h3>
-      <p>Listen to my interview with Nathaniel G. Pearlman, founder of NGP VAN, to learn more about my story.</p>
-    </div>
-    <div class="podcast-player">
-      <iframe
-        width="100%"
-        height="166"
-        scrolling="no"
-        frameborder="no"
-        allow="autoplay"
-        loading="lazy"
-        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1887513321&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-      ></iframe>
+<div class="podcast-wrap">
+  <div class="podcast-panel">
+    <div class="podcast-inner">
+      <div class="podcast-text">
+        <h3>Interview on "The Great Battlefield" podcast</h3>
+        <p>Listen to my interview with Nathaniel G. Pearlman, founder of NGP VAN, to learn more about my story.</p>
+      </div>
+      <div class="podcast-player">
+        <iframe
+          width="100%"
+          height="166"
+          scrolling="no"
+          frameborder="no"
+          allow="autoplay"
+          loading="lazy"
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1887513321&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+        ></iframe>
+      </div>
     </div>
   </div>
 </div>
 
 <style>
-  .podcast-section {
-    padding: var(--spacing-xl) 0;
+  .podcast-wrap {
+    padding: 0 var(--spacing-md);
+  }
+
+  .podcast-panel {
+    max-width: var(--max-width);
+    margin: var(--spacing-md) auto;
+    background-color: var(--color-bg-green);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg) var(--spacing-lg);
   }
 
   .podcast-inner {
@@ -43,6 +54,11 @@
   }
 
   @media (max-width: 640px) {
+    .podcast-panel {
+      padding: var(--spacing-md) var(--spacing-sm);
+      border-radius: var(--radius-md);
+    }
+
     .podcast-inner {
       grid-template-columns: 1fr;
     }

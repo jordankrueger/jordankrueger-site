@@ -37,15 +37,16 @@ const dateStr = pubDate.toLocaleDateString('en-US', {
     display: block;
     text-decoration: none;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     overflow: hidden;
+    border: 1px solid var(--color-border);
     background: var(--color-bg-white);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   .blog-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
   }
 
   .blog-card-image {

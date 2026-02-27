@@ -10,8 +10,8 @@ import DecadeSection from '../components/DecadeSection.astro';
   <section class="section bg-white">
     <div class="container about-intro">
       <div class="about-intro-text">
-        <h1>I'm Jordan! I love<br />Star Trek,<br />synthwave music, and<br />technology</h1>
-        <hr class="section-divider" />
+        <h1>I'm Jordan! I love<br />🖖 Star Trek,<br />😎 synthwave music, and<br />🤖 technology</h1>
+        <hr class="section-rule" />
       </div>
       <div class="about-intro-image">
         <img src="/images/jordan-portrait.jpg" alt="Jordan Krueger" />
@@ -20,16 +20,16 @@ import DecadeSection from '../components/DecadeSection.astro';
   </section>
 
   <!-- Bio + Stats -->
-  <section class="section">
+  <section class="section about-bio-section">
     <div class="container about-bio">
       <div class="about-bio-text">
-        <h2>What I Do (and Why I Do It)</h2>
+        <h2>🔧 What I Do (and Why I Do It)</h2>
         <p><em>What gets me out of bed is helping people do mission-driven work without tech-induced migraines.</em></p>
         <p>My clients are some of the sharpest, most passionate people in the progressive movement — but let's be real: <strong>Tech sometimes confounds and befuddles the best of us.</strong></p>
         <p>My job is to resolve trouble and confusion as quickly as possible.</p>
         <p>Whether that means helping to implement a new process that makes work easier, or onboarding new hires with as little muss & fuss as possible, or even organizing shared Google Drives — I'm the person they call when "this shouldn't be this hard" turns into "wow, that was easier than I expected."</p>
 
-        <h2>What I'm Known For</h2>
+        <h2>🧠 What I'm Known For</h2>
         <p>Here's what people say when they work with me:</p>
         <blockquote>"Jordan has never seemed like just a consultant — he's an integral part of my team who's always thinking about how to set us up for success."</blockquote>
         <blockquote>"Jordan is the single most reliable person I've worked with in the progressive movement... a force multiplier for organizational capacity."</blockquote>
@@ -95,6 +95,10 @@ import DecadeSection from '../components/DecadeSection.astro';
 </BaseLayout>
 
 <style>
+  .about-bio-section {
+    padding-top: var(--spacing-xl);
+  }
+
   .about-intro {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -104,13 +108,6 @@ import DecadeSection from '../components/DecadeSection.astro';
 
   .about-intro h1 {
     line-height: 1.4;
-  }
-
-  .section-divider {
-    border: none;
-    border-top: 2px solid var(--color-border);
-    width: 60px;
-    margin-top: var(--spacing-sm);
   }
 
   .about-intro-image img {

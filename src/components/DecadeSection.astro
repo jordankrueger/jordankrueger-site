@@ -7,21 +7,31 @@ interface Props {
 const { title, image, bgClass = '' } = Astro.props;
 ---
 
-<div class:list={["decade", bgClass]}>
-  <div class="container decade-inner">
-    <div class="decade-header">
-      <h2>{title}</h2>
-      {image && <img src={image} alt={title} loading="lazy" class="decade-image" />}
-    </div>
-    <div class="decade-text">
-      <slot />
+<div class="decade-wrap">
+  <div class:list={["decade-panel", bgClass]}>
+    <div class="decade-inner">
+      <div class="decade-header">
+        <h2>{title}</h2>
+        {image && <img src={image} alt={title} loading="lazy" class="decade-image" />}
+      </div>
+      <div class="decade-text">
+        <slot />
+      </div>
     </div>
   </div>
 </div>
 
 <style>
-  .decade {
-    padding: var(--spacing-lg) 0;
+  .decade-wrap {
+    padding: 0 var(--spacing-md);
+  }
+
+  .decade-panel {
+    max-width: var(--max-width);
+    margin: var(--spacing-sm) auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg) var(--spacing-lg);
   }
 
   .decade-inner {
@@ -42,6 +52,11 @@ const { title, image, bgClass = '' } = Astro.props;
   }
 
   @media (max-width: 640px) {
+    .decade-panel {
+      padding: var(--spacing-md) var(--spacing-sm);
+      border-radius: var(--radius-md);
+    }
+
     .decade-inner {
       grid-template-columns: 1fr;
     }

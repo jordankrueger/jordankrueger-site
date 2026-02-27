@@ -52,50 +52,52 @@ const projectHighlights = [
   <NewsletterSignup />
 
   <!-- Services -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-heading">What can I do for you?</h2>
-      <div class="services-grid">
-        {services.map(service => (
-          <ServiceCard {...service} />
-        ))}
-      </div>
+  <section class="services-section">
+    <h2 class="section-heading">What can I do for you?</h2>
+    <div class="container services-grid">
+      {services.map(service => (
+        <ServiceCard {...service} />
+      ))}
     </div>
   </section>
 
   <!-- AK Template -->
-  <section class="section bg-peach">
-    <div class="container ak-template">
-      <div class="ak-video">
-        <a href="https://youtu.be/6qwYy_W1k3c" target="_blank" rel="noopener">
-          <img src="/images/ak-template-video.jpg" alt="ActionKit Production Template: Introduction" loading="lazy" />
-        </a>
+  <div class="panel-wrap">
+    <section class="ak-panel">
+      <div class="ak-template">
+        <div class="ak-video">
+          <a href="https://youtu.be/6qwYy_W1k3c" target="_blank" rel="noopener">
+            <img src="/images/ak-template-video.jpg" alt="ActionKit Production Template: Introduction" loading="lazy" />
+          </a>
+        </div>
+        <div class="ak-text">
+          <h3>My ActionKit Production Template</h3>
+          <p>Watch the presentation on the template from the Email Strategy Summit to get a link to download it, or simply use the box below to sign up for my list and get the link directly. 🙌</p>
+          <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="ak-form">
+            <input type="email" name="your-email" placeholder="Your email" required maxlength="256" />
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+        </div>
       </div>
-      <div class="ak-text">
-        <h3>My ActionKit Production Template</h3>
-        <p>Watch the presentation on the template from the Email Strategy Summit to get a link to download it, or simply use the box below to sign up for my list and get the link directly.</p>
-        <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="ak-form">
-          <input type="email" name="your-email" placeholder="Your email" required maxlength="256" />
-          <button type="submit" class="btn btn-primary">Subscribe</button>
-        </form>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
   <!-- About Preview -->
-  <section class="section bg-white">
-    <div class="container about-preview">
-      <div class="about-preview-text">
-        <h2>About Me</h2>
-        <hr class="section-divider" />
+  <div class="panel-wrap">
+    <section class="about-panel">
+      <div class="about-preview">
+        <div class="about-preview-text">
+          <h2>About Me 🤔</h2>
+          <hr class="section-rule" />
+        </div>
+        <div>
+          <p>Hi, I'm Jordan — Founder & CEO of CampaignHelp, where I expand capacity in operations and technology for progressive advocacy organizations.</p>
+          <p>I'm a social justice operations leader known for my highly communicative, low-ego style of work. I help nonprofits and advocacy orgs navigate everything from Google Workspace chaos to Apple hardware headaches to "oh no, this tool again" project management dilemmas — and I do it in a way that makes people feel empowered, not overwhelmed.</p>
+          <a href="/about" class="read-more">Read my full story →</a>
+        </div>
       </div>
-      <div>
-        <p>Hi, I'm Jordan — Founder & CEO of CampaignHelp, where I expand capacity in operations and technology for progressive advocacy organizations.</p>
-        <p>I'm a social justice operations leader known for my highly communicative, low-ego style of work. I help nonprofits and advocacy orgs navigate everything from Google Workspace chaos to Apple hardware headaches to "oh no, this tool again" project management dilemmas — and I do it in a way that makes people feel empowered, not overwhelmed.</p>
-        <a href="/about" class="read-more">Read my full story &rarr;</a>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
   <!-- Recent Blog Posts -->
   <section class="section">
@@ -124,21 +126,6 @@ const projectHighlights = [
   <!-- Newsletter (second placement) -->
   <NewsletterSignup variant="compact" />
 
-  <!-- Project Highlights -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-heading">Projects I've Built</h2>
-      <div class="project-links">
-        {projectHighlights.map(p => (
-          <a href={p.href} class="project-pill" target="_blank" rel="noopener">{p.name}</a>
-        ))}
-      </div>
-      <div class="center-link">
-        <a href="/projects" class="btn btn-outline">See all projects</a>
-      </div>
-    </div>
-  </section>
-
   <ContactForm />
 </BaseLayout>
 
@@ -148,18 +135,38 @@ const projectHighlights = [
     margin-bottom: var(--spacing-lg);
   }
 
-  .section-divider {
-    border: none;
-    border-top: 2px solid var(--color-border);
-    width: 60px;
-    margin-top: var(--spacing-xs);
+  /* Services — sits on the main bg, cards float above */
+  .services-section {
+    padding: var(--spacing-lg) 0;
   }
 
-  /* Services */
   .services-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--spacing-md);
+  }
+
+  /* Bordered offset panels — the Carrd signature look */
+  .panel-wrap {
+    padding: 0 var(--spacing-md);
+  }
+
+  .ak-panel {
+    max-width: var(--max-width);
+    margin: var(--spacing-md) auto;
+    background-color: var(--color-bg-peach);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg) var(--spacing-lg);
+  }
+
+  .about-panel {
+    max-width: var(--max-width);
+    margin: var(--spacing-md) auto;
+    background-color: var(--color-bg-warm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg) var(--spacing-lg);
   }
 
   /* AK Template */
@@ -189,7 +196,7 @@ const projectHighlights = [
     flex: 1;
     padding: 0.75rem 1rem;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-lg);
     font-family: var(--font-body);
     font-size: 0.95rem;
     background: var(--color-bg-white);
@@ -226,7 +233,7 @@ const projectHighlights = [
   .post-card {
     display: block;
     text-decoration: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     border: 1px solid var(--color-border);
     background: var(--color-bg-white);
@@ -234,8 +241,8 @@ const projectHighlights = [
   }
 
   .post-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
   }
 
   .post-card-image {
@@ -245,7 +252,7 @@ const projectHighlights = [
   }
 
   .post-card-title {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-weight: 500;
     color: var(--color-text);
   }
@@ -262,34 +269,15 @@ const projectHighlights = [
     margin-top: var(--spacing-md);
   }
 
-  /* Project Highlights */
-  .project-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-    margin-bottom: var(--spacing-md);
-  }
-
-  .project-pill {
-    padding: 0.5rem 1.25rem;
-    border: 1px solid var(--color-border);
-    border-radius: 2rem;
-    font-size: 0.9rem;
-    color: var(--color-text);
-    text-decoration: none;
-    background: var(--color-bg-white);
-    transition: all 0.2s ease;
-  }
-
-  .project-pill:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-
   @media (max-width: 640px) {
     .services-grid {
       grid-template-columns: 1fr 1fr;
+    }
+
+    .ak-panel,
+    .about-panel {
+      padding: var(--spacing-md) var(--spacing-sm);
+      border-radius: var(--radius-md);
     }
 
     .ak-template,
