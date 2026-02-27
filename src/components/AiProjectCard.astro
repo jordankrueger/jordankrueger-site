@@ -1,0 +1,89 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  tags: string[];
+  status: string;
+  statusType: 'live' | 'deployed' | 'active' | 'complete';
+}
+
+const { title, description, tags, status, statusType } = Astro.props;
+---
+
+<div class="ai-card">
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <div class="ai-card-meta">
+    <span class:list={["ai-status", `ai-status-${statusType}`]}>{status}</span>
+    {tags.map(tag => <span class="ai-tag">{tag}</span>)}
+  </div>
+</div>
+
+<style>
+  .ai-card {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .ai-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .ai-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .ai-card p {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    line-height: 1.65;
+    margin-bottom: 0.875rem;
+  }
+
+  .ai-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .ai-tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.2rem 0.625rem;
+    border-radius: 100px;
+    background: var(--color-bg-warm);
+    color: var(--color-text-light);
+  }
+
+  .ai-status {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.2rem 0.625rem;
+    border-radius: 100px;
+  }
+
+  .ai-status-live {
+    background: var(--color-bg-green);
+    color: #5a8a4e;
+  }
+
+  .ai-status-deployed {
+    background: var(--color-bg-green);
+    color: #5a8a4e;
+  }
+
+  .ai-status-active {
+    background: var(--color-bg-warm);
+    color: #9a7a1c;
+  }
+
+  .ai-status-complete {
+    background: var(--color-bg-blue);
+    color: #5a7a94;
+  }
+</style>

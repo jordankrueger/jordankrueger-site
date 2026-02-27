@@ -1,0 +1,65 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  description: string;
+  colorIndex: number;
+}
+
+const { label, title, description, colorIndex } = Astro.props;
+
+const colors = [
+  'var(--color-accent)',
+  '#5a8a4e',
+  '#d97656',
+  '#5a7a94',
+];
+const borderColor = colors[colorIndex % colors.length];
+---
+
+<div class="story-card" style={`--border-color: ${borderColor}`}>
+  <div class="story-label">{label}</div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+</div>
+
+<style>
+  .story-card {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .story-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--border-color);
+  }
+
+  .story-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .story-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .story-card p {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+</style>

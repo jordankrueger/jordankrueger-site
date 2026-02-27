@@ -26,6 +26,14 @@ npm run dev
 - **Fonts:** Poppins (body), Lora (headings), Rock Salt (logo only)
 - **Breakpoint:** 640px for mobile
 
+## Pages
+- `/` — Homepage with services, about, blog posts, newsletter, contact
+- `/blog` — Blog listing
+- `/projects` — Project showcase (full-width ProjectCard panels)
+- `/ai` — AI showcase (40+ projects built with Claude Code, compact card grid). Data lives in page frontmatter arrays. Uses `AiProjectCard` and `AiStoryCard` components.
+- `/building` — Building in Public series (posts tagged `claude-code`)
+- `/about` — About page
+
 ## Blog Posts
 Posts are MDX files in `src/content/posts/` with frontmatter:
 ```yaml

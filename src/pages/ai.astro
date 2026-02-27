@@ -1,0 +1,551 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AiProjectCard from '../components/AiProjectCard.astro';
+import AiStoryCard from '../components/AiStoryCard.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+
+const stats = [
+  { number: '40+', label: 'Projects Built' },
+  { number: '5', label: 'Live Apps' },
+  { number: '3', label: 'Areas of My Life' },
+  { number: '1', label: 'Line of Code by Me' },
+];
+
+const advocacyProjects = [
+  {
+    title: 'AK Help',
+    description: 'AI help for ActionKit users (the advocacy platform most progressive nonprofits run on). A Playwright scraper pulls 114 help docs and 176 real support emails, anonymizes them, and feeds an AI knowledge base. Freemium SaaS with Stripe billing, magic-link auth, and a monthly auto-refresh pipeline.',
+    tags: ['Next.js', 'Playwright', 'Stripe', 'Claude Haiku'],
+    status: 'Live (Beta)',
+    statusType: 'live' as const,
+  },
+  {
+    title: 'campaign.help',
+    description: 'My consulting firm\'s website. Built it in one session, pulling real testimonials and client logos from Notion. Compressed images 81%, wired up GA4, deployed to Cloudflare Pages.',
+    tags: ['Next.js', 'Cloudflare Pages', 'Notion API'],
+    status: 'Live',
+    statusType: 'live' as const,
+  },
+  {
+    title: 'Progressives for AI',
+    description: 'Newsletter for progressives who want to actually engage with AI instead of just being scared of it. Landing page, Beehiiv publication, Cloudflare Worker signup flow, and AI-generated photo banners for each issue.',
+    tags: ['Beehiiv', 'Cloudflare Workers', 'DALL-E'],
+    status: 'Live',
+    statusType: 'live' as const,
+  },
+  {
+    title: 'highspeedrail.tv',
+    description: 'Curated video site for high-speed rail advocacy. YouTube API-powered admin panel for searching, queueing, and reviewing videos. AI helps evaluate new content quickly. Auto-deploys on push.',
+    tags: ['Eleventy', 'Express', 'YouTube API', 'Cloudflare Pages'],
+    status: 'Live',
+    statusType: 'live' as const,
+  },
+  {
+    title: 'MDM Fleet Management',
+    description: 'Runbook for managing Mac fleets at two nonprofit clients. FileVault key escrow, Escrow Buddy deployment, remediation tracking, and a side-by-side comparison of Mosyle vs. JAMF Now.',
+    tags: ['Mosyle', 'JAMF Now', 'macOS'],
+    status: 'Active',
+    statusType: 'active' as const,
+  },
+];
+
+const communityProjects = [
+  {
+    title: 'Staff Operations Platform',
+    description: 'Replacing the mess of Google Sheets, email chains, and tribal knowledge we\'d been using. 15-table data model, 136 members imported, NocoDB backend, Authentik SSO, Next.js admin panel with role-based access.',
+    tags: ['Next.js 15', 'NocoDB', 'PostgreSQL', 'Authentik'],
+    status: 'In Progress',
+    statusType: 'active' as const,
+  },
+  {
+    title: 'Visitor Fingerprinting Plugin',
+    description: 'WordPress plugin that fingerprints visitors (canvas, WebGL, fonts, screen data) and checks them against banned users when someone applies to join. Catches the folks who get banned and come back under a new name.',
+    tags: ['PHP', 'WordPress', 'JavaScript'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
+  {
+    title: '438K-Post Archive',
+    description: 'Every collaborative story the community has ever written, stored in Firebase. Cloud Functions handle the data processing, with automated backups to iDrive (5.2GB raw, 1.76GB compressed).',
+    tags: ['Firebase', 'Cloud Functions', 'Node.js'],
+    status: 'Live',
+    statusType: 'live' as const,
+  },
+  {
+    title: '4-Pipeline Backup System',
+    description: 'Offsite backups for everything: cPanel snapshots, custom DB dumps (had to work around a 268MB kernel memory cap), Firebase archive exports, and VPS configs.',
+    tags: ['rclone', 'Bash', 'Node.js', 'cron'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
+  {
+    title: 'MediaWiki 10x Speedup',
+    description: 'Got a 54,000-page wiki from 1.5s down to 0.15s page loads. Migrated to PHP 8.2 + FPM, added APCu caching, turned on OPcache JIT, and cleaned out a 1.38GB stale cache table.',
+    tags: ['MediaWiki', 'PHP-FPM', 'APCu'],
+    status: 'Complete',
+    statusType: 'complete' as const,
+  },
+  {
+    title: 'WordPress 14x Speedup',
+    description: 'WordPress Multisite homepage went from 3.4s to 0.24s. Cleaned out 87MB of orphaned tables, removed 5 themes nobody was using, and optimized 284 database tables.',
+    tags: ['WordPress', 'WP-CLI', 'MariaDB'],
+    status: 'Complete',
+    statusType: 'complete' as const,
+  },
+  {
+    title: 'SEO Program',
+    description: 'SEO overhaul across all 5 web properties. RankMath on WordPress, GA4 everywhere, Search Console for 3 domains, 11 new content pieces, and drip email campaigns.',
+    tags: ['RankMath', 'GA4', 'Sendy'],
+    status: 'Ongoing',
+    statusType: 'active' as const,
+  },
+  {
+    title: 'Constitution Rewrite',
+    description: 'Rewrote the community\'s governing documents from scratch. Read through 114 forum posts of old debate, pulled together two previous rewrite attempts, and put together an annotated review presentation with a 55-row traceability matrix.',
+    tags: ['Markdown', 'HTML'],
+    status: 'Under Review',
+    statusType: 'active' as const,
+  },
+  {
+    title: 'Annual Address Builder',
+    description: 'App for putting together the community\'s annual address from 11 groups\' submissions. Role-based auth, Claude API for AI-assisted summaries, and wiki integration.',
+    tags: ['React', 'Express', 'Claude API'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
+  {
+    title: 'Server Monitoring',
+    description: 'Self-hosted Netdata with custom health alerts and a status dashboard that pulls live metrics via API every 30 seconds.',
+    tags: ['Netdata', 'Apache'],
+    status: 'Live',
+    statusType: 'live' as const,
+  },
+  {
+    title: 'Security Plugin',
+    description: 'WordPress must-use plugin that locks down private multisite sub-sites. The old plugin left the REST API and RSS feeds wide open. This one blocks everything. Covers 6 internal staff sites.',
+    tags: ['PHP', 'WordPress MU'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
+  {
+    title: 'Email Infrastructure',
+    description: 'Set up Sendy for 3 brands after AWS SES denied production access. Switched to SMTP2GO, designed custom HTML email templates, built a 3-email drip sequence, and redid 9 notification templates across 4 sites.',
+    tags: ['Sendy', 'SMTP2GO'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
+];
+
+const personalProjects = [
+  {
+    title: 'AI Progress Tracker',
+    description: 'My first AI build, before Claude Code even existed. Tracks the predictions from Dario Amodei\'s "Machines of Loving Grace" essay across four categories: biology, neuroscience, economics, and governance. Progress bars, expandable sections, and a Reddit community for discussion. Originally on Vercel, recently migrated to Cloudflare Pages.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind', 'Cloudflare Pages'],
+    status: 'Live',
+    statusType: 'live' as const,
+  },
+  {
+    title: 'Drift',
+    description: 'My main productivity app, built from nothing to deployed in one sitting. Task management that lets me bounce between projects without guilt, a debt payoff tracker (avalanche method), uptime monitoring for 17 sites, and a social content drafting pipeline.',
+    tags: ['Next.js', 'SQLite', 'Docker', 'Drizzle ORM'],
+    status: 'Live',
+    statusType: 'live' as const,
+  },
+  {
+    title: 'Smart Bookmarks',
+    description: 'Click a bookmarklet on any page. A Cloudflare Worker grabs the content, Claude generates a title, description, and tags, and it all saves to Raindrop.io. I never have to tag bookmarks manually again.',
+    tags: ['Cloudflare Workers', 'Claude API', 'Raindrop.io'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
+  {
+    title: 'Fathom Sync',
+    description: 'I kept losing action items after meetings. This polls Fathom AI (the meeting note-taker) and syncs summaries to Notion while turning action items into tasks in Drift. Runs twice a day on its own.',
+    tags: ['TypeScript', 'Notion API', 'LaunchAgent'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
+  {
+    title: 'Healthy Eating System',
+    description: 'Not an app, more of a system. ADHD plus reactive hypoglycemia means I can\'t rely on willpower for meal decisions. 64-item food database, auto-generated grocery lists, and a Friday reminder to confirm Saturday pickup.',
+    tags: ['Notion', 'Shell', 'LaunchAgent'],
+    status: 'Active',
+    statusType: 'active' as const,
+  },
+  {
+    title: 'Secrets Manager',
+    description: '261-line Python CLI that keeps API keys in sync across two config files at once. Found 2 mismatches the first time I ran it.',
+    tags: ['Python'],
+    status: 'In Use',
+    statusType: 'deployed' as const,
+  },
+  {
+    title: 'Lease Tracker',
+    description: 'React PWA that answers one question: "How many miles can I drive today?" Tracks remaining daily mileage for my car lease. Works offline. Fits in a single HTML file.',
+    tags: ['React', 'PWA', 'GitHub Pages'],
+    status: 'Live',
+    statusType: 'live' as const,
+  },
+  {
+    title: 'Personality Profile',
+    description: 'Fed Claude 1,023 of my AI conversations plus a formal psych evaluation and had it build a personality profile. Using AI to understand how I use AI. Pretty meta.',
+    tags: ['Python', 'Claude Batch API'],
+    status: 'Complete',
+    statusType: 'complete' as const,
+  },
+];
+
+const stories = [
+  {
+    label: 'Zero to Shipped',
+    title: 'Built Drift in a Single Session',
+    description: 'February 8: Started from an empty folder. By the end of one sitting I had a working Next.js app with SQLite, all the API routes, Docker config, and four default project areas seeded. I\'ve used it every day since.',
+  },
+  {
+    label: 'Performance',
+    title: '10x Wiki Speedup',
+    description: '54,000-page wiki, 1.5 seconds down to 0.15 seconds. PHP 8.2 migration, APCu caching, OPcache JIT, and cleaning out a 1.38GB stale cache table. Fun fact I learned the hard way: APCu\'s CLI and FPM memory pools are completely separate.',
+  },
+  {
+    label: 'Problem Solving',
+    title: 'The Backup That Wouldn\'t Fit',
+    description: 'A 40GB archive kept crashing the backup system. Turns out the VPS had a 268MB kernel memory cap that killed any tar+gzip operation. After a bunch of failed attempts, we redesigned the whole approach: separate DB dumps from file sync, skip compression entirely.',
+  },
+  {
+    label: 'Breadth',
+    title: 'Eight Projects in One Day',
+    description: 'February 16: Migrated an email platform, shipped two milestones of a SaaS app, wrote a client acquisition strategy, ran an infrastructure audit with parallel AI agents, worked through a data model design, deployed SEO fixes, and more.',
+  },
+  {
+    label: 'Discovery',
+    title: 'Finding the Silent Failures',
+    description: 'Some of the most useful work was just finding stuff that was broken and nobody noticed. A 41GB backup that never actually ran. An AWS Glacier bill from 2.1TB of forgotten archives. Forum emails silently failing for 31 days. An internal wiki exposed to the public via REST API.',
+  },
+  {
+    label: 'Meta',
+    title: 'AI Analyzing AI Conversations',
+    description: 'I gave Claude 1,023 of my old AI conversations plus a formal psych evaluation. It produced a 271-line personality profile that any future AI session can read to understand how I work, how I think, and how my ADHD shows up.',
+  },
+];
+---
+
+<BaseLayout
+  title="Building with AI | Jordan Krueger"
+  description="I'm not a developer, but I used Claude Code to build 40+ projects for my nonprofit consulting firm, an online community, and my own ADHD brain."
+>
+
+  <!-- Hero -->
+  <section class="ai-hero-wrap">
+    <div class="ai-hero panel bg-white">
+      <h1>I'm not a developer.<br>I built all of this anyway.</h1>
+      <p class="ai-hero-intro">
+        I run a consulting firm helping progressive nonprofits with IT and operations.
+        I also manage a 30-year-old online community and try to keep my ADHD brain on track.
+        Somehow I now build software too. Here's everything I've shipped using
+        <a href="https://claude.ai/claude-code" target="_blank" rel="noopener">Claude Code</a>.
+      </p>
+
+      <div class="ai-stats">
+        {stats.map(stat => (
+          <div class="ai-stat">
+            <div class="ai-stat-number">{stat.number}</div>
+            <div class="ai-stat-label">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- The Story -->
+  <section class="ai-section-wrap">
+    <div class="ai-narrative panel bg-warm">
+      <h2>The story</h2>
+
+      <div class="ai-narrative-body">
+        <p>
+          I've been doing progressive politics and nonprofit operations for twenty years.
+          I know ActionKit, Google Workspace, and Freshdesk inside out. I can fix
+          a broken email pipeline in my sleep. But writing code? That was always someone else's job.
+        </p>
+
+        <p>
+          Then I started using Claude Code and things changed fast. I went from "Can you help
+          me write a Python script?" to shipping full-stack web apps in a single sitting.
+          Not toy demos. Real tools that I use every day, that clients pay for, that
+          hundreds of people depend on.
+        </p>
+
+        <blockquote class="ai-pullquote">
+          I'm not a coder/developer, but I want to try and level up my skills via vibecoding with Claude Code.
+        </blockquote>
+
+        <p>
+          The thing that surprised me wasn't the code. It was how <strong>much ground I could cover</strong>.
+          On a given day I might fix a WordPress security hole, build a SaaS frontend with Stripe billing,
+          set up server monitoring, and configure automated backups. Claude doesn't just write code.
+          It handles basically everything involved in running a tech-heavy life.
+        </p>
+
+        <p>
+          I have ADHD, so I bounce between projects constantly. Most productivity advice
+          says that's a problem. With Claude Code it turned into an advantage. I can jump
+          between a Firebase app, a Cloudflare Worker, a WordPress plugin, and a Next.js
+          dashboard and actually finish all four the same afternoon.
+        </p>
+
+        <p>
+          Everything below was built in about three weeks. No contractors, no dev team.
+          Just me explaining what I needed, and Claude helping me build it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advocacy Projects -->
+  <section class="ai-section-wrap">
+    <div class="ai-section-inner">
+      <div class="ai-section-header">
+        <h2>Tools for progressive campaigns</h2>
+        <p>
+          My day job is helping progressive nonprofits fix their tech and run better campaigns.
+          These are the tools I've built to do that.
+        </p>
+      </div>
+
+      <div class="ai-grid">
+        {advocacyProjects.map(project => (
+          <AiProjectCard {...project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Projects -->
+  <section class="ai-section-wrap">
+    <div class="ai-section-inner">
+      <div class="ai-section-header">
+        <h2>Running a 30-year-old online community</h2>
+        <p>
+          I've been running an online creative writing community since 1994. 139 active members,
+          438,000+ collaborative stories, five web properties. Claude helped me overhaul the whole thing.
+        </p>
+      </div>
+
+      <div class="ai-grid">
+        {communityProjects.map(project => (
+          <AiProjectCard {...project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Personal Projects -->
+  <section class="ai-section-wrap">
+    <div class="ai-section-inner">
+      <div class="ai-section-header">
+        <h2>Building the systems my brain needs</h2>
+        <p>
+          I have ADHD. Off-the-shelf productivity tools either overwhelm me or
+          bore me until I stop using them. So I built my own.
+        </p>
+      </div>
+
+      <div class="ai-grid">
+        {personalProjects.map(project => (
+          <AiProjectCard {...project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Story Highlights -->
+  <section class="ai-section-wrap">
+    <div class="ai-section-inner">
+      <div class="ai-section-header">
+        <h2>The stories behind the projects</h2>
+        <p>The stats are fine, but the real stuff is in the details.</p>
+      </div>
+
+      <div class="ai-grid">
+        {stories.map((story, i) => (
+          <AiStoryCard {...story} colorIndex={i} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Building in Public CTA -->
+  <section class="ai-section-wrap">
+    <div class="ai-cta panel bg-peach">
+      <h2>Follow the journey</h2>
+      <p>I write about what it's actually like to build all of this — the wins, the weird bugs, and the things I'm still figuring out.</p>
+      <a href="/building" class="btn btn-outline">Read Building in Public</a>
+    </div>
+  </section>
+
+  <!-- Newsletter CTA -->
+  <NewsletterSignup variant="compact" />
+
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .ai-hero-wrap {
+    padding: var(--spacing-md) var(--spacing-md) 0;
+  }
+
+  .ai-hero {
+    text-align: center;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+
+  .ai-hero h1 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .ai-hero-intro {
+    font-size: 1.05rem;
+    color: var(--color-text-light);
+    max-width: 600px;
+    margin: 0 auto var(--spacing-xl);
+    line-height: 1.75;
+  }
+
+  .ai-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-sm);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .ai-stat {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm) var(--spacing-xs);
+    text-align: center;
+  }
+
+  .ai-stat-number {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .ai-stat-label {
+    font-size: 0.78rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  /* Narrative */
+  .ai-section-wrap {
+    padding: var(--spacing-md) var(--spacing-md);
+  }
+
+  .ai-narrative {
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+
+  .ai-narrative h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .ai-narrative-body {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .ai-narrative-body p {
+    color: var(--color-text-light);
+  }
+
+  .ai-pullquote {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin: var(--spacing-md) 0;
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* Section headers + grid */
+  .ai-section-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .ai-section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .ai-section-header h2 {
+    margin-bottom: 0.75rem;
+  }
+
+  .ai-section-header p {
+    color: var(--color-text-light);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* Building in Public CTA */
+  .ai-cta {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+
+  .ai-cta h2 {
+    margin-bottom: 0.75rem;
+  }
+
+  .ai-cta p {
+    color: var(--color-text-light);
+    max-width: 500px;
+    margin: 0 auto var(--spacing-md);
+  }
+
+  .ai-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-sm);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .ai-hero-wrap {
+      padding: var(--spacing-sm) var(--spacing-sm) 0;
+    }
+
+    .ai-hero {
+      padding: var(--spacing-lg) var(--spacing-sm);
+      border-radius: var(--radius-md);
+    }
+
+    .ai-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ai-section-wrap {
+      padding: var(--spacing-sm) var(--spacing-sm);
+    }
+
+    .ai-narrative {
+      padding: var(--spacing-md) var(--spacing-sm);
+      border-radius: var(--radius-md);
+    }
+
+    .ai-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
