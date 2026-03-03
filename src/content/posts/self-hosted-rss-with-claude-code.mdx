@@ -1,0 +1,194 @@
+---
+title: "I built a self-hosted RSS system that actually keeps me informed"
+description: "Email newsletters were drowning me. Algorithm feeds were wasting my time. So I used Claude Code to build a self-hosted RSS setup with Miniflux, NetNewsWire, and an AI filter that only shows me stuff worth reading."
+pubDate: 2026-03-03
+tags: ["claude-code", "ai", "tools", "self-hosting"]
+coverImage: "/images/gallery/blog-rss-reader.jpg"
+---
+
+A few months ago, I realized I was subscribed to about 40 email newsletters and reading maybe three of them. The rest just piled up in my inbox, adding to that low-grade guilt you feel when you see 847 unread emails and know that some of them are probably important.
+
+Meanwhile, I was also spending way too much time on Reddit and Hacker News, scrolling through stuff I didn't care about to find the one or two posts that were actually relevant to my work. The algorithm wasn't helping. It never does.
+
+So I built a self-hosted RSS setup using [Claude Code](https://claude.ai/claude-code), and I like it a lot more than what I was doing before. This is the second post in my [Building in Public](/building) series — if you missed the first one, I wrote about [rebuilding this website with AI](/blog/rebuilding-my-site-with-claude-code).
+
+## RSS is not dead
+
+If you're not familiar with RSS, here's the short version: most websites and blogs publish a feed, which is basically a structured list of their latest posts. Instead of going to 30 different websites or subscribing to 30 email newsletters, you point a reader app at those feeds and everything shows up in one place. No algorithms deciding what you see, no tracking pixels in your inbox. Just the stuff you asked for, in chronological order.
+
+RSS was huge in the late 2000s. Then Google killed Google Reader in 2013 and most people forgot about it. But the feeds never went away. Almost every blog, news site, and podcast still publishes one. Reddit has them. YouTube has them. Substack has them. You just need something to read them with.
+
+## Why self-host it
+
+You could use a hosted RSS service like Feedly or Inoreader. They're fine. But I wanted to self-host because it's free, it's private (nobody's tracking what I read), and I can connect any reader app I want and build custom filters on top. I also have a Mac Mini that's always on — why not put it to work?
+
+The bigger reason, though, is that self-hosting gives you an API. And if you have an API, you can point Claude Code at it. That's the part that makes this setup actually work for me — not just collecting feeds, but having Claude Code write scripts that filter out the noise, deduplicate entries across sources, and even use AI to decide what's worth reading. A hosted service can't do that.
+
+The server I chose is [Miniflux](https://miniflux.app). It's a lightweight, open-source RSS aggregator that runs in Docker. It has a clean web interface, a solid API, and it supports the Google Reader API protocol, which means it syncs with a bunch of third-party reader apps. It's built by one developer, it's been around for years, and it just works.
+
+## What you need
+
+The whole setup has three pieces:
+
+1. **A Docker runtime** to run the containers. I use [OrbStack](https://orbstack.dev) on my Mac, which is a lightweight alternative to [Docker Desktop](https://www.docker.com/products/docker-desktop/). If you're on Linux, you probably already have Docker. If you're on Windows, Docker Desktop works fine.
+
+2. **Miniflux**, the RSS server. Runs as two Docker containers: one for Miniflux itself, one for a PostgreSQL database.
+
+3. **A reader app.** I use [NetNewsWire](https://netnewswire.com), which is free and open-source. It's Mac and iOS only, but there are great options on every platform. NetNewsWire connects to Miniflux via the Google Reader API, so everything syncs between devices.
+
+That's it. No cloud accounts to create, no third-party services to depend on.
+
+## Setting it up with Claude Code
+
+I told Claude Code what I wanted: a Miniflux instance running in Docker on my Mac Mini, accessible from my local network so I could connect NetNewsWire on my laptop and phone.
+
+Here's the `docker-compose.yml` it put together:
+
+```yaml
+services:
+  miniflux:
+    image: miniflux/miniflux:latest
+    container_name: miniflux
+    ports:
+      - "8085:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgres://miniflux:YOUR_DB_PASSWORD@db/miniflux?sslmode=disable
+      - RUN_MIGRATIONS=1
+      - CREATE_ADMIN=1
+      - ADMIN_USERNAME=yourusername
+      - ADMIN_PASSWORD=YOUR_ADMIN_PASSWORD
+      - BASE_URL=http://YOUR_IP:8085
+      - POLLING_FREQUENCY=60
+      - BATCH_SIZE=100
+      - CLEANUP_ARCHIVE_READ_DAYS=60
+      - CLEANUP_ARCHIVE_UNREAD_DAYS=180
+    healthcheck:
+      test: ["CMD", "/usr/bin/miniflux", "-healthcheck", "auto"]
+    restart: unless-stopped
+
+  db:
+    image: postgres:17
+    container_name: miniflux-db
+    environment:
+      - POSTGRES_USER=miniflux
+      - POSTGRES_PASSWORD=YOUR_DB_PASSWORD
+    volumes:
+      - miniflux-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "miniflux"]
+      interval: 10s
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  miniflux-db:
+```
+
+And an `.env` file to keep the passwords out of the compose file:
+
+```
+POSTGRES_PASSWORD=pick_something_secure
+ADMIN_USERNAME=yourusername
+ADMIN_PASSWORD=pick_something_else_secure
+```
+
+Then it's just:
+
+```bash
+docker compose up -d
+```
+
+That's it. Miniflux is running. Open a browser, go to `http://your-ip:8085`, and log in with the admin credentials. You've got a working RSS server.
+
+A few things worth noting about the config:
+
+- **POLLING_FREQUENCY=60** means Miniflux checks your feeds every 60 minutes. You can crank this down if you want faster updates, but hourly is fine for me.
+- **CLEANUP_ARCHIVE_READ_DAYS=60** means read entries get cleaned up after 60 days. Keeps the database from growing forever.
+- **RUN_MIGRATIONS=1** and **CREATE_ADMIN=1** handle first-time setup automatically. You can remove `CREATE_ADMIN` after the first run.
+
+## Connecting NetNewsWire
+
+This is the part that surprised me with how easy it was. NetNewsWire has built-in support for syncing with services that speak the Google Reader API, and Miniflux speaks it natively.
+
+In NetNewsWire, you add a new account, choose "Google Reader Compatible," and enter:
+
+- **URL:** `http://your-ip:8085/reader/`
+- **Username:** your Miniflux admin username
+- **Password:** your Miniflux admin password
+
+That's it. NetNewsWire pulls down all your feeds and entries, and from then on it syncs automatically. Add a feed in Miniflux, it shows up in NetNewsWire. Read something in NetNewsWire, it's marked as read in Miniflux. It works across Mac, iPhone, and iPad.
+
+NetNewsWire itself is worth a mention. It's been around since 2002 — one of the oldest Mac apps still in active development. It's free, open-source, and it looks and feels like a native Apple app because it is one. No Electron, no web views. Just a fast, well-designed RSS reader.
+
+## Adding feeds
+
+Once Miniflux is running, you start adding feeds. You can do this one by one through the web interface, or you can import an OPML file if you're migrating from another reader.
+
+Some tips I picked up along the way:
+
+- Most blogs have RSS feeds even if they don't advertise it. Try adding `/feed`, `/rss`, or `/atom.xml` to the end of a site's URL. Miniflux can also auto-discover feeds if you just paste in a website URL.
+- Reddit has RSS feeds for every subreddit. Add `.rss` to the end of any subreddit URL: `https://www.reddit.com/r/selfhosted/.rss`
+- YouTube channels have RSS feeds too. The URL format is `https://www.youtube.com/feeds/videos.xml?channel_id=CHANNEL_ID`, but Miniflux can find them automatically if you paste in a channel URL.
+- Substack newsletters all have feeds. Just add `/feed` to the end of any Substack URL.
+
+I ended up with feeds from tech blogs, news sites, Reddit communities I follow, and a handful of YouTube channels. Everything I was previously trying to track through email newsletters, browser bookmarks, and social media — all in one place.
+
+## The filtering system
+
+Having all your feeds in one place is great, but it creates a new problem: noise. Reddit feeds in particular are incredibly noisy. For every interesting post on r/selfhosted or r/privacy, there are twenty posts asking for tech support or trying to sell something.
+
+This is where Claude Code really earned its keep. Together, we built a four-layer filtering system that runs automatically and keeps my feed clean.
+
+### Layer 1: Miniflux block rules
+
+Miniflux has built-in support for blocking entries that match certain patterns. I had Claude set up regex rules to block entries with non-Latin scripts (CJK, Cyrillic, Arabic, etc.) at the server level, so they never even show up. For specific feeds like tech deal sites, I added keyword blocklists — anything matching "gift card," "coupon," "promo code," or "% off" gets silently dropped.
+
+This all happens inside Miniflux itself. No external scripts needed.
+
+### Layer 2: Cross-feed deduplication
+
+I subscribe to several feeds that cover overlapping topics. The same article might show up on Hacker News, a subreddit, and the original blog. Claude Code wrote a Python script that detects duplicate entries across feeds by comparing URLs.
+
+When it finds duplicates, it keeps the version from the original source and marks the aggregator copies (Reddit, Hacker News) as read. If there's no original source version, it keeps whichever copy showed up first.
+
+### Layer 3: Language detection
+
+Even with the non-Latin script blocking, some non-English content still gets through — French, German, Spanish posts that use the Latin alphabet. Claude Code added a language detection step using the [langdetect](https://pypi.org/project/langdetect/) Python library. It checks each entry's title, and if it's confident (90%+) that the title isn't English, it marks the entry as read.
+
+It only runs on titles longer than 25 characters, because shorter titles don't give the language detector enough to work with. Pragmatic, not perfect.
+
+### Layer 4: AI quality filtering
+
+This is the one that makes the biggest difference, and it only runs on Reddit feeds (the noisiest source by far).
+
+Claude Code set up an API call to Claude Haiku, which is Anthropic's smallest and cheapest model, to evaluate Reddit post titles in batch. It sends all the unread Reddit titles at once and asks Haiku to flag the ones that are:
+
+- Personal tech support / troubleshooting questions
+- Buy/sell/trade posts
+- Low-effort emotional posts with no substance
+- Vague questions without interesting discussion
+- "Look at my setup" flex posts
+- Off-topic celebrity/gossip/meme posts
+
+Everything else passes through: news, product launches, substantive technical discussions, privacy and security analysis, open source announcements, interesting opinion pieces, useful tips and tools.
+
+The result is that my Reddit feeds go from mostly noise to mostly signal. On a typical run, the AI filter catches 25-30 low-quality entries and lets the good stuff through. It costs fractions of a penny per run because Haiku is cheap and the titles are short.
+
+## Running it automatically
+
+All four layers run as a single Python script. Claude Code set up a macOS LaunchAgent that triggers the script every five minutes. It fires on login, runs in the background, and logs everything to a file so I can check on it if I want to.
+
+If you're on Linux, a cron job does the same thing. The script is self-contained — it just needs Python, the `langdetect` library, and an Anthropic API key for the Haiku calls.
+
+I don't think about it. It just runs. Every time I open NetNewsWire, the feed is already filtered.
+
+## Claude does it all 
+
+Remember: Claude Code will manage pretty much the whole process from end-to-end for you, so really all you've got to do is input your feeds and start reading. (You can even ask Claude to help find ones you'd want to read!) You don't need to be comfortable with Docker or even know all that much about self-hosting. Just using NetNewsWire with some free RSS feeds and no server would be a big improvement over email newsletters and social media for staying informed. The filtering is the premium experience, but the basic concept — RSS feeds in a dedicated reader — is worth it on its own.
+
+I spent years letting my inbox and social media algorithms decide what I read. This is better.
+
+If you want to follow along with more projects like this, check the [Building in Public](/building) page or [subscribe to my newsletter](/#subscribe).
