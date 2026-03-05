@@ -12,6 +12,18 @@ export default {
 
     try {
       const data = await request.formData();
+
+      // Honeypot: bots fill this hidden field, real users don't
+      if (data.get('website')) {
+        return jsonResponse({ success: true }, 200, env.ALLOWED_ORIGIN);
+      }
+
+      // Timing: reject submissions faster than 2 seconds
+      const loaded = Number(data.get('_loaded'));
+      if (loaded && Date.now() - loaded < 2000) {
+        return jsonResponse({ success: true }, 200, env.ALLOWED_ORIGIN);
+      }
+
       const name = (data.get('name') || '').trim();
       const email = (data.get('email') || '').trim();
       const message = (data.get('message') || '').trim();
