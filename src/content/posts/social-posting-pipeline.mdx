@@ -1,0 +1,112 @@
+---
+title: "I built a social posting pipeline without writing most of the code"
+description: "How I used Claude Code to build a fully automated posting system for Twitter and Bluesky. I directed the architecture, Claude wrote the code, and it's been running for months."
+pubDate: 2026-03-08
+tags: ["ai", "automation", "self-hosting", "n8n", "claude-code"]
+coverImage: "/images/gallery/blog-social-posting-pipeline.jpg"
+coverAlt: "Illustration of a laptop showing a content management dashboard with arrows flowing to social media platform icons"
+draft: false
+---
+
+I run a small content brand as a side project. Posting to Twitter and Bluesky was eating maybe 15 minutes per post, and I was doing it daily. That's five-plus hours a month of copying captions, uploading the same image twice, and waiting for video processing to finish. I was hemming and hawing about whether to automate it for a while, and finally bit the bullet.
+
+Here's the thing, though: I'm not really a developer. I can read code, I understand how systems connect, and I know what I want. But sitting down and writing 400 lines of Express.js from scratch? That wasn't going to happen. What made this project possible was Claude Code.
+
+I described what I wanted, made the architectural decisions, and Claude wrote the code. When something broke, I described the symptoms and Claude fixed it. The whole system went from idea to running in production over a few sessions. Now I schedule a post in a CMS, and it shows up on both platforms at the right time. I don't touch it again after hitting save. It's been running for months and I honestly forget it's there most days (which is the whole point).
+
+## The architecture (the part I designed)
+
+This is where I contributed the most. I decided how the system should be structured before any code was written. Three pieces, each with one job:
+
+```
+Directus (headless CMS)
+  → stores posts with media, captions, and scheduled publish times
+
+N8N (workflow automation)
+  → polls every 15 minutes for posts that are due
+  → calls the posting microservice
+
+Express.js microservice
+  → receives a media URL + caption
+  → posts to Twitter and Bluesky concurrently
+  → returns per-platform success/failure
+```
+
+I chose Directus because I'd used it before and knew it could give me an admin UI without writing frontend code. I picked N8N because I already had it running for other automations. And I wanted the actual posting logic in a separate service (not embedded in N8N) because I knew from experience that mixing orchestration and business logic makes debugging miserable.
+
+These are the kinds of decisions AI can't make for you. Claude doesn't know what's already running on your server, what tools you're comfortable with, or how you want to debug problems at 11pm. That's your job. The code is Claude's job.
+
+All three run as Docker containers on a single VPS managed by Coolify. About $15/month for everything.
+
+## How I work with Claude Code
+
+I want to be specific about what "I used AI to build this" actually looks like in practice, because I think people imagine it wrong. It's not "write me a social media posting app" and then you get a working system. It's more like being a technical project manager who can also read the code.
+
+A typical exchange looks like this:
+
+I'll say something like "the posting service needs to handle the case where Twitter fails but Bluesky succeeds. Use HTTP 207 for partial success." Claude writes the code, including the error handling, the response format, and the status code logic. I review it, sometimes ask for changes ("make this a separate function" or "that error message isn't helpful enough"), and we move on.
+
+Where it gets really useful is the platform-specific stuff. Twitter's OAuth 1.0a requires cryptographic signatures on every request. Bluesky's video uploads require resolving a DID to find the right PDS endpoint. I don't know how to implement either of those, and honestly I don't want to. But I can tell Claude "Twitter videos need chunked uploads, handle the polling with a 5-minute timeout and exponential backoff" and get working code back.
+
+The bugs are where the collaboration really shows. When Bluesky video uploads started failing, I could describe what I was seeing ("videos worked for months and then stopped, getting auth errors") and Claude figured out that I'd hardcoded a PDS URL that had changed. That's the kind of thing that would have taken me hours to debug on my own. Claude identified it in about a minute.
+
+## The system itself
+
+I'll walk through the pieces briefly, because the architecture is useful even if you're using different tools.
+
+**Directus** stores a `posts` collection with four fields: media (uploaded to Cloudflare R2), caption, publish_at, and status. I store schedule times in my local timezone, not UTC. I know UTC is "correct" but I kept scheduling posts at 3am by accident.
+
+**N8N** runs a workflow every 15 minutes. It queries Directus for due posts, calls the posting service, and updates the status. The whole thing is about 6 nodes. I deliberately kept N8N stupid about the actual posting. It doesn't know anything about Twitter or Bluesky. It just calls a URL and handles the response. This made debugging way easier, because the problem is always in one of two places: either N8N didn't call the service (check the execution log) or the service failed to post (check its logs). Never both.
+
+**The posting service** is about 400 lines of Express.js with three endpoints: post to Twitter, post to Bluesky, or post to both. It uses `Promise.allSettled` so if Twitter chokes, Bluesky still goes through. I used HTTP 207 (Multi-Status) for partial failures, and I'm kind of in love with it. N8N can route on status code alone: 200 means done, 207 means check which platform failed, 500 means everything broke.
+
+```json
+{
+  "twitter": { "success": true, "id": "1234567890" },
+  "bluesky": { "success": false, "error": "rate limited" }
+}
+```
+
+## What you need to know vs. what AI handles
+
+Here's how I'd break down the division of labor for a project like this:
+
+**You need to know:**
+- What problem you're solving and why (the "posting takes too long" part)
+- How you want the pieces to connect (CMS, scheduler, service)
+- What trade-offs you're willing to make (15-minute polling delay? fine for my use case)
+- How to evaluate whether the code does what you asked
+- How to describe bugs clearly when things break
+
+**AI handles well:**
+- Platform-specific API integration (OAuth flows, chunked uploads, AT Protocol)
+- Boilerplate (Express setup, error handling, Docker config)
+- Remembering API details you'd otherwise have to look up
+- Debugging from symptoms ("this worked yesterday and now returns 401")
+
+**The gray area:**
+- Deployment and infrastructure decisions (I made these, but Claude helped me write the Dockerfiles and Coolify configs)
+- N8N workflow design (I designed the flow, Claude helped with the expression syntax)
+- Error handling strategy (I decided on 207, Claude implemented it)
+
+The pattern that works for me: I make decisions at the architecture level and describe what I want in plain English with enough technical specificity that Claude doesn't have to guess. "Handle partial failures" is too vague. "Use HTTP 207 when one platform succeeds and the other fails, with per-platform status in the response body" gives Claude what it needs.
+
+## What I'd change
+
+The 15-minute cron means posts can land up to 14 minutes late. I could swap this for a real job queue like BullMQ. Hasn't mattered enough to bother yet.
+
+I also wish I'd asked Claude to build a dry-run mode from the start. There's no way to test a post without actually publishing it. An endpoint that validates everything and shows what would go out, without posting, would have caught a few embarrassing failures. (Ask me how I know.)
+
+## How it's held up
+
+Rough numbers after a few months:
+
+- About 98% success rate. Failures are almost always Twitter rate limits.
+- ~$15/month total for the VPS (runs other stuff too, so the marginal cost is close to zero).
+- Scheduling a post takes about 30 seconds. Used to take 10-15 minutes per platform.
+
+The thing that's made this work is keeping the three concerns apart. The CMS owns scheduling, N8N owns orchestration, the service owns the platform-specific posting logic. When something breaks, there's only one place to look. To that end, if you're building anything that talks to multiple targets, look into HTTP 207. It's been in the spec since WebDAV and nobody seems to use it, which is a shame.
+
+I could not have built this without Claude Code. But Claude couldn't have built it without me deciding how the pieces should fit together. That's the part that doesn't get talked about enough: AI-assisted development isn't about asking for a finished product. It's about knowing what you want and being specific enough to get it.
+
+Twitter's OAuth was the hardest part of all of this, by far. Budget an afternoon and try not to throw anything.
