@@ -7,4 +7,9 @@ export default defineConfig({
   site: 'https://jordankrueger.com',
   output: 'static',
   integrations: [mdx(), sitemap()],
+  vite: {
+    server: {
+      allowedHosts: ['jordans-mac-mini'],
+    },
+  },
 });
