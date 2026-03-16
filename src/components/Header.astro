@@ -4,6 +4,7 @@ const navLinks = [
   { href: '/projects', label: 'Projects' },
   { href: '/ai', label: 'AI' },
   { href: '/about', label: 'About' },
+  { href: 'https://campaign.help', label: 'CampaignHelp', external: true },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -17,7 +18,8 @@ const currentPath = Astro.url.pathname;
       {navLinks.map(link => (
         <a
           href={link.href}
-          class:list={["nav-link", { active: currentPath.startsWith(link.href) }]}
+          class:list={["nav-link", { active: !link.external && currentPath.startsWith(link.href) }]}
+          {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}
         >
           {link.label}
         </a>
@@ -37,7 +39,8 @@ const currentPath = Astro.url.pathname;
       {navLinks.map(link => (
         <a
           href={link.href}
-          class:list={["mobile-nav-link", { active: currentPath.startsWith(link.href) }]}
+          class:list={["mobile-nav-link", { active: !link.external && currentPath.startsWith(link.href) }]}
+          {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}
         >
           {link.label}
         </a>
