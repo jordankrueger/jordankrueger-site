@@ -5,10 +5,10 @@ import AiStoryCard from '../components/AiStoryCard.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 
 const stats = [
-  { number: '40+', label: 'Projects Built' },
-  { number: '5', label: 'Live Apps' },
+  { number: '50+', label: 'Projects Built' },
+  { number: '7+', label: 'Live Apps' },
   { number: '3', label: 'Areas of My Life' },
-  { number: '1', label: 'Line of Code by Me' },
+  { number: '28', label: 'Repos with AI Review' },
 ];
 
 const advocacyProjects = [
@@ -28,8 +28,8 @@ const advocacyProjects = [
   },
   {
     title: 'Progressives for AI',
-    description: 'Newsletter for progressives who want to actually engage with AI instead of just being scared of it. Landing page, Beehiiv publication, Cloudflare Worker signup flow, and AI-generated photo banners for each issue.',
-    tags: ['Beehiiv', 'Cloudflare Workers', 'DALL-E'],
+    description: 'Newsletter for progressives who want to actually engage with AI instead of just being scared of it. Six issues published. Landing page, Beehiiv publication, Cloudflare Worker signup flow, and an N8N automation pipeline that generates LinkedIn and Bluesky drafts after each issue goes out.',
+    tags: ['Beehiiv', 'Cloudflare Workers', 'N8N', 'Claude API'],
     status: 'Live',
     statusType: 'live' as const,
   },
@@ -47,12 +47,19 @@ const advocacyProjects = [
     status: 'Active',
     statusType: 'active' as const,
   },
+  {
+    title: 'AI Code Review Pipeline',
+    description: 'Dual-LLM code review deployed across 28 repos. Every pull request gets reviewed by OpenAI Codex and cross-checked by Claude. The two models reconcile disagreements before a summary hits the PR. Branch protection enforced on all public repos.',
+    tags: ['GitHub Actions', 'Claude API', 'OpenAI Codex'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
 ];
 
 const communityProjects = [
   {
     title: 'Staff Operations Platform',
-    description: 'Replacing the mess of Google Sheets, email chains, and tribal knowledge we\'d been using. 15-table data model, 136 members imported, NocoDB backend, Authentik SSO, Next.js admin panel with role-based access.',
+    description: 'Replacing the mess of Google Sheets, email chains, and tribal knowledge we\'d been using. 15-table data model, 136 members imported, NocoDB backend, Authentik SSO, Next.js admin panel with role-based access. Then: a full 10-point security audit — IDOR fixes, CSRF validation, rate limiting, audit logging, PII filtering by role, and an error diagnostics dashboard.',
     tags: ['Next.js 15', 'NocoDB', 'PostgreSQL', 'Authentik'],
     status: 'In Progress',
     statusType: 'active' as const,
@@ -73,8 +80,15 @@ const communityProjects = [
   },
   {
     title: '4-Pipeline Backup System',
-    description: 'Offsite backups for everything: cPanel snapshots, custom DB dumps (had to work around a 268MB kernel memory cap), Firebase archive exports, and VPS configs.',
-    tags: ['rclone', 'Bash', 'Node.js', 'cron'],
+    description: 'Offsite backups for everything: cPanel snapshots, custom DB dumps (had to work around a 268MB kernel memory cap), Firebase archive exports, and VPS configs. Migrated all 4 servers from iDrive to Backblaze B2 after iDrive proved unreliable.',
+    tags: ['rclone', 'Backblaze B2', 'Bash', 'cron'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
+  {
+    title: '1.2M Email Archive',
+    description: '1.22 million messages across three accounts (446K personal Gmail, 775K SB118 Gmail, iCloud), indexed for full-text search using Notmuch and Xapian. Instant server-side search that would take grep minutes now takes milliseconds.',
+    tags: ['Notmuch', 'Xapian', 'Bash', 'LaunchAgent'],
     status: 'Deployed',
     statusType: 'deployed' as const,
   },
@@ -193,6 +207,27 @@ const personalProjects = [
     status: 'Complete',
     statusType: 'complete' as const,
   },
+  {
+    title: 'Actual Budget',
+    description: 'Self-hosted personal and business finance tracking with SimpleFIN bank sync across 12 accounts. Custom CLI for querying both budgets. Uncovered $7,500/mo in personal subscriptions and fixed a -$99K "To Budget" bug caused by how credit card starting balances were categorized.',
+    tags: ['Docker', 'Node.js', 'SimpleFIN'],
+    status: 'Live',
+    statusType: 'live' as const,
+  },
+  {
+    title: 'Weekly Content Sprint',
+    description: 'Every Monday at 7:30am, an N8N workflow wakes up, reads my session logs from the previous week, grabs starred articles from my RSS reader, and sends everything to Claude. Output: 11 content drafts across four tracks (personal, consulting, newsletter, high-speed rail) plus story ideas and an email digest.',
+    tags: ['N8N', 'Claude API', 'LaunchAgent'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
+  {
+    title: 'Prompt Injection Defense',
+    description: 'Claude Code hits all three legs of what security researchers call the "Lethal Trifecta": private data, exposure to untrusted content, and the ability to take real-world actions. Built a multi-layer defense: behavioral rules, a PostToolUse detection hook that scans for 9 injection patterns, and email sanitization with 5 layers of content stripping.',
+    tags: ['Bash', 'Python', 'Claude Code Hooks'],
+    status: 'Deployed',
+    statusType: 'deployed' as const,
+  },
 ];
 
 const stories = [
@@ -226,12 +261,22 @@ const stories = [
     title: 'AI Analyzing AI Conversations',
     description: 'I gave Claude 1,023 of my old AI conversations plus a formal psych evaluation. It produced a 271-line personality profile that any future AI session can read to understand how I work, how I think, and how my ADHD shows up.',
   },
+  {
+    label: 'Security',
+    title: 'Two AIs Reviewing Each Other\'s Code',
+    description: 'I deployed a dual-LLM code review pipeline across 28 repos. OpenAI Codex reviews each pull request; Claude cross-checks the review and flags disagreements. They reconcile before a summary hits the PR. It\'s AI QA on AI QA.',
+  },
+  {
+    label: 'Thought Leadership',
+    title: 'Publishing the Uncomfortable Argument',
+    description: 'I wrote a post arguing that progressives need to stop sitting out the AI conversation. Before publishing, I ran a dual-agent debate — one Claude instance argued for publishing, another argued against — to stress-test the framing. It found real weaknesses. I fixed them, then published.',
+  },
 ];
 ---
 
 <BaseLayout
   title="Building with AI | Jordan Krueger"
-  description="I'm not a developer, but I used Claude Code to build 40+ projects for my nonprofit consulting firm, an online community, and my own ADHD brain."
+  description="I'm not a developer, but I used Claude Code to build 50+ projects for my nonprofit consulting firm, an online community, and my own ADHD brain."
 >
 
   <!-- Hero -->
@@ -294,8 +339,9 @@ const stories = [
         </p>
 
         <p>
-          Everything below was built in about three weeks. No contractors, no dev team.
+          Everything below was built over the past few months. No contractors, no dev team.
           Just me explaining what I needed, and Claude helping me build it.
+          What started as a three-week sprint has become a different way of working entirely.
         </p>
 
         <p>
