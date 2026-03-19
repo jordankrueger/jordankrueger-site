@@ -8,7 +8,7 @@
 ## Dev Server
 ```bash
 npm run dev
-# Access at http://192.168.50.229:4321
+# Access at http://jordans-mac-mini:4321
 ```
 
 ## Key Directories
@@ -35,6 +35,8 @@ npm run dev
 - `/about` — About page
 
 ## Blog Posts
+**Drafts** live in `drafts/` at project root during review. When ready to publish, move to `src/content/posts/`, flip `draft: false`, and push.
+
 Posts are MDX files in `src/content/posts/` with frontmatter:
 ```yaml
 title: "Post Title"
