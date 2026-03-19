@@ -1,0 +1,63 @@
+---
+title: "The fediverse has an AI problem"
+description: "Elena Rossini makes a strong case for public institutions on the fediverse. But the biggest barrier to adoption isn't willingness -- it's a missing sysadmin. AI could fix that, if the community would let it."
+pubDate: 2026-03-19
+tags: ["ai", "self-hosting", "fediverse"]
+coverImage: "/images/gallery/blog-fediverse-ai-problem.jpg"
+coverAlt: "Abstract illustration representing the tension between AI tools and fediverse community values"
+draft: true
+---
+
+Elena Rossini published an essay last week called "[Openness, transparency and reach: three reasons why public institutions should embrace the Fediverse](https://blog.elenarossini.com/openness-transparency-and-reach-three-reasons-why-public-institutions-should-embrace-the-fediverse/)." It's excellent, and she's right about almost everything.
+
+Her argument: European public institutions -- funded by taxpayers -- are broadcasting their communications on platforms owned by American billionaires. X is a "bot-ridden, alt-right wasteland." Facebook and Instagram lock content behind login walls. Even Bluesky, despite its open protocol, is 98% centralized on one server and backed by VC money that will eventually need ads to pay itself back. Meanwhile, the fediverse offers open architecture (anyone can read posts via RSS without an account), chronological feeds (no algorithmic manipulation), and better actual engagement. Casey Newton has 252,000 followers on Bluesky and gets a handful of replies. Rossini has 12,000 on Mastodon and regularly gets hundreds.
+
+It's a strong case. Ralf Stockmann, who runs digital development at Berlin's largest public library, proposed a "+1 strategy": keep your Big Tech profiles, but add at least one fediverse presence and take it seriously. That's practical, achievable advice.
+
+So why isn't it happening?
+
+Rossini chalks it up to "tech illiteracy, resistance to change and possibly hanging on to vanity metrics." That's part of it. But I think the bigger barrier is more fundamental: most organizations don't have anyone who can set this stuff up.
+
+## The missing sysadmin
+
+Running a Mastodon instance -- or a GoToSocial instance, or a Pixelfed server, or any self-hosted fediverse node -- requires someone who can manage a Linux server. Configure DNS. Set up SSL certificates. Handle Docker containers, database backups, software updates. The actual posting is the easy part. The infrastructure is the wall.
+
+This is true for the fediverse specifically, and it's true for self-hosting in general. If you're a two-person advocacy shop or a European municipal library, you probably don't have a sysadmin on staff. You definitely don't have budget to hire one. And the volunteer-run nature of most fediverse infrastructure is exactly why it's stayed small -- it depends on a scarce resource (people who know how to run servers) that doesn't scale.
+
+Rossini's +1 strategy is right. But it needs a +1 enabler.
+
+## Here's where it gets ironic
+
+AI coding tools are good at exactly this kind of work. Configuring servers, writing Docker Compose files, debugging nginx -- this is what tools like Claude Code and Cursor handle well. The "missing sysadmin" problem has a solution.
+
+I know because I've done it. I'm not a developer. I run a consulting firm. But over the past few months, working with AI coding tools, I've stood up a self-hosted newsletter platform, an RSS reader, automated content pipelines, monitoring systems, and the website you're reading this on. A year ago, most of that would have required hiring someone. Now it requires patience and a willingness to learn as you go.
+
+The barrier that kept self-hosting as a hobbyist-only activity is dissolving. A nonprofit communications director could stand up a Mastodon instance for their organization with AI assistance. It takes time. But it's no longer in the category of "you need to hire a specialist."
+
+And yet.
+
+The fediverse community, broadly, hates AI. Mastodon instances have content policies banning AI-generated images. Defederation threats fly when someone's caught using AI tools. Rossini's own essay carries a "Written by a Human" badge at the bottom, a quiet signal about which side of the line she's on.
+
+I get the concerns. Training data consent, environmental cost, corporate consolidation -- they're real. I write about them regularly.
+
+But there's a contradiction that nobody in the fediverse community seems willing to name: **the thing they want most -- widespread adoption of decentralized, self-hosted infrastructure -- is being held back by their rejection of the tool that could make it possible.**
+
+## Gatekeeping digital sovereignty
+
+Think about what Rossini is asking for. She wants public institutions and libraries and emergency services to move their communications onto open, self-hosted platforms. That's a scaling problem. You can't get there with a few thousand enthusiasts running instances in their spare time. The barrier to entry needs to come way down.
+
+AI does that. It's not a replacement for knowing what you're doing, but it closes the gap. The nonprofit org that can't afford a sysadmin could use AI tools to get 80% of the way there. The municipal IT department with one generalist on staff could use AI to handle the parts they don't know.
+
+But the community that's supposed to welcome these newcomers is the same one putting up "no AI" signs on the door.
+
+This is the same pattern I wrote about [recently](/blog/you-need-to-learn-ai) with progressive organizations and AI adoption. The people with the best reasons to use a tool are the ones most likely to refuse it on principle. And the gap between those who engage and those who don't keeps getting wider.
+
+## They want the same thing
+
+Here's what I keep coming back to: the fediverse community and the pro-AI-tools community are fighting for the same future. They want the same things -- infrastructure you own instead of rent, open protocols, lower barriers so regular people can participate in building the internet they want.
+
+The fediverse folks are right about decentralized infrastructure. And the people building AI tools are solving the exact problem that's kept decentralization from scaling. These aren't competing visions. They fit together.
+
+Rossini's essay ends by asking European institutions to take one small step: add a Mastodon icon to their website footer.
+
+I'd ask the fediverse community to take one too: make peace with the tool that could actually get those instances running.
