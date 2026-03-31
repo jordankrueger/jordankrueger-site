@@ -1,0 +1,59 @@
+---
+title: "AI is great at research. It's terrible at sourcing."
+description: "I caught fabricated quotes in a client report before it went out. AI hallucinates most where you're least likely to check — and sub-agents are worse. Here's the system I built to catch it."
+pubDate: 2026-03-31
+tags: ["ai", "tools", "consulting"]
+coverImage: "/images/gallery/blog-ai-research-hallucination.jpg"
+coverAlt: "Illustration of a person examining a document with a magnifying glass, red-highlighted suspect text on one side and green checkmarks for verified sources on the other"
+draft: false
+---
+
+I was reviewing a printer recommendation report for a client a few weeks ago. The analysis was solid — good comparison of total cost of ownership, the right models for their office size, sensible reasoning about maintenance contracts. Then I noticed two quotes attributed to review sites.
+
+I checked both. One was a real publication but the quote didn't appear anywhere on the page. The other cited a reviewer who, as far as I could tell, doesn't exist.
+
+The recommendations were fine. The analysis was right. But two of the sources were invented.
+
+I caught this during my review, before anything went to the client. But it made me think about *why* I caught it — and whether my review process was systematic enough, or whether I'd just gotten lucky this time. So I built a better system.
+
+## Where AI hallucinates most
+
+AI doesn't hallucinate randomly. It's actually quite good at analysis — comparing options, weighing trade-offs, summarizing large amounts of information. That's the stuff it's trained to do well.
+
+Where it falls apart is sourcing. Quotes, attributions, specific claims tied to specific publications. The model doesn't know whether a particular reviewer said a particular thing. But it knows what a citation *looks like*, and it knows that citations make an argument more persuasive. So it generates them. Confidently. In the exact format you'd expect.
+
+And that's the problem, because it hits the parts of a document you're least likely to scrutinize. A bold claim with no source? You'd catch that. But a claim followed by a properly formatted citation with a publication name and a date? Your brain skips right over it. It *looks* verified.
+
+## The sub-agent problem
+
+This gets worse when you're using AI agents to do research in parallel.
+
+I work with Claude Code a lot, and for bigger research tasks I'll dispatch sub-agents — separate AI instances that each go investigate a piece of the question and bring back findings. It's faster, and it lets me cover more ground than working through everything sequentially.
+
+But sub-agents hallucinate more than the primary agent does. I've seen it enough times now to be sure.
+
+The reason is context. When I'm working with Claude directly, it has my full conversation history. It knows my corrections, my preferences, my earlier instructions. It's had me push back on unverified claims before. A sub-agent doesn't have any of that. It gets a prompt and a task, and it goes. Less context means less caution. More autonomy means more confidence in things it shouldn't be confident about.
+
+The pattern is consistent: the main Claude session is careful and hedged about a claim, and a sub-agent dispatched to research the same topic comes back with a specific quote from a specific publication that turns out to be fabricated. The sub-agent isn't lying. It just has fewer guardrails.
+
+## What actually lowers the risk
+
+After the printer report incident, I built a system. Not a complicated one — just a few rules that make verification automatic instead of optional.
+
+**Separate research from writing.** Before I can write any client deliverable, a research-notes file has to exist in the same directory. Every claim that's going to appear in the report has to be in that file first, with a source URL that I've actually visited, the date I accessed it, and the relevant excerpt copied directly from the page.
+
+I automated the gate: there's a hook that blocks me from writing the deliverable if the research file doesn't exist. I can't skip the step even when I'm in a rush. And "in a rush" is exactly when you skip steps.
+
+**Flag your confidence level.** Every claim in the research notes gets a tag: VERIFIED (I fetched the page and confirmed the exact text), PARTIAL (found the source but the wording doesn't match), or UNVERIFIED (from AI training data, couldn't confirm against a live source). Only VERIFIED claims get presented as direct quotes. PARTIAL claims get paraphrased with a citation. UNVERIFIED claims get flagged for my review before they go anywhere near a client document.
+
+**Cross-check with a second model.** After Claude does the research, I run the findings through ChatGPT for an independent audit. It checks whether the source URLs are real, whether the quotes actually appear on those pages, and does an editorial review of the full document. Two models with different training data catching each other's blind spots. It's not foolproof, but it catches things that a single model reviewing its own work won't.
+
+**Treat sub-agent output like a first draft.** Anything that comes back from a sub-agent gets the same treatment you'd give a junior researcher's work: assume the analysis is probably right, but check every source yourself. Don't let a sub-agent's confidence convince you to skip verification.
+
+## The bigger point
+
+None of this means "don't use AI for research." AI is great at research. It can pull together information from dozens of sources and produce structured analysis faster than I ever could on my own. I use it for client work every day and I'll keep using it.
+
+The problem isn't the research. It's the sourcing. And the fix isn't "be more careful" — that's the kind of advice that works until you're tired or busy or on a deadline. The fix is building verification into the process so it happens whether you remember to or not.
+
+The printer report reinforced something worth saying out loud: the more confident AI sounds, the more important it is to check. Especially the parts that look like they don't need checking.
