@@ -1,0 +1,81 @@
+---
+title: "I made 1.2 million emails searchable"
+description: "I backed up every email I've ever sent or received, indexed it all for full-text search, and built a daily digest that tells me what actually needs my attention. Here's how."
+pubDate: 2026-04-02
+tags: ["claude-code", "ai", "tools", "self-hosting"]
+coverImage: "/images/gallery/blog-email-archive-search.jpg"
+coverAlt: "Warm flat illustration of a desk with a monitor showing email envelopes being organized, a small external SSD, a potted plant, and a coffee mug"
+draft: false
+---
+
+A colleague messaged me a few weeks ago asking if I still had a document from when we worked together at CREDO. It was from 2020. I hadn't thought about it in years.
+
+I ran a search command and found it almost immediately. The original email thread, the attachment, the whole conversation. From a 2020 email, in an archive of 1.2 million messages.
+
+This is the fourth post in my [Building in Public](/building) series — I've been writing about what it's like to build real tools using [Claude Code](https://claude.ai/claude-code) as someone who isn't really a developer. Previous posts covered [rebuilding this website](/blog/rebuilding-my-site-with-claude-code), [a self-hosted RSS setup](/blog/self-hosted-rss-with-claude-code), and [an automated social posting pipeline](/blog/social-posting-pipeline).
+
+## Why I have 1.2 million emails
+
+Three accounts:
+
+- **Personal Gmail** — 446,000 messages. Twenty years of personal and professional life. Client threads, job applications, political listservs, bank statements, every newsletter I've ever subscribed to.
+- **A volunteer organization I've run for 30 years** — 775,000 messages. I've been managing an online creative writing community since 1994. Three decades of member communications, moderation decisions, and organizational history.
+- **iCloud** — about 2,000 messages. Newer account, but covers some custom domains I use.
+
+You probably have more email than you think. Gmail doesn't make it easy to see the total, but if you've had an account since the mid-2000s, you're likely sitting on hundreds of thousands of messages. Most of it is noise — but buried in there is every important conversation you've had, every document someone sent you, every decision that got made over email instead of in a meeting.
+
+## Why I got serious about this
+
+Google can lock you out at any time.
+
+I'm not being dramatic. It happens. Google's automated systems flag accounts for reasons that are often opaque, and the appeals process is famously unhelpful. People lose access to their entire digital life — email, contacts, photos, Drive — because an algorithm decided something and there's no human to call.
+
+My email is twenty years of professional relationships and client work. The volunteer org account has thirty years of community history. I wasn't comfortable with all of that being one algorithmic decision away from gone.
+
+I wanted my email on a drive in my office, where Google's terms of service don't apply.
+
+## The backup
+
+I used [got-your-back](https://github.com/GAM-team/got-your-back) (GYB) for the Gmail accounts and [mbsync](https://isync.sourceforge.io/mbsync.html) for iCloud. Both are open-source command-line tools. Claude Code set up the scripts, the Docker configs, and the scheduling — I described what I wanted and it handled the implementation.
+
+Everything lands on a Kingston XS1000 SSD plugged into my Mac Mini. The initial backup took a while — about 36GB for the personal Gmail, 28GB for the volunteer account — but after that, a daily incremental runs at 3am and usually finishes in a few minutes. It only grabs new messages.
+
+There's a secondary copy that syncs to my Synology NAS every night, so even if the SSD dies, I still have everything. And there's a monitor on my task dashboard that flags if any of the three backups go stale for more than two days.
+
+The whole thing runs unattended. I don't think about it unless something breaks.
+
+## The search
+
+A backup is good. But the part that actually changed things was making it searchable.
+
+I'm using [notmuch](https://notmuchmail.org/) with a Xapian index across all 1.2 million messages. I can search by sender, subject, date range, or just free-text across every email body I've ever received.
+
+```
+notmuch search "from:colleague subject:CREDO date:2019..2021"
+notmuch search "path:jordan-gmail/** ActionKit invoice"
+notmuch search "roofer date:2024-01-01..2024-12-31"
+```
+
+The real advantage over Gmail's web search isn't speed — it's that notmuch treats all 1.2 million messages across all three accounts as one searchable archive. Gmail can't do that. And because it runs locally against an index on my own drive, I'm not dependent on Google's search working well (which, if you've tried finding a specific old email in a large Gmail account, you know is inconsistent at best).
+
+Claude Code built the indexing setup, configured notmuch, and wrote a helper script that handles the common search patterns. I tell it what I'm looking for in plain English and it runs the right query.
+
+## The daily digest
+
+The backup and search were useful on their own. But the digest is what changed my daily routine.
+
+A Python script runs after the backup finishes each morning. It scans the last 36 hours of email across all three accounts, sorts everything into direct emails versus mailing lists and newsletters, filters out the noise (Venmo receipts, status page alerts, marketing), and writes a summary to a markdown file.
+
+The digest is organized by what needs attention: client emails waiting for a response at the top, then relevant threads from professional mailing lists, then everything else. Each entry has a short excerpt so I can decide whether to open it without actually opening my inbox.
+
+I also built an email review skill into my Claude Code setup. When I sit down to work, I can say "check my email" and Claude reads the latest digest, cross-references it against my active projects and recent work, and tells me what actually needs my attention. A client thread that relates to something I was working on yesterday gets surfaced. A newsletter about a topic I don't care about gets skipped. Most mornings I don't even open Gmail anymore. I just ask Claude what's in there.
+
+One thing I had to think carefully about: email is untrusted content. Anyone can send you anything, and some of that content could be designed to manipulate an AI assistant reading it. The digest script strips invisible Unicode characters, removes CSS-hidden content, defangs anything that looks like it's trying to give instructions to an AI, and wraps everything in tags that tell Claude to treat it as data, not commands. If you're going to point an AI at your email, this stuff matters.
+
+## Was it worth it?
+
+I haven't been locked out of Gmail. Hopefully I never will. So the backup hasn't "paid for itself" in the disaster recovery sense.
+
+But that's not really why it was worth it. Twenty years of email went from something I could technically access through a web interface to something I can actually *use*. I can find anything I've ever received. I can start my day knowing what needs attention without drowning in noise. And when a colleague asks "do you still have that thing from 2020?" the answer is yes.
+
+A Kingston SSD costs about $65. The software is free. Claude Code did the hard parts. Twenty years of my professional life is sitting on a drive in my office, fully searchable, not going anywhere.
