@@ -1,0 +1,67 @@
+---
+title: "The best thing I did with AI was give it a server"
+description: "Most people use AI as a conversation partner. I gave mine a $7 server, a deploy platform, and an automation engine — and it changed what I could build."
+pubDate: 2026-04-08
+tags: ["claude-code", "ai", "self-hosting", "n8n", "tools"]
+coverImage: "/images/gallery/blog-give-ai-a-server.jpg"
+coverAlt: "Flat illustration of a mini server on a desk with workflow nodes, gears, coffee mugs, and plants in warm earth tones"
+draft: false
+---
+
+Everyone's talking about what AI can do in a chat window. Write me an email. Summarize this document. Generate some code I'll paste somewhere.
+
+That's fine. But it's like having a carpenter and only asking them to hand you tools.
+
+I've been using [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) for about five months now. It's Anthropic's CLI tool — it can read files, run shell commands, and interact with APIs directly. The thing that changed everything for me wasn't a better prompt or a smarter model. It was giving the AI access to real infrastructure.
+
+## The stack
+
+The whole setup costs under $10 a month:
+
+- **A VPS from Hostinger** (~$7/mo). A small Linux server in the cloud. Nothing fancy. 2 vCPUs, 8GB RAM.
+- **[Coolify](https://coolify.io/)** (free, open-source). A self-hosted platform that manages Docker containers, SSL certificates, and domain routing. Think of it as your own little Heroku.
+- **[N8N](https://n8n.io/)** (free, self-hosted). A visual automation platform. If you've used Zapier or Make, it's that, but you own it, it runs on your server, and there are no per-task limits.
+
+Claude Code set all of this up for me. I bought the VPS, pointed it at a domain, and from there Claude Code SSHed in, installed Coolify, deployed N8N as a container, configured the DNS routing, and got everything running. I didn't follow a tutorial or piece together StackOverflow answers. I described what I wanted and the AI built the server environment.
+
+And now that the infrastructure exists, Claude Code keeps talking to it programmatically. It hits the Coolify API, manages N8N workflows through an [MCP server](https://modelcontextprotocol.io/) that connects directly to each N8N instance, and deploys and tests things without me switching between a chat window and a browser.
+
+## Building automations without touching the UI
+
+N8N has a drag-and-drop visual editor. It's great for designing workflows by hand. Claude Code doesn't use it. It talks to N8N directly through the MCP server, which exposes the full API.
+
+So I can say something like: "Build me a workflow that watches a webhook, fetches the page content, and saves it to my Notion database." Claude Code will look up how each N8N node works (from a local knowledge base of 1,400+ nodes with real configuration examples), write the workflow JSON, deploy it live to my N8N instance, trigger a test execution, read back the execution log, and fix whatever broke. If the test fails, it reads the error, adjusts, and tries again.
+
+Once that workflow is running, there's no AI in the loop. It's a deterministic automation that fires on a schedule or a webhook, does its thing, and costs nothing per run. The AI built it. Now it just runs on my server, indefinitely, for free.
+
+## Deploying services without a dashboard
+
+I run about a dozen small services across a couple of VPS instances. Web apps, APIs, admin tools, each one a Docker container managed by Coolify.
+
+When I need to deploy something new or update an existing service, Claude Code handles the whole pipeline. It SSHes into the server, builds the Docker image, updates the container config, brings the new version up, and then hits a `/version` endpoint on the running service to verify the deploy actually worked.
+
+That verification step exists because I learned the hard way that deploy tools can lie to you. I had a stretch where the deploy API was returning success while silently restarting the old container. Seven of nine services were affected, and I didn't notice for weeks. Claude Code figured out what was happening by querying the Coolify API across all my servers, then rebuilt the entire deploy pipeline in one session with SHA-based version checks baked into every app.
+
+That's a $7/mo server running free open-source tools, managed by an AI that can actually verify its own work.
+
+## Use AI surgically, not everywhere
+
+Not every workflow should be AI-free at runtime. Sometimes a small AI step makes the whole system better. The word to emphasize is *small*.
+
+I have a bookmark-saving system: I tap Share in Safari, it hits a webhook on my N8N instance, which fetches the page content, cleans the HTML, and saves it to a Notion database. Eight nodes in the workflow. Seven are completely deterministic: HTTP requests, text processing, API calls to Notion.
+
+One node in the middle calls Claude Haiku (the smallest, cheapest model) with a simple job: given this page's text and my existing list of 58 tags, clean up the title, write a one-sentence description, and pick 1-3 matching tags. One API call, one structured JSON response. That's the entire AI involvement.
+
+The workflow doesn't trust the AI blindly. If Haiku returns a tag name that doesn't exist in my database, the next node drops it silently. If the AI call fails entirely, the bookmark still saves, just without the enrichment. The deterministic pipeline keeps working either way.
+
+That's what I mean by "use as little AI as possible." Not zero AI. The right amount, in the right place, with the rest of the system able to function without it.
+
+## What changes when AI can touch real things
+
+Most people I talk to about AI think of it as a conversation. You ask, it answers. Maybe you get better at asking over time.
+
+But when you give AI access to a server it can SSH into, APIs it can call, and workflows it can build and test, it becomes something different. It can build a thing, deploy it, verify it works, and fix what's broken. And then the thing it built just runs. On your server, on your terms. No ongoing API costs. No dependency on whether the AI service is up tomorrow.
+
+I keep coming back to this: the less AI you need after the build is done, the more resilient your system is. AI is good at building things. But the best systems it builds for me are the ones that don't need it anymore.
+
+A $7 server and some open-source tools got me there. I think it'd work for a lot of people.
