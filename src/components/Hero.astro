@@ -5,16 +5,18 @@ import SocialIcons from './SocialIcons.astro';
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-text">
-      <h1 class="hero-greeting">Hiya & welcome! 👋</h1>
-      <p class="hero-intro">I'm Jordan: Operations nerd, tech translator.</p>
-      <p class="hero-sub">I help progressive orgs cut through the noise, simplify their systems, and get back to the work that matters.</p>
-      <div class="hero-actions">
+      <h1 class="hero-greeting fade-up">Hiya & welcome! 👋</h1>
+      <p class="hero-intro fade-up delay-1">I'm Jordan: Operations nerd, tech translator.</p>
+      <p class="hero-sub fade-up delay-2">I help progressive orgs cut through the noise, simplify their systems, and get back to the work that matters.</p>
+      <div class="hero-actions fade-up delay-3">
         <a href="/about" class="btn btn-primary">Learn more</a>
         <a href="https://calendly.com/campaignhelp/30min" class="btn btn-outline" target="_blank" rel="noopener">Hire me</a>
       </div>
-      <SocialIcons />
+      <div class="fade-up delay-4">
+        <SocialIcons />
+      </div>
     </div>
-    <div class="hero-image">
+    <div class="hero-image fade-up delay-2">
       <img src="/images/hero-jordan.png" alt="Jordan Krueger" width="512" height="512" />
     </div>
   </div>
@@ -22,7 +24,7 @@ import SocialIcons from './SocialIcons.astro';
 
 <style>
   .hero {
-    background-color: var(--color-bg-white);
+    background: linear-gradient(170deg, var(--color-bg-white) 60%, var(--color-bg-warm) 100%);
     padding: var(--spacing-xl) 0;
   }
 
@@ -65,6 +67,7 @@ import SocialIcons from './SocialIcons.astro';
     border-radius: var(--radius-lg);
     margin-left: auto;
     display: block;
+    box-shadow: 0 8px 32px rgba(217,178,169,0.3);
   }
 
   @media (max-width: 640px) {
