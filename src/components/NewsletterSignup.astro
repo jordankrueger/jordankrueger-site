@@ -27,31 +27,47 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
 </div>
 
 <style>
+  /* Default variant: full-width band (no padding on wrap, border-top/bottom only) */
   .newsletter-wrap {
+    padding: 0;
+  }
+
+  .newsletter-wrap.compact {
     padding: var(--spacing-md) var(--spacing-md);
   }
 
   .newsletter-panel {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
     padding: var(--spacing-lg) var(--spacing-lg);
-  }
-
-  .newsletter-panel.default {
     background-color: var(--color-bg-warm);
   }
 
   .newsletter-panel.compact {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
     background-color: var(--color-bg-peach);
   }
 
   .newsletter-inner {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: var(--spacing-lg);
+    display: flex;
     align-items: center;
+    gap: var(--spacing-lg);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+
+  .newsletter-text {
+    flex: 1;
+    min-width: 260px;
+  }
+
+  .newsletter-form-wrap {
+    flex: 1;
+    min-width: 280px;
   }
 
   .newsletter-label {
@@ -102,17 +118,20 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
   }
 
   @media (max-width: 640px) {
-    .newsletter-wrap {
+    .newsletter-wrap.compact {
       padding: var(--spacing-md) var(--spacing-sm);
     }
 
     .newsletter-panel {
+      padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .newsletter-panel.compact {
       padding: var(--spacing-md) var(--spacing-sm);
       border-radius: var(--radius-md);
     }
 
     .newsletter-inner {
-      grid-template-columns: 1fr;
       gap: var(--spacing-md);
     }
 
