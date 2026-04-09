@@ -17,7 +17,8 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
       <div class="newsletter-form-wrap">
         <p class="newsletter-desc">I share thoughts on online tools, learnings from my nonprofit advocacy consulting business, projects I'm launching, Artificial Intelligence, and personal updates — directly to your inbox.</p>
         <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="newsletter-form">
-          <input type="email" name="your-email" placeholder="Your email" required maxlength="256" />
+          <label for="newsletter-email" class="sr-only">Email address</label>
+          <input type="email" name="your-email" id="newsletter-email" placeholder="Your email" required maxlength="256" />
           <button type="submit" class="btn btn-primary">Subscribe</button>
         </form>
       </div>
