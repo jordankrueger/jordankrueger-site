@@ -22,7 +22,7 @@ npm run dev
 - `carrd-export/` — Original Carrd site for content reference
 
 ## Design System
-- **Colors:** `--color-accent: #E87A5D`, `--color-text: #5C5248`, `--color-bg: #EDEDED`
+- **Colors:** `--color-accent: #AF4C2A` (WCAG AA), `--color-text: #5C5248`, `--color-bg: #EDEDED`
 - **Fonts:** Poppins (body), Lora (headings), Rock Salt (logo only)
 - **Breakpoint:** 640px for mobile
 

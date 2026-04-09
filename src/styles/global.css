@@ -10,8 +10,8 @@
   --color-text: #5C5248;
   --color-text-light: #8A7E74;
   --color-text-logo: #2C2C54;
-  --color-accent: #E87A5D;
-  --color-accent-hover: #D4674D;
+  --color-accent: #AF4C2A;
+  --color-accent-hover: #9A4224;
   --color-shadow: #D9B2A9;
 
   --font-heading: 'Lora', serif;
@@ -65,7 +65,9 @@ img {
 
 a {
   color: var(--color-accent);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
   transition: color 0.2s ease;
 }
 
@@ -127,10 +129,11 @@ ul, ol {
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
+  text-decoration: none;
 }
 
 .btn-primary {
-  background: linear-gradient(305deg, var(--color-accent-hover) 0%, rgba(232,122,93,0.008) 37%), var(--color-accent);
+  background: linear-gradient(305deg, var(--color-accent-hover) 0%, rgba(175,76,42,0.008) 37%), var(--color-accent);
   color: #fff;
   box-shadow: var(--shadow-soft);
 }
@@ -168,6 +171,19 @@ ul, ol {
 .bg-peach { background-color: var(--color-bg-peach); }
 .bg-green { background-color: var(--color-bg-green); }
 .bg-white { background-color: var(--color-bg-white); }
+
+/* Visually hidden — accessible to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* Skip-nav — visible only on focus */
 .skip-nav {
