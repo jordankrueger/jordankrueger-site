@@ -89,8 +89,14 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
 
   .blog-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-md);
+  }
+
+  @media (max-width: 900px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   .blog-grid-item[hidden] {

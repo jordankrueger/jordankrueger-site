@@ -3,9 +3,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Page Not Found — Jordan Krueger" description="This page doesn't exist." noindex={true}>
-  <main class="container section" style="text-align: center; min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+  <main class="container section not-found">
     <h1>404</h1>
     <p>This page doesn't exist. Maybe it moved, or maybe you typo'd. Either way, let's get you home.</p>
-    <a href="/" class="btn btn-primary" style="margin-top: 1.5rem;">Back to Home</a>
+    <a href="/" class="btn btn-primary not-found-btn">Back to Home</a>
   </main>
 </BaseLayout>
+
+<style>
+  .not-found {
+    text-align: center;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .not-found-btn {
+    margin-top: 1.5rem;
+  }
+</style>
