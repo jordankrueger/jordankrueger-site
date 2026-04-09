@@ -103,8 +103,8 @@ const projectHighlights = [
   <!-- About Preview -->
   <div class="panel-wrap">
     <section class="about-panel fade-up">
-      <h2 style="text-align: center;">About me 🤔</h2>
-      <hr class="section-rule" style="margin: 0 auto var(--spacing-md);" />
+      <h2 class="about-heading">About me 🤔</h2>
+      <hr class="section-rule about-rule" />
       <div class="about-body">
         <p>Hi, I'm Jordan. I run <a href="https://campaign.help">CampaignHelp</a>, where I help progressive nonprofits and advocacy organizations stop wrestling with their technology — ActionKit, Google Workspace, tool migrations, workflow automation, and everything in between.</p>
         <p>I've worked with Win Without War, 350.org, Color Of Change, MomsRising, and others. Nearly two decades in the progressive movement means I already know your tools, your campaign cycle, and your budget constraints.</p>
@@ -177,7 +177,7 @@ const projectHighlights = [
     background-color: var(--color-bg-peach);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    padding: var(--spacing-lg) var(--spacing-lg);
+    padding: var(--spacing-lg);
   }
 
   .about-panel {
@@ -186,7 +186,7 @@ const projectHighlights = [
     background-color: var(--color-bg-warm);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    padding: var(--spacing-lg) var(--spacing-lg);
+    padding: var(--spacing-lg);
   }
 
   /* AK Template */
@@ -229,6 +229,14 @@ const projectHighlights = [
   }
 
   /* About Preview */
+  .about-heading {
+    text-align: center;
+  }
+
+  .about-rule {
+    margin: 0 auto var(--spacing-md);
+  }
+
   .about-body {
     max-width: 640px;
     margin: 0 auto;
@@ -271,10 +279,6 @@ const projectHighlights = [
   }
 
   @media (max-width: 640px) {
-    .services-grid {
-      grid-template-columns: 1fr;
-    }
-
     .ak-panel,
     .about-panel {
       padding: var(--spacing-md) var(--spacing-sm);

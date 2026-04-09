@@ -85,7 +85,13 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  document.querySelectorAll('.fade-up').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      el.classList.add('visible');
+    } else {
+      observer.observe(el);
+    }
+  });
 </script>
   </body>
 </html>
