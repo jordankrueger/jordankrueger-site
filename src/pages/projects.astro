@@ -55,7 +55,7 @@ const projects = [
 ];
 
 const tools = [
-  { label: 'Sites: Carrd.co' },
+  { label: 'Sites: Astro' },
   { label: 'Domains: NameCheap' },
   { label: 'Graphics Creation: Canva' },
   { label: 'AI: ChatGPT & Claude' },
@@ -96,8 +96,8 @@ const tools = [
   </section>
 
   <!-- Project Cards -->
-  {projects.map(project => (
-    <ProjectCard {...project} />
+  {projects.map((project, i) => (
+    <ProjectCard {...project} index={i} />
   ))}
 </BaseLayout>
 

@@ -1,4 +1,13 @@
 ---
+const iconMap: Record<string, string> = {
+  location: '📍',
+  laptop: '💻',
+  phone: '📱',
+  email: '📧',
+  browser: '🌐',
+  gaming: '🎮',
+};
+
 const stats = [
   { icon: 'location', label: 'Pittsburgh-based' },
   { icon: 'laptop', label: 'MacBook Pro' },
@@ -14,6 +23,7 @@ const stats = [
   <ul class="stats-list">
     {stats.map(stat => (
       <li class="stat-item">
+        <span class="stat-icon">{iconMap[stat.icon]}</span>
         <span class="stat-label">{stat.label}</span>
       </li>
     ))}
@@ -45,10 +55,17 @@ const stats = [
   .stat-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     padding: 0.5rem 0.75rem;
     background: var(--color-bg-white);
     border-radius: var(--radius-sm);
     font-size: 0.9rem;
+  }
+
+  .stat-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    width: 1.5rem;
+    text-align: center;
   }
 </style>

@@ -6,13 +6,15 @@ interface Props {
   href: string;
   secondaryLink?: { href: string; label: string };
   bgClass?: string;
+  index?: number;
 }
-const { title, description, image, href, secondaryLink, bgClass = '' } = Astro.props;
+const { title, description, image, href, secondaryLink, bgClass = '', index = 0 } = Astro.props;
+const reversed = index % 2 === 1;
 ---
 
 <div class="project-card-wrap">
-  <div class:list={["project-card-panel", bgClass]}>
-    <div class="project-card-inner">
+  <div class:list={["project-card-panel", "fade-up", bgClass]}>
+    <div class:list={["project-card-inner", { reversed }]}>
       <div class="project-card-header">
         <h2>{title}</h2>
         {image && (
@@ -52,6 +54,14 @@ const { title, description, image, href, secondaryLink, bgClass = '' } = Astro.p
     grid-template-columns: 1fr 1.5fr;
     gap: var(--spacing-lg);
     align-items: start;
+  }
+
+  .project-card-inner.reversed {
+    direction: rtl;
+  }
+
+  .project-card-inner.reversed > * {
+    direction: ltr;
   }
 
   .project-card-header a {

@@ -11,7 +11,7 @@ const { label, title, description, colorIndex } = Astro.props;
 const colors = [
   'var(--color-accent)',
   '#5a8a4e',
-  '#d97656',
+  'var(--color-accent-hover)',
   '#5a7a94',
 ];
 const borderColor = colors[colorIndex % colors.length];
