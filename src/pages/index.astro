@@ -4,6 +4,7 @@ import Hero from '../components/Hero.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import ContactForm from '../components/ContactForm.astro';
+import BlogPostCard from '../components/BlogPostCard.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
@@ -68,17 +69,19 @@ const projectHighlights = [
 
   <!-- Services -->
   <section class="services-section">
-    <h2 class="section-heading">What can I do for you?</h2>
+    <h2 class="section-heading fade-up">What can I do for you?</h2>
     <div class="container services-grid">
-      {services.map(service => (
-        <ServiceCard {...service} />
+      {services.map((service, i) => (
+        <div class={`fade-up delay-${Math.min(i + 1, 4)}`}>
+          <ServiceCard {...service} />
+        </div>
       ))}
     </div>
   </section>
 
   <!-- AK Template -->
   <div class="panel-wrap">
-    <section class="ak-panel">
+    <section class="ak-panel fade-up">
       <div class="ak-template">
         <div class="ak-video">
           <a href="https://youtu.be/6qwYy_W1k3c" target="_blank" rel="noopener">
@@ -99,17 +102,13 @@ const projectHighlights = [
 
   <!-- About Preview -->
   <div class="panel-wrap">
-    <section class="about-panel">
-      <div class="about-preview">
-        <div class="about-preview-text">
-          <h2>About Me 🤔</h2>
-          <hr class="section-rule" />
-        </div>
-        <div>
-          <p>Hi, I'm Jordan. I run <a href="https://campaign.help">CampaignHelp</a>, where I help progressive nonprofits and advocacy organizations stop wrestling with their technology — ActionKit, Google Workspace, tool migrations, workflow automation, and everything in between.</p>
-          <p>I've worked with Win Without War, 350.org, Color Of Change, MomsRising, and others. Nearly two decades in the progressive movement means I already know your tools, your campaign cycle, and your budget constraints.</p>
-          <a href="/about" class="read-more">Read my full story →</a>
-        </div>
+    <section class="about-panel fade-up">
+      <h2 style="text-align: center;">About me 🤔</h2>
+      <hr class="section-rule" style="margin: 0 auto var(--spacing-md);" />
+      <div class="about-body">
+        <p>Hi, I'm Jordan. I run <a href="https://campaign.help">CampaignHelp</a>, where I help progressive nonprofits and advocacy organizations stop wrestling with their technology — ActionKit, Google Workspace, tool migrations, workflow automation, and everything in between.</p>
+        <p>I've worked with Win Without War, 350.org, Color Of Change, MomsRising, and others. Nearly two decades in the progressive movement means I already know your tools, your campaign cycle, and your budget constraints.</p>
+        <a href="/about" class="read-more">Read my full story →</a>
       </div>
     </section>
   </div>
@@ -117,22 +116,26 @@ const projectHighlights = [
   <!-- Recent Blog Posts -->
   <section class="section">
     <div class="container">
-      <h2 class="section-heading">My recent blog posts</h2>
+      <h2 class="section-heading fade-up">My recent blog posts</h2>
       {posts.length > 0 ? (
         <div class="posts-grid">
-          {posts.map(post => (
-            <a href={`/blog/${post.id}/`} class="post-card">
-              {post.data.coverImage && (
-                <img src={post.data.coverImage} alt={post.data.title} loading="lazy" class="post-card-image" />
-              )}
-              <p class="post-card-title">{post.data.title}</p>
-            </a>
+          {posts.map((post, i) => (
+            <div class={`fade-up delay-${Math.min(i + 1, 4)}`}>
+              <BlogPostCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                slug={post.id}
+                coverImage={post.data.coverImage}
+                tags={post.data.tags}
+              />
+            </div>
           ))}
         </div>
       ) : (
         <p class="placeholder-text">Blog posts coming soon. Stay tuned!</p>
       )}
-      <div class="center-link">
+      <div class="center-link fade-up">
         <a href="/blog" class="btn btn-outline">Read more</a>
       </div>
     </div>
@@ -141,7 +144,9 @@ const projectHighlights = [
   <!-- Newsletter (second placement) -->
   <NewsletterSignup variant="compact" id="subscribe-bottom" />
 
-  <ContactForm />
+  <div class="fade-up">
+    <ContactForm />
+  </div>
 </BaseLayout>
 
 <style>
@@ -157,7 +162,7 @@ const projectHighlights = [
 
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
   }
 
@@ -224,11 +229,10 @@ const projectHighlights = [
   }
 
   /* About Preview */
-  .about-preview {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: var(--spacing-lg);
-    align-items: start;
+  .about-body {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: left;
   }
 
   .read-more {
@@ -240,36 +244,9 @@ const projectHighlights = [
   /* Posts Grid */
   .posts-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-md);
-  }
-
-  .post-card {
-    display: block;
-    text-decoration: none;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-white);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .post-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-hover);
-  }
-
-  .post-card-image {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-  }
-
-  .post-card-title {
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-weight: 500;
-    color: var(--color-text);
   }
 
   .placeholder-text {
@@ -284,9 +261,18 @@ const projectHighlights = [
     margin-top: var(--spacing-md);
   }
 
+  @media (max-width: 900px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+    .posts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   @media (max-width: 640px) {
     .services-grid {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
     }
 
     .ak-panel,
@@ -295,8 +281,7 @@ const projectHighlights = [
       border-radius: var(--radius-md);
     }
 
-    .ak-template,
-    .about-preview {
+    .ak-template {
       grid-template-columns: 1fr;
     }
 
