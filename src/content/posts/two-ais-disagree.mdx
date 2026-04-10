@@ -1,0 +1,69 @@
+---
+title: "The best thing about two AIs is when they disagree"
+description: "I run two AI models on every pull request, blind to each other's work. The disagreements are where the real catches come from."
+pubDate: 2026-04-10
+tags: ["claude-code", "ai", "tools"]
+coverImage: "/images/gallery/blog-two-ais-disagree.jpg"
+coverAlt: "Flat illustration of two screens showing different review results side by side on a desk with warm earth tones"
+draft: false
+---
+
+A volunteer submitted a pull request to one of my community projects a few weeks ago. A small fix — a change to how date fields get saved. The AI reviewer flagged a problem: native date pickers fire `change` events when you clear them, and the new code was silently swallowing those events. Clearing a date field would look like it worked, but nothing would actually happen.
+
+The volunteer merged it anyway. The repo didn't have branch protection turned on, so there was nothing stopping them.
+
+The bug was real. I confirmed it a few days later and had to open a follow-up PR to fix it. The AI reviewer had been right the whole time.
+
+I didn't catch this. The system I built caught it. Not because I'm using a particularly clever model. Because I'm using two of them.
+
+## How it works
+
+Every pull request across my 28 repos triggers two AI reviews in parallel, running as GitHub Actions. They don't see each other's work.
+
+**OpenAI Codex** reviews for logic bugs, error handling, edge cases, and data integrity. Off-by-one errors, silent error swallowing, missing transaction boundaries, that kind of thing.
+
+**Claude** reviews for security. Auth gaps, exposed secrets, injection vectors, input validation, debug endpoints left active.
+
+Both have to pass before I can merge. If either one flags something at or above the severity threshold, the PR is blocked.
+
+Why two models instead of one? They have different blind spots. Codex is better at logic bugs and subtle data-correctness issues. Claude is better at security patterns. Neither catches everything, but the combined coverage is wider than either alone. And the things that only one model catches tend to be the most interesting.
+
+The whole setup is one YAML file copied into each repo, two API keys stored as secrets, and branch protection requiring both checks to pass. A couple cents per PR. Under ten minutes.
+
+## What it catches
+
+That date-clearing bug was the first real test. The system was right, the merge was wrong, and it cost a follow-up fix.
+
+A bigger test came later. Before launching a volunteer management platform, one that handles real member data for a community that's been running for over 30 years, I ran both models against the full codebase. Not a diff review. A deliberate security audit.
+
+Together they surfaced ten findings. Endpoints that were open to any authenticated user instead of being locked to the right roles. PII visible to the wrong access tier. No CSRF validation on mutations. No audit logging for sensitive actions. These were P0 and P1 access control issues, caught before the app went live with real data.
+
+Neither model would have found all ten on its own.
+
+The system isn't perfect. On a recent redesign of this site, the OpenAI reviewer flagged a bunch of elements as "never becoming visible to the user." It was wrong. There was an IntersectionObserver in a separate file that handled the visibility, and the model couldn't see across files. I had to bypass the check to merge.
+
+I'll take the occasional false alarm over missing a real one.
+
+## The same pattern, outside of code
+
+This same structure works for things that aren't code.
+
+Before I published [a blog post arguing that progressives need to stop sitting out the AI conversation](/blog/you-need-to-learn-ai), I was nervous about the framing. A consultant telling his own industry to change is a good way to lose clients.
+
+So I ran a two-agent debate. One Claude instance argued *for* publishing the post as written. Another argued *against*. The "against" agent had a specific mandate: find reasons this post could backfire.
+
+It found three. The post read like a consultant criticizing the people he works for. A statistical claim about workforce displacement didn't have strong enough causal grounding. And the newsletter signup at the bottom made the whole thing feel like a sales funnel.
+
+These weren't nitpicks. I rewrote the post: new title, reframed tone, restructured argument, moved the newsletter CTA out of the body entirely. The version that went live was a different post from the one I almost published.
+
+Same structure as the code review. Two independent perspectives, neither seeing the other's output, both looking for problems I'm too close to see.
+
+## If you want to try this
+
+The setup is straightforward. Create a GitHub Actions workflow with two parallel jobs, one calling OpenAI's API with a code review prompt, one calling Anthropic's. Each outputs a pass/fail. Branch protection on main requires both to pass. That's the whole system.
+
+You don't have to build this from scratch, either. Describe what you want to an AI assistant — Claude, ChatGPT, whatever you use — and have it generate the workflow YAML, the review prompts, and the config for you. I used Claude Code to build the system that reviews the code that Claude Code writes. It's recursive and it works.
+
+If you're already using Claude Code, you can push this further. [Hooks](https://code.claude.com/docs/en/hooks) let you trigger checks automatically at specific points — after a tool runs, before a commit goes through. [Skills](https://code.claude.com/docs/en/skills) let you package reusable review workflows that anyone on your team can invoke. The review doesn't have to live only in CI. You can catch things before the code even leaves your machine.
+
+The specific tools matter less than the pattern: two reviewers, independent, blind to each other, looking for different things. I keep finding that the most useful feedback comes from the places where they don't agree with me or with each other.
