@@ -92,9 +92,12 @@ const projectHighlights = [
           <h3>My ActionKit Production Template</h3>
           <p>Watch the presentation on the template from the Email Strategy Summit to get a link to download it, or simply use the box below to sign up for my list and get the link directly. 🙌</p>
           <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="ak-form">
-            <input type="email" name="your-email" placeholder="Your email" required maxlength="256" />
+            <input type="email" name="email" placeholder="Your email" required maxlength="256" />
+            <input type="hidden" name="list" value="mission-control" />
+            <input type="hidden" name="bonus" value="ak-template" />
             <button type="submit" class="btn btn-primary">Subscribe</button>
           </form>
+          <p class="ak-form-status" hidden></p>
         </div>
       </div>
     </section>
@@ -228,6 +231,19 @@ const projectHighlights = [
     border-color: var(--color-accent);
   }
 
+  .ak-form-status {
+    font-size: 0.9rem;
+    margin-top: 0.6rem;
+  }
+
+  .ak-form-status.success {
+    color: #2d7a3a;
+  }
+
+  .ak-form-status.error {
+    color: #c0392b;
+  }
+
   /* About Preview */
   .about-heading {
     text-align: center;
@@ -298,3 +314,49 @@ const projectHighlights = [
     }
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.ak-form').forEach((form) => {
+    const status = form.parentElement?.querySelector<HTMLParagraphElement>('.ak-form-status');
+    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const originalLabel = btn?.textContent ?? 'Subscribe';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!status || !btn) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Subscribing...';
+      status.hidden = true;
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const body = await res.json();
+
+        if (res.ok && body.success) {
+          status.textContent = "You're on the list. Check your email for the AK Production Template.";
+          status.className = 'ak-form-status success';
+          status.hidden = false;
+          form.reset();
+        } else {
+          status.textContent = body.error || 'Something went wrong. Please try again.';
+          status.className = 'ak-form-status error';
+          status.hidden = false;
+        }
+      } catch {
+        status.textContent = 'Network error. Please try again.';
+        status.className = 'ak-form-status error';
+        status.hidden = false;
+      }
+
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+    });
+  });
+</script>
