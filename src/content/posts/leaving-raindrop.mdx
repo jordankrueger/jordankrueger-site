@@ -1,0 +1,80 @@
+---
+title: "I cancelled my Raindrop subscription and rebuilt the replacement in a few hours"
+description: "I had about 6,400 bookmarks in Raindrop. I moved them all into Notion, built a new capture pipeline, and stopped paying for a single-purpose tool. Claude Code wrote almost all the code."
+pubDate: 2026-04-19
+tags: ["ai", "automation", "self-hosting", "n8n", "notion", "claude-code"]
+coverImage: "/images/gallery/blog-leaving-raindrop.jpg"
+coverAlt: "Flat illustration of a desk scene in warm earth tones: paper bookmarks flowing into an open notebook, a phone with a share sheet sending a link, a small server, coffee mug, and plants"
+draft: false
+---
+
+I'd been paying for Raindrop Pro for about a year. It's a perfectly nice bookmark manager. The reason I stopped wasn't that it broke. It's that I realized I was paying a separate subscription for something that should just live next to my notes.
+
+I'd already been building Notion into the place where my projects, notes, and reference material all sit. Raindrop was the last single-purpose tool in the stack. So I decided to move my bookmarks into Notion and cancel the subscription.
+
+Before I get into how, I want to be specific about what "I built this" means here. I'm not really a developer. I made the decisions about where things should live and how the pieces should connect. Claude Code wrote almost all the actual code. If you're looking at a project like this and thinking "I'd need to learn Python and the Notion API and the Raindrop API and N8N," you don't. You need to be able to describe what you want and read the result.
+
+This was two distinct projects: a one-time migration of everything I already had, and a new pipeline for saving bookmarks going forward. I'll go through them in that order.
+
+## Part 1: Moving 6,400 bookmarks to Notion
+
+The pile was bigger than I expected. When Pocket shut down, I'd dumped my full archive into Raindrop. That single import was 5,256 bookmarks, most of which I'd never reopened. On top of that I had a few hundred actually-useful links spread across folders like "Tools," "Self Hosted," and "To Do," plus around 200 mostly-auto-generated tags (subreddit names from the Pocket import, which Raindrop had helpfully turned into tags).
+
+Real, ugly, cold-storage data. The kind of pile you avoid touching because organizing it sounds like more work than it's worth.
+
+I bought a Link Manager template for Notion. The template structures links across four related Notion databases: Links, Folders, Tags, and Categories, with relations between them. That's the template's design choice. Notion itself doesn't force any particular structure on you. I liked it because it gave me an existing schema instead of asking me to design one from scratch.
+
+So now I had two shapes that didn't match. Raindrop is flat: each bookmark has a URL, a folder, and a list of tags. The Notion template is relational: links point to Folder records and Tag records, which exist as their own pages.
+
+The migration script needed to read every Raindrop bookmark, create the Folder rows and Tag rows in Notion first, then insert the Links with the right relation IDs back to those Folder and Tag rows.
+
+I described that mapping to Claude Code in plain English. Claude wrote a Python script that hit the Raindrop API, paged through all the bookmarks, did the schema translation, and pushed everything into Notion. The actual coding wasn't the work. The work was looking at the two data shapes and saying "this maps to that, this becomes that."
+
+Then I hit Notion's API rate limit, which is the thing I'd flag if you're considering doing something like this yourself: the Notion API limits writes to about 3 requests per second. Notion doesn't tell you that anywhere obvious. You find out by tripping over it. For 6,140 link inserts (plus the folders and tags), 3 per second is 34 minutes of pure write time at the absolute floor. The real run took about four hours. Each link insert actually fired multiple API calls (one to create the link, then more to wire up its folder and tag relations), and the script backed off and retried whenever Notion served a 429. I let it churn while I did other things.
+
+When it finished: 6,140 links imported, 227 skipped (duplicates and empty entries), zero errors. I marked the entire Pocket archive as archived in Notion so it doesn't pollute the main view but is still searchable if I ever want to dig.
+
+That afternoon, I cancelled Raindrop Pro.
+
+## Part 2: A replacement for actually saving bookmarks
+
+The migration only solved the past. I still needed a way to save new things, because the whole reason I was using Raindrop in the first place was to capture interesting links from my phone or laptop with one tap.
+
+I wanted the new flow to feel exactly like the old one: hit the Share button in Safari, tap a thing, the bookmark gets saved with a sensible title and description and a couple of tags. No new app to open, no manual organization step.
+
+Here's what I ended up with:
+
+```
+Safari Share Sheet
+  → Apple Shortcut (sends URL to a webhook)
+  → N8N workflow on my own server
+      → fetch the page
+      → clean the HTML
+      → ask Claude Haiku for a clean title, a one-sentence description, and 1-3 tags
+      → write it to the Notion Links database
+```
+
+In practice, it's two taps. I tap Share in Safari, tap the shortcut, and within about ten seconds the bookmark shows up in Notion with a clean title, a one-sentence summary, and a couple of tags I would have picked myself. There's no follow-up step where I have to go organize anything. It's the same as how Raindrop felt to use, except now the destination is a database I already use for everything else.
+
+Eight nodes in N8N, seven of them deterministic, one AI step in the middle. I wrote about why I keep AI steps tiny like this in [an earlier post about giving Claude a server](/blog/give-ai-a-server). That post also covers the N8N-on-my-own-server setup, if you want the backstory.
+
+Claude Code built the entire workflow. It talks to N8N through an MCP server (basically a connector that lets Claude operate the tool directly), so it could write the workflow JSON, deploy it to my running N8N instance, fire a test execution, read the failure log, fix the schema mismatch I'd missed, and try again. I watched.
+
+Two gotchas worth flagging if you try something similar.
+
+Apple Shortcuts has some weird UI traps that cost me a couple of hours. "Receive from Share Sheet" isn't an action you drag in — it's a toggle in a Details panel that's not labeled like a toggle. And "Get Dictionary Value" has a Type field that defaults wrong. If you're comparing the value as a string in an If action, you have to manually set the type to Text or the comparison silently fails.
+
+Self-hosted N8N can also be picky about expressions. The instance I'm using blocks `$env` references inside workflow expressions for security reasons. The fix is to set up HTTP Header Auth credentials in N8N and reference those instead. Not hard once you know, but the error message doesn't tell you that's what's happening.
+
+The Haiku step itself is small on purpose. One API call per saved bookmark. If Haiku returns a tag that doesn't exist in my Notion database, the next node drops it silently. If the entire AI call fails, the bookmark still saves, just without the enrichment. The deterministic pipeline keeps working either way.
+
+## What the whole thing cost
+
+- One Notion template I bought, one-time (I don't remember exactly — a few bucks)
+- Roughly a penny per saved bookmark in Haiku tokens, rounded up
+- Cancelled Raindrop Pro: $29.96/yr saved going forward
+- A few hours of my actual time at the keyboard, mostly spent describing things and watching Claude Code work (the migration script ran for four hours unattended)
+
+The bookmarks live in the same workspace as the rest of my notes now. There's one fewer login I never want to deal with. The capture flow is faster than it used to be, and the AI-written description is genuinely useful when I'm scrolling back through old saves and trying to remember why I bothered to keep something.
+
+If you've been sitting on one of those "rip out the SaaS, rebuild it cheap" projects, the kind where you know what you want and roughly how it should work but the actual coding has been the wall, this is what AI is genuinely good for now. I wanted my bookmarks to live next to my notes. Now they do, and I don't think about them anymore.
