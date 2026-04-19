@@ -17,10 +17,12 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
       <div class="newsletter-form-wrap">
         <p class="newsletter-desc">I share thoughts on online tools, learnings from my nonprofit advocacy consulting business, projects I'm launching, Artificial Intelligence, and personal updates — directly to your inbox.</p>
         <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="newsletter-form">
-          <label for="newsletter-email" class="sr-only">Email address</label>
-          <input type="email" name="your-email" id="newsletter-email" placeholder="Your email" required maxlength="256" />
+          <label class="sr-only">Email address</label>
+          <input type="email" name="email" placeholder="Your email" required maxlength="256" />
+          <input type="hidden" name="list" value="mission-control" />
           <button type="submit" class="btn btn-primary">Subscribe</button>
         </form>
+        <p class="newsletter-status" hidden></p>
       </div>
     </div>
   </section>
@@ -117,6 +119,20 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
     border-color: var(--color-accent);
   }
 
+  .newsletter-status {
+    font-size: 0.9rem;
+    margin-top: 0.6rem;
+    text-align: left;
+  }
+
+  .newsletter-status.success {
+    color: #2d7a3a;
+  }
+
+  .newsletter-status.error {
+    color: #c0392b;
+  }
+
   @media (max-width: 640px) {
     .newsletter-wrap.compact {
       padding: var(--spacing-md) var(--spacing-sm);
@@ -140,3 +156,49 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
     }
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.newsletter-form').forEach((form) => {
+    const status = form.parentElement?.querySelector<HTMLParagraphElement>('.newsletter-status');
+    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const originalLabel = btn?.textContent ?? 'Subscribe';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!status || !btn) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Subscribing...';
+      status.hidden = true;
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const body = await res.json();
+
+        if (res.ok && body.success) {
+          status.textContent = "You're on the list. Thanks!";
+          status.className = 'newsletter-status success';
+          status.hidden = false;
+          form.reset();
+        } else {
+          status.textContent = body.error || 'Something went wrong. Please try again.';
+          status.className = 'newsletter-status error';
+          status.hidden = false;
+        }
+      } catch {
+        status.textContent = 'Network error. Please try again.';
+        status.className = 'newsletter-status error';
+        status.hidden = false;
+      }
+
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+    });
+  });
+</script>
