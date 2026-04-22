@@ -17,7 +17,7 @@ export async function GET(context) {
       link: `/blog/${post.id}/`,
       content: post.body,
       customData: coverAbs
-        ? `<coverImage>${coverAbs}</coverImage>`
+        ? `<coverImage>${coverAbs.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</coverImage>`
         : '',
     };
   }));
