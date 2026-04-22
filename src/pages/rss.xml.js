@@ -7,12 +7,18 @@ export async function GET(context) {
 
   const items = await Promise.all(posts.map(async (post) => {
     const { Content } = await render(post);
+    const coverAbs = post.data.coverImage
+      ? new URL(post.data.coverImage, context.site).toString()
+      : null;
     return {
       title: post.data.title,
       pubDate: post.data.pubDate,
       description: post.data.description,
       link: `/blog/${post.id}/`,
       content: post.body,
+      customData: coverAbs
+        ? `<coverImage>${coverAbs.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</coverImage>`
+        : '',
     };
   }));
 
