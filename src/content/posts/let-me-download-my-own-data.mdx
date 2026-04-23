@@ -1,0 +1,62 @@
+---
+title: "Let me download my own data"
+description: "Vibecoding changed what one person can build. The bottleneck now is companies still treating my own data like I need permission to have it."
+pubDate: 2026-04-24
+tags: ["claude-code", "ai", "tools", "data-portability"]
+coverImage: "/images/gallery/blog-let-me-download-my-own-data.jpg"
+coverAlt: "Warm flat illustration of three archway doorways, each labeled with an icon — a dollar sign, a medical cross, and an envelope — cascading colorful documents into a small wooden keepsake box held in the foreground by a pair of hands"
+draft: false
+---
+
+A couple months ago I went to download a year of Chase credit card transactions so I could feed them into my own finance tool. There's no API for me. There's barely an export. You pick a date range, you hit some arbitrary cap under what you actually asked for, you download a CSV, you do it again for the next slice, and you stitch the pieces back together. For my own transactions. That I already have access to.
+
+> This is the fifth post in my [Building in Public](/building) series. Previous ones covered [rebuilding my site](/blog/rebuilding-my-site-with-claude-code), a [self-hosted RSS setup](/blog/self-hosted-rss-with-claude-code), an [automated social posting pipeline](/blog/social-posting-pipeline), and the [searchable archive I built for 1.2 million emails](/blog/email-archive-search).
+
+The more of these I build, the more convinced I am that the actual bottleneck to useful personal tools isn't AI. It's the companies still treating my own data like they own it.
+
+## Something shifted, and most companies haven't caught up
+
+A couple years ago, if you wanted a custom tool — your own finance dashboard, a searchable archive of your email, a unified view of your health history — you either paid a developer a lot of money or you gave up. Building software from scratch was expensive, and the companies holding your data knew it. "Export to CSV once a year" was a perfectly fine answer when nobody was going to do anything with it anyway.
+
+That calculus is gone.
+
+I'm not really a developer. But with Claude Code sitting next to me, I've built tools over the last year that a small firm would have billed me tens of thousands of dollars for a decade ago. So has everyone else doing what folks now call "vibecoding" — describing what you want and letting an AI fill in the engineering. The barrier isn't skill. It isn't cost. It's access to the data.
+
+And that's where the walls are.
+
+## Three walls I hit trying to build things for myself
+
+**Email.** I wanted a searchable archive of everything I've ever sent or received, across Gmail and iCloud, running on a drive in my office. To back up my own Gmail, I had to create a Google Cloud project, configure OAuth credentials, and publish the app to production (a process normally reserved for people shipping software to other users) just so my own account could talk to my own script. I wrote [the whole story](/blog/email-archive-search) in a previous post. Twenty years of email, 1.2 million messages, and the vendor's answer to "can I have it?" was a scavenger hunt.
+
+**Health records.** I've been pulling together my medical history from everywhere it lives: MyChart, paper PDFs going back to 2000, Apple Health, Oura, pharmacy and dental portals, direct lab sites. Hospital systems technically do "export." What they export is a format called C-CDA. On paper it's portable. In practice the important data is encoded as narrative references — little pointers buried in XML that you have to resolve section by section to figure out which drug corresponds to which dose. Eight separate ingesters later, I've got a queryable archive of my own health. No thanks to the systems legally obligated to provide "patient access."
+
+**Bank transactions.** Back to Chase. I don't just want to stream new transactions into my own budget — I want the back catalogue. Years of spending is where the useful signal lives: what did I actually spend on groceries in 2022, how has my subscription creep grown since 2020, which months do utilities spike, where is money quietly leaking out. You can't answer any of that without the history. And you can't see the history without fighting for it. What I actually get is a web form with arbitrary download caps and a CSV missing fields the web UI shows me, chunked into slices I have to stitch back together. There's no sanctioned API for personal accounts. There are third-party aggregators, but now I'm handing my banking credentials to a middleman whose business model turns on knowing what I spend. Chase's answer is "our app is nice, isn't it?"
+
+The pattern is always the same. The data technically exists. The customer technically has a right to it. And everything between those two facts is a maze.
+
+## "Portable" isn't portable if I need a software team
+
+Most of these companies will tell you they support data portability. They'll cite a GDPR provision or a CCPA clause. They'll point to a settings page buried three menus deep.
+
+Here's the test I'd apply instead: can one person, with an AI assistant, actually get their full history out of your system and into something useful by the end of a Tuesday night?
+
+If the answer is no, you don't really support portability — you support the appearance of it. There's a difference between "we'll technically let you export," "you can download everything in a usable format," and "you can stream it via API." Most companies are stuck at the first one and calling it the second.
+
+I don't think this is going to hold. Enough people are going to try what I'm trying, hit the same walls, and notice. The friction used to be invisible because nobody had the tools to do anything about it. That's changed.
+
+## What "realigned" looks like
+
+The bar companies should be hitting, in rough order of ambition:
+
+- **Full history, always.** No arbitrary row caps, no "last 18 months only," no "pay to unlock historical data." If I've been a customer for ten years, I can download ten years.
+- **A usable format.** Either a real standard (JSON, well-structured CSV, ICS, whatever fits the domain) or a plain, documented schema. Not a PDF of a report. Not narrative XML that needs a parser to read. Not an opaque blob.
+- **Programmatic access.** Read-only API tokens on personal accounts should become a feature, the way two-factor auth became a feature. The bank that ships it first will eat the banks that don't.
+- **No creative interpretation of "your" data.** I shouldn't have to argue about whether I'm allowed to have a copy of something I produced.
+
+None of this requires a new law. None of it requires throwing out a product. It's a product decision about whether data portability is a real feature or a compliance checkbox.
+
+## The ask
+
+If you're running product at a company that holds somebody's data — their money, their health, their communications, their history — the question is simpler than it used to be. A growing number of your customers now have the ability to build the tool they actually need. The only thing standing between them and a better version of what you sold them is whether they can get their data out.
+
+Get out of the way first. The rest will sort itself out.
