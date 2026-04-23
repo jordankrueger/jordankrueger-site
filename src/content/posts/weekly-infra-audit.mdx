@@ -1,0 +1,112 @@
+---
+title: "My AI runs a weekly infrastructure audit"
+description: "Monitoring tells me what's on fire. It can't tell me what's quietly rotting. Once a week, Claude Code sweeps my stack looking for the stuff I'd never check on my own. Here's what it found last Monday."
+pubDate: 2026-04-23
+tags: ["claude-code", "ai", "self-hosting", "automation"]
+coverImage: "/images/gallery/blog-weekly-infra-audit.jpg"
+coverAlt: "Flat illustration of a cozy desk scene: a computer monitor showing a checklist with green checkmarks and one rust-colored item, a coffee mug, a potted plant, and a cluster of tiny server, database, cloud, and gear icons floating around the screen in warm earth tones"
+draft: false
+---
+
+The first time I pointed Claude Code at my infrastructure with a checklist and told it to go looking for problems, it came back with a healthcheck counter sitting at 69,231 consecutive failures.
+
+One of my web services had a broken health probe. The app itself was fine — traffic flowing, users happy, every dashboard green. But deep inside the Docker container, the probe had been failing every 30 seconds for weeks. Nothing paged. Nothing paged because nothing was actually *broken* in a user-visible way. The container kept running. The traffic kept flowing. The only symptom was a little red dot in an admin UI I never looked at.
+
+That was the first sweep. It also turned up five other things that were quietly going wrong. I'd have kept not noticing them until one became a real outage.
+
+That's the moment this became a weekly thing.
+
+## Monitoring tells me what's on fire. It doesn't tell me what's rotting.
+
+I've got a small constellation of services — a handful of VPS boxes, a Docker host on my desk, a mess of N8N workflows, a few cron jobs and LaunchAgents, a couple of SaaS accounts I'm still migrating off. Enough that I can't hold the whole picture in my head. Enough that problems can hide for weeks.
+
+Things that break hard are fine. Monitoring catches those. An app goes down, I get a page, I fix it.
+
+What I've learned to worry about is the other kind of failure:
+
+- The wildcard cert that's been auto-renewing fine for the third year running, and the orphaned apex cert nobody remembers creating, ten days from expiring.
+- The log table that's been growing 100 MB a week and won't be a problem until next March, when it becomes one all at once.
+- The cron job that's been silently erroring for a month because a fresh LaunchAgent's `PATH` doesn't include a binary it needs.
+- The healthcheck that lies.
+
+None of these generate alerts. None of them cause outages. They just sit there until they don't.
+
+## What the weekly sweep actually looks like
+
+Every Monday morning, Claude Code runs down a checklist of about a dozen things across my infrastructure. It doesn't check dashboards. It checks actual state. SSH into machines and run commands. Hit APIs directly. Read logs. Compare what's on disk to what's supposed to be there.
+
+Each finding becomes one of three things:
+
+1. **Fix it now** — patched in place, with a one-line summary in the audit report.
+2. **A task** — tagged and sent to my bespoke task tracker if it needs a human decision.
+3. **A pattern note** — appended to the relevant project's `CLAUDE.md` or a lessons file, so next week's audit is a little smarter.
+
+I review the summary with coffee, green-light anything that needs approval, and move on. The whole thing takes me maybe ten minutes.
+
+This has a sibling on the writing side. My [Weekly Content Sprint](/ai) pulls ideas out of session logs and RSS every Monday. This is the ops version of the same idea.
+
+## Last Monday's sweep
+
+Here's what actually turned up this week.
+
+### 1. A stale alert queue
+
+An N8N instance I run was sitting on 11 error records stuck in `status=new`. Every time my error-diagnosis script ran, it was treating long-healed problems as fresh and triggering false HIGH-severity alerts. Claude cleared the queue and then asked the obvious question: why hadn't the diagnosis script auto-cleared them itself? The answer: the LaunchAgent that runs it couldn't reach the `claude` binary. `launchd` strips `PATH`, and the plist didn't re-declare it. One edit, problem gone.
+
+### 2. An orphaned SSL certificate
+
+A domain I own had two certs issued for it — a wildcard that was happily auto-renewing, and an apex-only cert from a different CA that nobody had touched in months. The orphan was ten days from expiring. The wildcard covered the same hostname, so no user would have seen an error page. But traffic to the apex would have silently shifted between certs, which is the kind of thing that becomes a weird intermittent bug I'd spend hours debugging. Claude rotated the apex to match the wildcard.
+
+### 3. A Mac full of ghosts
+
+My Mac Mini was sitting at 87% disk usage. Claude pruned Docker images, emptied the Homebrew cache, purged `uv` and Playwright caches, and the free space still didn't appear. The culprit: APFS local snapshots from Time Machine were pinning blocks that had technically been freed. Running `tmutil thinlocalsnapshots` released them. Disk dropped to 82%. 13 GB reclaimed in one command.
+
+That one went into the lessons file. Next time somebody says "I deleted a bunch of stuff and `df` still shows it full," I want to remember this.
+
+### 4. The 69,231-failure healthcheck
+
+Back to the opener. A Next.js app I run was reporting its Docker healthcheck as failing every 30 seconds. The probe was trying to reach `localhost` inside the container, which resolved to an IPv6 address. Next.js was bound to IPv4 only. Alpine's `wget` doesn't fall back. It just times out, over and over, for weeks.
+
+One character's worth of fix: `localhost` → `127.0.0.1` in the compose file.
+
+### 5. Task tracker cleanup
+
+Five stale items were closed out of my task tracker. The criterion Claude uses: is this still true, or did I already fix it without checking the task off? Turns out I do the second thing constantly.
+
+### 6. One audit begets the next
+
+Fixing the IPv6 healthcheck on one service prompted a new task: check every other Docker app I run for the same bug. That's the pattern I want. Audits should beget audits.
+
+## Why an AI is suited to this
+
+Honestly, I *could* do this myself. Once a week, sit down with a checklist, SSH into everything, check each thing. It's not hard.
+
+I just wouldn't. The first week, sure. Maybe the second. By week four I'd skip because nothing was broken. By week ten I'd forget it existed.
+
+An AI doesn't have that problem. Week 40 gets the same attention as week one. It doesn't get bored with cert expiry dates. It doesn't skip the boring stuff because it already "knows" nothing's going to be wrong.
+
+A few other things help:
+
+- **It cross-checks across systems.** My brain forgets which services live on which box. Claude just checks all of them.
+- **Past incidents become queries.** "Last time we had an IPv6 healthcheck bug, we found it in one service — check the others" is a prompt, not a ticket in a backlog.
+- **It writes back what it learned.** Every audit updates a lessons file or a project note, so next Monday's sweep inherits last Monday's discoveries.
+
+## How to start one yourself
+
+The minimum version of this pattern:
+
+- **A checklist file.** Plain markdown, listing every system you care about and what "healthy" looks like for each. Start with five items. Add as you go.
+- **Access the AI can use.** SSH keys, API tokens, scoped credentials. Emphasis on *scoped*: a weekly audit doesn't need root everywhere. Give it the smallest permission set that lets it check what you want checked.
+- **A weekly trigger.** Cron, LaunchAgent, N8N, whatever's handy. Monday morning is nice. Bad findings don't ruin your weekend.
+- **A task manager for slow burns.** Anything that's not a same-day fix lands there.
+- **One rule: the audit always writes back what it learned.**
+
+Start narrow. Do not hand an AI with tool access the keys to your whole fleet on day one. Let it do five things. See what it finds. Grow the checklist from there.
+
+## Most weeks, it finds something
+
+Monitoring tells me what's broken right now. A weekly audit tells me what's slowly going wrong. The AI isn't replacing alerting. It's doing the boring, patient sweep I'd never actually do on my own.
+
+The nicest part: most weeks, it finds something. Almost every Monday there's at least one "huh, I didn't know that was broken." Never catastrophic. Sometimes tiny. Always easier to fix at 9 AM on a Monday than at 11 PM on a Saturday.
+
+If you've already [given an AI a server](/blog/give-ai-a-server), pointing it at your infrastructure once a week is the logical next step. Mine has gotten better at this with every pass. Yours will too.
