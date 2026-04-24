@@ -17,14 +17,14 @@ npm run dev
 - `src/components/` — Reusable UI components
 - `src/content/posts/` — MDX blog posts (content collection)
 - `src/styles/` — global.css (design tokens), fonts.css (@font-face)
-- `public/fonts/` — Self-hosted woff2 fonts (Poppins, Lora, Rock Salt)
+- `public/fonts/` — Self-hosted woff2 fonts (DM Sans, Lora, Rock Salt)
 - `public/images/` — All site images with descriptive names
 - `carrd-export/` — Original Carrd site for content reference
 
 ## Design System
 - **Colors:** `--color-accent: #AF4C2A` (WCAG AA), `--color-text: #5C5248`, `--color-bg: #EDEDED`
-- **Fonts:** Poppins (body), Lora (headings), Rock Salt (logo only)
-- **Breakpoint:** 640px for mobile
+- **Fonts:** DM Sans (body), Lora (headings), Rock Salt (logo only)
+- **Breakpoints:** 900px (tablet), 640px (mobile)
 
 ## Pages
 - `/` — Homepage with services, about, blog posts, newsletter, contact
@@ -51,8 +51,23 @@ Tag `claude-code` to include in the Building in Public series at `/building`.
 
 ## External Services
 - **Newsletter signup:** POST to `https://progressives-signup.restless-salad-a31e.workers.dev`
+  - Worker source: `side-hustle/progressives-for-ai/progressives-for-ai/worker.js` (personal CF account — use `PERSONAL_CLOUDFLARE_API_TOKEN`)
+  - Signups go to **Listmonk Mission Control list (id 4)** on CH VPS (newsletter.campaign.help)
+  - AK Template form also posts here with `bonus=ak-template` → triggers Resend transactional welcome email to new subscriber
 - **Contact form:** POST to `https://jordankrueger-contact-form.restless-salad-a31e.workers.dev` (sends email via Resend to jordan@jordankrueger.com). Worker source in `workers/contact-form/`. Deploy with `CLOUDFLARE_API_TOKEN="$PERSONAL_CLOUDFLARE_API_TOKEN" npx wrangler deploy` from that directory.
 - **Analytics:** Google Analytics `G-QJQ0PD6XHD`
+
+## Mission Control Newsletter
+
+- **Platform:** Listmonk on CH VPS (newsletter.campaign.help). List id 4, name "Mission Control".
+- **Template:** id 6 ("Mission Control") — source at `email-templates/mission-control-template.html`
+- **Campaigns:** `email-templates/` — body HTML files per campaign (e.g., `mission-control-001-body.html`)
+- **From address:** `Jordan Krueger <jordan@jordankrueger.com>` — must set per-campaign (Listmonk default is PfAI's address)
+- **Subscriber count:** 5 as of Apr 2026 (4 migrated from Beehiiv + 1 test)
+- **Sending gate:** NEVER send to the real list without Jordan's explicit go-ahead. Test sends to jordan@campaign.help only.
+- **Humanizer gate:** Run MC body HTML through humanizer + writing-voice skills before any real send.
+- **Auto-draft workflow:** Weekly (Fri 7:30am ET) on N8N CH, workflow id `7xsz8xvMCQKyiIeR`. Creates Listmonk draft + Drift review task (next Monday due) when ≥2 new posts have accumulated since the last MC send. Never auto-sends. Full docs in `personal/automation-strategy/CLAUDE.md` → Mission Control Auto-Draft.
+- **See also:** `side-hustle/progressives-for-ai/CLAUDE.md` for full Listmonk SSH access patterns and SMTP config.
 
 ## Deployment
 Push to `main` branch → Cloudflare Pages auto-deploys.
