@@ -1,0 +1,29 @@
+category:
+  name: Email & Deliverability
+  slug: deliverability
+  description: Blocklists, warm-up guides, and deliverability diagnostics for progressive email programs.
+  color: bg-peach
+  order: 2
+
+entries:
+  - name: progressive-email-suppression
+    slug: progressive-email-suppression
+    description: >
+      ~66k-domain email suppression list consolidating CREDO Action, Avaaz, and community upstream
+      lists. CC0 license, nightly rebuild. Drop into Mailgun/SendGrid/Amazon SES/Listmonk.
+    url: https://github.com/jordankrueger/progressive-email-suppression
+    attribution: jordan
+    free: true
+    license: CC0
+    status: live
+
+  - name: AK typo-domain blocklist
+    slug: ak-typo-domain-blocklist
+    description: >
+      Catch common email-typo domains (gmial.com, yahooo.com, hotmial.com) before they tank your
+      ActionKit sender reputation. Regex patterns + AK email-check hook template.
+    url: https://github.com/CampaignHelp
+    attribution: campaignhelp
+    free: true
+    license: MIT
+    status: coming-soon

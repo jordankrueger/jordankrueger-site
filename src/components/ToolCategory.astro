@@ -1,0 +1,81 @@
+---
+import ToolCard from './ToolCard.astro';
+
+export interface Entry {
+  name: string;
+  slug: string;
+  description: string;
+  url: string;
+  attribution: 'jordan' | 'campaignhelp' | 'external';
+  free: boolean;
+  license?: string;
+  status: 'live' | 'coming-soon';
+}
+
+export interface Props {
+  name: string;
+  slug: string;
+  description: string;
+  color: 'bg-warm' | 'bg-blue' | 'bg-peach' | 'bg-green';
+  github_mirror?: string;
+  entries: Entry[];
+}
+
+const { name, slug, description, color, github_mirror, entries } = Astro.props;
+
+// Sort: jordan > campaignhelp > external; then alphabetical by name within each group
+const attributionOrder = { jordan: 0, campaignhelp: 1, external: 2 };
+const sortedEntries = [...entries].sort((a, b) => {
+  const ao = attributionOrder[a.attribution] - attributionOrder[b.attribution];
+  if (ao !== 0) return ao;
+  return a.name.localeCompare(b.name);
+});
+
+const entryCount = entries.length;
+const entryCountLabel = entryCount === 1 ? '1 tool' : `${entryCount} tools`;
+---
+
+<section class="section-wrap">
+  <div class:list={["panel", color]} id={slug}>
+    <div class="cat-header">
+      <h2>{name}</h2>
+      <div class="cat-meta">
+        {entryCountLabel}
+        {github_mirror && (
+          <>
+            {' · '}
+            <a href={github_mirror} target="_blank" rel="noopener">also on GitHub ↗</a>
+          </>
+        )}
+      </div>
+    </div>
+    <p class="cat-desc">{description}</p>
+
+    <div class="grid">
+      {sortedEntries.map(entry => (
+        <ToolCard {...entry} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-wrap { padding: 0; }
+  .cat-header { margin-bottom: var(--spacing-xs); }
+  .cat-header h2 { margin-bottom: 0.2rem; }
+  .cat-meta {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+  }
+  .cat-desc {
+    color: var(--color-text);
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+    max-width: 640px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+  }
+</style>

@@ -1,0 +1,16 @@
+category:
+  name: Advocacy & Campaigns
+  slug: advocacy-campaigns
+  description: General-purpose campaign utilities that work across platforms.
+  color: bg-green
+  order: 4
+
+entries:
+  - name: petition-delivery-formatter
+    slug: petition-delivery-formatter
+    description: Format petition signatures into a printable PDF delivery packet. Works with ActionKit exports but platform-agnostic.
+    url: https://github.com/jordankrueger/petition-delivery-formatter
+    attribution: jordan
+    free: true
+    license: MIT
+    status: live

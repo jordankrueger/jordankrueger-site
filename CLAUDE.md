@@ -16,6 +16,7 @@ npm run dev
 - `src/layouts/` — BaseLayout (HTML shell), BlogPost (post wrapper)
 - `src/components/` — Reusable UI components
 - `src/content/posts/` — MDX blog posts (content collection)
+- `src/content/tools/` — YAML files for the `/tools` portal content collection (one file per category)
 - `src/styles/` — global.css (design tokens), fonts.css (@font-face)
 - `public/fonts/` — Self-hosted woff2 fonts (DM Sans, Lora, Rock Salt)
 - `public/images/` — All site images with descriptive names
@@ -31,6 +32,7 @@ npm run dev
 - `/blog` — Blog listing
 - `/projects` — Project showcase (full-width ProjectCard panels)
 - `/ai` — AI showcase (40+ projects built with Claude Code, compact card grid). Data lives in page frontmatter arrays. Uses `AiProjectCard` and `AiStoryCard` components.
+- `/tools` — Progressives Projects Portal. Curated catalog of free/open tools for advocacy orgs. Data lives in the `tools` Astro content collection (`src/content/tools/*.yaml`). One YAML file per category; each file contains `category:` metadata and an `entries:` array. Adding a tool = editing the relevant YAML + push. Zod schema lives in `src/content.config.ts`. Uses `ToolCard` and `ToolCategory` components.
 - `/building` — Building in Public series (posts tagged `claude-code`)
 - `/about` — About page
 
