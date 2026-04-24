@@ -1,0 +1,107 @@
+category:
+  name: ActionKit
+  slug: actionkit
+  description: >
+    Snippets, recipes, calculators, guides, and services for the ActionKit platform used by most
+    progressive nonprofits. Mirrors the awesome-actionkit hub.
+  color: bg-warm
+  github_mirror: https://github.com/jordankrueger/awesome-actionkit
+  order: 1
+
+entries:
+  # CampaignHelp-built
+  - name: ak-redirect-snippets
+    slug: ak-redirect-snippets
+    description: >
+      Django snippet recipes for ActionKit after-action redirect URLs — new-user vs. returning,
+      donation ladders from prior gifts, monthly-upgrade routing, UTM-aware routing.
+    url: https://github.com/CampaignHelp/ak-redirect-snippets
+    attribution: campaignhelp
+    free: true
+    license: MIT
+    status: live
+
+  - name: ak-health-check
+    slug: ak-health-check
+    description: >
+      Config and deliverability health check for your ActionKit instance. Flags common
+      misconfigurations before they bite.
+    url: https://github.com/CampaignHelp/ak-health-check
+    attribution: campaignhelp
+    free: true
+    license: MIT
+    status: live
+
+  - name: ak-mailing-blocks
+    slug: ak-mailing-blocks
+    description: >
+      Copy-paste HTML blocks for ActionKit mailings — bulletproof CTA button, preheader,
+      dark-mode-safe wrapper, donation array. Three-tier model (hard-coded, custom-field-wired,
+      dynamic per-recipient).
+    url: https://github.com/CampaignHelp
+    attribution: campaignhelp
+    free: true
+    license: MIT
+    status: coming-soon
+
+  # Jordan-built / curated
+  - name: ActionKit Production Template
+    slug: actionkit-production-template
+    description: >
+      Annotated Google Doc production template for ActionKit email and page QA — the version
+      I use with clients, delivered as a single-click signup.
+    url: https://jordankrueger.com/#ak-template
+    attribution: jordan
+    free: true
+    status: live
+
+  - name: The AK Club
+    slug: the-ak-club
+    description: >
+      Circle.so community for ActionKit users — admins, developers, consultants sharing patterns,
+      troubleshooting, and releases.
+    url: https://theak.club
+    attribution: jordan
+    free: true
+    status: live
+
+  # External — consultants & services
+  - name: Supraluminique
+    slug: supraluminique
+    description: >
+      ActionKit consulting by Shannon Turner. Former AK core dev; publishes widely-used redirect
+      and donation-logic patterns.
+    url: https://fasterthanlight.tech
+    attribution: external
+    free: true
+    status: live
+
+  - name: Third Bear Solutions
+    slug: third-bear-solutions
+    description: >
+      ActionKit consulting since 2010. Makers of Stratosphere (reporting dashboards for AK).
+    url: https://thirdbearsolutions.com
+    attribution: external
+    free: true
+    status: live
+
+  - name: Mycelium Strategies
+    slug: mycelium-strategies
+    description: >
+      Data analytics consulting for social justice organizations. ActionKit clients include
+      UltraViolet, The Intercept, 350.org.
+    url: https://www.linkedin.com/in/mark-ristaino-b7034015a/
+    attribution: external
+    free: true
+    status: live
+
+  # External — guides
+  - name: Customizing the AK pre-flight dashboard
+    slug: customizing-preflight-dashboard
+    description: >
+      ActionKit's own walkthrough of the pre-flight dashboard (draft_dash) feature —
+      under-read relative to how useful it is for senders doing QA.
+    url: https://blog.actionkit.com/customizing-your-pre-flight-dashboard/
+    attribution: external
+    free: true
+    status: live
