@@ -4,9 +4,13 @@ interface Props {
   title: string;
   description: string;
   colorIndex: number;
+  link?: {
+    href: string;
+    text: string;
+  };
 }
 
-const { label, title, description, colorIndex } = Astro.props;
+const { label, title, description, colorIndex, link } = Astro.props;
 
 const colors = [
   'var(--color-accent)',
@@ -21,6 +25,9 @@ const borderColor = colors[colorIndex % colors.length];
   <div class="story-label">{label}</div>
   <h3>{title}</h3>
   <p>{description}</p>
+  {link && (
+    <a href={link.href} class="story-link">{link.text} →</a>
+  )}
 </div>
 
 <style>
@@ -61,5 +68,20 @@ const borderColor = colors[colorIndex % colors.length];
     color: var(--color-text-light);
     font-size: 0.9rem;
     line-height: 1.65;
+  }
+
+  .story-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+
+  .story-link:hover {
+    border-bottom-color: var(--color-accent);
   }
 </style>
