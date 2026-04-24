@@ -23,3 +23,6 @@ pnpm-debug.log*
 .idea/
 .vscode/
 carrd-export/*.zip
+.superpowers/
+drafts/
+email-templates/
