@@ -1,0 +1,18 @@
+category:
+  name: Language & Style
+  slug: language-style
+  description: Progressive-movement style guides, messaging frameworks, and language resources.
+  color: bg-blue
+  order: 3
+
+entries:
+  - name: progressive-style-guides
+    slug: progressive-style-guides
+    description: >
+      Searchable aggregator of progressive style guides and language resources — messaging
+      frameworks, terminology standards, voice guides. Pulls from union, climate, racial justice,
+      and repro rights communities.
+    url: https://github.com/jordankrueger
+    attribution: jordan
+    free: true
+    status: coming-soon
