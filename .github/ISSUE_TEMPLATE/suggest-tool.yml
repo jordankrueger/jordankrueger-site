@@ -1,0 +1,67 @@
+name: Suggest a tool
+description: Suggest a free or open-source tool for the /tools index
+title: "[Tool] <name>"
+labels: ["tool-suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a tool! A few notes:
+        - Tools must be free to use (open source or free-tier; paid products are out of scope).
+        - Jordan reviews suggestions and adds them manually — not every suggestion lands.
+        - If you built the tool yourself, say so — that helps with attribution.
+
+  - type: input
+    id: name
+    attributes:
+      label: Tool name
+      placeholder: ak-awesome-thing
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: URL (repo or homepage)
+      placeholder: https://github.com/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: One-sentence description
+      description: What does it do? Keep it tight — 1–2 sentences max.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Best category
+      options:
+        - ActionKit
+        - Email & Deliverability
+        - Language & Style
+        - Advocacy & Campaigns
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: attribution
+    attributes:
+      label: Relationship to the tool
+      options:
+        - I built it
+        - I rely on it but didn't build it
+        - Someone I know built it
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else?
+      description: Optional — context, a use case, why it deserves a spot.
