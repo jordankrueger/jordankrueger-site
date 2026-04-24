@@ -6,7 +6,7 @@ import NewsletterSignup from '../components/NewsletterSignup.astro';
 
 const stats = [
   { number: '50+', label: 'Projects Built' },
-  { number: '7+', label: 'Live Apps' },
+  { number: '9+', label: 'Live Apps' },
   { number: '3', label: 'Areas of My Life' },
   { number: '28', label: 'Repos with AI Review' },
 ];
@@ -49,7 +49,7 @@ const advocacyProjects = [
   },
   {
     title: 'AI Code Review Pipeline',
-    description: 'Dual-LLM code review deployed across 28 repos. Every pull request gets reviewed by OpenAI Codex and cross-checked by Claude. The two models reconcile disagreements before a summary hits the PR. Branch protection enforced on all public repos.',
+    description: 'Dual-LLM code review deployed across 28 repos. Every pull request gets reviewed by OpenAI Codex and cross-checked by Claude. The two models reconcile disagreements before a summary hits the PR. Branch protection enforced on all public repos. Backed by a quality-gate layer: pre-commit TypeScript/ESLint in 5 active repos, a global type-check hook on every file edit, and a nightly N8N workflow snapshot-to-git across 3 automation instances.',
     tags: ['GitHub Actions', 'Claude API', 'OpenAI Codex'],
     status: 'Deployed',
     statusType: 'deployed' as const,
@@ -115,10 +115,17 @@ const communityProjects = [
   },
   {
     title: 'Constitution Rewrite',
-    description: 'Rewrote the community\'s governing documents from scratch. Read through 114 forum posts of old debate, pulled together two previous rewrite attempts, and put together an annotated review presentation with a 55-row traceability matrix.',
-    tags: ['Markdown', 'HTML'],
+    description: 'Rewrote the community\'s governing documents from scratch. Read through 114 forum posts of old debate, pulled together two previous rewrite attempts, and put together an annotated review presentation with a 55-row traceability matrix. After the first review round, migrated 102 web annotations into 14 discussion threads on the community forum — automated via the forum API — so the debate could happen where people actually talk.',
+    tags: ['Markdown', 'HTML', 'Forum API'],
     status: 'Under Review',
     statusType: 'active' as const,
+  },
+  {
+    title: 'Self-Hosted Workflow Automation',
+    description: 'Deployed Activepieces (open-source, MIT-licensed) as an N8N alternative for the community\'s FOSS committee. Docker Compose on the VPS, wired into the same backup pipeline as everything else, with a public docs page explaining how to contribute workflows.',
+    tags: ['Activepieces', 'Docker', 'Postgres'],
+    status: 'Live',
+    statusType: 'live' as const,
   },
   {
     title: 'Annual Address Builder',
@@ -160,8 +167,15 @@ const personalProjects = [
   },
   {
     title: 'Drift',
-    description: 'My main productivity app, built from nothing to deployed in one sitting. Task management that lets me bounce between projects without guilt, a debt payoff tracker (avalanche method), uptime monitoring for 17 sites, and a social content drafting pipeline.',
-    tags: ['Next.js', 'SQLite', 'Docker', 'Drizzle ORM'],
+    description: 'My main productivity app, built from nothing to deployed in one sitting. Task management that lets me bounce between projects without guilt, a debt payoff tracker (avalanche method), uptime monitoring for 17 sites, a content drafting dashboard, and one-click posting to Bluesky via the AtProto SDK.',
+    tags: ['Next.js', 'SQLite', 'Docker', 'Drizzle ORM', 'AtProto'],
+    status: 'Live',
+    statusType: 'live' as const,
+  },
+  {
+    title: 'Domain Locker',
+    description: 'Self-hosted portfolio monitor for the 47 domains I own across personal and client work. Tracks expiration dates, DNS changes, SSL certs, and WHOIS updates, with a daily refresh and a dashboard that finally tells me what\'s about to lapse before the registrar does.',
+    tags: ['Angular', 'Postgres', 'Docker', 'OrbStack'],
     status: 'Live',
     statusType: 'live' as const,
   },
@@ -216,7 +230,7 @@ const personalProjects = [
   },
   {
     title: 'Weekly Content Sprint',
-    description: 'Every Monday at 7:30am, an N8N workflow wakes up, reads my session logs from the previous week, grabs starred articles from my RSS reader, and sends everything to Claude. Output: 11 content drafts across four tracks (personal, consulting, newsletter, high-speed rail) plus story ideas and an email digest.',
+    description: 'Every Monday at 7:30am, an N8N workflow wakes up, reads my session logs from the previous week, grabs starred articles from my RSS reader, and sends everything to Claude. Output: content drafts across four tracks (personal, consulting, newsletter, high-speed rail) plus story ideas. The drafts now flow into a 14-channel daily content queue that auto-schedules them to Tue/Thu/Fri and surfaces what\'s due in my morning briefing email.',
     tags: ['N8N', 'Claude API', 'LaunchAgent'],
     status: 'Deployed',
     statusType: 'deployed' as const,
@@ -270,6 +284,21 @@ const stories = [
     label: 'Thought Leadership',
     title: 'Publishing the Uncomfortable Argument',
     description: 'I wrote a post arguing that progressives need to stop sitting out the AI conversation. Before publishing, I ran a dual-agent debate — one Claude instance argued for publishing, another argued against — to stress-test the framing. It found real weaknesses. I fixed them, then published.',
+  },
+  {
+    label: 'Breadth',
+    title: 'A Polish Pass Across 12 Sites',
+    description: 'Ran an automated audit across every web property I touch and fixed what it turned up — darkened a few brand accent colors for better contrast, added descriptive text to 30+ wiki images, and shipped a small WordPress plugin that adds the labels the theme was missing. Twelve sites, one weekend.',
+  },
+  {
+    label: 'Orchestration',
+    title: 'Moving the Debate to Where People Actually Talk',
+    description: 'After the first round of community review on a big governance rewrite, the feedback was scattered across 102 inline web annotations. I pulled them all via API, clustered them into 14 topical threads, and posted each one to the community forum under a neutral bot identity — so the debate could keep going where members already hang out, instead of dying in a review tool nobody visits twice.',
+  },
+  {
+    label: 'Automation',
+    title: 'End-to-End Business Stack in a Weekend',
+    description: 'A side project build where I spun up a multi-market lead-gen site, custom PDFs rendered by headless Chrome from a Google Sheets pipeline, an N8N automation that hands work off to a fulfillment API, and Stripe billing behind the whole thing. Same pattern, different cities. The service was almost the excuse — the fun part was watching the automation carry it.',
   },
 ];
 ---
