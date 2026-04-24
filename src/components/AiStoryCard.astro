@@ -4,10 +4,7 @@ interface Props {
   title: string;
   description: string;
   colorIndex: number;
-  link?: {
-    href: string;
-    text: string;
-  };
+  link?: string;
 }
 
 const { label, title, description, colorIndex, link } = Astro.props;
@@ -26,7 +23,7 @@ const borderColor = colors[colorIndex % colors.length];
   <h3>{title}</h3>
   <p>{description}</p>
   {link && (
-    <a href={link.href} class="story-link">{link.text} →</a>
+    <a href={link} class="story-link">Read the post →</a>
   )}
 </div>
 
