@@ -9,15 +9,13 @@ const categoryEntries = await getCollection('tools');
 const sortedCategories = categoryEntries.sort((a, b) => a.data.category.order - b.data.category.order);
 
 // Stats
-const totalTools = categoryEntries.reduce((sum, c) => sum + c.data.entries.length, 0);
+let totalTools = 0;
+let builtByMe = 0;
+for (const c of categoryEntries) {
+  totalTools += c.data.entries.length;
+  builtByMe += c.data.entries.filter(e => e.attribution === 'jordan' || e.attribution === 'campaignhelp').length;
+}
 const totalCategories = categoryEntries.length;
-const builtByMe = categoryEntries.reduce((sum, c) =>
-  sum + c.data.entries.filter(e => e.attribution === 'jordan' || e.attribution === 'campaignhelp').length,
-  0
-);
-
-// Last-updated date — for now, just "today" at build time.
-// Future: pull from git log for the content dir.
 const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 ---
 

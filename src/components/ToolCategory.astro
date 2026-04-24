@@ -35,33 +35,30 @@ const entryCount = entries.length;
 const entryCountLabel = entryCount === 1 ? '1 tool' : `${entryCount} tools`;
 ---
 
-<section class="section-wrap">
-  <div class:list={["panel", color]} id={slug}>
-    <div class="cat-header">
-      <h2>{name}</h2>
-      <div class="cat-meta">
-        {entryCountLabel}
-        {github_mirror && (
-          <>
-            {' · '}
-            <a href={github_mirror} target="_blank" rel="noopener">also on GitHub ↗</a>
-          </>
-        )}
-      </div>
-    </div>
-    <p class="cat-desc">{description}</p>
-
-    <div class="grid">
-      {sortedEntries.map(entry => (
-        <ToolCard {...entry} />
-      ))}
+<div class:list={["panel", color]} id={slug}>
+  <div class="cat-header">
+    <h2>{name}</h2>
+    <div class="cat-meta">
+      {entryCountLabel}
+      {github_mirror && (
+        <>
+          {' · '}
+          <a href={github_mirror} target="_blank" rel="noopener">also on GitHub ↗</a>
+        </>
+      )}
     </div>
   </div>
-</section>
+  <p class="cat-desc">{description}</p>
+
+  <div class="grid">
+    {sortedEntries.map(entry => (
+      <ToolCard {...entry} />
+    ))}
+  </div>
+</div>
 
 <style>
-  .section-wrap { padding: 0; }
-  .cat-header { margin-bottom: var(--spacing-xs); }
+  .cat-header { margin-bottom: var(--spacing-xs) }
   .cat-header h2 { margin-bottom: 0.2rem; }
   .cat-meta {
     font-size: 0.85rem;
