@@ -95,6 +95,29 @@ const services = [
     </section>
   </div>
 
+  <!-- Currently Building: Freehold -->
+  <div class="panel-wrap">
+    <section class="freehold-panel fade-up">
+      <div class="freehold-template">
+        <div class="freehold-text">
+          <p class="kicker">Currently building</p>
+          <h3 class="freehold-headline">
+            <span class="brand">Freehold.is</span>
+            <span class="continuation">the internet without landlords.</span>
+          </h3>
+          <p>A framework for an internet where you create, publish, and actually own everything you share online. Not a company. Not a product. A proposal — and an invitation.</p>
+          <p>The whitepaper is up. CC BY 4.0. Quote it, fork it, build a piece of it.</p>
+          <a href="https://freehold.is" class="btn btn-primary" target="_blank" rel="noopener">Read the whitepaper</a>
+        </div>
+        <div class="freehold-image">
+          <a href="https://freehold.is" target="_blank" rel="noopener">
+            <img src="/images/logo-freehold.png" alt="Freehold.is — the internet without landlords" loading="lazy" width="1200" height="630" />
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <!-- About Preview -->
   <div class="panel-wrap">
     <section class="about-panel fade-up">
@@ -182,6 +205,53 @@ const services = [
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
+  }
+
+  /* Freehold panel — same Carrd-signature look as AK */
+  .freehold-panel {
+    max-width: var(--max-width);
+    margin: var(--spacing-md) auto;
+    background-color: #f7f3ea;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+  }
+  .freehold-template {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: center;
+  }
+  .freehold-text .kicker {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #2d5a3d;
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+  }
+  .freehold-headline {
+    font-family: var(--font-heading);
+    line-height: 1.15;
+    margin: 0 0 var(--spacing-sm) 0;
+  }
+  .freehold-headline .brand {
+    display: block;
+    font-weight: 600;
+    font-size: 2rem;
+    color: #1a1a1a;
+  }
+  .freehold-headline .continuation {
+    display: block;
+    font-style: italic;
+    color: #2d5a3d;
+    font-size: 1.4rem;
+    margin-top: 0.25rem;
+  }
+  .freehold-image img {
+    width: 100%;
+    border-radius: var(--radius-md);
   }
 
   /* AK Template */
@@ -288,12 +358,14 @@ const services = [
 
   @media (max-width: 640px) {
     .ak-panel,
-    .about-panel {
+    .about-panel,
+    .freehold-panel {
       padding: var(--spacing-md) var(--spacing-sm);
       border-radius: var(--radius-md);
     }
 
-    .ak-template {
+    .ak-template,
+    .freehold-template {
       grid-template-columns: 1fr;
     }
 
