@@ -61,6 +61,8 @@ Tag `claude-code` to include in the Building in Public series at `/building`.
 
 ## Mission Control Newsletter
 
+> **⚠️ Brand home under reconsideration (2026-04-29):** Jordan is thinking about relocating Mission Control to live under the **Grounded AI** brand instead of jordankrueger.com. Implications to think through before executing: from-address change (`jordan@groundedai.help`), template rebrand, signup-form destinations on jordankrueger.com (do they still flow here, or get a different newsletter?), notification to existing 5 subscribers about the brand change, and N8N auto-draft workflow source filter. **No action yet** — just flagging.
+
 - **Platform:** Listmonk on CH VPS (newsletter.campaign.help). List id 4, name "Mission Control".
 - **Template:** id 6 ("Mission Control") — source at `email-templates/mission-control-template.html`
 - **Campaigns:** `email-templates/` — body HTML files per campaign (e.g., `mission-control-001-body.html`)
