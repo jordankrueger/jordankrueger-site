@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Marketing Help — Menu</title>
+<style>
+  :root {
+    --bg: #faf7f2;
+    --paper: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --line: #e7e1d6;
+    --accent: #b8552e;
+    --accent-soft: #f3e6dd;
+    --proof: #2a6b3f;
+    --proof-soft: #e6efe8;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 64px 28px 96px; }
+  h1, h2, h3 { font-family: ui-serif, "New York", Georgia, "Times New Roman", serif; font-weight: 600; letter-spacing: -0.01em; }
+  h1 { font-size: 40px; line-height: 1.15; margin: 0 0 18px; }
+  h1 .accent { color: var(--accent); }
+  .lede { font-size: 18px; line-height: 1.55; color: #333; margin: 0 0 14px; }
+  .meta { font-size: 14px; color: var(--muted); margin-top: 24px; }
+
+  .ground {
+    margin: 36px 0 48px;
+    padding: 22px 24px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+  }
+  .ground h3 { margin: 0 0 8px; font-size: 18px; }
+  .ground p { margin: 0; color: #333; }
+  .ground .rule { display: block; padding: 6px 0; }
+  .ground .rule b { color: var(--accent); }
+
+  nav.toc {
+    margin: 0 0 56px;
+    padding: 22px 24px 18px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  nav.toc strong { display: block; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; margin-bottom: 14px; }
+  nav.toc .toc-section { margin-bottom: 14px; }
+  nav.toc .toc-section:last-child { margin-bottom: 0; }
+  nav.toc .toc-section-title { font-weight: 600; color: var(--ink); margin-bottom: 4px; font-size: 13px; }
+  nav.toc ul { list-style: none; margin: 0; padding: 0 0 0 12px; }
+  nav.toc li { margin: 3px 0; }
+  nav.toc a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+  nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+
+  section { margin: 0 0 56px; scroll-margin-top: 24px; }
+  .section-label { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  h2 { font-size: 28px; margin: 0 0 6px; }
+  .section-sub { color: var(--muted); margin: 0 0 28px; font-style: italic; }
+
+  .item { padding: 20px 0 22px; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .item:first-of-type { border-top: 1px solid var(--ink); }
+  .item h3 { font-size: 19px; margin: 0 0 6px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600; letter-spacing: -0.005em; }
+  .item .desc { margin: 0 0 12px; color: #2a2a2a; }
+  .item .desc.aside { color: var(--muted); font-size: 14px; margin-top: -4px; margin-bottom: 12px; }
+
+  .meta-line { font-size: 14px; line-height: 1.5; margin: 4px 0; color: #333; }
+  .meta-line .k {
+    display: inline-block;
+    min-width: 58px;
+    font-weight: 600;
+    color: var(--proof);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 11px;
+    margin-right: 8px;
+    vertical-align: 2px;
+  }
+  .meta-line.pace .k { color: var(--accent); }
+  .meta-line.skill .k { color: var(--muted); }
+  .meta-line.note .k { color: var(--muted); }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 8px;
+    vertical-align: 2px;
+    font-weight: 500;
+  }
+  .tag.tech { background: #eef0ee; color: #444; }
+  .tag.urgent { background: #fbe9d8; color: #8a3b14; }
+  .tag.later { background: #eef1f6; color: #3d4f70; }
+
+  .closer {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+    color: #333;
+  }
+  .closer h3 { margin: 0 0 10px; font-size: 20px; }
+  .closer p { margin: 0 0 10px; }
+
+  @media print {
+    body { background: white; }
+    nav.toc { display: none; }
+    .wrap { padding: 24px; max-width: 100%; }
+    .item { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>A short menu of things <span class="accent">y'all could help me with.</span></h1>
+  <p class="lede">A bunch of marketing work has been queued up and not shipping. If you're up for it, here's what's on the list — pick what looks interesting and we'll figure out who does what.</p>
+  <p class="meta">Four categories. Most are recurring; some are one-offs.</p>
+</header>
+
+<div class="ground">
+  <h3>Two ground rules</h3>
+  <span class="rule"><b>1.</b> Every task ends in something we can point to — a public URL, a send report, or a tracker row with a real timestamp. So we can all see the work moving.</span>
+  <span class="rule"><b>2.</b> Every category has a <em>pace</em> — the cadence we'd aim for so we can tell if work is actually moving (or stalling) over time.</span>
+</div>
+
+<nav class="toc">
+  <strong>The list</strong>
+
+  <div class="toc-section">
+    <div class="toc-section-title">A. Recurring publishing</div>
+    <ul>
+      <li><a href="#a-blog">Weekly /ai blog draft from the queue</a></li>
+    </ul>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-title">B. Outreach campaigns</div>
+    <ul>
+      <li><a href="#b-prs">Awesome-list pull requests</a></li>
+      <li><a href="#b-goodwill">Awesome-actionkit goodwill outreach</a></li>
+      <li><a href="#b-akres">AK resources outreach emails</a></li>
+      <li><a href="#b-akhelp">AK Help one-pager pitch to agencies</a></li>
+      <li><a href="#b-pfai-swaps">PfAI newsletter swap pitches</a></li>
+      <li><a href="#b-grounded">GroundedAI launch outreach</a></li>
+      <li><a href="#b-freehold">Freehold ally outreach</a></li>
+    </ul>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-title">C. Social media account setup</div>
+    <ul>
+      <li><a href="#c-social">Clean up and finish the missing accounts</a></li>
+    </ul>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-title">D. Directory & listing submissions</div>
+    <ul>
+      <li><a href="#d-grounded">GroundedAI directories</a></li>
+      <li><a href="#d-ch">CampaignHelp directories</a></li>
+      <li><a href="#d-hsr">HSR directories</a></li>
+      <li><a href="#d-pfai">PfAI newsletter directories</a></li>
+    </ul>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-section-title">E. Speaker / podcast booking</div>
+    <ul>
+      <li><a href="#e-progtech">Progressive-tech podcast pitches</a></li>
+      <li><a href="#e-aistrat">AI-strategy podcast pitches</a></li>
+      <li><a href="#e-cfp">Conference talk proposals</a></li>
+      <li><a href="#e-rosters">Speaker rosters & expert directories</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== A ===== -->
+<section id="a">
+  <div class="section-label">Section A</div>
+  <h2>Recurring publishing</h2>
+  <p class="section-sub">Content that's already queued but not shipping on a regular cadence.</p>
+
+  <div class="item" id="a-blog">
+    <h3>Weekly /ai blog draft from the queue</h3>
+    <p class="desc">There are 40+ project case studies queued for jordankrueger.com/ai but none are shipping on a regular cadence. Each week, pick one project from the queue, prompt an AI tool (Claude, ChatGPT, etc.) to write a draft blog post about it, and send me the draft to look over. I'll edit and publish.</p>
+    <p class="meta-line"><span class="k">Proof</span>The AI-generated draft shared with me each week (Google Doc or similar) + the live blog post URL once I publish.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>1 draft per week.</p>
+    <p class="meta-line skill"><span class="k">Skill</span>Comfortable using ChatGPT or Claude. No code or design needed.</p>
+  </div>
+</section>
+
+<!-- ===== B ===== -->
+<section id="b">
+  <div class="section-label">Section B</div>
+  <h2>Templated outreach campaigns</h2>
+  <p class="section-sub">The pitches and lists are already drafted. The work is sending and tracking responses.</p>
+
+  <div class="item" id="b-prs">
+    <h3>Submit awesome-list pull requests <span class="tag tech">GitHub</span></h3>
+    <p class="desc">Online there are a bunch of public "awesome-X" lists (awesome-nonprofit-tech, awesome-email-deliverability, etc.) that curate resources. Job is to submit our resources to relevant ones using the pre-written templates. Each submission is a "pull request" on GitHub — basically a proposed edit to the list.</p>
+    <p class="meta-line"><span class="k">Proof</span>The PR URL itself — it's public, shows submission date, reviewer comments, and merge status.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>2–3 PRs per month; track which get merged.</p>
+    <p class="meta-line skill"><span class="k">Skill</span>Comfortable with GitHub (or willing to learn the basic flow).</p>
+  </div>
+
+  <div class="item" id="b-goodwill">
+    <h3>Awesome-actionkit goodwill outreach <span class="tag urgent">past due</span></h3>
+    <p class="desc">Friendly intro emails / DMs to maintainers of related awesome-lists and adjacent communities. Not pushy — just "hey, we built this thing, thought you'd want to know." Templates ready.</p>
+    <p class="meta-line"><span class="k">Proof</span>Outreach tracker (spreadsheet): recipient, send date, link to thread, reply status.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>5–10 in the first month, then 2–3/month follow-ups.</p>
+  </div>
+
+  <div class="item" id="b-akres">
+    <h3>AK resources outreach emails</h3>
+    <p class="desc">A list of people who use ActionKit (the advocacy software many progressive nonprofits run on). Pre-written warm email introducing our resource hub. List is built; just needs to send in batches.</p>
+    <p class="meta-line"><span class="k">Proof</span>Send report from the email tool: count, opens, replies. Reply threads themselves.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>50–100 sends/week in batches, monthly summary.</p>
+  </div>
+
+  <div class="item" id="b-akhelp">
+    <h3>AK Help one-pager pitch to agency partners</h3>
+    <p class="desc">AK Help is my paid consulting offering. We have a polished one-pager. The list of agency contacts is built. Job is to email it out and track responses + meeting requests.</p>
+    <p class="meta-line"><span class="k">Proof</span>Outreach tracker: contact, date, link to thread, replies, meetings booked.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>5–10 pitches/month, target 1–2 meetings/month.</p>
+  </div>
+
+  <div class="item" id="b-pfai-swaps">
+    <h3>PfAI newsletter swap pitches</h3>
+    <p class="desc">Mutual cross-promotion with other newsletters in the AI / advocacy space ("you mention us, we mention you"). 2 are already queued; the rest of the list needs building + pitching.</p>
+    <p class="meta-line"><span class="k">Proof</span>Outreach tracker + each confirmed swap = a public mention in both newsletters (link to both sides).</p>
+    <p class="meta-line pace"><span class="k">Pace</span>4–6 pitches/month, target 1–2 swaps confirmed/month.</p>
+  </div>
+
+  <div class="item" id="b-grounded">
+    <h3>GroundedAI launch outreach <span class="tag later">later this summer</span></h3>
+    <p class="desc">GroundedAI is a new initiative I'm planning to launch a couple of months from now. When the time comes, the work is reaching out to speaker bureaus, AI advisory directories, and peer organizations to introduce it.</p>
+    <p class="meta-line note"><span class="k">Note</span>Not active yet — flagging now so it's on the radar. I'll signal when to start.</p>
+    <p class="meta-line"><span class="k">Proof</span>Outreach tracker + list of orgs that responded, linked back, or partnered.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>10–15/month at launch, then maintenance.</p>
+  </div>
+
+  <div class="item" id="b-freehold">
+    <h3>Freehold ally outreach for the manifesto</h3>
+    <p class="desc">Freehold has a public manifesto. Reach out to potential ally orgs and individuals to ask them to sign on. List + ask templates ready.</p>
+    <p class="meta-line"><span class="k">Proof</span>List of orgs contacted + the public supporter list on the Freehold site (signed-on names appear there).</p>
+    <p class="meta-line pace"><span class="k">Pace</span>5–10/month, supporters added publicly over time.</p>
+  </div>
+</section>
+
+<!-- ===== C ===== -->
+<section id="c">
+  <div class="section-label">Section C</div>
+  <h2>Social media account setup</h2>
+  <p class="section-sub">One-time setup work: get the accounts I haven't built yet onto the right platforms with proper branding.</p>
+
+  <div class="item" id="c-social">
+    <h3>Clean up and finish the missing accounts</h3>
+    <p class="desc">I run several brands (PfAI, CampaignHelp, GroundedAI, Freehold, HSR, my personal account) across platforms like Bluesky, Threads, Mastodon, and LinkedIn pages. Most of these accounts already exist — what's missing is consistent, polished branding across them. The work is more <em>cleanup</em> than building from scratch.</p>
+    <p class="desc"><strong>1. Audit + plan.</strong> Make a simple grid: brands down the side, platforms across the top. Mark what exists, what's incomplete (missing icon, stale bio, wrong links), and the small handful that don't exist yet. We agree on what to fix.</p>
+    <p class="desc"><strong>2. Clean up + build.</strong> For each account: confirm or upload the profile icon, confirm or upload the banner, confirm or rewrite the bio (I'll provide copy), make sure the links are current, and verify everything looks consistent with the brand's other accounts. A couple of brands still need Mastodon accounts created — most of the rest is just polish.</p>
+    <p class="meta-line note"><span class="k">Note</span>No Instagram in scope. Mastodon is a small handful of new setups; everything else is mostly cleanup.</p>
+    <p class="meta-line"><span class="k">Proof</span>The audit grid (a shared Google Sheet) + a live profile URL for each finished account, plus a screenshot of each so we can see the branding looks right.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>One-off project — aim for ~3 accounts cleaned up or built per week so we don't drag.</p>
+    <p class="meta-line skill"><span class="k">Skill</span>Comfortable with social platforms + an eye for clean, consistent branding. I'll provide the logo files and brand colors.</p>
+  </div>
+</section>
+
+<!-- ===== D ===== -->
+<section id="d">
+  <div class="section-label">Section D</div>
+  <h2>Directory & listing submissions</h2>
+  <p class="section-sub">Set-and-forget visibility — once you're listed, you stay listed.</p>
+
+  <div class="item" id="d-grounded">
+    <h3>GroundedAI directories</h3>
+    <p class="desc">Submit GroundedAI to speaker bureaus, advisory directories, and AI ethics directories. Submission templates ready.</p>
+    <p class="meta-line"><span class="k">Proof</span>Tracker of submissions + each live listing URL once approved.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>5–10 submissions/month at launch.</p>
+  </div>
+
+  <div class="item" id="d-ch">
+    <h3>CampaignHelp directories</h3>
+    <p class="desc">Submit CampaignHelp to progressive consultant directories, the NTEN service-provider list, and similar.</p>
+    <p class="meta-line"><span class="k">Proof</span>Tracker + live listing URLs.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>5–10/month.</p>
+  </div>
+
+  <div class="item" id="d-hsr">
+    <h3>HSR (high-speed rail) directories</h3>
+    <p class="desc">Submit the HSR project to advocacy directories and transit-policy lists.</p>
+    <p class="meta-line"><span class="k">Proof</span>Tracker + live listing URLs.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>3–5/month (smaller universe of relevant directories).</p>
+  </div>
+
+  <div class="item" id="d-pfai">
+    <h3>PfAI newsletter directories</h3>
+    <p class="desc">Submit PfAI to newsletter discovery platforms (The Sample, Refind, Substack discovery, etc.).</p>
+    <p class="meta-line"><span class="k">Proof</span>Live listing URL on each platform.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>5–10 over the first month, then maintenance.</p>
+  </div>
+</section>
+
+<!-- ===== E ===== -->
+<section id="e">
+  <div class="section-label">Section E</div>
+  <h2>Speaker & podcast guest booking</h2>
+  <p class="section-sub">Pitching me onto stages and shows. Lists and templates ready.</p>
+
+  <div class="item" id="e-progtech">
+    <h3>Progressive-tech podcast pitches</h3>
+    <p class="desc">Pitch me as a guest on podcasts in the progressive-tech space (CampaignHelp angle). Target list + pitch templates ready.</p>
+    <p class="meta-line"><span class="k">Proof</span>Pitch tracker (date + show + status) + URLs of episodes that go live.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>5–10 pitches/month, target 1–2 bookings/month.</p>
+  </div>
+
+  <div class="item" id="e-aistrat">
+    <h3>AI-strategy podcast pitches</h3>
+    <p class="desc">Same idea, different angle — AI strategy (GroundedAI lens). Different target list, slightly different pitch.</p>
+    <p class="meta-line"><span class="k">Proof</span>Pitch tracker + booked episode URLs.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>5–10 pitches/month, target 1–2 bookings/month.</p>
+  </div>
+
+  <div class="item" id="e-cfp">
+    <h3>Conference talk proposals (NTEN, NetRoots Nation, RootsCamp, etc.)</h3>
+    <p class="desc">Submit talk proposals to relevant conferences. Each has a "call for proposals" window and a different submission format.</p>
+    <p class="meta-line"><span class="k">Proof</span>Submission confirmation from each conference's CFP system (most email a receipt with a public submission ID), then accepted/declined status.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>Hit every major CFP window each year.</p>
+  </div>
+
+  <div class="item" id="e-rosters">
+    <h3>Apply to speaker rosters & expert directories</h3>
+    <p class="desc">Get me listed on rosters like 501Tech, the NTEN expert directory, and similar — so orgs find me on their own.</p>
+    <p class="meta-line"><span class="k">Proof</span>Live profile URL on each roster.</p>
+    <p class="meta-line pace"><span class="k">Pace</span>One-off applications + annual renewals.</p>
+  </div>
+</section>
+
+<div class="closer">
+  <h3>How we'd actually do this</h3>
+  <p>Pick the items that look interesting — no pressure to take a whole category or all of one. I can spend 30 minutes walking through any item live so the templates, lists, and tools all make sense before you start.</p>
+  <p>Everything is tracked in shared trackers (Google Sheets) so it's visible to all of us. Monthly we look at the proofs and the pace numbers together. If something isn't working we change it.</p>
+</div>
+
+</div>
+</body>
+</html>
