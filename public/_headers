@@ -11,3 +11,7 @@
 
 /rss.xml
   Access-Control-Allow-Origin: *
+
+/share/*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+  Referrer-Policy: no-referrer
