@@ -73,6 +73,19 @@ Tag `claude-code` to include in the Building in Public series at `/building`.
 - **Auto-draft workflow:** Weekly (Fri 7:30am ET) on N8N CH, workflow id `7xsz8xvMCQKyiIeR`. Creates Listmonk draft + Drift review task (next Monday due) when ≥2 new posts have accumulated since the last MC send. Never auto-sends. Full docs in `personal/automation-strategy/CLAUDE.md` → Mission Control Auto-Draft.
 - **See also:** `side-hustle/progressives-for-ai/CLAUDE.md` for full Listmonk SSH access patterns and SMTP config.
 
+## Unlisted Share Pages
+
+`public/share/<slug>/index.html` — drop any static HTML file here and it's instantly live as an unlisted page with no search indexing.
+
+- **URL pattern:** `https://jordankrueger.com/share/<slug>/`
+- **Security:** random unguessable slug + noindex + no-referrer. Not auth-protected — suitable for non-sensitive content you want to share privately.
+- **Auto-covered headers** (from `public/_headers` rule on `/share/*`):
+  - `X-Robots-Tag: noindex, nofollow, noarchive, nosnippet`
+  - `Referrer-Policy: no-referrer`
+- **robots.txt:** `Disallow: /share/` already in place
+- **Sitemap:** Astro sitemap won't include files from `public/` — only `src/pages/`
+- **To add a new share:** drop `public/share/<new-slug>/index.html` and push. No config changes needed.
+
 ## Deployment
 Push to `main` branch → Cloudflare Pages auto-deploys.
 Build command: `npm run build`
