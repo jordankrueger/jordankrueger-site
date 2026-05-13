@@ -1,0 +1,96 @@
+---
+title: "The best thing I did with two AIs was give them different jobs"
+description: "Claude designs the work. Codex writes the code. The split makes both of them better — and made my workflow clearer too."
+pubDate: 2026-05-13
+tags: ["claude-code", "ai", "tools", "codex"]
+coverImage: "/images/gallery/blog-two-ais-different-jobs.jpg"
+coverAlt: "Flat illustration of a cozy desk with two monitors — the left showing a planning blueprint with boxes and arrows, the right showing lines of code on a dark background — connected by a small arrow, with a coffee mug, a potted plant, and an open notebook in warm earth tones"
+draft: false
+---
+
+A few weeks ago I was watching a feature ship to production on a community platform I help run. Five separate slices of work, each one its own pull request: new database tables, new API routes, a public dashboard, a redesigned member view, a bunch of UI polish. The whole thing rolled out over about ten days.
+
+I wrote zero of the code. Claude planned every slice. Codex wrote every slice. I reviewed and merged. It was the smoothest stretch of shipping I've ever had.
+
+That's the new division of labor in my workflow. What surprised me is how much *better* both AIs got at their jobs once they weren't asked to do each other's.
+
+## The split
+
+I still use [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) for most things. Reading code, writing code, debugging, designing, all of it. It's the model I trust most for judgment — when I need an AI that holds a lot of context and tells me what to do, that's Claude.
+
+But for one specific job — *take this plan and write the code that matches it, exactly* — I've started reaching for [OpenAI's Codex CLI](https://github.com/openai/codex) instead.
+
+The split, in practice:
+
+- **Claude plans.** I describe what I want, Claude asks the clarifying questions, we land on a plan document. That document lists the files to touch, the new types or schema, the test cases, the rollout order. Specific enough that nothing is ambiguous.
+- **Codex executes.** Codex reads the plan and produces the code. No new design decisions. No "I noticed while I was in there..." detours. If the plan says four tables, it makes four tables. If the plan says don't touch the auth module, it doesn't.
+- **Claude reviews.** Back in Claude Code, I run the diff through the same model that wrote the plan and ask it to verify the implementation matches. Sometimes it pushes back. Sometimes it spots things I'd miss.
+
+Three steps, two models, one human in the middle.
+
+## Why split them
+
+For a long time, I let Claude do everything. Plan a feature, write the feature, review what it wrote, commit it. One AI, one session, one trail of thought.
+
+The problem with that setup is subtle, and I didn't see it until I started running the work through two AIs instead of one.
+
+When the same AI plans and implements, the implementation drifts from the plan. Not maliciously — helpfully. "While I was in there I noticed X" turns into a refactor. A small ambiguity in the plan gets resolved by guessing at intent. A nicer pattern shows up halfway through and gets applied retroactively. By the end of the slice, the code is sometimes better than the plan called for, sometimes worse, and almost always *different*.
+
+Codex doesn't do that. It reads the plan as a spec and produces code that matches the spec. If the spec is wrong, the code is wrong, which surfaces the gap in the plan instead of papering over it.
+
+Claude as the planner gets to think freely about design without having to also constrain its own execution. Codex as the executor gets a clear target. The split makes each one better at the job it's now responsible for.
+
+## What this looked like, concretely
+
+A community awards system I've been building over the past month was the first project I ran entirely on this pattern. Five sprints of work. Each sprint started with Claude and me brainstorming the shape, landed on a plan, and then handed off to Codex for execution. When Codex finished, the diff came back to Claude for a sanity check before merge.
+
+Some sprints were small — a single slice, a couple of files. Some were big — three or four slices, dozens of files, schema changes, new public-facing pages. The pattern held across both.
+
+Pull requests landed in clean, narrow scopes. The plans got reused as PR descriptions almost verbatim. When something broke in production (it did, a couple of times), the path back was clear: which slice introduced it, which plan section, which assumption.
+
+The one place the pattern showed strain was when the *plan* was wrong. If Claude misread the existing code and wrote a plan against a wrong assumption, Codex would faithfully implement against that wrong assumption. The code was correct against the spec and incorrect against reality. The fix was the same as any other planning bug: better plans, more careful read of the existing code before writing them.
+
+## A second reviewer on the plan itself
+
+Around the same time, I made one more change. The plan documents themselves now get reviewed by a third model before Codex sees them.
+
+I have a brainstorming workflow I use for non-trivial features: open-ended back-and-forth that lands on a spec. After Claude writes the spec, I run it through GPT-5.5-pro for an editorial review. Same model that's been useful elsewhere for catching bad assumptions, weirdly good at finding gaps in plans.
+
+I get back two confidence numbers at the handoff: Claude's confidence that the spec is ready to build, and GPT-5.5-pro's. If they're far apart, I look at why. If they're both low, the spec isn't ready. If they're both high, I hand it off to Codex.
+
+It's the same shape as [the two-AI code review system I wrote about a few weeks ago](/blog/two-ais-disagree), just applied earlier in the pipeline. Two reviewers, blind to each other, looking for different things. The disagreement is where the value is.
+
+## The bug that wasn't a bug
+
+A short narrative aside, because every story about AI tools eventually has a "the tool stopped working" episode.
+
+Last weekend Codex froze on me. I'd type a prompt, hit return, and nothing would happen. No error, no progress, no output. The CLI just sat there. I assumed I'd misconfigured something — env vars, auth tokens, the model name. I spent half an hour checking each. (None of it was the problem.)
+
+What was actually happening: macOS Gatekeeper had popped up a security dialog the first time I ran the new Codex binary. The dialog was buried behind another window. The CLI was waiting on me to click "Open Anyway." I just couldn't see the dialog.
+
+Once I realized what was happening, Codex started working immediately.
+
+Two takeaways, both familiar to anyone who's been doing this for a while: AI tooling fails in interestingly mundane ways, and "is it actually broken, or is the OS waiting on me" is one of the first questions to ask.
+
+## When I don't reach for this split
+
+For one-off scripts, exploratory code, debugging sessions, anything where I'm still figuring out *what* I want — I just use Claude. The split adds overhead. Writing a plan document for a five-line shell script is silly.
+
+The split pays off when:
+
+- The change touches multiple files
+- I want the diff to match the description in the PR
+- I care about scope discipline more than cleverness
+- The work is going to be reviewed by other people (or by future me)
+
+Most of my client and community work lives in that second category now. Most of my personal scratch-work is still in the first.
+
+## What changes when AIs have roles
+
+The thing I keep coming back to is how much this changed the shape of the work, not just the speed.
+
+When Claude was doing everything, every session felt like one long unbroken stream — plan, code, debug, commit. When I split planning from execution, the work broke naturally into phases. The plan stage *ends*. There's a document. I can put it down and pick it up. Someone else can read it. When I come back the next day, I'm not re-running the whole context. I'm reading a spec.
+
+That's been the unexpected benefit. Two AIs with different jobs forced me to write down what each job actually was. The artifacts the workflow produces — plans, PR descriptions, review notes — are a side effect of having to brief two different models on what they're supposed to do.
+
+I started doing this because Codex was good at one specific thing. I kept doing it because it made the rest of my work clearer too.
