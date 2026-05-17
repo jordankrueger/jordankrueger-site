@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
-import ServiceCard from '../components/ServiceCard.astro';
 import ContactForm from '../components/ContactForm.astro';
 import BlogPostCard from '../components/BlogPostCard.astro';
 import { getCollection } from 'astro:content';
@@ -10,33 +9,6 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
-
-const services = [
-  {
-    title: 'CampaignHelp',
-    description: 'Help your organization with technology or campaign operations like production and strategy.',
-    image: '/images/logo-campaignhelp.jpg',
-    href: 'https://campaign.help',
-  },
-  {
-    title: 'PasswordSetupHelp',
-    description: 'Stress-free onboarding to 1Password to protect yourself from data breaches and easy hacks.',
-    image: '/images/logo-passwordsetuphelp.png',
-    href: 'https://passwordsetuphelp.com/',
-  },
-  {
-    title: 'Technology Coaching',
-    description: 'Technology coaching & education.',
-    image: '/images/coaching-tech-education.jpg',
-    href: 'https://coaching.jordankrueger.com/',
-  },
-  {
-    title: 'Learn AI',
-    description: 'Hands-on AI guidance for progressive orgs — 50+ projects built, lessons shared openly.',
-    image: '/images/gallery/blog-you-need-to-learn-ai.jpg',
-    href: '/ai',
-  },
-];
 ---
 
 <BaseLayout title="Jordan Krueger: Operations nerd, tech translator.">
@@ -59,37 +31,34 @@ const services = [
 
   <NewsletterSignup />
 
-  <!-- Services -->
-  <section class="services-section">
-    <h2 class="section-heading fade-up">What can I do for you?</h2>
-    <div class="container services-grid">
-      {services.map((service, i) => (
-        <div class={`fade-up delay-${Math.min(i + 1, 4)}`}>
-          <ServiceCard {...service} />
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- AK Template -->
+  <!-- Practices -->
+  <h2 class="section-heading practices-heading fade-up">Two practices I run</h2>
   <div class="panel-wrap">
-    <section id="ak-template" class="ak-panel fade-up">
-      <div class="ak-template">
-        <div class="ak-video">
-          <a href="https://youtu.be/6qwYy_W1k3c" target="_blank" rel="noopener">
-            <img src="/images/ak-template-video.jpg" alt="ActionKit Production Template: Introduction" loading="lazy" width="940" height="788" />
-          </a>
+    <section class="ak-panel practice-diptych fade-up">
+      <div class="diptych-grid">
+        <div class="diptych-half">
+          <span class="practice-kicker">My consultancy</span>
+          <h3>CampaignHelp</h3>
+          <p>Fractional tech and operations for progressive nonprofits. Whatever piece your team can't get to — websites, AI workflows, security setup, infrastructure rescue.</p>
+          <div class="practice-services">
+            <span class="pill">Websites</span>
+            <span class="pill">AI workflows</span>
+            <span class="pill">Security setup</span>
+            <span class="pill">Fractional support</span>
+          </div>
+          <a href="https://campaign.help" target="_blank" rel="noopener" class="btn btn-primary practice-cta">See how I help →</a>
         </div>
-        <div class="ak-text">
-          <h3>My ActionKit Production Template</h3>
-          <p>Watch the presentation on the template from the Email Strategy Summit to get a link to download it, or simply use the box below to sign up for my list and get the link directly. 🙌</p>
-          <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="ak-form">
-            <input type="email" name="email" placeholder="Your email" required maxlength="256" />
-            <input type="hidden" name="list" value="mission-control" />
-            <input type="hidden" name="bonus" value="ak-template" />
-            <button type="submit" class="btn btn-primary">Subscribe</button>
-          </form>
-          <p class="ak-form-status" hidden></p>
+        <div class="diptych-divider" aria-hidden="true"></div>
+        <div class="diptych-half">
+          <span class="practice-kicker gah">Coming soon · my second practice</span>
+          <h3>Grounded AI</h3>
+          <p>AI talks, workshops, and advisory for operations leaders at mid-sized nonprofits and associations. Launching later this summer.</p>
+          <div class="practice-services">
+            <span class="pill">Speaking</span>
+            <span class="pill">Workshops</span>
+            <span class="pill">Advisory</span>
+          </div>
+          <a href="https://groundedai.help" target="_blank" rel="noopener" class="btn btn-outline practice-cta">Get notified at launch →</a>
         </div>
       </div>
     </section>
@@ -136,29 +105,23 @@ const services = [
     </div>
   </section>
 
-  <!-- Newsletter (second placement) -->
-  <NewsletterSignup variant="compact" id="subscribe-bottom" />
-
   <div class="fade-up">
     <ContactForm />
   </div>
 </BaseLayout>
 
 <style>
+  :root {
+    --color-gah-accent: #a4691f;
+  }
+
   .section-heading {
     text-align: center;
     margin-bottom: var(--spacing-lg);
   }
 
-  /* Services — sits on the main bg, cards float above */
-  .services-section {
-    padding: var(--spacing-lg) 0;
-  }
-
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-md);
+  .practices-heading {
+    margin-top: var(--spacing-xl);
   }
 
   /* Bordered offset panels — the Carrd signature look */
@@ -184,56 +147,94 @@ const services = [
     padding: var(--spacing-lg);
   }
 
-  /* AK Template */
-  .ak-template {
+  /* Practices diptych */
+  .practice-diptych {
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+
+  .diptych-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-lg);
-    align-items: center;
+    grid-template-columns: 1fr 1px 1fr;
+    grid-template-rows: auto auto 1fr auto auto;
+    column-gap: var(--spacing-xl);
+    row-gap: 0.85rem;
   }
 
-  .ak-video img {
-    width: 100%;
-    border-radius: var(--radius-md);
+  .diptych-half {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: 1 / 6;
+    gap: 0.85rem;
   }
 
-  .ak-text h3 {
-    margin-bottom: var(--spacing-sm);
+  .diptych-half h3 {
+    font-family: var(--font-heading);
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.1;
+    margin: 0;
   }
 
-  .ak-form {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: var(--spacing-sm);
+  .diptych-half p {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin: 0;
   }
 
-  .ak-form input {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+  .diptych-divider {
+    background: var(--color-border);
+    grid-row: 1 / -1;
+    opacity: 0.7;
+  }
+
+  .practice-kicker {
+    display: inline-block;
     font-family: var(--font-body);
-    font-size: 0.95rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin: 0;
+  }
+  .practice-kicker.gah {
+    color: var(--color-gah-accent);
+  }
+
+  .practice-services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+  }
+
+  .practice-services .pill {
+    font-size: 0.8rem;
     background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    font-family: var(--font-body);
   }
 
-  .ak-form input:focus {
-    outline: 2px solid var(--color-accent);
-    outline-offset: -1px;
-    border-color: var(--color-accent);
+  .practice-cta {
+    margin-top: 0.3rem;
+    justify-self: start;
+    align-self: start;
+    text-decoration: none;
   }
 
-  .ak-form-status {
-    font-size: 0.9rem;
-    margin-top: 0.6rem;
-  }
-
-  .ak-form-status.success {
-    color: #2d7a3a;
-  }
-
-  .ak-form-status.error {
-    color: #c0392b;
+  /* Fallback for browsers without subgrid */
+  @supports not (grid-template-rows: subgrid) {
+    .diptych-half {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .diptych-half p { flex: 1 0 auto; }
   }
 
   /* About Preview */
@@ -278,11 +279,27 @@ const services = [
   }
 
   @media (max-width: 900px) {
-    .services-grid {
-      grid-template-columns: 1fr;
-    }
     .posts-grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+    .diptych-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      row-gap: var(--spacing-lg);
+    }
+    .diptych-half {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      grid-row: auto;
+    }
+    .diptych-divider {
+      width: 100%;
+      height: 1px;
+      grid-row: auto;
+    }
+    .practice-diptych {
+      padding: var(--spacing-lg);
     }
   }
 
@@ -292,63 +309,8 @@ const services = [
       padding: var(--spacing-md) var(--spacing-sm);
       border-radius: var(--radius-md);
     }
-
-    .ak-template {
-      grid-template-columns: 1fr;
-    }
-
-    .ak-form {
-      flex-direction: column;
-    }
-
     .posts-grid {
       grid-template-columns: 1fr;
     }
   }
 </style>
-
-<script>
-  document.querySelectorAll<HTMLFormElement>('form.ak-form').forEach((form) => {
-    const status = form.parentElement?.querySelector<HTMLParagraphElement>('.ak-form-status');
-    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    const originalLabel = btn?.textContent ?? 'Subscribe';
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!status || !btn) return;
-
-      btn.disabled = true;
-      btn.textContent = 'Subscribing...';
-      status.hidden = true;
-
-      const data = Object.fromEntries(new FormData(form).entries());
-
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-        const body = await res.json();
-
-        if (res.ok && body.success) {
-          status.textContent = "You're on the list. Check your email for the AK Production Template.";
-          status.className = 'ak-form-status success';
-          status.hidden = false;
-          form.reset();
-        } else {
-          status.textContent = body.error || 'Something went wrong. Please try again.';
-          status.className = 'ak-form-status error';
-          status.hidden = false;
-        }
-      } catch {
-        status.textContent = 'Network error. Please try again.';
-        status.className = 'ak-form-status error';
-        status.hidden = false;
-      }
-
-      btn.disabled = false;
-      btn.textContent = originalLabel;
-    });
-  });
-</script>
