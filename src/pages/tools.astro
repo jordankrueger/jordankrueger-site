@@ -58,6 +58,31 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
     </div>
   </section>
 
+  <!-- Featured download (Jordan-built) -->
+  <section class="ak-featured-wrap">
+    <div class="ak-featured">
+      <span class="ak-featured-kicker">Free download · made by me</span>
+      <div class="ak-featured-body">
+        <div class="ak-featured-video">
+          <a href="https://youtu.be/6qwYy_W1k3c" target="_blank" rel="noopener">
+            <img src="/images/ak-template-video.jpg" alt="ActionKit Production Template: Introduction" loading="lazy" width="940" height="788" />
+          </a>
+        </div>
+        <div class="ak-featured-text">
+          <h2>My ActionKit Production Template</h2>
+          <p>Watch the presentation on the template from the Email Strategy Summit to get a link to download it, or simply use the box below to sign up for my list and get the link directly. 🙌</p>
+          <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="ak-form">
+            <input type="email" name="email" placeholder="Your email" required maxlength="256" />
+            <input type="hidden" name="list" value="mission-control" />
+            <input type="hidden" name="bonus" value="ak-template" />
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+          <p class="ak-form-status" hidden></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <main>
     {sortedCategories.map(cat => (
       <ToolCategory
@@ -93,8 +118,9 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
         <h4>Elsewhere on this site</h4>
         <ul>
           <li><a href="/ai">AI Showcase</a></li>
-          <li><a href="https://campaign.help" target="_blank" rel="noopener">CampaignHelp</a></li>
+          <li><a href="/projects">Projects</a></li>
           <li><a href="/blog">Writing</a></li>
+          <li><a href="https://campaign.help" target="_blank" rel="noopener">CampaignHelp ↗</a></li>
         </ul>
       </div>
     </div>
@@ -159,6 +185,76 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
   }
   .tools-footer-row ul { list-style: none; padding: 0; }
 
+  /* Featured AK Template panel */
+  .ak-featured-wrap {
+    padding: var(--spacing-lg) var(--spacing-md) 0;
+  }
+  .ak-featured {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    background-color: var(--color-bg-peach);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+  }
+  .ak-featured-kicker {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+  }
+  .ak-featured-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: center;
+  }
+  .ak-featured-video img {
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+  .ak-featured-text h2 {
+    margin-bottom: var(--spacing-sm);
+  }
+  .ak-featured-text p {
+    margin-bottom: var(--spacing-sm);
+  }
+  .ak-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: var(--spacing-sm);
+  }
+  .ak-form input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    background: var(--color-bg-white);
+  }
+  .ak-form input:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -1px;
+    border-color: var(--color-accent);
+  }
+  .ak-form-status {
+    font-size: 0.9rem;
+    margin-top: 0.6rem;
+  }
+  .ak-form-status.success { color: #2d7a3a; }
+  .ak-form-status.error { color: #c0392b; }
+
+  @media (max-width: 640px) {
+    .ak-featured-body { grid-template-columns: 1fr; }
+    .ak-form { flex-direction: column; }
+    .ak-featured { padding: var(--spacing-md) var(--spacing-sm); border-radius: var(--radius-md); }
+  }
+
   @media (max-width: 900px) {
     .tools-stats { grid-template-columns: repeat(2, 1fr); }
   }
@@ -166,3 +262,49 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
     .tools-footer-row .footer-cols { grid-template-columns: 1fr; gap: var(--spacing-lg); }
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.ak-form').forEach((form) => {
+    const status = form.parentElement?.querySelector<HTMLParagraphElement>('.ak-form-status');
+    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const originalLabel = btn?.textContent ?? 'Subscribe';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!status || !btn) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Subscribing...';
+      status.hidden = true;
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const body = await res.json();
+
+        if (res.ok && body.success) {
+          status.textContent = "You're on the list. Check your email for the AK Production Template.";
+          status.className = 'ak-form-status success';
+          status.hidden = false;
+          form.reset();
+        } else {
+          status.textContent = body.error || 'Something went wrong. Please try again.';
+          status.className = 'ak-form-status error';
+          status.hidden = false;
+        }
+      } catch {
+        status.textContent = 'Network error. Please try again.';
+        status.className = 'ak-form-status error';
+        status.hidden = false;
+      }
+
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+    });
+  });
+</script>

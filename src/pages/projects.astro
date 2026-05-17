@@ -38,13 +38,6 @@ const projects = [
     bgClass: 'bg-warm',
   },
   {
-    title: 'Password Setup Help',
-    description: `<p>Passwords and digital security are not only a huge concern in my work, they're something I've been dealing with for years — but feel like I've finally conquered, with 1Password!</p><p>With so many onboarding sessions under my belt, I felt like it would be a shame to only share my extreme and detailed understanding of the 1Password system with just my clients, and so I'm now offering one-hour coaching sessions to help anyone get set up with 1Password and transfer in all of their passwords. <strong>Howabout you?</strong></p>`,
-    image: '/images/logo-passwordsetuphelp-banner.jpg',
-    href: 'https://passwordsetuphelp.com/',
-    bgClass: 'bg-green',
-  },
-  {
     title: 'StarBase 118 PBEM RPG',
     description: `<p>That's a lot of letters, right? PBEM stands for "Play By Email," and RPG stands for "Role-Playing Game."</p><p>In 1994, on AOL, I co-founded a Star Trek role-playing game soon after learning about them in chat rooms. I was a Star Trek fanatic, as a kid, and I loved the utopian vision of the future mixed with the sense of cool, calm competency that everyone on the show gave off amidst the vast interplay of species in the galaxy.</p><p>That game grew into a community that I still have a hard time believing exists to this day, and which I've led for over 30 years.</p><p>Over the years I've watched people go through many phases of life, meet fellow members and get married, have kids, and even divorce. It's been the privilege of a lifetime to lead and watch all of this happen.</p><p>Beyond all that, the game provided me with a testing ground for leadership, community, and technology like perhaps nothing else could have.</p>`,
     image: '/images/logo-starbase118.jpg',
@@ -68,6 +61,7 @@ const tools = [
     <div class="container projects-intro">
       <div class="projects-intro-text">
         <h1>I love tinkering with new technologies and launching ideas.</h1>
+        <p class="projects-subtitle">Personal projects, advocacy experiments, and a 30-year-old role-playing community.</p>
         <hr class="section-rule" />
       </div>
       <div class="projects-intro-image">
@@ -99,6 +93,19 @@ const tools = [
   {projects.map((project, i) => (
     <ProjectCard {...project} index={i} />
   ))}
+
+  <!-- Elsewhere on this site -->
+  <section class="elsewhere-row">
+    <div class="container">
+      <h4>Elsewhere on this site</h4>
+      <ul class="elsewhere-links">
+        <li><a href="/ai">AI Showcase</a></li>
+        <li><a href="/tools">Free Tools</a></li>
+        <li><a href="/blog">Writing</a></li>
+        <li><a href="https://campaign.help" target="_blank" rel="noopener">CampaignHelp ↗</a></li>
+      </ul>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
@@ -159,5 +166,43 @@ const tools = [
     .projects-desc {
       grid-template-columns: 1fr;
     }
+  }
+
+  /* Subtitle under H1 */
+  .projects-subtitle {
+    font-size: 1.05rem;
+    color: var(--color-text-light);
+    margin: 0.5rem 0 var(--spacing-sm);
+    font-style: italic;
+  }
+
+  /* Elsewhere on this site */
+  .elsewhere-row {
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-xl) 0;
+    border-top: 2px solid var(--color-border);
+  }
+  .elsewhere-row h4 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 700;
+  }
+  .elsewhere-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+  .elsewhere-links li {
+    margin: 0;
+  }
+  .elsewhere-links a {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.95rem;
   }
 </style>
