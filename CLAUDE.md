@@ -77,3 +77,9 @@ Tag `claude-code` to include in the Building in Public series at `/building`.
 Push to `main` branch → Cloudflare Pages auto-deploys.
 Build command: `npm run build`
 Output directory: `dist`
+
+> **Branch protection on main:** Despite being a solo repo, `main` requires 2 status checks (OpenAI Logic Review + Anthropic Security Review) + Cloudflare Pages preview. Do NOT push directly to `main` — use a feature branch + PR + `gh pr merge --squash`. The standard "commit straight to main" git-workflow rule does not apply here.
+
+## Retired / Redirected Pages
+- `/building` — Deleted (May 2026). `public/_redirects` sends `/building` → `/blog?tag=claude-code` (301). The blog's tag-filter JS auto-clicks the filter. Update internal links to `/blog?tag=claude-code` instead of `/building`.
+- `coaching.jordankrueger.com` — Retiring (May 2026). Carrd unpublish + DNS record deletion pending.
