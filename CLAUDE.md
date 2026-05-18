@@ -56,6 +56,7 @@ Tag `claude-code` to include in the Building in Public series at `/building`.
   - Worker source: `side-hustle/progressives-for-ai/progressives-for-ai/worker.js` (personal CF account — use `PERSONAL_CLOUDFLARE_API_TOKEN`)
   - Signups go to **Listmonk Mission Control list (id 4)** on CH VPS (newsletter.campaign.help)
   - AK Template form also posts here with `bonus=ak-template` → triggers Resend transactional welcome email to new subscriber
+  - **Adding a new signup form (here or on any other site): see `claude-management/reference/signup-forms.md` for the canonical pattern (worker architecture, lookup+attach for existing subscribers, client-side response handling, anti-patterns).**
 - **Contact form:** POST to `https://jordankrueger-contact-form.restless-salad-a31e.workers.dev` (sends email via Resend to jordan@jordankrueger.com). Worker source in `workers/contact-form/`. Deploy with `CLOUDFLARE_API_TOKEN="$PERSONAL_CLOUDFLARE_API_TOKEN" npx wrangler deploy` from that directory.
 - **Analytics:** Google Analytics `G-QJQ0PD6XHD`
 
