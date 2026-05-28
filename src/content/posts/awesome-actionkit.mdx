@@ -1,0 +1,47 @@
+---
+title: "I made an awesome list for ActionKit"
+description: "ActionKit has quietly powered progressive advocacy email for twenty years. The tooling around it is great — and impossible to find. Time to fix that."
+pubDate: 2026-05-28
+tags: ["actionkit", "advocacy", "movement-tech", "open-source"]
+coverImage: "/images/gallery/blog-awesome-actionkit.jpg"
+coverAlt: "Flat illustration of a cozy desk scene: a laptop screen displays a clean two-column categorized list, surrounded by floating icons of an envelope, gear, database cylinder, document, speech bubble, and small person silhouettes, with a small potted plant, a warm coffee mug, and two notebooks on the desk, in warm earth tones"
+draft: false
+---
+
+I made [Awesome ActionKit](https://github.com/jordankrueger/awesome-actionkit) — a curated, categorized index of the tools, snippets, dashboards, SQL recipes, consultants, and guides that have grown up around ActionKit over the last twenty years. It's the kind of list any well-loved developer tool has. Somehow this one didn't, until now.
+
+If you haven't heard of ActionKit: it's the email and action platform that's been powering progressive advocacy for two decades. CREDO, climate orgs, voting-rights groups, reproductive rights coalitions, the long tail of organizations you've probably gotten a petition from this month. A lot of the progressive email landing in your inbox was sent from an ActionKit instance somewhere.
+
+## A knowledge problem, not a tools problem
+
+The pattern I keep seeing — in my own consulting work and in conversations with peer firms — isn't that the AK tools don't exist. They do. It's that every new digital staffer inherits a system without inheriting the institutional knowledge of how to use it well. They spend the first six months rediscovering things their predecessor's predecessor already figured out.
+
+That's expensive. It's also a serious problem for the movement. Staff turnover at nonprofits is already high ([two-thirds of employees were job-hunting](https://candid.org/blogs/nonprofit-employees-survey-data-suggests-high-staff-turnover-ahead/) in Candid's most recent sector survey). If every digital hire spends half a year getting fluent in tools that are well-understood elsewhere, that's lost time we can't afford — not in an election year, not in any year.
+
+The fix isn't more documentation. It's an index. A place that says "the thing you're looking for exists, and it's at this URL."
+
+## What's on the list
+
+Awesome ActionKit is built in the style of the [awesome](https://github.com/sindresorhus/awesome) lists you might recognize from the developer world: categorized, opinionated, community-maintained. Right now it covers community spaces, snippets and templates, tooling and dashboards, SQL and reporting, deliverability, commercial add-ons, consultants, guides, and integrations. Entries come from CampaignHelp, from peer firms like Third Bear and Green Thumb, from ActionKit staff themselves, and from the broader community. The point isn't who built what. The point is that a new digital director can find it without three Slack threads and an email to whoever was at the last ClientCon.
+
+A few entries I want to call out — partly because they're new, partly because they show the kind of thing the list is for:
+
+**[ak-mailing-blocks](https://github.com/CampaignHelp/ak-mailing-blocks)** — paste-in HTML building blocks for ActionKit emails. CTA buttons, donation arrays, a dark-mode-safe wrapper. There's an [interactive playground](https://campaignhelp.github.io/ak-mailing-blocks/playground/) where you can tweak colors and copy out the HTML without touching the underlying files. Built for the case where the person who needs to ship a working email today is not a developer.
+
+**[ak-redirect-blocks](https://github.com/CampaignHelp/ak-redirect-blocks)** — recipe book for dynamic after-action redirect URLs using ActionKit's Django-template support. Includes a reference for the donation URL parameters that nobody seems to have written down anywhere. If you've ever wanted a petition signer to land on a different thank-you page depending on which state they're in, this is the thing.
+
+**[Progressive Email Suppression List](https://github.com/jordankrueger/progressive-email-suppression)** — a consolidated list of ~66,000 domains nonprofits shouldn't be emailing: typo domains, role addresses, known spam traps, churned providers. This month's v1.1 release added self-serve imports for ActionKit and Action Network, plus a manual guide for EveryAction. Drop it into your sending tool once and your bounce rates go down.
+
+None of these are revolutionary on their own. They're just the kind of thing that should be easy to find when you need them. Until last week, they weren't.
+
+## What this is really about
+
+There's a bigger argument here, even if the list itself is small and practical.
+
+Proprietary platforms with relatively small user bases — and most progressive movement tech fits that description — lose the same institutional knowledge over and over. Not because the people are bad at their jobs. Because nobody owns the index. There's no central place that says "here's what's been figured out." Slack threads age out within six months. Conference sessions get locked behind login walls nobody remembers the passwords to. The vendor blog post you remember from two years ago — the one with the SQL recipe you need today — has been gone since the company rebranded.
+
+A community-maintained, opinionated, public list is a cheap, durable fix for that. It's not a substitute for docs or community — it's the thing that points you at both.
+
+I'm planning to keep this one alive: accept PRs, add new tools as they ship, prune dead links every few months. If you work in or around ActionKit and you know something that should be on the list, [open a PR](https://github.com/jordankrueger/awesome-actionkit) or send me a note. The whole thing is meant to be shared.
+
+And if you don't work in ActionKit but you do work in some other movement-tech corner with the same scattered-knowledge problem — your platform's tooling is good and impossible to find — go make the awesome list for that one. The movement needs more indexes.
