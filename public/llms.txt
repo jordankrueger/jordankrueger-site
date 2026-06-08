@@ -1,0 +1,16 @@
+# Jordan Krueger
+
+> Independent IT and operations consultant for progressive nonprofits and advocacy groups. I help organizations cut through the noise, simplify their systems, and get back to the work that matters.
+
+## About
+- [About](https://jordankrueger.com/about): Background, what I do, and how I work
+- [Projects](https://jordankrueger.com/projects): Selected consulting and build work
+- [AI projects](https://jordankrueger.com/ai): Things I've built with Claude Code
+- [Tools](https://jordankrueger.com/tools): A curated catalog of free and open tools for advocacy organizations
+
+## Writing
+- [Blog](https://jordankrueger.com/blog): Posts on consulting, AI, and running a small practice
+- [Building in Public](https://jordankrueger.com/blog?tag=claude-code): The Claude Code series
+
+## Contact
+- Newsletter signup and contact form: https://jordankrueger.com/#contact
