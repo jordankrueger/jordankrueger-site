@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>AI Prompts — Solo-start tasks</title>
+<style>
+  :root {
+    --bg: #faf7f2;
+    --paper: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --line: #e7e1d6;
+    --accent: #b8552e;
+    --accent-soft: #f3e6dd;
+    --proof: #2a6b3f;
+    --proof-soft: #e6efe8;
+    --code-bg: #1d1c1a;
+    --code-ink: #f1ece3;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 64px 28px 96px; }
+  h1, h2, h3 { font-family: ui-serif, "New York", Georgia, "Times New Roman", serif; font-weight: 600; letter-spacing: -0.01em; }
+  h1 { font-size: 38px; line-height: 1.15; margin: 0 0 16px; }
+  h1 .accent { color: var(--accent); }
+  .lede { font-size: 18px; line-height: 1.55; color: #333; margin: 0 0 14px; }
+  .backlink { font-size: 14px; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .backlink:hover { color: var(--accent); border-color: var(--accent); }
+
+  .ground {
+    margin: 32px 0 48px;
+    padding: 22px 24px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+  }
+  .ground h3 { margin: 0 0 8px; font-size: 18px; }
+  .ground p { margin: 0 0 8px; color: #333; }
+  .ground p:last-child { margin-bottom: 0; }
+  .ground ol { margin: 8px 0 0; padding-left: 20px; color: #333; }
+  .ground li { margin: 4px 0; }
+
+  section { margin: 0 0 56px; scroll-margin-top: 24px; }
+  .section-label { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  h2 { font-size: 27px; margin: 0 0 6px; }
+  .section-sub { color: var(--muted); margin: 0 0 24px; font-style: italic; }
+
+  .prompt-block { margin: 0 0 28px; }
+  .prompt-label {
+    font-size: 13px; font-weight: 600; color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .prompt-label .num {
+    display: inline-block; background: var(--accent-soft); color: var(--accent);
+    width: 22px; height: 22px; line-height: 22px; text-align: center;
+    border-radius: 50%; font-size: 12px; margin-right: 8px; vertical-align: 1px;
+  }
+  pre {
+    background: var(--code-bg); color: var(--code-ink);
+    padding: 18px 20px; border-radius: 6px; overflow-x: auto;
+    font: 13px/1.55 ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    white-space: pre-wrap; margin: 0;
+  }
+  .fill { color: #e8b04b; }
+  .hint { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+  .proof-tag {
+    display: inline-block; font-size: 11px; letter-spacing: 0.04em;
+    background: var(--proof-soft); color: var(--proof); font-weight: 600;
+    padding: 2px 9px; border-radius: 999px; margin-bottom: 16px;
+  }
+
+  .closer {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line);
+    font-size: 15px; color: #333;
+  }
+  .closer h3 { margin: 0 0 10px; font-size: 19px; }
+  .closer p { margin: 0 0 10px; }
+
+  @media print {
+    body { background: white; }
+    pre { white-space: pre-wrap; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <a class="backlink" href="index.html">&larr; Back to the full menu</a>
+  <h1>Copy-paste <span class="accent">AI prompts</span> for the start-on-your-own tasks.</h1>
+  <p class="lede">These are for the three items you can run without waiting on me. Open any AI assistant (Claude, ChatGPT, whatever you like), paste a prompt, and fill in the highlighted bits. Each one tells the AI exactly what to do so you don't have to figure out the format.</p>
+</header>
+
+<div class="ground">
+  <h3>How to use these</h3>
+  <ol>
+    <li>Copy a whole prompt block (everything in the dark box).</li>
+    <li>Paste it into your AI assistant.</li>
+    <li>Replace anything <span class="fill">highlighted in yellow</span> with the real info, then send.</li>
+    <li>The output goes into the shared tracker / digest. That's the proof the work happened.</li>
+  </ol>
+  <p><strong>One rule:</strong> if the AI gives you a number, a dollar amount, or a link you can't see in a real source, don't trust it — double-check or drop it. AI sometimes makes things up.</p>
+</div>
+
+<!-- ===== Grants ===== -->
+<section id="grants">
+  <div class="section-label">Task 1</div>
+  <h2>Foundation grant announcements</h2>
+  <p class="section-sub">Weekly: scan grant news, send Jordan a short digest of relevant orgs.</p>
+  <span class="proof-tag">Proof → weekly digest email</span>
+
+  <div class="prompt-block">
+    <p class="prompt-label"><span class="num">1</span>One-time setup — find the sources to watch</p>
+<pre>I'm tracking grant announcements for progressive and advocacy nonprofits
+in the United States. Help me build a starter list of the best free
+sources to monitor each week — newsletters, websites, RSS feeds, and
+email alerts. For each one, give me: the name, what it covers, how to
+subscribe or where to check, and whether it's free. Focus on sources
+that report when advocacy / progressive nonprofits receive notable
+funding. Format it as a simple list I can work through.</pre>
+    <p class="hint">Run this once. Subscribe to the good ones, then use prompt #2 every week.</p>
+  </div>
+
+  <div class="prompt-block">
+    <p class="prompt-label"><span class="num">2</span>Weekly — turn what you found into Jordan's digest</p>
+<pre>Below is grant news I collected this week. Pull out ONLY the items that
+fit all of these: (a) the recipient is a progressive or advocacy
+nonprofit, (b) it's a US org, (c) the funding is notable (roughly six
+figures or more, or otherwise a big deal for them).
+
+For each one that qualifies, give me one row in this exact format:
+- Org name | Grant amount | Funder | Source link | One sentence on why it's
+  relevant to a digital/IT consultant (e.g. "midsize org, likely to invest
+  in their website next quarter").
+
+If something doesn't clearly qualify, leave it out. Don't invent amounts
+or links — only use what's in the text I'm pasting. If an amount isn't
+stated, write "amount not stated."
+
+HERE'S THIS WEEK'S NEWS:
+<span class="fill">[paste the headlines / newsletter text / articles you found]</span></pre>
+    <p class="hint">Paste the result into the weekly digest email to Jordan. Done.</p>
+  </div>
+</section>
+
+<!-- ===== Stack scans ===== -->
+<section id="stacks">
+  <div class="section-label">Task 2</div>
+  <h2>Outdated-stack scans of nonprofit sites</h2>
+  <p class="section-sub">Run sites through BuiltWith/Wappalyzer, log what's stale in a shared sheet.</p>
+  <span class="proof-tag">Proof → shared Google Sheet</span>
+
+  <div class="prompt-block">
+    <p class="prompt-label"><span class="num">1</span>Make sense of one scan + flag what's stale</p>
+<pre>I ran a nonprofit's website through BuiltWith (a tool that shows what
+software a site is built on). Below is the raw output. Turn it into one
+clean spreadsheet row with these columns:
+
+Org name | Website URL | Platform (e.g. WordPress) | Version (if shown) |
+Theme/builder | Other notable tech | Red flags
+
+Under "Red flags," call out anything that looks outdated or risky — an old
+WordPress version, an abandoned theme, end-of-life PHP, no SSL, page
+builders known to be heavy/insecure. If nothing's stale, write "looks
+current." Keep it short and factual — don't guess at things the scan
+doesn't show.
+
+ORG: <span class="fill">[org name]</span>
+URL: <span class="fill">[website url]</span>
+BUILTWITH OUTPUT:
+<span class="fill">[paste what BuiltWith / Wappalyzer showed]</span></pre>
+    <p class="hint">Copy the row into the shared sheet. Repeat per site.</p>
+  </div>
+
+  <div class="prompt-block">
+    <p class="prompt-label"><span class="num">2</span>Optional — translate the tech jargon into plain English</p>
+<pre>For the "Red flags" I just logged, write me one plain-English sentence
+per flag explaining why it matters to a nonprofit — the kind of thing
+that would make sense to someone non-technical. No fearmongering, just
+clear. Here are the flags:
+<span class="fill">[paste the red flags from the row]</span></pre>
+    <p class="hint">Useful later if Jordan wants a "here's why your site needs attention" note. Skip if you're moving fast.</p>
+  </div>
+</section>
+
+<!-- ===== Directories ===== -->
+<section id="directories">
+  <div class="section-label">Task 3 &middot; bonus</div>
+  <h2>Directory &amp; listing submissions</h2>
+  <p class="section-sub">Once Jordan hands you the listing copy, these keep every submission consistent.</p>
+  <span class="proof-tag">Proof → live listing URL per directory</span>
+
+  <div class="prompt-block">
+    <p class="prompt-label"><span class="num">1</span>Fit Jordan's blurb to each directory's form</p>
+<pre>I'm submitting a consulting business to an online directory. Here's the
+directory's form fields and character limits, and here's the standard
+blurb. Rewrite the blurb to fit each field cleanly — respect every
+character limit, keep the meaning and tone, don't add claims that aren't
+in the original. Give me the final text field-by-field, ready to paste.
+
+DIRECTORY FIELDS / LIMITS:
+<span class="fill">[paste the form fields, e.g. "Tagline (80 char), Description (300 char), Services (pick 3)"]</span>
+
+STANDARD BLURB JORDAN GAVE ME:
+<span class="fill">[paste Jordan's master description]</span></pre>
+    <p class="hint">Submit, then drop the live listing URL in the tracker.</p>
+  </div>
+</section>
+
+<div class="closer">
+  <h3>If you get stuck</h3>
+  <p>These prompts do the formatting and the thinking-out-loud — your job is the legwork (collecting the news, running the scans, hitting submit) and a quick sanity check on what the AI gives back.</p>
+  <p>Anything unclear, ask Jordan to walk through one live. After that you're on your own and the proof shows up in the tracker either way.</p>
+</div>
+
+</div>
+</body>
+</html>
