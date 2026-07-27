@@ -4,6 +4,13 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const projects = [
   {
+    title: 'Claude Code guardrails',
+    description: `<p>Everyone I talk to at nonprofits is either using an AI coding assistant already or about to be. Almost none of them are security engineers, and the advice out there assumes they are. So I wrote down the handful of defaults I'd want a friend to have in place before they let an agent loose on their laptop.</p><p>The whole thing rests on one idea: everything the AI touches should be backed up somewhere it can't delete. You can't guarantee an agent never makes a mistake or gets talked into one — but you can make the worst day survivable. The repo has a drop-in <strong>CLAUDE.md</strong>, example permission and sandbox settings, an "out of its reach" checklist, and the research behind each choice so you can check my reasoning. MIT licensed, and honest about what it doesn't protect you from.</p>`,
+    href: 'https://github.com/jordankrueger/backup-first-ai',
+    secondaryLink: { href: '/ai', label: 'What I build with it' },
+    bgClass: 'bg-blue',
+  },
+  {
     title: 'Freehold',
     description: `<p>I've been working with progressive nonprofits long enough to watch them get cornered by platforms they can't replace. Freehold is what happens when you sit with that frustration long enough — a framework for an internet where you create, publish, and actually own everything you share online. Your content lives on your own domain, hosted by whoever you trust, syndicated out to whatever networks you choose. No platform owning your audience. No algorithm rewriting what your followers see.</p><p>Not a company. Not a product. A proposal — and an invitation. The whitepaper is at <strong>freehold.is</strong>, published under CC BY 4.0. Quote it, fork it, build a piece of it.</p>`,
     image: '/images/logo-freehold.png',
@@ -56,9 +63,10 @@ const projects = [
 
 const tools = [
   { label: 'Sites: Astro' },
+  { label: 'Hosting: Cloudflare Pages' },
   { label: 'Domains: NameCheap' },
-  { label: 'Graphics Creation: Canva' },
-  { label: 'AI: ChatGPT & Claude' },
+  { label: 'Graphics creation: Canva' },
+  { label: 'AI: Claude Code & ChatGPT' },
 ];
 ---
 
@@ -68,7 +76,7 @@ const tools = [
     <div class="container projects-intro">
       <div class="projects-intro-text">
         <h1>I love tinkering with new technologies and launching ideas.</h1>
-        <p class="projects-subtitle">Personal projects, advocacy experiments, and a 30-year-old role-playing community.</p>
+        <p class="projects-subtitle">Personal projects, advocacy experiments, and a 32-year-old role-playing community.</p>
         <hr class="section-rule" />
       </div>
       <div class="projects-intro-image">
@@ -86,7 +94,7 @@ const tools = [
         <p>Some projects are polished, some are scrappy, but all come from that same drive to explore what's next and put it into practice.</p>
       </div>
       <div class="tools-sidebar">
-        <h3>Favorite Tools</h3>
+        <h3>Favorite tools</h3>
         <ul class="tools-list">
           {tools.map(tool => (
             <li class="tool-item">{tool.label}</li>
