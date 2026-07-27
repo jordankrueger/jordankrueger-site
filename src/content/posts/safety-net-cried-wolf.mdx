@@ -1,0 +1,92 @@
+---
+title: "My security alarm went off 8,270 times. It was wrong 8,270 times."
+description: "I built a safety net to catch leaked passwords. It buried the real ones, quietly rewrote 14,000 pieces of my own work logs every night, and nearly talked me into rotating a production credential that was never leaked."
+pubDate: 2026-07-27
+tags: ["ai", "security", "claude-code", "tools"]
+coverImage: "/images/gallery/blog-safety-net-cried-wolf.jpg"
+coverAlt: "Flat illustration of an empty home office in warm earth tones — a smoke detector on the ceiling beeping into the room, and below it a monitor showing lines of text blacked out with redaction bars, with an empty chair, a coffee mug, and a potted plant"
+draft: false
+---
+
+A couple of weeks ago I found a leaked password in one of my own repositories.
+
+It was sitting in a README, in plain text, under the words "Vault password." That file unlocks the encrypted configuration for a set of servers I run. I did what you're supposed to do: wrote up what happened, made a commit to clean it up, and started walking through the steps to rotate the credential on the live servers.
+
+I got most of the way there before I figured out that nothing had leaked. The README never contained a password at all. What it contained was a *file path* — the location on disk where the real password is kept, which is a completely ordinary thing to write in a README. I couldn't tell, because my own security tooling had blacked out that line before I ever laid eyes on it. All I saw was the words "Vault password" and a censored blob, and I filled in the rest myself.
+
+I spent an afternoon responding to an emergency that didn't exist, and the thing that manufactured it was the tool I'd installed to prevent exactly this kind of problem.
+
+That was the moment I stopped trusting the safety net I'd built, and went looking at what it had actually been doing.
+
+## The thing I built
+
+Here's the setup. I use AI coding assistants all day, across client work, volunteer projects, and my own stuff. Those assistants read files, and files sometimes contain API keys. On my machine, everything the assistant reads gets written to a transcript on disk, and those transcripts go to my backups every night. So a key that shows up once tends to stick around in places I'll never think to look.
+
+So I built a net. Two pieces, both simple:
+
+- A **live filter** that watches everything a tool hands back to the AI and masks anything that looks like a credential, before it lands in the transcript.
+- A **nightly cleanup job** that goes through the transcripts already on disk and does the same thing to anything the live filter missed.
+
+Good idea, honestly. I still think it's a good idea. The problem was entirely in the phrase "anything that looks like a credential."
+
+## The measurement
+
+The reason I looked under the hood at all was mundane: the filter was firing constantly. Eighty-two times in three days, including on my *Google Calendar events*. I went in expecting to tune out some noise.
+
+The detection rules came in two flavors. Some of them matched shapes that only credentials have — the specific prefix Anthropic puts on its API keys, the one GitHub uses, the format of an AWS key, the structure of a signed token. Those are precise. A match doesn't prove the key is live (plenty are revoked, or fake ones pasted into documentation), but it does mean you're looking at something key-shaped and should go check.
+
+The others matched a pattern that, in plain English, is: *a word like "password" or "secret" or "token," followed by six or more characters of anything at all.*
+
+I ran both flavors across the roughly 22,000 files in my working folder to see what the split looked like. The precise rules, all of them combined, matched 115 things — a small enough pile that I could sit down and go through it.
+
+The loose rules matched **8,270**.
+
+I pulled samples. Every single one was a false positive. Things like `${NOTION_API_KEY}` — a placeholder that stands in for a key, not a key. `os.environ[`, which is the *code that goes and fetches* a key. `YOUR_ADMIN_PASSWORD`, from example documentation. A line beginning `$(grep`.
+
+My favorite: it flagged its own source code. One line in the detection script reads `secret = m.group(grp)`, which is just the variable where it stores a match. So the tool matched itself, which meant that any time I opened that file to work on it, I got back a version with pieces blacked out. The censor was censoring the censor.
+
+## Three ways it hurt, and the third one is the expensive one
+
+**One: I stopped being able to see anything.** This is the obvious cost of a noisy alarm and the least interesting one. When a warning fires eight thousand times, a real warning looks exactly like all the others. The signal was still in there. It just didn't mean anything anymore.
+
+**Two: it was quietly editing my transcripts every night.** This one I didn't see coming. The nightly cleanup job doesn't warn you about anything — it rewrites, in place, unattended, at 2:30 in the morning. It only touches the transcript files, never my actual source code, which is the one piece of good news in this story. I ran it in preview mode to count what it was doing. Every night it was permanently overwriting 14,052 pieces of text across 710 transcript files. Not credentials. Ordinary content, gone, replaced with black bars. Those transcripts are my record of months of work, and the only thing damaging them was the tool I installed to protect them.
+
+**Three: it lied to the AI, and then the AI and I believed it together.** This is the one that cost me the afternoon.
+
+Because the filter sits between the tools and the assistant, a blacked-out file is what the assistant *sees*. It has no way to know the real text is different. So when it read that README and found a password-shaped blur under the words "Vault password," it reported a leaked credential — correctly, given what was in front of it. And I agreed, because the evidence looked solid.
+
+The value underneath was byte-for-byte identical to a path sitting in a config file two directories over, where it had been doing its job quietly for years.
+
+## The part that nearly got me
+
+There's a detail from that afternoon I keep thinking about, because it's a mistake I'd make again.
+
+Before rotating anything, I tested whether the value from the README actually unlocked the vault. It did. So: live credential, rotate immediately.
+
+Except when I checked the *current* password, that decrypted the vault too. Two completely different values, both unlocking the same thing. Which is impossible.
+
+What was actually happening: a config file in that folder specifies where to find the real password, and it silently overrode the password I was explicitly handing the command. Every test I ran, no matter what I passed it, was quietly using the real credential and reporting success.
+
+So the rule I wrote down for myself, which I think generalizes well past this situation: **any test of "does this credential still work?" needs a third arm using a value you know is wrong.** If the deliberately wrong value also succeeds, your test isn't measuring what you think it is — something in the environment is supplying the answer. A positive result with no negative control isn't evidence of anything.
+
+I've been doing this work a long time and I still nearly rotated a production credential on the strength of a test that couldn't fail.
+
+## The fix, which took about an hour
+
+The repair was not complicated, which is a little embarrassing given how long the thing had been running.
+
+Precise rules still fire on sight. If that Anthropic prefix shows up, I want to know, every time. The loose rules now have to clear a second check before they're allowed to say anything: does the matched value have the *structure* of a real secret, or is it obviously something else? A `$` or `${}` means it's a placeholder pointing at a value, not the value. Parentheses or brackets mean it's code. An all-caps environment variable name is a name, not a secret.
+
+Results: the 8,270 matches across my files dropped to 542. The nightly rewrites went from 14,052 to zero.
+
+## What I'd tell you if you're about to turn on an alert
+
+Two things stuck with me, and neither is really about secrets.
+
+The first is that a noisy guardrail isn't a weaker version of a good one. I'd argue it's a different thing entirely, and when it takes action on its own it can be worse than having nothing. No alarm at all leaves you appropriately nervous, which is a useful state to be in. An alarm that's wrong all the time gives you the feeling of coverage while doing real damage: it hides the true hits, it manufactures fake ones you'll spend actual hours on, and if it *acts* instead of just warning you, it does all of that while you sleep. I'd rather run with no filter and know I'm running with no filter.
+
+The second is that you have to test your safety tools against the real case, not against the cases you can think up. I wrote test fixtures for the new rules. They passed. Then I pointed the thing at the actual README line that started this whole mess, and it went the other way — it now shrugged off a credential-shaped value written exactly like that one, for two reasons I never would have invented at a keyboard. I'd taught it to skip anything starting with a slash, and real passwords can start with a slash. And I'd taught it to skip anything wrapped in backticks, which is, of course, precisely how a person writes a password down in a markdown file.
+
+Hand-written tests only cover what you already imagined. The incident covers what you didn't. There are 41 cases in the suite now, and 23 of them are lifted word for word from things this tool got wrong.
+
+The net is still running. I trust it more now, mostly because it says a lot less.
