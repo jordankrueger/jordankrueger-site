@@ -4,11 +4,11 @@ interface Props {
   description: string;
   image?: string;
   href: string;
-  secondaryLink?: { href: string; label: string };
+  secondaryLinks?: { href: string; label: string }[];
   bgClass?: string;
   index?: number;
 }
-const { title, description, image, href, secondaryLink, bgClass = '', index = 0 } = Astro.props;
+const { title, description, image, href, secondaryLinks = [], bgClass = '', index = 0 } = Astro.props;
 const reversed = index % 2 === 1;
 ---
 
@@ -27,9 +27,9 @@ const reversed = index % 2 === 1;
         <Fragment set:html={description} />
         <div class="project-card-actions">
           <a href={href} class="btn btn-outline" target="_blank" rel="noopener">Learn More</a>
-          {secondaryLink && (
-            <a href={secondaryLink.href} class="btn btn-outline" target="_blank" rel="noopener">{secondaryLink.label}</a>
-          )}
+          {secondaryLinks.map(link => (
+            <a href={link.href} class="btn btn-outline" target="_blank" rel="noopener">{link.label}</a>
+          ))}
         </div>
       </div>
     </div>
@@ -85,6 +85,7 @@ const reversed = index % 2 === 1;
 
   .project-card-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.75rem;
     margin-top: var(--spacing-sm);
   }

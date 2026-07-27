@@ -7,7 +7,7 @@ const projects = [
     title: 'Claude Code guardrails',
     description: `<p>Everyone I talk to at nonprofits is either using an AI coding assistant already or about to be. Almost none of them are security engineers, and the advice out there assumes they are. So I wrote down the handful of defaults I'd want a friend to have in place before they let an agent loose on their laptop.</p><p>The whole thing rests on one idea: everything the AI touches should be backed up somewhere it can't delete. You can't guarantee an agent never makes a mistake or gets talked into one — but you can make the worst day survivable. The repo has a drop-in <strong>CLAUDE.md</strong>, example permission and sandbox settings, an "out of its reach" checklist, and the research behind each choice so you can check my reasoning. MIT licensed, and honest about what it doesn't protect you from.</p>`,
     href: 'https://github.com/jordankrueger/backup-first-ai',
-    secondaryLink: { href: '/ai', label: 'What I build with it' },
+    secondaryLinks: [{ href: '/ai', label: 'What I build with it' }],
     bgClass: 'bg-blue',
   },
   {
@@ -21,7 +21,7 @@ const projects = [
     title: 'Awesome ActionKit',
     description: `<p>ActionKit powers email and advocacy for most large progressive organizations, but the best tooling around it has always been scattered — buried in Slack threads, ClientCon sessions, and the occasional vendor blog post. New admins spend months rediscovering things other people figured out years ago.</p><p>Awesome ActionKit is the hub I wish had existed when I started. A curated, CC0 list of snippets, recipes, integrations, consultants, and guides — the things that actually work, collected in one place that's easy to find and easy to contribute back to. CampaignHelp seeded it with a handful of repos (redirect blocks, mailing blocks, a health check). Everyone else is invited.</p>`,
     href: 'https://github.com/jordankrueger/awesome-actionkit',
-    secondaryLink: { href: '/tools#actionkit', label: 'Browse the tools' },
+    secondaryLinks: [{ href: '/tools#actionkit', label: 'Browse the tools' }],
     bgClass: 'bg-blue',
   },
   {
@@ -80,7 +80,10 @@ const projects = [
     description: `<p>That's a lot of letters, right? PBEM stands for "Play By Email," and RPG stands for "Role-Playing Game."</p><p>In 1994, on AOL, I co-founded a Star Trek role-playing game soon after learning about them in chat rooms. I was a Star Trek fanatic, as a kid, and I loved the utopian vision of the future mixed with the sense of cool, calm competency that everyone on the show gave off amidst the vast interplay of species in the galaxy.</p><p>That game grew into a community that I still have a hard time believing exists to this day, and which I've led for over 30 years.</p><p>Over the years I've watched people go through many phases of life, meet fellow members and get married, have kids, and even divorce. It's been the privilege of a lifetime to lead and watch all of this happen.</p><p>Beyond all that, the game provided me with a testing ground for leadership, community, and technology like perhaps nothing else could have.</p>`,
     image: '/images/logo-starbase118.jpg',
     href: 'https://www.starbase118.net',
-    secondaryLink: { href: 'https://medium.com/@jordankrueger/how-roleplaying-gives-lgbtq-and-non-binary-people-an-outlet-to-explore-themselves-b119813bb23b', label: 'RPGs & LGBTQ+' },
+    secondaryLinks: [
+      { href: 'https://trekstories.net', label: 'Read the ebooks' },
+      { href: 'https://medium.com/@jordankrueger/how-roleplaying-gives-lgbtq-and-non-binary-people-an-outlet-to-explore-themselves-b119813bb23b', label: 'RPGs & LGBTQ+' },
+    ],
     bgClass: 'bg-peach',
   },
 ];
