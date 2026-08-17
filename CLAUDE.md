@@ -1,8 +1,8 @@
 # jordankrueger.com — Personal Site
 
 ## Stack
-- **Astro** static site generator with MDX for blog posts
-- **Cloudflare Pages** — auto-deploys on push to `main`
+- **Astro 7.1.4** static site generator with MDX for blog posts (upgraded from 5.18 on 2026-07-27 — cleared all 40 open Dependabot alerts; see the "Astro 7 punctuation gotcha" note under Blog Posts below)
+- **Cloudflare Pages** — auto-deploys on push to `main`. Node version pinned via `.nvmrc` (`22`) — Astro 7 requires Node >=22.12 and the CF Pages project has no `NODE_VERSION` env var set, so the build depends on the `.nvmrc` file
 - **GitHub:** `jordankrueger/jordankrueger-site` (use `jordankrueger` account)
 
 ## Dev Server
@@ -33,7 +33,7 @@ npm run dev
 - `/projects` — Project showcase (full-width ProjectCard panels)
 - `/ai` — AI showcase (40+ projects built with Claude Code, compact card grid). Data lives in page frontmatter arrays. Uses `AiProjectCard` and `AiStoryCard` components.
 - `/tools` — Progressives Projects Portal. Curated catalog of free/open tools for advocacy orgs. Data lives in the `tools` Astro content collection (`src/content/tools/*.yaml`). One YAML file per category; each file contains `category:` metadata and an `entries:` array. Adding a tool = editing the relevant YAML + push. Zod schema lives in `src/content.config.ts`. Uses `ToolCard` and `ToolCategory` components.
-- `/building` — Building in Public series (posts tagged `claude-code`)
+- `/building` — Building in Public series (posts tagged `claude-code`). No `building.astro` page exists — `public/_redirects` 301s `/building` → `/blog?tag=claude-code` instead (verified live 2026-07-27, returns 200 after redirect). Not a broken route, just an unconventional implementation — worth knowing before assuming a missing page needs building.
 - `/about` — About page
 
 ## Blog Posts
@@ -49,13 +49,20 @@ coverImage: "/images/gallery/cover.jpg"
 draft: false
 ```
 
-Tag `claude-code` to include in the Building in Public series at `/building`.
+Tag `claude-code` to include in the Building in Public series at `/building` (see caveat above — it's a redirect, not a real page).
+
+**Astro 7 punctuation gotcha:** Astro 7's Markdown renderer (Sätteri) maps a literal `--` in prose to an **en dash (–)**, not the em dash (—) that remark/rehype (Astro 5) produced via smartypants. If a draft uses `--` for an em dash, it will render wrong after the fact — write literal em dashes (`—`) directly in MDX instead of relying on `--` auto-conversion. (Caught 2026-07-27 during the Astro 5→7 upgrade: silently changed 16 asides across `fediverse-ai-problem.mdx` and `you-need-to-learn-ai.mdx`.)
+
+## Project Cards (`src/components/ProjectCard.astro`)
+
+Takes a `secondaryLinks` array prop (not a single `secondaryLink` string) — each item is `{ href, label }`. Renders as multiple action buttons per card with `flex-wrap` on `.project-card-actions`. Used e.g. on the StarBase 118 card to show both the TrekStories ebook link and the Medium piece.
 
 ## External Services
 - **Newsletter signup:** POST to `https://progressives-signup.restless-salad-a31e.workers.dev`
   - Worker source: `side-hustle/progressives-for-ai/progressives-for-ai/worker.js` (personal CF account — use `PERSONAL_CLOUDFLARE_API_TOKEN`)
   - Signups go to **Listmonk Mission Control list (id 4)** on CH VPS (newsletter.campaign.help)
   - AK Template form also posts here with `bonus=ak-template` → triggers Resend transactional welcome email to new subscriber
+  - **Adding a new signup form (here or on any other site): see `claude-management/reference/signup-forms.md` for the canonical pattern (worker architecture, lookup+attach for existing subscribers, client-side response handling, anti-patterns).**
 - **Contact form:** POST to `https://jordankrueger-contact-form.restless-salad-a31e.workers.dev` (sends email via Resend to jordan@jordankrueger.com). Worker source in `workers/contact-form/`. Deploy with `CLOUDFLARE_API_TOKEN="$PERSONAL_CLOUDFLARE_API_TOKEN" npx wrangler deploy` from that directory.
 - **Analytics:** Google Analytics `G-QJQ0PD6XHD`
 

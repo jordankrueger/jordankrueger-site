@@ -9,13 +9,25 @@ category:
   order: 1
 
 entries:
+  # Hub
+  - name: Awesome ActionKit
+    slug: awesome-actionkit
+    description: >
+      A curated list of tools, snippets, integrations, consultants, and guides for ActionKit.
+      Community-maintained, CC0. The hub this category mirrors.
+    url: https://github.com/jordankrueger/awesome-actionkit
+    attribution: jordan
+    free: true
+    license: CC0-1.0
+    status: live
+
   # CampaignHelp-built
-  - name: ak-redirect-snippets
-    slug: ak-redirect-snippets
+  - name: ak-redirect-blocks
+    slug: ak-redirect-blocks
     description: >
       Django snippet recipes for ActionKit after-action redirect URLs — new-user vs. returning,
       donation ladders from prior gifts, monthly-upgrade routing, UTM-aware routing.
-    url: https://github.com/CampaignHelp/ak-redirect-snippets
+    url: https://github.com/CampaignHelp/ak-redirect-blocks
     attribution: campaignhelp
     free: true
     license: MIT
@@ -38,11 +50,11 @@ entries:
       Copy-paste HTML blocks for ActionKit mailings — bulletproof CTA button, preheader,
       dark-mode-safe wrapper, donation array. Three-tier model (hard-coded, custom-field-wired,
       dynamic per-recipient).
-    url: https://github.com/CampaignHelp
+    url: https://github.com/CampaignHelp/ak-mailing-blocks
     attribution: campaignhelp
     free: true
     license: MIT
-    status: coming-soon
+    status: live
 
   # Jordan-built / curated
   - name: ActionKit Production Template

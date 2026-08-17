@@ -1,0 +1,90 @@
+---
+title: "You're not using AI to its full potential"
+description: "Most people use AI for scraps — write this email, summarize that. The real unlock is handing it a big, tedious life project. Here's how I'd gather 25 years of my own medical records today, safely."
+pubDate: 2026-07-05
+tags: ["ai", "claude-code", "health", "data-portability", "tools"]
+coverImage: "/images/gallery/blog-health-records-with-ai.jpg"
+coverAlt: "Warm flat illustration of scattered medical documents, a pill bottle, a heart-rate line, and a smartwatch flowing into a single organized folder held in a pair of hands"
+draft: false
+---
+
+Years ago, long before any of the AI tools existed, I decided I wanted every one of my medical records in one place. Not my last visit. Everything. Twenty-five years of it.
+
+If you've never tried this, it's more of a project than you'd think. I sat down and listed every place I'd gotten care since my twenties — old primary care doctors in cities I don't live in anymore, urgent care clinics, a couple of specialists, the works. Then I started working the list. Called each office. Figured out their records-request process, because every single one is different. Filled out their forms, sent the requests, and chased them for weeks when nothing showed up.
+
+It worked. I got there. But it was slow and manual and I was the one holding all the threads for months. And I keep coming back to that project lately, because the whole slog — the part that made me put it off for years in the first place — is exactly the kind of thing AI is good at now. Not writing me a nicer email. Running a big, tedious, multi-step job I don't want to babysit.
+
+> This is another post in my [Building in Public](/building) series. I've written before about [giving AI a real server to work on](/blog/give-ai-a-server) and about [companies treating my own data like I need permission to have it](/blog/let-me-download-my-own-data). This one is about actually going and getting it.
+
+That's the shift I want to walk you through. Here's what the records project looked like by hand, and how I'd do the same thing today — faster, and safely.
+
+## Your data is more reachable than you think
+
+Here's the part most people miss: a huge amount of your health data is already sitting there waiting for you to grab it.
+
+There's an easy tier you can pull today. MyChart and the other patient portals. Apple Health on your phone. Oura, your watch, whatever you're already wearing. Most people never even export what they already have access to — it's right there, and it just sits in the app.
+
+But there's a catch, and it's the reason the easy tier isn't enough. Those portals only show you recent care from providers you currently see. The older stuff — the doctor from two cities ago, the clinic that got absorbed into some hospital system — that history takes real legwork to track down. That's the part I did by hand.
+
+That's also the part AI is built for.
+
+## What advanced AI use actually looks like
+
+When people ask me what "using AI well" looks like, the records project is what I point to.
+
+If I were starting it today, I wouldn't hold any of it in my head. I'd hand the whole thing to Claude or ChatGPT and let it be the project manager. Here's what I'd ask it to do:
+
+- Interview me and build the full list — every place I've ever gotten care, jogging my memory with questions
+- Find the medical-records contact and phone number for each provider
+- Draft the actual request letter or email for each one (there's a standard format, and HIPAA gives you the legal right to your own records — the AI knows the language)
+- Generate a simple checklist I can open in my browser that walks me through it, place by place, so I can see what's sent, what's back, and what's still stuck
+
+None of that is exotic. It's the kind of coordinating and drafting and list-keeping that AI does better than I do, and that I used to do on legal pads and sticky notes. The shift is just deciding to hand it the whole job instead of one small piece.
+
+A couple of expectations to set, because I hit both: some providers charge a small fee for copies, and they're allowed up to about 30 days to respond. So this isn't an afternoon — it's a slow trickle of replies over a few weeks. The checklist is what keeps it from falling apart in the meantime.
+
+## Once it's all in one place, make it useful
+
+Collecting the records is step one. The better part is what you do with them.
+
+A pile of PDFs isn't much better than a filing cabinet. So I pulled everything into one private view of my health, and then I built the charts I actually cared about — lab values tracked across years, sleep, activity — instead of squinting at a static report from one visit. Seeing a number move over a decade tells you something no single lab result can.
+
+Then I did the thing that genuinely surprised me. I asked the AI, "what do you notice here that I should ask my doctor about?"
+
+One of the things it flagged: my pneumococcal vaccine antibody levels were low across most strains, even though my overall immune numbers looked normal. Pneumococcal is the pneumonia vaccine — the AI noticed that my body didn't seem to have responded to it the way you'd expect, which is a specific, real thing worth raising with a doctor. No single portal would ever have surfaced that, because no single portal had all the pieces in one place.
+
+I want to be careful here, so let me say it plainly: this is not a diagnosis, and neither you nor the AI is a doctor. What it produces are good questions to bring to an appointment. I read everything it flagged and corrected anything that was off before I trusted it. Treat it as a smart, well-read friend who read your whole chart — not as medicine.
+
+## The payoff at the doctor's office
+
+The other thing I set up was tailored exports — a clean one-page summary I can hand to a new doctor or bring to an appointment.
+
+If you've ever sat in a waiting room trying to reconstruct your whole medical history from memory, you know why this is nice. Now I don't. I bring the summary. It's current, it's complete, and it took me thirty seconds to generate.
+
+## Before you start: the privacy part, in plain English
+
+Here's the thing I don't want to gloss over. You're about to gather the single most sensitive collection of data you own and put it in one place. That's powerful, and it's a responsibility. You don't need to be technical to do this safely, but you do need to be deliberate.
+
+The real risks are boring and human: a shared family computer anyone can open, an unencrypted cloud folder, pasting your entire record into some random app you found that afternoon, a laptop that gets lost or stolen.
+
+Here's how to protect yourself, simplest to most secure:
+
+- Keep the archive in one folder on **your own** device — not the family computer everyone uses
+- Turn on full-disk encryption. It's one setting (FileVault on a Mac, BitLocker on Windows) and it means a lost laptop is a lost brick, not a data breach
+- Password-protect or encrypt the folder itself for a second layer
+- Be deliberate about what you paste into AI tools. You can ask a general question — "what do low pneumococcal antibody levels usually suggest?" — without uploading your name, birthdate, and entire history attached to it
+- If you back it up, back it up encrypted. Not a plain Dropbox or Google Drive folder that syncs everywhere
+
+And the reassuring part: the AI can walk you through every one of those steps too. "How do I turn on full-disk encryption on my Mac?" is a perfectly good question to ask it before you start collecting anything.
+
+## Where to start
+
+If you take one thing from this, let it be the mindset shift: stop feeding AI scraps. Give it a real project.
+
+You don't need to build software or know how any of this works under the hood. You just need to start the conversation. Here's a prompt you can paste in today, into Claude or ChatGPT, and go:
+
+> I want to collect all of my medical records from the last 20–25 years into one private, organized archive on my own computer. Act as my project manager. First, interview me to build a complete list of every place I've received care. Then help me find each provider's medical-records contact, draft a formal records-request email for each one, and create an HTML checklist I can open in my browser to track the status of every request. Before we start, walk me through how to keep this data private and secure on my device, in plain language — I'm not very technical.
+
+That's the whole on-ramp. Let it interview you, build the list, write the letters, and hand you a checklist. Start with the easy tier you can grab today, then work backward through the older providers.
+
+And once the records are in? Build the charts. Ask it what it notices. Make yourself that one-page summary for your next appointment. The records were never really the point — the point is that this is the kind of thing you can just *do* now, and most people have no idea.
