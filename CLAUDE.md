@@ -62,8 +62,10 @@ Takes a `secondaryLinks` array prop (not a single `secondaryLink` string) — ea
   - Worker source: `side-hustle/progressives-for-ai/progressives-for-ai/worker.js` (personal CF account — use `PERSONAL_CLOUDFLARE_API_TOKEN`)
   - Signups go to **Listmonk Mission Control list (id 4)** on CH VPS (newsletter.campaign.help)
   - AK Template form also posts here with `bonus=ak-template` → triggers Resend transactional welcome email to new subscriber
+  - **Cloudflare Turnstile is required for `list=mission-control` only.** Every Mission Control form must render the Jordan widget with `data-action="newsletter"`; current forms are `NewsletterSignup.astro` and the AK Template form in `pages/tools.astro`. The public site key lives in the components; `TURNSTILE_SECRET_KEY` is a secret on the shared Worker. Do not make Turnstile global on that Worker unless every Progressives for AI caller is updated too.
   - **Adding a new signup form (here or on any other site): see `claude-management/reference/signup-forms.md` for the canonical pattern (worker architecture, lookup+attach for existing subscribers, client-side response handling, anti-patterns).**
-- **Contact form:** POST to `https://jordankrueger-contact-form.restless-salad-a31e.workers.dev` (sends email via Resend to jordan@jordankrueger.com). Worker source in `workers/contact-form/`. Deploy with `CLOUDFLARE_API_TOKEN="$PERSONAL_CLOUDFLARE_API_TOKEN" npx wrangler deploy` from that directory.
+- **Contact form:** POST to `https://jordankrueger-contact-form.restless-salad-a31e.workers.dev` (sends email via Resend to jordan@jordankrueger.com). Worker source in `workers/contact-form/`. Cloudflare Turnstile uses `data-action="contact"`; `TURNSTILE_SECRET_KEY` is a Worker secret. Deploy with `CLOUDFLARE_API_TOKEN="$PERSONAL_CLOUDFLARE_API_TOKEN" npx wrangler deploy` from that directory.
+- **Turnstile CSP:** `public/_headers` must allow `https://challenges.cloudflare.com` in both `script-src` and `frame-src`; otherwise the HTML looks correct but no challenge/token renders.
 - **Analytics:** Google Analytics `G-QJQ0PD6XHD`
 
 ## Mission Control Newsletter

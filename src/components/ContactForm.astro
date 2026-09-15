@@ -19,6 +19,14 @@
           <input type="hidden" name="_loaded" id="form-loaded" />
           <label for="contact-message" class="sr-only">Message</label>
           <textarea name="message" id="contact-message" placeholder="What should we talk about?" maxlength="16384" rows="5" required></textarea>
+          <div
+            id="contact-turnstile"
+            class="cf-turnstile"
+            data-sitekey="0x4AAAAAAENA2SSitXnnEAkn"
+            data-action="contact"
+            data-appearance="interaction-only"
+            data-theme="auto"
+          ></div>
           <button type="submit" class="btn btn-primary" id="contact-submit">Submit</button>
           <p id="contact-status" class="contact-status" hidden></p>
         </form>
@@ -145,5 +153,6 @@
 
     btn.disabled = false;
     btn.textContent = 'Submit';
+    (window as any).turnstile?.reset('#contact-turnstile');
   });
 </script>

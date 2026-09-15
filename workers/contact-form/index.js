@@ -40,6 +40,21 @@ export default {
         return jsonResponse({ error: 'Invalid email address' }, 400, env.ALLOWED_ORIGIN);
       }
 
+      const turnstileToken = (data.get('cf-turnstile-response') || '').trim();
+      const turnstileValid = await verifyTurnstile(
+        turnstileToken,
+        env.TURNSTILE_SECRET_KEY,
+        request.headers.get('CF-Connecting-IP'),
+        'contact',
+      );
+      if (!turnstileValid) {
+        return jsonResponse(
+          { error: 'Please complete the security check and try again.' },
+          400,
+          env.ALLOWED_ORIGIN,
+        );
+      }
+
       const resendResponse = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -72,6 +87,36 @@ export default {
     }
   },
 };
+
+async function verifyTurnstile(token, secret, remoteIp, expectedAction) {
+  if (!token || !secret) return false;
+
+  const body = new URLSearchParams({ secret, response: token });
+  if (remoteIp) body.set('remoteip', remoteIp);
+
+  try {
+    const response = await fetch(
+      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+        signal: AbortSignal.timeout(10000),
+      },
+    );
+    if (!response.ok) return false;
+
+    const result = await response.json();
+    return Boolean(
+      result.success &&
+      ['jordankrueger.com', 'www.jordankrueger.com'].includes(result.hostname) &&
+      result.action === expectedAction
+    );
+  } catch (error) {
+    console.error('Turnstile validation failed', error);
+    return false;
+  }
+}
 
 function corsHeaders(origin) {
   return {

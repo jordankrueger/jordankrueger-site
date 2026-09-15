@@ -75,6 +75,14 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
             <input type="email" name="email" placeholder="Your email" required maxlength="256" />
             <input type="hidden" name="list" value="mission-control" />
             <input type="hidden" name="bonus" value="ak-template" />
+            <div
+              id="tools-turnstile"
+              class="cf-turnstile"
+              data-sitekey="0x4AAAAAAENA2SSitXnnEAkn"
+              data-action="newsletter"
+              data-appearance="interaction-only"
+              data-theme="auto"
+            ></div>
             <button type="submit" class="btn btn-primary">Subscribe</button>
           </form>
           <p class="ak-form-status" hidden></p>
@@ -225,9 +233,11 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
   }
   .ak-form {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: var(--spacing-sm);
   }
+  .ak-form .cf-turnstile { flex-basis: 100%; }
   .ak-form input {
     flex: 1;
     padding: 0.75rem 1rem;
@@ -305,6 +315,7 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
 
       btn.disabled = false;
       btn.textContent = originalLabel;
+      (window as any).turnstile?.reset(form.querySelector('.cf-turnstile'));
     });
   });
 </script>

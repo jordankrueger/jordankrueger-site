@@ -20,6 +20,14 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
           <label class="sr-only">Email address</label>
           <input type="email" name="email" placeholder="Your email" required maxlength="256" />
           <input type="hidden" name="list" value="mission-control" />
+          <div
+            id={`newsletter-turnstile-${id}`}
+            class="cf-turnstile"
+            data-sitekey="0x4AAAAAAENA2SSitXnnEAkn"
+            data-action="newsletter"
+            data-appearance="interaction-only"
+            data-theme="auto"
+          ></div>
           <button type="submit" class="btn btn-primary">Subscribe</button>
         </form>
         <p class="newsletter-status" hidden></p>
@@ -100,7 +108,12 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
 
   .newsletter-form {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
+  }
+
+  .newsletter-form .cf-turnstile {
+    flex-basis: 100%;
   }
 
   .newsletter-form input {
@@ -199,6 +212,7 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
 
       btn.disabled = false;
       btn.textContent = originalLabel;
+      (window as any).turnstile?.reset(form.querySelector('.cf-turnstile'));
     });
   });
 </script>
