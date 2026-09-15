@@ -90,3 +90,12 @@ Output directory: `dist`
 ## Retired / Redirected Pages
 - `/building` — Deleted (May 2026). `public/_redirects` sends `/building` → `/blog?tag=claude-code` (301). The blog's tag-filter JS auto-clicks the filter. Update internal links to `/blog?tag=claude-code` instead of `/building`.
 - `coaching.jordankrueger.com` — Retiring (May 2026). Carrd unpublish + DNS record deletion pending.
+
+## Recent posts
+- **"Can our own AI bodyguard stop AI dangers?"** (`/blog/ai-bodyguard/`) — published 2026-09-15, PR #57 (post) + #58 (Sources section), both squashed and merged, CI green, live-verified. Cover image via Higgsfield `nano_banana_pro`.
+
+## Open branch — Cloudflare Turnstile (NOT merged)
+`turnstile-forms` branch (commit `b491d16`), pushed to origin, deliberately held. Adds Cloudflare Turnstile to the contact form and the newsletter signup form (CSP update, widget markup, worker siteverify, index.test.js). Rescued from an in-progress prior-session checkout on 2026-09-15 and verified byte-for-byte before committing. **Not reviewed or tested — do not merge without review**, since it puts a captcha on two live production forms.
+
+## Housekeeping backlog
+- Decide whether to merge/review the `turnstile-forms` branch above, or drop it.
