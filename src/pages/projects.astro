@@ -4,6 +4,16 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const projects = [
   {
+    title: 'Equity Language Commons',
+    description: `<p>Every progressive organization I work with has an equity language guide, or wants one, or has three that quietly disagree with each other. The good ones are published by people doing careful work — but they're scattered across a few dozen PDFs, and when two of them rule differently on the same word, you're on your own to work out why.</p><p>Equity Language Commons puts them side by side. One page per term, every source organization's ruling on it, with the quote, the year, and a link back to the original. They contradict each other more often than you'd expect, and seeing that is more useful than picking whichever guide you happened to open first.</p><p>It's in beta and the index is still filling in. My cross-reference layer is CC BY 4.0; every source organization keeps its own words and its own credit. If a term is missing, or I've got one wrong, the Contribute page has four ways in — including one that doesn't need a GitHub account.</p>`,
+    href: 'https://equitylanguagecommons.org',
+    secondaryLinks: [
+      { href: 'https://equitylanguagecommons.org/glossary/', label: 'Browse the glossary' },
+      { href: 'https://equitylanguagecommons.org/sources/', label: 'See the sources' },
+    ],
+    bgClass: 'bg-green',
+  },
+  {
     title: 'Claude Code guardrails',
     description: `<p>Everyone I talk to at nonprofits is either using an AI coding assistant already or about to be. Almost none of them are security engineers, and the advice out there assumes they are. So I wrote down the handful of defaults I'd want a friend to have in place before they let an agent loose on their laptop.</p><p>The whole thing rests on one idea: everything the AI touches should be backed up somewhere it can't delete. You can't guarantee an agent never makes a mistake or gets talked into one — but you can make the worst day survivable. The repo has a drop-in <strong>CLAUDE.md</strong>, example permission and sandbox settings, an "out of its reach" checklist, and the research behind each choice so you can check my reasoning. MIT licensed, and honest about what it doesn't protect you from.</p>`,
     href: 'https://github.com/jordankrueger/backup-first-ai',
