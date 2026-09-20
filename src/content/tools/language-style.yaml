@@ -6,13 +6,13 @@ category:
   order: 3
 
 entries:
-  - name: progressive-style-guides
-    slug: progressive-style-guides
+  - name: Equity Language Commons
+    slug: equity-language-commons
     description: >
-      Searchable aggregator of progressive style guides and language resources — messaging
-      frameworks, terminology standards, voice guides. Pulls from union, climate, racial justice,
-      and repro rights communities.
-    url: https://github.com/jordankrueger
+      Every source organization's equity-language ruling, cross-referenced one page per term —
+      the quote, the year, and a link back to the original. In beta; the index is still filling in.
+    url: https://equitylanguagecommons.org
     attribution: jordan
     free: true
-    status: coming-soon
+    license: CC-BY-4.0
+    status: live
