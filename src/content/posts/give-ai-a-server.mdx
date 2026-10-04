@@ -22,6 +22,8 @@ The whole setup costs under $10 a month:
 
 I bought the VPS and pointed it at a domain. Claude Code did the rest: it SSHed in, installed Coolify, deployed N8N and configured the DNS routing. Now it keeps working with that setup through the Coolify API and an [MCP server](https://modelcontextprotocol.io/) that connects to each N8N instance.
 
+Give it its own limited user, not root, and keep backups before you let it change anything.
+
 ## Automations it builds and tests
 
 I can say, "Build me a workflow that watches a webhook, fetches the page content, and saves it to my Notion database." Claude Code looks up how each N8N node works, writes the workflow, deploys it live, runs a test, reads the log and fixes whatever broke.
