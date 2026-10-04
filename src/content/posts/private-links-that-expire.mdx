@@ -18,64 +18,78 @@ share briefing.html --to alex@example.org --expires 30d
 
 I get back a link. When Alex opens it, Cloudflare emails a six-digit code. Alex types it in and sees the page. Cloudflare stops anyone else at the sign-in screen. After 30 days the link stops working on its own.
 
-Alex doesn't need an account, and I don't send a password. Here's the basic version.
+Alex doesn't need an account, and I don't send a password. Here's the manual version underneath that command.
 
 ## What you need
 
 - A domain that uses Cloudflare for DNS
 - A free Cloudflare Zero Trust account (it covers 50 users)
-- Wrangler, Cloudflare's command-line tool
+- Wrangler, Cloudflare's command-line tool, logged in with `npx wrangler login`
 
 ## How it works
 
 Cloudflare's key-value store (KV) holds each page under a long random name, with its expiry date. A small Worker serves the page, or says the link has expired. Cloudflare Access sits in front and only lets in the email addresses you list.
 
-Each part protects you on its own. If you forget the sign-in, the page still expires. If you forget the expiry, the page is still locked to the right people.
+The sign-in is what keeps a page private. So set up the sign-in before you upload the page, never after.
 
 ## Step 1: the Worker
 
-Each page lives at `/p/<name>`:
+Make a folder with two files. First, `wrangler.toml`:
+
+```toml
+name = "share"
+main = "index.js"
+compatibility_date = "2026-10-01"
+workers_dev = false
+preview_urls = false
+
+[[kv_namespaces]]
+binding = "PAGES"
+id = "<your namespace id>"
+```
+
+Get the id by running `npx wrangler kv namespace create PAGES`. Keep the two `false` lines. Without them, Cloudflare also publishes your Worker at addresses your sign-in doesn't cover.
+
+Then `index.js`:
 
 ```js
 export default {
   async fetch(request, env) {
-    const name = new URL(request.url).pathname.split("/")[2];
-    if (!name) return new Response("Not found", { status: 404 });
+    const match = new URL(request.url).pathname.match(/^\/p\/([a-f0-9]{24})$/);
+    if (!match) return new Response("Not found", { status: 404 });
 
-    const { value, metadata } = await env.PAGES.getWithMetadata(name);
-    if (!value) return new Response("Not found", { status: 404 });
+    const { value, metadata } = await env.PAGES.getWithMetadata(match[1]);
+    const expires = Number(metadata?.expires);
+    if (!value || !expires) return new Response("Not found", { status: 404 });
 
-    const now = Math.floor(Date.now() / 1000);
-    if (metadata?.expires && now > metadata.expires) {
+    if (Date.now() / 1000 > expires) {
       return new Response("This link has expired. Ask whoever sent it for a new one.", {
         status: 410,
       });
     }
 
     return new Response(value, {
-      headers: { "content-type": "text/html; charset=utf-8" },
+      headers: {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "private, no-store",
+      },
     });
   },
 };
 ```
 
-Create a KV store and bind it to the Worker as `PAGES` in `wrangler.toml`. Run `wrangler deploy`. Then attach a subdomain, like `share.example.org`, to the Worker in the Cloudflare dashboard.
+The Worker only answers at exactly `/p/<name>`. A page with no expiry date counts as missing. The `no-store` header tells browsers not to keep a copy.
 
-## Step 2: upload a page
+Run `npx wrangler deploy`. Then attach `share.example.org` to the Worker as a custom domain in the Cloudflare dashboard.
 
-Give the page a random name so nobody can guess it, and store the expiry date with it:
+## Step 2: add the sign-in
+
+Pick the page's name first:
 
 ```bash
 NAME=$(openssl rand -hex 12)
-EXPIRES=$(( $(date +%s) + 30*24*3600 ))   # 30 days from now
-
-npx wrangler kv key put "$NAME" --path briefing.html \
-  --binding PAGES --metadata "{\"expires\": $EXPIRES}" --remote
+echo "$NAME"
 ```
-
-The page is now live, but anyone with the link can open it. Step 3 fixes that.
-
-## Step 3: add the sign-in
 
 In the Zero Trust dashboard, add a self-hosted application:
 
@@ -83,14 +97,25 @@ In the Zero Trust dashboard, add a self-hosted application:
 - **Policy:** Allow, with the email addresses you're sending to.
 - **Login method:** One-time PIN.
 
-To test it, open the link in a private window. You should see Cloudflare's sign-in screen, not your page.
+Open the link in a private window. You should see Cloudflare's sign-in screen. After you sign in you'll see "Not found," because nothing is uploaded yet.
 
-The whole thing is about 25 lines of code, and it costs nothing to run.
+## Step 3: upload the page
+
+```bash
+EXPIRES=$(( $(date +%s) + 30*24*3600 ))   # 30 days from now
+
+npx wrangler kv key put "$NAME" --path briefing.html \
+  --binding PAGES --metadata "{\"expires\": $EXPIRES}" --remote
+```
+
+Test it once more in a private window, then send the link.
+
+Expiry stops the Worker from showing the page, but the stored copy stays. To delete it, run `npx wrangler kv key delete "$NAME" --binding PAGES --remote`.
 
 ## Two things that tripped me up
 
 **Add people before you send the link.** If an address isn't on the list yet, Cloudflare still says "a code has been emailed to you" but sends nothing. That stops outsiders from testing which addresses work. It also left one of my clients waiting for a code that never came.
 
-**Email filters can eat the codes.** The codes come from `noreply@notify.cloudflare.com`, and some organizations quarantine them. If a code never arrives, check there first.
+**Email filters can get in the way.** The codes come from `noreply@notify.cloudflare.com`. Some organizations quarantine them. Others scan the link first, so the code arrives already used. If someone can't get in, ask which happened.
 
-My version has grown since then (one command now sets up all three steps, and old links forward to new versions). But if your domain is already on Cloudflare, I think the basic one is worth an hour. Start with one page and one person. (Ideally a patient one.)
+My version does all three steps in one command now, and it can replace a page at the same link. But if your domain is already on Cloudflare, I think the manual version is worth an hour. Start with one page and one person. (Ideally a patient one.)
