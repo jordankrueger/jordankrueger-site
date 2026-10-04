@@ -53,6 +53,13 @@ Tag `claude-code` to include in the Building in Public series at `/building` (se
 
 **Astro 7 punctuation gotcha:** Astro 7's Markdown renderer (Sätteri) maps a literal `--` in prose to an **en dash (–)**, not the em dash (—) that remark/rehype (Astro 5) produced via smartypants. If a draft uses `--` for an em dash, it will render wrong after the fact — write literal em dashes (`—`) directly in MDX instead of relying on `--` auto-conversion. (Caught 2026-07-27 during the Astro 5→7 upgrade: silently changed 16 asides across `fediverse-ai-problem.mdx` and `you-need-to-learn-ai.mdx`.)
 
+## Writing standard (set 2026-10-04)
+Blog posts are short and simple: roughly 500-800 words, one idea, short sentences, point first. On 2026-10-04 the private-links post (PR #63) and 12 "I built X with Claude Code" posts (PR #64) were cut from 589-1,818 words to 489-831. Not shortened (built differently): ai-bodyguard, the-open-web-is-back-in-reach, fediverse-ai-problem, you-need-to-learn-ai, ai-research-hallucination, awesome-actionkit, progressive-email-suppression, password-security, ai-notetakers.
+- Check a post with `uv run python ~/.claude/skills/humanizer/ste_check.py <file>` (flags sentences over 25 words, paragraphs over 6 sentences).
+- Always cut from the live file in `src/content/posts/`, never from the voice-edits draft copy (a stale draft reintroduced weaker code and was blocked by the OpenAI Logic Review).
+- `npm run build` fails inside a `.claude/worktrees/` worktree (Astro cannot find its tsconfig); build from a copy outside the repo.
+- When grepping a live page for a marker, avoid apostrophes: Astro renders them as curly quotes.
+
 ## Project Cards (`src/components/ProjectCard.astro`)
 
 Takes a `secondaryLinks` array prop (not a single `secondaryLink` string) — each item is `{ href, label }`. Renders as multiple action buttons per card with `flex-wrap` on `.project-card-actions`. Used e.g. on the StarBase 118 card to show both the TrekStories ebook link and the Medium piece.
