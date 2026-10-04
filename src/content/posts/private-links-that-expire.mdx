@@ -1,6 +1,6 @@
 ---
 title: "How I send clients a private web page that expires on its own"
-description: "A link only the people I name can open, which stops working on a date I pick. It runs on Cloudflare's free tier, Claude Code wrote the code, and here's how to set up the basic version yourself."
+description: "A link only the people I name can open, and it stops working on a date I pick. It runs on Cloudflare's free tier."
 pubDate: 2026-10-03
 tags: ["claude-code", "ai", "tools", "cloudflare", "consulting"]
 coverImage: "/images/gallery/blog-private-links-that-expire.jpg"
@@ -8,144 +8,89 @@ coverAlt: "Flat illustration of a desk in warm earth tones: a laptop showing a w
 draft: false
 ---
 
-A lot of what I make for clients ends up as a single web page: a briefing, a project plan, a vendor comparison, a preview of a site before launch. Claude Code is very good at turning my messy notes into a clean, readable page, so these pile up fast.
+I send clients a lot of single web pages: briefings, project plans, previews of a site before launch. Getting those pages to the right people used to be the hard part. Attachments lose their styling. Anyone can read a public link, forever.
 
-For a long time the hard part was getting the page to the client.
-
-Email attachments strip the styling or get blocked. A Google Doc means rebuilding the page in a worse format. Putting it on a public website means anyone with the link can read it forever, which is not where I want a draft security plan to live. And I was not about to build a password-protected site for every client.
-
-So I built a small tool for it. These days, when I want to send someone a page, I run one command:
+So I built a small tool with Claude Code. Now I run one command:
 
 ```
 share briefing.html --to alex@example.org --expires 30d
 ```
 
-I get back a link. When Alex opens it, Cloudflare asks for an email address and sends a six-digit code. Alex types the code in and sees the page. Anyone not on the list gets stopped at the sign-in screen. In 30 days the link stops working on its own, and I can kill it sooner if I want.
+I get back a link. When Alex opens it, Cloudflare emails a six-digit code. Alex types it in and sees the page. Cloudflare stops anyone else at the sign-in screen. After 30 days the link stops working on its own.
 
-Alex doesn't create an account and I don't email anyone a password. I already owned the domain, and the rest of it fits inside Cloudflare's free tier, so the hosting costs me nothing.
-
-That `share` command is my own automated version. Below is the manual version underneath it: a few commands and a few clicks in the Cloudflare dashboard. Once that works, you can automate it however you like.
+Alex doesn't need an account, and I don't send a password. Here's the basic version.
 
 ## What you need
 
-- A domain that uses Cloudflare for its DNS. Mine runs on a subdomain like `share.example.org`.
-- A free Cloudflare Zero Trust account. That's where the sign-in step lives. The free plan covers 50 users (more on that below).
-- Wrangler, Cloudflare's command-line tool, installed and logged in (`npx wrangler login`).
-- An AI coding assistant, if you'd rather describe this than type it. Claude Code wrote my code. The design calls were mine: a separate guest list for every page, an expiry on everything by default, and my own address quietly added to every list so I can always open what I sent.
+- A domain that uses Cloudflare for DNS
+- A free Cloudflare Zero Trust account (it covers 50 users)
+- Wrangler, Cloudflare's command-line tool
 
-## The three pieces
+## How it works
 
-1. **Storage** holds the pages. Cloudflare's key-value store (called KV) keeps each page under a long random name, along with its expiry date.
-2. **A small Worker** serves them. A Worker is a bit of code that runs on Cloudflare's network. When someone asks for a page, it looks the page up, checks the date, and either shows the page or says the link has expired.
-3. **Cloudflare Access** decides who gets in. Before a request ever reaches the Worker, Access checks whether the person has signed in with an email address on that page's list.
+Cloudflare's key-value store (KV) holds each page under a long random name, with its expiry date. A small Worker serves the page, or says the link has expired. Cloudflare Access sits in front and only lets in the email addresses you list.
 
-The sign-in is what keeps a page private. The expiry only limits how long it's around. So the order matters: put the sign-in in place before the page goes up, never after.
+Each part protects you on its own. If you forget the sign-in, the page still expires. If you forget the expiry, the page is still locked to the right people.
 
 ## Step 1: the Worker
 
-Make a folder with two files. First, `wrangler.toml`:
-
-```toml
-name = "share"
-main = "index.js"
-compatibility_date = "2026-10-01"
-workers_dev = false
-preview_urls = false
-
-[[kv_namespaces]]
-binding = "PAGES"
-id = "<your namespace id>"
-```
-
-Get the namespace id by running `npx wrangler kv namespace create PAGES`. The two `false` lines matter more than they look. Out of the box, Cloudflare also publishes your Worker at a `workers.dev` address and at preview addresses, and the sign-in you set up in Step 2 only covers your own domain. Turning those off makes your domain the only way in.
-
-Then `index.js`:
+Each page lives at `/p/<name>`:
 
 ```js
 export default {
   async fetch(request, env) {
-    const match = new URL(request.url).pathname.match(/^\/p\/([a-f0-9]{24})$/);
-    if (!match) return new Response("Not found", { status: 404 });
+    const name = new URL(request.url).pathname.split("/")[2];
+    if (!name) return new Response("Not found", { status: 404 });
 
-    const { value, metadata } = await env.PAGES.getWithMetadata(match[1]);
-    const expires = Number(metadata?.expires);
-    if (!value || !expires) return new Response("Not found", { status: 404 });
+    const { value, metadata } = await env.PAGES.getWithMetadata(name);
+    if (!value) return new Response("Not found", { status: 404 });
 
-    if (Date.now() / 1000 > expires) {
+    const now = Math.floor(Date.now() / 1000);
+    if (metadata?.expires && now > metadata.expires) {
       return new Response("This link has expired. Ask whoever sent it for a new one.", {
         status: 410,
       });
     }
 
     return new Response(value, {
-      headers: {
-        "content-type": "text/html; charset=utf-8",
-        "cache-control": "private, no-store",
-      },
+      headers: { "content-type": "text/html; charset=utf-8" },
     });
   },
 };
 ```
 
-A few choices in there are deliberate. The Worker only answers at exactly `/p/<name>`, the same path the sign-in protects, so there's no side door. A page with no expiry date counts as missing rather than living forever. The `no-store` header tells browsers and proxies not to keep a copy. And 410 means "this used to exist and is gone on purpose," which is more honest than "not found."
+Create a KV store and bind it to the Worker as `PAGES` in `wrangler.toml`. Run `wrangler deploy`. Then attach a subdomain, like `share.example.org`, to the Worker in the Cloudflare dashboard.
 
-Deploy it with `npx wrangler deploy`, then in the Cloudflare dashboard attach `share.example.org` to the Worker as a custom domain.
+## Step 2: upload a page
 
-One limit to know about: the Worker serves exactly one HTML file. The page needs its styles and images built into the file itself, which is how AI tools usually write them anyway.
-
-## Step 2: put a sign-in in front of it
-
-Pick the page's name first:
+Give the page a random name so nobody can guess it, and store the expiry date with it:
 
 ```bash
 NAME=$(openssl rand -hex 12)
-echo "$NAME"
-```
-
-Then, in the Cloudflare Zero Trust dashboard, add a self-hosted application:
-
-- **Domain:** `share.example.org`, with the path `p/<name>`. One application per page means each page gets its own guest list.
-- **Policy:** Allow, and include the specific email addresses you're sending it to. You can also allow a whole email domain, like everyone at `example.org`.
-- **Login method:** One-time PIN. Cloudflare emails the person a code, so they don't need an account with anything.
-- **Session length:** how long someone stays signed in before they need a fresh code. I use 30 days.
-
-Open `https://share.example.org/p/<name>` in a private browser window. You should get Cloudflare's sign-in screen. Nothing is uploaded yet, so even after you sign in you'll see "Not found," and that's fine. You're checking that the gate is there.
-
-## Step 3: upload the page
-
-Now upload the HTML with an expiry date, stored as a Unix timestamp:
-
-```bash
 EXPIRES=$(( $(date +%s) + 30*24*3600 ))   # 30 days from now
 
 npx wrangler kv key put "$NAME" --path briefing.html \
   --binding PAGES --metadata "{\"expires\": $EXPIRES}" --remote
 ```
 
-Test it once more in a private window. An address on the list gets the page. An address that isn't gets nothing. Then send the link.
+The page is now live, but anyone with the link can open it. Step 3 fixes that.
 
-Expiry here means the Worker stops showing the page. It doesn't delete the stored copy, and it can't take back anything someone already saved or printed. If you want the stored copy gone too, run `npx wrangler kv key delete "$NAME" --binding PAGES --remote`.
+## Step 3: add the sign-in
 
-That's the whole basic version. For a handful of pages a month, it sits well inside the free limits for Workers, KV and Access.
+In the Zero Trust dashboard, add a self-hosted application:
 
-## The things that tripped me up
+- **Domain:** `share.example.org`, path `p/<name>`. One application per page gives each page its own guest list.
+- **Policy:** Allow, with the email addresses you're sending to.
+- **Login method:** One-time PIN.
 
-**Add people before they try to sign in.** If someone requests a code before their address is on the list, Cloudflare still tells them "a code has been emailed to you," but sends nothing. That's deliberate, so outsiders can't test which addresses are allowed. It also means a client who clicks your link before you've added them waits for an email that never comes. That's what was going on the day a client told me the code never showed up.
+To test it, open the link in a private window. You should see Cloudflare's sign-in screen, not your page.
 
-**Email security can get in the way, in two different ways.** The codes come from `noreply@notify.cloudflare.com`. Some organizations' filters quarantine those messages, so the code never arrives. Others let it through but have a scanner open the link inside first, so it arrives already used up. When someone can't get in, ask which of those happened, and double-check that their address is actually on the list. Cloudflare can also offer "Sign in with Google" next to the email code, which skips the email entirely for anyone with a Google account.
+The whole thing is about 25 lines of code, and it costs nothing to run.
 
-**The free plan has 50 seats, shared across everything.** Seats aren't per page. Every person who signs in to any page takes one and keeps it until they're removed, even after their page expires. For a handful of clients that's plenty. If you share widely, turn on automatic removal of inactive users in the Zero Trust settings, so someone you sent one page to six months ago stops taking up room.
+## Two things that tripped me up
 
-**Editing an application through the API is fussier than you'd expect.** If you script the sign-in step instead of clicking through the dashboard, you may find that the Access applications API won't take a partial update (a PATCH). It wouldn't with my API token. The workaround is to fetch the application, strip out the read-only fields, and send the full thing back as a PUT. Claude Code hit this against the real API and wrote the workaround into the tool's notes, so it doesn't get rediscovered the hard way.
+**Add people before you send the link.** If an address isn't on the list yet, Cloudflare still says "a code has been emailed to you" but sends nothing. That stops outsiders from testing which addresses work. It also left one of my clients waiting for a code that never came.
 
-## Where I took it
+**Email filters can eat the codes.** The codes come from `noreply@notify.cloudflare.com`, and some organizations quarantine them. If a code never arrives, check there first.
 
-My first version was close to the manual one above. Then I automated the parts I kept doing by hand.
-
-The biggest change is that one command does everything. `share` creates the sign-in application, uploads the page and prints the link, in that order, so I never open the Cloudflare dashboard anymore. I can send to a saved group instead of typing five addresses, and `share revoke` removes a page and its sign-in application in one step. When a client needs a newer version, I republish it under the same link, so nobody ends up reading last week's draft.
-
-The current version has 233 automated tests. Most of them exist because I asked "what happens if this breaks halfway through?" and the honest answer was "nobody knows yet." A page whose sign-in application fails to delete, for example, now gets marked as half-revoked and retried until it's actually gone.
-
-It's a lot more than I meant to build. All I wanted was to stop pasting briefings into email and watching the formatting fall apart. Each piece got added the same way: something annoyed me, I described it to Claude Code, and I checked what it built against the real thing before trusting it.
-
-If you send pages like these to clients and you already have a domain on Cloudflare, the manual version is a good place to start. Try it with one page and one person. (Ideally a patient one.)
+My version has grown since then (one command now sets up all three steps, and old links forward to new versions). But if your domain is already on Cloudflare, I think the basic one is worth an hour. Start with one page and one person. (Ideally a patient one.)
