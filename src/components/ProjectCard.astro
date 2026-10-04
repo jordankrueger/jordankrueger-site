@@ -4,11 +4,12 @@ interface Props {
   description: string;
   image?: string;
   href: string;
+  linkLabel?: string;
   secondaryLinks?: { href: string; label: string }[];
   bgClass?: string;
   index?: number;
 }
-const { title, description, image, href, secondaryLinks = [], bgClass = '', index = 0 } = Astro.props;
+const { title, description, image, href, linkLabel = 'Learn More', secondaryLinks = [], bgClass = '', index = 0 } = Astro.props;
 const reversed = index % 2 === 1;
 ---
 
@@ -26,7 +27,7 @@ const reversed = index % 2 === 1;
       <div class="project-card-body">
         <Fragment set:html={description} />
         <div class="project-card-actions">
-          <a href={href} class="btn btn-outline" target="_blank" rel="noopener">Learn More</a>
+          <a href={href} class="btn btn-outline" target="_blank" rel="noopener">{linkLabel}</a>
           {secondaryLinks.map(link => (
             <a href={link.href} class="btn btn-outline" target="_blank" rel="noopener">{link.label}</a>
           ))}
