@@ -4,6 +4,17 @@ import ProjectCard from '../components/ProjectCard.astro';
 
 const projects = [
   {
+    title: "Job Seeker's Union",
+    description: `<p>Job hunting treats people as isolated individuals. The problems are collective: ghost jobs, screening nobody explains, silence after interviews, and productivity gains that never turn into time off. I started the Job Seeker's Union in 2026 to treat those as standards we can change.</p><p>It is an advocacy organization, founder-led and starting in public. Two older projects of mine now live under it. The Transparent Hiring Pledge asks employers to commit to honest postings, clear timelines, human review, and closing the loop with every applicant. Four Days with AI makes the case for returning AI productivity gains to workers as time. The newest piece is Get Hired, a free resource center. It starts with the deadlines after a layoff, because unemployment, COBRA, and the ACA Marketplace will not wait for the job search.</p><p>There are no dues and no formal membership yet. The one action today is to subscribe for updates.</p>`,
+    href: 'https://jobseekersunion.org',
+    secondaryLinks: [
+      { href: 'https://hiringpledge.com/', label: 'Take the hiring pledge' },
+      { href: 'https://fourdayswithai.com/', label: 'Four Days with AI' },
+      { href: 'https://jobseekersunion.org/get-hired/', label: 'Get Hired' },
+    ],
+    bgClass: 'bg-peach',
+  },
+  {
     title: 'Equity Language Commons',
     description: `<p>Every progressive organization I work with has an equity language guide, or wants one, or has three that quietly disagree with each other. The good ones are published by people doing careful work — but they're scattered across a few dozen PDFs, and when two of them rule differently on the same word, you're on your own to work out why.</p><p>Equity Language Commons puts them side by side. One page per term, every source organization's ruling on it, with the quote, the year, and a link back to the original. They contradict each other more often than you'd expect, and seeing that is more useful than picking whichever guide you happened to open first.</p><p>It's in beta and the index is still filling in. My cross-reference layer is CC BY 4.0; every source organization keeps its own words and its own credit. If a term is missing, or I've got one wrong, the Contribute page has four ways in — including one that doesn't need a GitHub account.</p>`,
     href: 'https://equitylanguagecommons.org',
@@ -25,6 +36,7 @@ const projects = [
     description: `<p>I've been working with progressive nonprofits long enough to watch them get cornered by platforms they can't replace. Freehold is what happens when you sit with that frustration long enough — a framework for an internet where you create, publish, and actually own everything you share online. Your content lives on your own domain, hosted by whoever you trust, syndicated out to whatever networks you choose. No platform owning your audience. No algorithm rewriting what your followers see.</p><p>Not a company. Not a product. A proposal — and an invitation. The whitepaper is at <strong>freehold.is</strong>, published under CC BY 4.0. Quote it, fork it, build a piece of it.</p>`,
     image: '/images/logo-freehold.png',
     href: 'https://freehold.is',
+    secondaryLinks: [{ href: 'https://freehold-app.pages.dev', label: 'Try the alpha app' }],
     bgClass: 'bg-warm',
   },
   {
@@ -47,6 +59,18 @@ const projects = [
     bgClass: 'bg-warm',
   },
   {
+    title: "Small tools I've open-sourced",
+    description: `<p>Not everything deserves its own site. These are small, finished tools I open-sourced because someone else probably needs the same thing.</p><p><strong>Email Hasher</strong> normalizes a list of email addresses and hashes them in your browser for ad-platform audience uploads. The data never leaves your machine.</p><p><strong>Petition Delivery Formatter</strong> turns a CSV of signatures into a printable PDF, fully offline, for organizers who deliver the petition in person.</p><p><strong>Lease Tracker</strong> is a tiny app that tells you how many miles a day you can drive without going over your lease limit.</p><p><strong>Matrix Gatekeeper</strong> is a bot that makes people accept your community rules before they can join a Matrix space.</p>`,
+    href: 'https://jordankrueger.github.io/email-hasher/',
+    linkLabel: 'Email Hasher',
+    secondaryLinks: [
+      { href: 'https://github.com/jordankrueger/petition-delivery-formatter', label: 'Petition Delivery Formatter' },
+      { href: 'https://jordankrueger.github.io/lease-tracker/', label: 'Lease Tracker' },
+      { href: 'https://github.com/jordankrueger/matrix-gatekeeper', label: 'Matrix Gatekeeper' },
+    ],
+    bgClass: 'bg-blue',
+  },
+  {
     title: 'Ready for AOC',
     description: `<p>A grassroots supporter hub for people who want to see Alexandria Ocasio-Cortez run for president. The petition doubles as the email signup, and the whole thing is deliberately money-free — no donations, no merchandise, nothing that would drag it into political committee territory with the FEC.</p><p>An independent effort. Not affiliated with AOC, and not affiliated with any campaign committee.</p>`,
     href: 'https://readyforaoc.com',
@@ -60,28 +84,14 @@ const projects = [
   },
   {
     title: 'User Manuals',
-    description: `<p>One of the greatest workplace tools I was introduced to at CREDO Action was the "user manual," which helps guide employees through an exercise in explaining to their team members what they need to be a whole person in the workplace.</p><p>So many of us struggle to manage needs and emotions that — if explained — might actually help our coworkers better coordinate so everyone can feel accepted and thrive in the workplace.</p><p>User manuals will not only help each person explain what they need, but also help everyone on the team understand each other better.</p>`,
+    description: `<p>The best workplace tool I picked up at CREDO Action was the "user manual." Each person writes a short document explaining what they need to do their best work and be a whole person at the office.</p><p>Most of us never say those things out loud. When we do, coworkers can plan around them instead of guessing. I built usermanuals.guide so any team can run the exercise without a consultant.</p>`,
     image: '/images/logos/logo-usermanuals.png',
     href: 'https://usermanuals.guide/',
     bgClass: 'bg-green',
   },
   {
-    title: 'The Transparent Hiring Pledge',
-    description: `<p>Hiring processes are often opaque and frustrating — especially for job seekers in the progressive space who expect more from movement employers. After years of seeing friends and colleagues burned by "ghost jobs," misleading postings, and silence after interviews, I created the Transparent Hiring Pledge to push for change. It's a simple commitment: organizations pledge to adopt a handful of clear, respectful practices — like posting salary ranges, closing job listings when filled, and communicating outcomes to all applicants.</p><p>I believe transparency in hiring is more than a best practice — it's a signal of respect. When organizations are honest and responsive in how they recruit, they help build trust and equity into the very first steps of a working relationship.</p>`,
-    image: '/images/logo-hiringpledge.jpg',
-    href: 'https://hiringpledge.com/',
-    bgClass: 'bg-peach',
-  },
-  {
-    title: 'Four Days with AI',
-    description: `<p>After reading about how a lot of companies are hoping to make workers more efficient with Artificial Intelligence, it dawned on me that we're already headed in the wrong direction with this technology that fascinates and delights me on a daily basis: Instead of taking the gains from Artificial Intelligence tools to finally — FINALLY — start cutting back on the work week and give back some rest and rejuvenation to workers, many startups and techbros are looking for ways to expand OKRs and make workers produce even more!</p><p>The four-day work week has been a growing movement over the past few years, and I feel like it's a good time to try and combine both the four-day work week movement with the gains of Artificial Intelligence, as they start to ramp up, to wrestle back the work week from employers.</p><p><strong>We need a movement that will remind everyone in society that we aren't made to work ever-increasing amounts under ever straining pace indefinitely.</strong></p><p>It's time to embrace Artificial Intelligence <em>and</em> use it to help us take more time off.</p>`,
-    image: '/images/logo-fourdayswithai.jpg',
-    href: 'https://fourdayswithai.com/',
-    bgClass: 'bg-blue',
-  },
-  {
-    title: 'Tracking progress on "Machines of Loving Grace" predictions',
-    description: `<p>The future of AI is unfolding fast — and it's easy to lose track of what's hype, what's real, and what's still just theory. When Anthropic CEO Dario Amodei published "Machines of Loving Grace," it stood out as one of the most thoughtful, concrete predictions about where AI is headed in the coming years. But thoughtful predictions still need accountability. That's why I created the AI Progress Tracker — to help document, fact-check, and annotate the progress we're actually making toward the world Amodei describes.</p><p>This isn't a fan site or a hit piece. It's a living record. By mapping each of Amodei's milestones and claims to real-world developments, the AI Progress Tracker offers a way to stay grounded in reality — whether you're excited about what's coming or deeply skeptical.</p>`,
+    title: 'AI Progress Tracker',
+    description: `<p>When Anthropic CEO Dario Amodei published "Machines of Loving Grace," it was one of the few concrete sets of predictions about where AI is headed. Predictions deserve a scorecard. I built the AI Progress Tracker to map each of his milestones to what has actually happened, with sources.</p><p>It is not a fan site and not a hit piece. It is a living record, useful whether you are excited about what is coming or deeply skeptical.</p>`,
     href: 'https://aiprogresstracker.com/',
     bgClass: 'bg-warm',
   },
@@ -101,9 +111,11 @@ const projects = [
 const tools = [
   { label: 'Sites: Astro' },
   { label: 'Hosting: Cloudflare Pages' },
-  { label: 'Domains: NameCheap' },
-  { label: 'Graphics creation: Canva' },
-  { label: 'AI: Claude Code & ChatGPT' },
+  { label: 'Domains: Namecheap' },
+  { label: 'Graphics: Canva' },
+  { label: 'Email: Listmonk' },
+  { label: 'Automation: n8n' },
+  { label: 'AI: Claude Code & Codex' },
 ];
 ---
 
