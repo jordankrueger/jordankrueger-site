@@ -64,7 +64,7 @@ Blog posts are short and simple: roughly 500-800 words, one idea, short sentence
 
 Takes a `secondaryLinks` array prop (not a single `secondaryLink` string) — each item is `{ href, label }`. Renders as multiple action buttons per card with `flex-wrap` on `.project-card-actions`. Used e.g. on the StarBase 118 card to show both the TrekStories ebook link and the Medium piece.
 
-Optional `linkLabel` prop sets the main button text (default "Learn More"), e.g. "Try the alpha app" on Freehold.
+Optional `linkLabel` prop sets the main button text (default "Learn More"), e.g. "Email Hasher" on the small-tools card. (Freehold's "Try the alpha app" is a `secondaryLinks` entry, not `linkLabel`.)
 
 ## External Services
 - **Newsletter signup:** POST to `https://progressives-signup.restless-salad-a31e.workers.dev`
