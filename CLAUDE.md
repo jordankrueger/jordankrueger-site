@@ -30,7 +30,7 @@ npm run dev
 ## Pages
 - `/` — Homepage with services, about, blog posts, newsletter, contact
 - `/blog` — Blog listing
-- `/projects` — Project showcase (full-width ProjectCard panels)
+- `/projects` — Project showcase (full-width ProjectCard panels). Job Seeker's Union card is first (Hiring Pledge and Four Days with AI are buttons on it, not separate cards); a "Small tools I've open-sourced" card lists the small repos.
 - `/ai` — AI showcase (40+ projects built with Claude Code, compact card grid). Data lives in page frontmatter arrays. Uses `AiProjectCard` and `AiStoryCard` components.
 - `/tools` — Progressives Projects Portal. Curated catalog of free/open tools for advocacy orgs. Data lives in the `tools` Astro content collection (`src/content/tools/*.yaml`). One YAML file per category; each file contains `category:` metadata and an `entries:` array. Adding a tool = editing the relevant YAML + push. Zod schema lives in `src/content.config.ts`. Uses `ToolCard` and `ToolCategory` components.
 - `/building` — Building in Public series (posts tagged `claude-code`). No `building.astro` page exists — `public/_redirects` 301s `/building` → `/blog?tag=claude-code` instead (verified live 2026-07-27, returns 200 after redirect). Not a broken route, just an unconventional implementation — worth knowing before assuming a missing page needs building.
@@ -63,6 +63,8 @@ Blog posts are short and simple: roughly 500-800 words, one idea, short sentence
 ## Project Cards (`src/components/ProjectCard.astro`)
 
 Takes a `secondaryLinks` array prop (not a single `secondaryLink` string) — each item is `{ href, label }`. Renders as multiple action buttons per card with `flex-wrap` on `.project-card-actions`. Used e.g. on the StarBase 118 card to show both the TrekStories ebook link and the Medium piece.
+
+Optional `linkLabel` prop sets the main button text (default "Learn More"), e.g. "Try the alpha app" on Freehold.
 
 ## External Services
 - **Newsletter signup:** POST to `https://progressives-signup.restless-salad-a31e.workers.dev`
@@ -118,4 +120,5 @@ Output directory: `dist`
 `turnstile-forms` branch (commit `b491d16`), pushed to origin, deliberately held. Adds Cloudflare Turnstile to the contact form and the newsletter signup form (CSP update, widget markup, worker siteverify, index.test.js). Rescued from an in-progress prior-session checkout on 2026-09-15 and verified byte-for-byte before committing. **Not reviewed or tested — do not merge without review**, since it puts a captcha on two live production forms.
 
 ## Housekeeping backlog
+- `public/images/logo-hiringpledge.jpg` and `logo-fourdayswithai.jpg` are no longer used on /projects (2026-10-04). Grep other pages before deleting.
 - Decide whether to merge/review the `turnstile-forms` branch above, or drop it.
