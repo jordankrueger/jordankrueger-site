@@ -83,12 +83,14 @@ Optional `linkLabel` prop sets the main button text (default "Learn More"), e.g.
 
 - **Platform:** Listmonk on CH VPS (newsletter.campaign.help). List id 4, name "Mission Control".
 - **Template:** id 6 ("Mission Control") — source at `email-templates/mission-control-template.html`
-- **Campaigns:** `email-templates/` — body HTML files per campaign (e.g., `mission-control-001-body.html`)
+- **Campaigns:** `email-templates/` (untracked) — issue 001 as `mission-control-001-body.html`; from 002 on, one folder per issue (`mission-control-NNN/` with `content.json`, `body.html`, `preview.html`)
 - **From address:** `Jordan Krueger <jordan@jordankrueger.com>` — must set per-campaign (Listmonk default is PfAI's address)
-- **Subscriber count:** 5 as of Apr 2026 (4 migrated from Beehiiv + 1 test)
+- **Subscriber count:** 8 confirmed as of 2026-10-11
 - **Sending gate:** NEVER send to the real list without Jordan's explicit go-ahead. Test sends to jordan@campaign.help only.
 - **Humanizer gate:** Run MC body HTML through humanizer + writing-voice skills before any real send.
-- **Auto-draft workflow:** Weekly (Fri 7:30am ET) on N8N CH, workflow id `7xsz8xvMCQKyiIeR`. Creates Listmonk draft + Drift review task (next Monday due) when ≥2 new posts have accumulated since the last MC send. Never auto-sends. Full docs in `personal/automation-strategy/CLAUDE.md` → Mission Control Auto-Draft.
+- **Reminder workflow:** Weekly (Fri 7:30am ET) on N8N CH, workflow id `7xsz8xvMCQKyiIeR`. When ≥2 new posts have piled up since the last MC send, it creates a Notion task "Mission Control NNN is ready … run /mission-control" (skips if one is already open, or if an unsent MC campaign exists). It no longer builds the draft. Full docs in `personal/automation-strategy/CLAUDE.md` → Mission Control Auto-Draft.
+- **Building an issue:** `/mission-control` (`~/.claude/commands/mission-control.md`) — new posts + a "What I'm working on" section from items Jordan approves (pulled from in-flight Notion Projects + session logs, with MFC/client/SB118-internal/personal items filtered out), voice + humanizer passes, then `scripts/mission-control.py` renders a preview, creates the Listmonk draft, and sends a test to jordan@campaign.help. Jordan sends from Listmonk.
+- **Gotcha:** Listmonk's `GET /api/campaigns` ignores `?list_id=` and returns every list's campaigns. Filter by `lists[].id` in code. This silently stalled MC from April to October 2026, because the cursor kept landing on the weekly PfAI send. Cloudflare also 403s Python's default user agent on `/rss.xml`.
 - **See also:** `side-hustle/progressives-for-ai/CLAUDE.md` for full Listmonk SSH access patterns and SMTP config.
 
 ## Unlisted Share Pages
