@@ -117,10 +117,11 @@ def working_on(items):
 def body_html(c):
     out = WRAP.format(pad="padding:24px 32px 4px;", inner=(
         f'<p style="margin:0 0 18px;font-size:15px;line-height:1.55;color:#5C5248;{SANS}">{e(c["intro"])}</p>'))
-    if c.get("posts"):
-        out += heading("New on the blog") + "".join(card(p) for p in c["posts"])
+    # Jordan wants "what I'm working on" to lead the issue, ahead of the posts.
     if c.get("working_on"):
         out += heading("What I'm working on") + working_on(c["working_on"])
+    if c.get("posts"):
+        out += heading("New on the blog") + "".join(card(p) for p in c["posts"])
     return out
 
 
