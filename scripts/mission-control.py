@@ -13,7 +13,7 @@ FILE.json shape:
 
 Needs LISTMONK_API_PASSWORD (api-automation user) in the environment.
 """
-import base64, html, json, os, sys, urllib.request
+import base64, html, json, os, re, sys, urllib.request
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -63,8 +63,12 @@ def gather():
                 "pubDate": when.date().isoformat(),
             })
     pending = mc_campaigns("draft") + mc_campaigns("scheduled")
+    # Highest "Mission Control NNN" ever used (any status) + 1, so a deleted campaign never frees its number.
+    used = [int(m.group(1)) for c in mc_campaigns("finished") + mc_campaigns("draft") + mc_campaigns("scheduled")
+            + mc_campaigns("cancelled") + mc_campaigns("paused")
+            if (m := re.match(r"Mission Control (\d+)", c["name"]))]
     print(json.dumps({
-        "number": len(sent) + 1, "cursor": cursor, "posts": posts,
+        "number": max(used, default=0) + 1, "cursor": cursor, "posts": posts,
         "pending_drafts": [{"id": c["id"], "name": c["name"]} for c in pending],
     }, indent=2))
 
@@ -126,6 +130,11 @@ def issue_dir(c):
     return d
 
 
+def push_guard(c):
+    if (issue_dir(c) / "campaign-id").exists():
+        sys.exit(f"Refusing: issue {c['number']} already has a Listmonk campaign ({(issue_dir(c) / 'campaign-id').read_text()})")
+
+
 def render(c):
     body = body_html(c)
     d = issue_dir(c)
@@ -146,6 +155,7 @@ def push(c):
     pending = mc_campaigns("draft") + mc_campaigns("scheduled")
     if pending:
         sys.exit(f"Refusing: Mission Control already has an unsent campaign: {[p['id'] for p in pending]}")
+    push_guard(c)
     body = (issue_dir(c) / "body.html").read_text()
     r = api("/api/campaigns", {
         "name": f"Mission Control {int(c['number']):03d}", "subject": c["subject"],
