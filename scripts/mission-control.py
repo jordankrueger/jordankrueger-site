@@ -15,7 +15,14 @@ Needs LISTMONK_API_PASSWORD (api-automation user) in the environment.
 """
 import base64, html, json, os, re, sys, urllib.request
 import xml.etree.ElementTree as ET
+from datetime import date, datetime
+from email.utils import parsedate_to_datetime
 from pathlib import Path
+
+# Cloudflare 403s Python's default user agent; set ours on every request.
+_opener = urllib.request.build_opener()
+_opener.addheaders = [("User-Agent", "mission-control/1")]
+urllib.request.install_opener(_opener)
 
 LISTMONK = "https://newsletter.campaign.help"
 LIST_ID, TEMPLATE_ID = 4, 6
@@ -38,20 +45,23 @@ def api(path, data=None, method=None):
         return json.load(r)
 
 
-def mc_campaigns(status):
-    # Listmonk ignores ?list_id= on this endpoint, so filter to the Mission Control list here.
-    res = api(f"/api/campaigns?status={status}&per_page=all")["data"]["results"]
+def mc_campaigns():
+    """Every Mission Control campaign, any status, in one call.
+    Listmonk ignores ?list_id= on this endpoint, so filter to the list here."""
+    res = api("/api/campaigns?per_page=all")["data"]["results"]
     return [c for c in res if any(l["id"] == LIST_ID for l in c["lists"])]
 
 
+def unsent(camps):
+    return [c for c in camps if c["status"] in ("draft", "scheduled")]
+
+
 def gather():
-    sent = mc_campaigns("finished")
+    camps = mc_campaigns()
+    sent = [c for c in camps if c["status"] == "finished"]
     cursor = max((c["started_at"] or c["created_at"] for c in sent), default="1970-01-01T00:00:00Z")
-    # Cloudflare 403s Python's default user agent.
-    with urllib.request.urlopen(urllib.request.Request(RSS, headers={"User-Agent": "mission-control/1"}), timeout=30) as r:
+    with urllib.request.urlopen(RSS, timeout=30) as r:
         root = ET.fromstring(r.read())
-    from email.utils import parsedate_to_datetime
-    from datetime import datetime
     cut = datetime.fromisoformat(cursor.replace("Z", "+00:00"))
     posts = []
     for it in root.iter("item"):
@@ -62,14 +72,11 @@ def gather():
                 "description": it.findtext("description"), "coverImage": it.findtext("coverImage"),
                 "pubDate": when.date().isoformat(),
             })
-    pending = mc_campaigns("draft") + mc_campaigns("scheduled")
     # Highest "Mission Control NNN" ever used (any status) + 1, so a deleted campaign never frees its number.
-    used = [int(m.group(1)) for c in mc_campaigns("finished") + mc_campaigns("draft") + mc_campaigns("scheduled")
-            + mc_campaigns("cancelled") + mc_campaigns("paused")
-            if (m := re.match(r"Mission Control (\d+)", c["name"]))]
+    used = [int(m.group(1)) for c in camps if (m := re.match(r"Mission Control (\d+)", c["name"]))]
     print(json.dumps({
         "number": max(used, default=0) + 1, "cursor": cursor, "posts": posts,
-        "pending_drafts": [{"id": c["id"], "name": c["name"]} for c in pending],
+        "pending_drafts": [{"id": c["id"], "name": c["name"]} for c in unsent(camps)],
     }, indent=2))
 
 
@@ -125,15 +132,14 @@ def body_html(c):
     return out
 
 
+def num(c):
+    return f"{int(c['number']):03d}"
+
+
 def issue_dir(c):
-    d = OUT / f"mission-control-{int(c['number']):03d}"
+    d = OUT / f"mission-control-{num(c)}"
     d.mkdir(parents=True, exist_ok=True)
     return d
-
-
-def push_guard(c):
-    if (issue_dir(c) / "campaign-id").exists():
-        sys.exit(f"Refusing: issue {c['number']} already has a Listmonk campaign ({(issue_dir(c) / 'campaign-id').read_text()})")
 
 
 def render(c):
@@ -142,7 +148,6 @@ def render(c):
     (d / "body.html").write_text(body)
     # Approximate Listmonk's render for review; real placeholders only exist inside Listmonk.
     tpl = TEMPLATE.read_text()
-    from datetime import date
     preview = (tpl.replace('{{ template "content" . }}', body)
                .replace("{{ .Campaign.Name }}", e(c["subject"]))
                .replace('{{ Date "January 2, 2006" }}', date.today().strftime("%B %-d, %Y"))
@@ -153,17 +158,18 @@ def render(c):
 
 
 def push(c):
-    pending = mc_campaigns("draft") + mc_campaigns("scheduled")
-    if pending:
+    d = issue_dir(c)
+    if (d / "campaign-id").exists():
+        sys.exit(f"Refusing: issue {c['number']} already has a Listmonk campaign ({(d / 'campaign-id').read_text()})")
+    if pending := unsent(mc_campaigns()):
         sys.exit(f"Refusing: Mission Control already has an unsent campaign: {[p['id'] for p in pending]}")
-    push_guard(c)
-    body = (issue_dir(c) / "body.html").read_text()
+    body = (d / "body.html").read_text()
     r = api("/api/campaigns", {
-        "name": f"Mission Control {int(c['number']):03d}", "subject": c["subject"],
+        "name": f"Mission Control {num(c)}", "subject": c["subject"],
         "lists": [LIST_ID], "from_email": FROM, "type": "regular",
         "content_type": "html", "body": body, "template_id": TEMPLATE_ID, "messenger": "email",
     })["data"]
-    (issue_dir(c) / "campaign-id").write_text(str(r["id"]))
+    (d / "campaign-id").write_text(str(r["id"]))
     print(f"Draft {r['id']} ({r['status']}): {LISTMONK}/admin/campaigns/{r['id']}")
 
 
