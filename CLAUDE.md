@@ -85,8 +85,9 @@ Optional `linkLabel` prop sets the main button text (default "Learn More"), e.g.
 - **Template:** id 6 ("Mission Control") — source at `email-templates/mission-control-template.html`
 - **Campaigns:** `email-templates/` (untracked) — issue 001 as `mission-control-001-body.html`; from 002 on, one folder per issue (`mission-control-NNN/` with `content.json`, `body.html`, `preview.html`)
 - **From address:** `Jordan Krueger <jordan@jordankrueger.com>` — must set per-campaign (Listmonk default is PfAI's address)
-- **Subscriber count:** 8 confirmed as of 2026-10-11
-- **Sending gate:** NEVER send to the real list without Jordan's explicit go-ahead. Test sends to jordan@campaign.help only.
+- **Subscriber count:** 9 recipients as of 2026-10-15 (8 confirmed + 1 unconfirmed; list is single opt-in, so unconfirmed still receive). Listmonk's list-level `subscriber_count` reads 18 and is wrong; count by enumerating `/api/subscribers?list_id=4`.
+- **Sent issues:** #1 2026-04-21; #2 2026-10-15 (campaign 42, 9/9 sent) is the current gather cursor.
+- **Sending gate:** NEVER send to the real list without Jordan's explicit go-ahead. Test sends to Jordan's own addresses only (default jordan@campaign.help; on 2026-10-15 he asked for jordan@jordankrueger.com, overridden one-off).
 - **Humanizer gate:** Run MC body HTML through humanizer + writing-voice skills before any real send.
 - **Reminder workflow:** Weekly (Fri 7:30am ET) on N8N CH, workflow id `7xsz8xvMCQKyiIeR`. When ≥2 new posts have piled up since the last MC send, it creates a Notion task "Mission Control NNN is ready … run /mission-control" (skips if one is already open, or if an unsent MC campaign exists). It no longer builds the draft. Full docs in `personal/automation-strategy/CLAUDE.md` → Mission Control Auto-Draft.
 - **Building an issue:** `/mission-control` (`~/.claude/commands/mission-control.md`) — new posts + a "What I'm working on" section from items Jordan approves (pulled from in-flight Notion Projects + session logs, with MFC/client/SB118-internal/personal items filtered out), voice + humanizer passes, then `scripts/mission-control.py` renders a preview, creates the Listmonk draft, and sends a test to jordan@campaign.help. Jordan sends from Listmonk.
