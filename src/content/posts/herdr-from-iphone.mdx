@@ -1,0 +1,101 @@
+---
+title: "Start a Claude Code session in Herdr from your iPhone"
+description: "One tap on an iPhone Shortcut starts a Claude Code session in Herdr on my Mac and opens it in the Claude app. Here's the script, the locked-down SSH key and the Shortcut."
+pubDate: 2026-10-22
+tags: ["claude-code", "ai", "tools"]
+coverImage: "/images/gallery/blog-herdr-from-iphone.jpg"
+coverAlt: "Warm flat illustration of a hand holding a phone showing terminal tabs, connected by a dotted line to a desk with a monitor showing the same tabs, a small desktop computer, a plant and a coffee mug"
+draft: false
+---
+
+I can now tap a Shortcut on my iPhone, say what I want, and a new Claude Code session starts in Herdr on my Mac. It opens in the Claude app, so I can work in it from the phone. Back at my desk, it's a normal Herdr tab. The work still runs on the Mac, so the Mac has to stay awake and online.
+
+It takes three pieces: Claude Code's Remote Control feature, a short script on the Mac, and an iPhone Shortcut that runs the script over SSH.
+
+## Before you start
+
+You'll need Herdr and Claude Code working on the Mac, signed in to the same Claude account as the Claude app on your phone. Run `claude --remote-control` once on the Mac and open the session from your phone, so you know Remote Control works before anything else is involved.
+
+Install Tailscale on both devices. This uses plain SSH over Tailscale, so turn on Remote Login under System Settings, General, Sharing, and leave Tailscale's own SSH feature off. You'll also need jq (macOS 26 includes it; on older versions, `brew install jq`).
+
+Finally, start Claude Code once in each folder you plan to use from the phone. A folder Claude hasn't seen yet stops at a "do you trust this folder?" question, and nobody's at the Mac to answer it.
+
+## The script
+
+Save this as `~/bin/phone-claude` (`mkdir -p ~/bin` first if needed) and run `chmod +x ~/bin/phone-claude`. Change the two `case` lines so each name matches one of your Herdr workspace labels and points at that project's folder.
+
+```bash
+#!/usr/bin/env bash
+# Runs as the forced command for one SSH key: workspace name in, prompt on stdin, session link out.
+set -euo pipefail
+export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:/usr/bin:/bin"
+export HERDR_SOCKET_PATH="$HOME/.config/herdr/herdr.sock"
+
+# Herdr workspace label -> project folder. Only these can be started from the phone.
+case "${SSH_ORIGINAL_COMMAND:-}" in
+  Personal) dir="$HOME/projects/personal" ;;
+  Work)     dir="$HOME/projects/work" ;;
+  *) echo "ERROR: unknown workspace"; exit 1 ;;
+esac
+[ -d "$dir" ] || { echo "ERROR: $dir does not exist"; exit 1; }
+
+prompt=$(head -c 8001)
+[ "$(printf '%s' "$prompt" | wc -c)" -le 8000 ] || { echo "ERROR: prompt over 8000 bytes"; exit 1; }
+# Escape codes in the prompt could type keystrokes into Claude, so refuse them.
+if printf '%s' "$prompt" | tr -d '\n\t' | LC_ALL=C grep -q '[[:cntrl:]]'; then
+  echo "ERROR: prompt has control characters"; exit 1
+fi
+[ -n "$prompt" ] || { echo "ERROR: empty prompt"; exit 1; }
+
+name="phone-$(date +%H%M%S)-$RANDOM"
+ws=$(herdr workspace list | jq -r --arg l "$SSH_ORIGINAL_COMMAND" \
+  '.result.workspaces[] | select(.label == $l) | .workspace_id' | head -1)
+[ -n "$ws" ] || { echo "ERROR: no Herdr workspace named $SSH_ORIGINAL_COMMAND"; exit 1; }
+tab=$(herdr tab create --workspace "$ws" --cwd "$dir" --label "$name" --no-focus)
+pane=$(printf '%s' "$tab" | jq -er '.result.root_pane.pane_id')
+tab_id=$(printf '%s' "$tab" | jq -er '.result.tab.tab_id')
+sleep 2  # let the new tab's shell reach its prompt
+if ! herdr agent start "$name" --kind claude --pane "$pane" \
+    -- --remote-control "$name" -- "$prompt" >/dev/null; then
+  herdr tab close "$tab_id" >/dev/null || true
+  echo "ERROR: Claude did not start; check the Mac"; exit 1
+fi
+
+# Take the link from Remote Control's own status line, not from anything in the prompt.
+for _ in $(seq 15); do
+  url=$(herdr pane read "$pane" --source recent-unwrapped --lines 200 \
+    | grep 'remote-control is active' \
+    | grep -o 'https://claude\.ai/code/session_[A-Za-z0-9_-]*' | head -1 || true)
+  [ -n "$url" ] && { echo "$url"; exit 0; }
+  sleep 1
+done
+echo "Started $name, but Remote Control hasn't connected yet. Check the Mac."
+```
+
+The workspace name arrives as the SSH command and the prompt arrives on standard input. The script opens a new tab in that workspace, starts Claude with `--remote-control`, and prints the session link. If Claude doesn't start, it closes the tab and says so.
+
+## The key
+
+In Shortcuts, add a Run Script Over SSH action, set Authentication to SSH Key, and let it generate an ed25519 key. Tap the key, choose Share Public Key, and get it to your Mac. Then add one line to `~/.ssh/authorized_keys` there (the file should be readable only by you):
+
+```
+restrict,command="/Users/you/bin/phone-claude" ssh-ed25519 AAAA... Shortcuts on iPhone
+```
+
+Use your own username in the path and paste your whole public key where it says `ssh-ed25519 AAAA...`. The `command=` part means this key runs the script and nothing else, whatever the phone asks for. `restrict` also turns off port forwarding and the interactive terminal. Neither limits what Claude can do once it's running as you, so treat the phone like your keyboard. If you lose it, delete that line.
+
+## The Shortcut
+
+Start with a List action holding your workspace names, spelled exactly as they are in the script, and put Choose from List under it. Next comes Ask for Input, set to Text, with a question like "What should Claude do?" (dictation works here).
+
+Then finish the Run Script Over SSH action from earlier. Set Host to your Mac's Tailscale name and User to your Mac username. Put the Chosen Item variable in the Script box and set Input to Provided Input.
+
+Last, add an If action that checks whether the Shell Script Result begins with `https`. If it does, Open URLs with the Shell Script Result. Otherwise, Show Result, so you can read the message.
+
+On my phone, the Claude app then opens on the new session once it's running.
+
+## Two things that tripped me up
+
+The User field got capitalized when I typed it in, which gives you "SSH key authentication failed" even though the key is fine. It has to match what `whoami` prints on your Mac.
+
+Then the Mac kept receiving an empty workspace name. I'd used Choose from Menu instead of Choose from List. A menu returns whatever the last action inside the chosen branch produced, so a menu with empty branches sends nothing. List plus Choose from List avoids that.
