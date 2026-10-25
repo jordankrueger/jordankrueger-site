@@ -42,7 +42,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
           <span class="practice-kicker">My consultancy</span>
           <h3>CampaignHelp</h3>
           <p>Fractional tech and operations for progressive nonprofits. Whatever piece your team can't get to — websites, AI workflows, security setup, infrastructure rescue.</p>
-          <ul class="practice-services">
+          <ul class="practice-services" role="list">
             {["Websites", "AI workflows", "Security setup", "Fractional support"].map(item => <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>{item}</li>)}
           </ul>
           <a href="https://campaign.help" target="_blank" rel="noopener" class="btn btn-primary practice-cta">See how I help →</a>
@@ -51,7 +51,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
           <span class="practice-kicker gah">Coming soon · my second practice</span>
           <h3>Grounded AI</h3>
           <p>AI talks, workshops, and advisory for operations leaders at mid-sized nonprofits and associations. Launching later this summer.</p>
-          <ul class="practice-services">
+          <ul class="practice-services" role="list">
             {["Speaking", "Workshops", "Advisory"].map(item => <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>{item}</li>)}
           </ul>
           <a href="https://groundedai.help" target="_blank" rel="noopener" class="btn btn-outline practice-cta">Get notified at launch →</a>

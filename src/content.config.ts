@@ -1,6 +1,10 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { TOPICS } from './lib/topics';
+
+// Posts may only use the six blog topics; the build fails on anything else.
+const topic = z.enum(Object.keys(TOPICS) as [string, ...string[]]);
 
 const posts = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
@@ -11,7 +15,7 @@ const posts = defineCollection({
     updatedDate: z.coerce.date().optional(),
     coverImage: z.string().optional(),
     coverAlt: z.string().optional(),
-    tags: z.array(z.string()).default([]),
+    tags: z.array(topic).default([]),
     draft: z.boolean().default(false),
   }),
 });
