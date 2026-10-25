@@ -140,11 +140,11 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
   }
 
   .newsletter-status.success {
-    color: #2d7a3a;
+    color: var(--color-success);
   }
 
   .newsletter-status.error {
-    color: #c0392b;
+    color: var(--color-error);
   }
 
   @media (max-width: 640px) {

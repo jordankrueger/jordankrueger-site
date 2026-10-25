@@ -257,8 +257,8 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
     font-size: 0.9rem;
     margin-top: 0.6rem;
   }
-  .ak-form-status.success { color: #2d7a3a; }
-  .ak-form-status.error { color: #c0392b; }
+  .ak-form-status.success { color: var(--color-success); }
+  .ak-form-status.error { color: var(--color-error); }
 
   @media (max-width: 640px) {
     .ak-featured-body { grid-template-columns: 1fr; }

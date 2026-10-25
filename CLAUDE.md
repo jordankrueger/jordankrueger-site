@@ -18,13 +18,16 @@ npm run dev
 - `src/content/posts/` — MDX blog posts (content collection)
 - `src/content/tools/` — YAML files for the `/tools` portal content collection (one file per category)
 - `src/styles/` — global.css (design tokens), fonts.css (@font-face)
-- `public/fonts/` — Self-hosted woff2 fonts (DM Sans, Lora, Rock Salt)
+- `public/fonts/` — Self-hosted woff2 fonts (Bricolage Grotesque variable, Rock Salt until slice 2 retires it); `@font-face` rules live in `public/fonts.css`
+- `scripts/check-contrast.mjs` — WCAG contrast check on the `:root` color tokens; run `node scripts/check-contrast.mjs` after any token change (exit 1 = a pair fails)
 - `public/images/` — All site images with descriptive names
 - `carrd-export/` — Original Carrd site for content reference
 
 ## Design System
-- **Colors:** `--color-accent: #AF4C2A` (WCAG AA), `--color-text: #5C5248`, `--color-bg: #EDEDED`
-- **Fonts:** DM Sans (body), Lora (headings), Rock Salt (logo only)
+Solarpunk (redesign, 2026-10-25). Spec: `docs/superpowers/specs/2026-10-25-solarpunk-redesign-design.md`.
+- **Colors:** all tokens in `:root` of `src/styles/global.css`; no literal colors anywhere else. Cream page `--color-bg: #fbf7ec`, ink `--color-text-logo: #21342a`, body `--color-text: #4c5d51`, leaf accent `--color-accent: #2f6b3f`, sun `#f1b544` (decoration only; use `--color-sun-text` for text)
+- **Fonts:** Bricolage Grotesque (headings and body, weights 400-700)
+- **Shape:** cards 14px radius with 1px border; buttons and tags pill-shaped
 - **Breakpoints:** 900px (tablet), 640px (mobile)
 
 ## Pages

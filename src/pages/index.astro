@@ -112,7 +112,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
 
 <style>
   :root {
-    --color-gah-accent: #a4691f;
+    --color-gah-accent: var(--color-sun-text);
   }
 
   .section-heading {
