@@ -713,7 +713,7 @@ Each task: read the page, apply the design system, screenshot at both widths, re
 
 - [ ] Blog cards: surface, 1px border, `--radius-md`, date in `var(--color-sun-text)` 600, title in `var(--color-text-logo)`, hover turns the title `var(--color-accent)`.
 - [ ] Tag filter buttons: pills; active state `background: var(--color-accent); color: var(--color-on-accent)`.
-- [ ] Post layout: body text max width 68ch; headings Bricolage; links leaf with a sun underline; blockquote with a 3px `var(--color-sprout)` left rule (quotes are not cards, so this is allowed); code blocks use the code tokens. Check one long post (e.g. `/blog/ai-bodyguard/`) and one with images.
+- [ ] Post layout: body text max width 68ch; headings Bricolage; links leaf with a `--color-sun-text` underline (plain `--color-sun` is only 1.72:1 on cream; Codex, slice 4 review); blockquote with a 3px `var(--color-sprout)` left rule (quotes are not cards, so this is allowed); code blocks use the code tokens. Check one long post (e.g. `/blog/ai-bodyguard/`) and one with images.
 
 ### Task 4.6: Privacy, Terms, Accessibility, 404
 
