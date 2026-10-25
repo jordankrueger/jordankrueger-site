@@ -18,7 +18,7 @@ npm run dev
 - `src/content/posts/` — MDX blog posts (content collection)
 - `src/content/tools/` — YAML files for the `/tools` portal content collection (one file per category)
 - `src/styles/` — global.css (design tokens and base styles)
-- `public/fonts/` — Self-hosted woff2 fonts (Bricolage Grotesque variable, Rock Salt until slice 2 retires it); `@font-face` rules live in `public/fonts.css`
+- `public/fonts/` — Self-hosted woff2 fonts (Bricolage Grotesque variable); `@font-face` rules live in `public/fonts.css`
 - `scripts/check-contrast.mjs` — WCAG contrast check on the `:root` color tokens; run `node scripts/check-contrast.mjs` after any token change (exit 1 = a pair fails)
 - `public/images/` — All site images with descriptive names
 - `carrd-export/` — Original Carrd site for content reference
