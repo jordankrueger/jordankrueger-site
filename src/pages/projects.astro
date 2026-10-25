@@ -12,7 +12,6 @@ const projects = [
       { href: 'https://fourdayswithai.com/', label: 'Four Days with AI' },
       { href: 'https://jobseekersunion.org/get-hired/', label: 'Get Hired' },
     ],
-    bgClass: 'bg-peach',
   },
   {
     title: 'Equity Language Commons',
@@ -22,14 +21,12 @@ const projects = [
       { href: 'https://equitylanguagecommons.org/glossary/', label: 'Browse the glossary' },
       { href: 'https://equitylanguagecommons.org/sources/', label: 'See the sources' },
     ],
-    bgClass: 'bg-green',
   },
   {
     title: 'Claude Code guardrails',
     description: `<p>Everyone I talk to at nonprofits is either using an AI coding assistant already or about to be. Almost none of them are security engineers, and the advice out there assumes they are. So I wrote down the handful of defaults I'd want a friend to have in place before they let an agent loose on their laptop.</p><p>The whole thing rests on one idea: everything the AI touches should be backed up somewhere it can't delete. You can't guarantee an agent never makes a mistake or gets talked into one — but you can make the worst day survivable. The repo has a drop-in <strong>CLAUDE.md</strong>, example permission and sandbox settings, an "out of its reach" checklist, and the research behind each choice so you can check my reasoning. MIT licensed, and honest about what it doesn't protect you from.</p>`,
     href: 'https://github.com/jordankrueger/backup-first-ai',
     secondaryLinks: [{ href: '/ai', label: 'What I build with it' }],
-    bgClass: 'bg-blue',
   },
   {
     title: 'Freehold',
@@ -37,26 +34,22 @@ const projects = [
     image: '/images/logo-freehold.png',
     href: 'https://freehold.is',
     secondaryLinks: [{ href: 'https://freehold-app.pages.dev', label: 'Try the alpha app' }],
-    bgClass: 'bg-warm',
   },
   {
     title: 'Awesome ActionKit',
     description: `<p>ActionKit powers email and advocacy for most large progressive organizations, but the best tooling around it has always been scattered — buried in Slack threads, ClientCon sessions, and the occasional vendor blog post. New admins spend months rediscovering things other people figured out years ago.</p><p>Awesome ActionKit is the hub I wish had existed when I started. A curated, CC0 list of snippets, recipes, integrations, consultants, and guides — the things that actually work, collected in one place that's easy to find and easy to contribute back to. CampaignHelp seeded it with a handful of repos (redirect blocks, mailing blocks, a health check). Everyone else is invited.</p>`,
     href: 'https://github.com/jordankrueger/awesome-actionkit',
     secondaryLinks: [{ href: '/tools#actionkit', label: 'Browse the tools' }],
-    bgClass: 'bg-blue',
   },
   {
     title: 'Progressives for AI',
     description: `<p>Most of the progressive conversation about AI is a fight between people who think it's going to destroy everything and people who aren't paying attention. I don't think either of those is the useful place to stand. The technology is here, our side is going to be using it either way, and I'd rather we were good at it than caught flat-footed.</p><p>Progressives for AI is a newsletter and a discussion group for people who want to think seriously about what this stuff can do for organizing, advocacy, and the work of running an organization — without the doomerism and without the hype. If that's the conversation you've been looking for, come have it with us.</p>`,
     href: 'https://progressivesforai.com/',
-    bgClass: 'bg-green',
   },
   {
     title: 'Progressive email suppression list',
     description: `<p>Every big progressive organization has quietly built the same file over the years: the list of email domains that never deliver. Typos of the major providers, throwaway addresses, spam traps that can get your whole sending domain blocked. The large orgs have one. The small orgs, who need it most, usually don't — and there's no reason for all of us to keep rebuilding it separately.</p><p>So I combined them. The internal lists people have been passing around for years, plus the big community-maintained sets, deduped into one clean file of roughly 66,000 domains that rebuilds itself nightly. There are ten-minute import guides for ActionKit, Action Network, and Listmonk. Released under CC0 — no attribution required, just take it.</p><p>It's purely defensive. The list exists so you can <em>not</em> mail these addresses. Please don't use it for anything else.</p>`,
     href: 'https://github.com/jordankrueger/progressive-email-suppression',
-    bgClass: 'bg-warm',
   },
   {
     title: "Small tools I've open-sourced",
@@ -68,32 +61,27 @@ const projects = [
       { href: 'https://jordankrueger.github.io/lease-tracker/', label: 'Lease Tracker' },
       { href: 'https://github.com/jordankrueger/matrix-gatekeeper', label: 'Matrix Gatekeeper' },
     ],
-    bgClass: 'bg-blue',
   },
   {
     title: 'Ready for AOC',
     description: `<p>A grassroots supporter hub for people who want to see Alexandria Ocasio-Cortez run for president. The petition doubles as the email signup, and the whole thing is deliberately money-free — no donations, no merchandise, nothing that would drag it into political committee territory with the FEC.</p><p>An independent effort. Not affiliated with AOC, and not affiliated with any campaign committee.</p>`,
     href: 'https://readyforaoc.com',
-    bgClass: 'bg-peach',
   },
   {
     title: 'HighSpeedRail.TV',
     description: `<p>American high-speed rail coverage is scattered across a few hundred YouTube channels, and most of the good stuff is made by people outside the US who are baffled that we don't have any. I wanted one place to watch it.</p><p>HighSpeedRail.TV is a curated video site for rail advocacy — new videos surfaced and reviewed weekly, with AI doing the first pass on what's worth including so the queue stays manageable. It's a small site about a big idea I'd like more Americans to see up close.</p>`,
     href: 'https://highspeedrail.tv',
-    bgClass: 'bg-blue',
   },
   {
     title: 'User Manuals',
     description: `<p>The best workplace tool I picked up at CREDO Action was the "user manual." Each person writes a short document explaining what they need to do their best work and be a whole person at the office.</p><p>Most of us never say those things out loud. When we do, coworkers can plan around them instead of guessing. I built usermanuals.guide so any team can run the exercise without a consultant.</p>`,
     image: '/images/logos/logo-usermanuals.png',
     href: 'https://usermanuals.guide/',
-    bgClass: 'bg-green',
   },
   {
     title: 'AI Progress Tracker',
     description: `<p>When Anthropic CEO Dario Amodei published "Machines of Loving Grace," it was one of the few concrete sets of predictions about where AI is headed. Predictions deserve a scorecard. I built the AI Progress Tracker to map each of his milestones to what has actually happened, with sources.</p><p>It is not a fan site and not a hit piece. It is a living record, useful whether you are excited about what is coming or deeply skeptical.</p>`,
     href: 'https://aiprogresstracker.com/',
-    bgClass: 'bg-warm',
   },
   {
     title: 'StarBase 118 PBEM RPG',
@@ -104,7 +92,6 @@ const projects = [
       { href: 'https://trekstories.net', label: 'Read the ebooks' },
       { href: 'https://medium.com/@jordankrueger/how-roleplaying-gives-lgbtq-and-non-binary-people-an-outlet-to-explore-themselves-b119813bb23b', label: 'RPGs & LGBTQ+' },
     ],
-    bgClass: 'bg-peach',
   },
 ];
 
@@ -186,9 +173,13 @@ const tools = [
 
   /* section-rule is defined in global.css */
 
+  .projects-intro h1 {
+    font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  }
+
   .projects-intro-image img {
     width: 100%;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
   }
 
   .projects-desc {
@@ -199,9 +190,9 @@ const tools = [
   }
 
   .tools-sidebar {
-    background: var(--color-bg-warm);
+    background: var(--color-bg-white);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     padding: var(--spacing-md);
   }
 
@@ -220,7 +211,7 @@ const tools = [
 
   .tool-item {
     padding: 0.5rem 0.75rem;
-    background: var(--color-bg-white);
+    background: var(--color-bg-green);
     border-radius: var(--radius-sm);
     font-size: 0.9rem;
   }

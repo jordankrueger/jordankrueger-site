@@ -33,27 +33,26 @@ const borderColor = colors[colorIndex % colors.length];
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .story-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--border-color);
   }
 
   .story-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 0.72rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--color-text-light);
     margin-bottom: 0.5rem;
+  }
+
+  .story-label::before {
+    content: '';
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--border-color);
   }
 
   .story-card h3 {

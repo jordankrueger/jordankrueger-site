@@ -103,11 +103,12 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
 
 <style>
   .blog-post {
+    --measure: 68ch;
     padding: var(--spacing-xl) 0;
   }
 
   .post-header {
-    max-width: 720px;
+    max-width: var(--measure);
     margin: 0 auto var(--spacing-lg);
   }
 
@@ -122,7 +123,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   }
 
   .post-header h1 {
-    font-size: 2.25rem;
+    font-size: clamp(2rem, 4vw, 3rem);
     margin-bottom: var(--spacing-sm);
   }
 
@@ -135,19 +136,20 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   .post-tag {
     font-size: 0.8rem;
     padding: 0.2rem 0.7rem;
-    border-radius: 1rem;
-    background: var(--color-bg);
-    color: var(--color-text-light);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-green);
+    color: var(--color-accent-hover);
     text-decoration: none;
   }
 
   .post-tag:hover {
-    background: var(--color-bg-warm);
+    background: var(--color-bg-white);
+    box-shadow: inset 0 0 0 1px var(--color-accent);
     color: var(--color-accent);
   }
 
   .post-cover {
-    max-width: 720px;
+    max-width: var(--measure);
     width: 100%;
     margin: 0 auto var(--spacing-lg);
     display: block;
@@ -155,8 +157,19 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   }
 
   .post-content {
-    max-width: 720px;
+    max-width: var(--measure);
     margin: 0 auto;
+  }
+
+  .post-content :global(a) {
+    color: var(--color-accent);
+    text-decoration-color: var(--color-sun-text);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+
+  .post-content :global(a:hover) {
+    color: var(--color-accent-hover);
   }
 
   .post-content :global(h2) {
@@ -183,7 +196,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   }
 
   .post-content :global(blockquote) {
-    border-left: 3px solid var(--color-accent);
+    border-left: 3px solid var(--color-sprout);
     padding-left: var(--spacing-sm);
     margin: var(--spacing-sm) 0;
     font-style: italic;
@@ -201,7 +214,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   }
 
   .post-content :global(code) {
-    background: var(--color-bg);
+    background: var(--color-bg-green);
     padding: 0.15rem 0.4rem;
     border-radius: 0.2rem;
     font-size: 0.9em;
@@ -218,7 +231,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   }
 
   .post-footer {
-    max-width: 720px;
+    max-width: var(--measure);
     margin: var(--spacing-xl) auto 0;
     padding-top: var(--spacing-md);
     border-top: 1px solid var(--color-border);
@@ -239,12 +252,13 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
     text-decoration: none;
     padding: var(--spacing-sm);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    transition: background 0.2s ease;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-white);
+    transition: border-color 0.2s ease;
   }
 
   .post-nav-link:hover {
-    background: var(--color-bg-warm);
+    border-color: var(--color-accent);
   }
 
   .post-nav-next {
@@ -265,10 +279,6 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   }
 
   @media (max-width: 640px) {
-    .post-header h1 {
-      font-size: 1.75rem;
-    }
-
     .post-nav {
       grid-template-columns: 1fr;
     }
