@@ -17,12 +17,9 @@ const reversed = index % 2 === 1;
     <div class:list={["project-card-inner", { reversed }]}>
       <div class="project-card-header">
         <h2>{title}</h2>
-        {image && href && (
-          <a href={href} target="_blank" rel="noopener">
-            <img src={image} alt={title} loading="lazy" class="project-card-image" />
-          </a>
-        )}
-        {image && !href && <img src={image} alt={title} loading="lazy" class="project-card-image" />}
+        {image && (href
+          ? <a href={href} target="_blank" rel="noopener"><img src={image} alt={title} loading="lazy" class="project-card-image" /></a>
+          : <img src={image} alt={title} loading="lazy" class="project-card-image" />)}
       </div>
       <div class="project-card-body">
         <Fragment set:html={description} />

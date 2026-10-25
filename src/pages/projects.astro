@@ -1,22 +1,19 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { AREAS, FEATURED_ORDER } from '../lib/project-areas';
+import { AREAS, FEATURED_ORDER, getProjects } from '../lib/project-areas';
 
-const all = await getCollection('projects');
+const all = await getProjects();
 const featured = (col: keyof typeof FEATURED_ORDER) => FEATURED_ORDER[col].map(title => {
-  const entry = all.find(e => e.data.title === title && e.data.featuredIn.includes(col));
-  if (!entry?.data.short) throw new Error(`Featured entry "${title}" missing for column "${col}"`);
-  return entry.data;
+  const entry = all.find(e => e.title === title && e.featuredIn.includes(col));
+  if (!entry?.short) throw new Error(`Featured entry "${title}" missing for column "${col}"`);
+  return entry;
 });
 
 // Colors come from the site tokens; stroke attributes sit on the paths (no CSS class).
 const columns = [
-  { key: 'movement', heading: AREAS.movement.heading, intro: AREAS.movement.intro, href: AREAS.movement.path, all: AREAS.movement.all, linkEntries: false },
-  { key: 'starbase', heading: AREAS.starbase.heading, intro: AREAS.starbase.intro, href: AREAS.starbase.path, all: AREAS.starbase.all, linkEntries: false },
-  { key: 'personal', heading: AREAS.personal.heading, intro: AREAS.personal.intro, href: AREAS.personal.path, all: AREAS.personal.all, linkEntries: false },
+  ...Object.entries(AREAS).map(([key, a]) => ({ key, heading: a.heading, intro: a.intro, href: a.path, all: a.all, linkEntries: false })),
   { key: 'ai', heading: 'Built with AI', intro: "I'm not a developer. I built all of this anyway.", href: '/ai', all: 'Read the story and every build', linkEntries: true },
-] as const;
+];
 
 const tools = [
   { label: 'Sites: Astro' },
@@ -73,7 +70,7 @@ const tools = [
             <h2>{col.heading}</h2>
             <p class="what">{col.intro}</p>
             <ul role="list">
-              {featured(col.key).map(item => (
+              {featured(col.key as keyof typeof FEATURED_ORDER).map(item => (
                 <li>
                   {col.linkEntries && item.href
                     ? <a href={item.href} target="_blank" rel="noopener"><b>{item.title}</b></a>

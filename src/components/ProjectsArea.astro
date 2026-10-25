@@ -1,19 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from './ProjectCard.astro';
-import fileOrder from '../content/projects.json';
-import { AREAS, type AreaKey } from '../lib/project-areas';
+import { AREAS, getProjects, type AreaKey } from '../lib/project-areas';
 
 interface Props { area: AreaKey }
 const { area } = Astro.props;
 const { heading, intro } = AREAS[area];
 
-// getCollection does not keep file order; the JSON order is the page order.
-const rank = (id: string) => fileOrder.findIndex(e => e.id === id);
-const entries = (await getCollection('projects'))
-  .filter(e => e.data.areas.includes(area))
-  .sort((a, b) => rank(a.id) - rank(b.id));
+const entries = await getProjects(d => d.areas.includes(area));
 const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 ---
 
@@ -26,7 +20,7 @@ const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').rep
     </div>
   </section>
 
-  {entries.map(({ data }, i) => (
+  {entries.map((data, i) => (
     <ProjectCard
       title={data.title}
       description={data.body ?? `<p>${escape(data.aiDescription ?? '')}</p>`}

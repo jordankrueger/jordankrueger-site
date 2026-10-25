@@ -2,6 +2,7 @@ import { defineCollection } from 'astro:content';
 import { glob, file } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { TOPICS } from './lib/topics';
+import { AREAS, type AreaKey } from './lib/project-areas';
 
 // Posts may only use the six blog topics; the build fails on anything else.
 const topic = z.enum(Object.keys(TOPICS) as [string, ...string[]]);
@@ -45,7 +46,8 @@ const tools = defineCollection({
   }),
 });
 
-const area = z.enum(['movement', 'starbase', 'personal']);
+const areaKeys = Object.keys(AREAS) as [AreaKey, ...AreaKey[]];
+const area = z.enum(areaKeys);
 
 // One entry per project. The build rejects a missing or mistyped field.
 const projects = defineCollection({
@@ -55,7 +57,7 @@ const projects = defineCollection({
     areas: z.array(area).min(1),
     builtWithAI: z.boolean().default(false),
     aiGroup: area.optional(),
-    featuredIn: z.array(z.enum(['movement', 'starbase', 'personal', 'ai'])).default([]),
+    featuredIn: z.array(z.enum([...areaKeys, 'ai'])).default([]),
     short: z.string().optional(),
     body: z.string().optional(),
     image: z.string().optional(),

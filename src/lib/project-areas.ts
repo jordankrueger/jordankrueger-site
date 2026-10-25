@@ -1,3 +1,6 @@
+import { getCollection } from 'astro:content';
+import fileOrder from '../content/projects.json';
+
 // The three project areas that have their own page.
 export const AREAS = {
   movement: {
@@ -29,3 +32,15 @@ export const FEATURED_ORDER = {
   personal: ['Drift', 'AI Progress Tracker', 'Lease Tracker'],
   ai: ['AK Help', 'AI Code Review Pipeline', 'Claude Code guardrails'],
 } as const;
+
+// getCollection does not keep file order; the order of projects.json is the page order.
+const rank = new Map(fileOrder.map((e, i) => [e.id, i]));
+type ProjectData = Awaited<ReturnType<typeof getCollection<'projects'>>>[number]['data'];
+
+export async function getProjects(keep: (data: ProjectData) => boolean = () => true) {
+  const entries = await getCollection('projects');
+  return entries
+    .filter(e => keep(e.data))
+    .sort((a, b) => rank.get(a.id)! - rank.get(b.id)!)
+    .map(e => e.data);
+}

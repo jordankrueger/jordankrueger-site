@@ -1,18 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
 import AiProjectRow from '../components/AiProjectRow.astro';
 import AiStoryCard from '../components/AiStoryCard.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import CircuitDivider from '../components/CircuitDivider.astro';
-import fileOrder from '../content/projects.json';
+import { getProjects } from '../lib/project-areas';
 
-const rank = (id: string) => fileOrder.findIndex(e => e.id === id);
-
-// Same order as the entries in projects.json.
-const builds = (await getCollection('projects'))
-  .filter(e => e.data.builtWithAI)
-  .sort((a, b) => rank(a.id) - rank(b.id));
+const builds = await getProjects(d => d.builtWithAI);
 
 const stats = [
   { number: '50+', label: 'Projects Built' },
@@ -27,7 +21,7 @@ const groups = [
   { key: 'personal', label: 'For my own life' },
 ].map(g => ({
   ...g,
-  items: builds.filter(e => e.data.aiGroup === g.key),
+  items: builds.filter(e => e.aiGroup === g.key),
 }));
 const byGroup = Object.fromEntries(groups.map(g => [g.key, g]));
 
@@ -187,7 +181,7 @@ const stories = [
 
       <div class="ai-rows fade-up">
         <div class="ai-group-head"><h3>{byGroup.movement.label}</h3><span>{byGroup.movement.items.length} builds</span></div>
-        {byGroup.movement.items.map(({ data }) => (
+        {byGroup.movement.items.map(data => (
           <AiProjectRow title={data.title} description={data.aiDescription!} tags={data.tags!} status={data.status!} statusType={data.statusType!} />
         ))}
       </div>
@@ -207,7 +201,7 @@ const stories = [
 
       <div class="ai-rows fade-up">
         <div class="ai-group-head"><h3>{byGroup.starbase.label}</h3><span>{byGroup.starbase.items.length} builds</span></div>
-        {byGroup.starbase.items.map(({ data }) => (
+        {byGroup.starbase.items.map(data => (
           <AiProjectRow title={data.title} description={data.aiDescription!} tags={data.tags!} status={data.status!} statusType={data.statusType!} />
         ))}
       </div>
@@ -227,7 +221,7 @@ const stories = [
 
       <div class="ai-rows fade-up">
         <div class="ai-group-head"><h3>{byGroup.personal.label}</h3><span>{byGroup.personal.items.length} builds</span></div>
-        {byGroup.personal.items.map(({ data }) => (
+        {byGroup.personal.items.map(data => (
           <AiProjectRow title={data.title} description={data.aiDescription!} tags={data.tags!} status={data.status!} statusType={data.statusType!} />
         ))}
       </div>
