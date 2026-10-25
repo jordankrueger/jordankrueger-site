@@ -1,0 +1,804 @@
+[
+  {
+    "id": "job-seeker-s-union",
+    "title": "Job Seeker's Union",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [
+      "movement"
+    ],
+    "short": "Honest hiring, and AI gains returned as time",
+    "body": "<p>Job hunting treats people as isolated individuals. The problems are collective: ghost jobs, screening nobody explains, silence after interviews, and productivity gains that never turn into time off. I started the Job Seeker's Union in 2026 to treat those as standards we can change.</p><p>It is an advocacy organization, founder-led and starting in public. Two older projects of mine now live under it. The Transparent Hiring Pledge asks employers to commit to honest postings, clear timelines, human review, and closing the loop with every applicant. Four Days with AI makes the case for returning AI productivity gains to workers as time. The newest piece is Get Hired, a free resource center. It starts with the deadlines after a layoff, because unemployment, COBRA, and the ACA Marketplace will not wait for the job search.</p><p>There are no dues and no formal membership yet. The one action today is to subscribe for updates.</p>",
+    "href": "https://jobseekersunion.org",
+    "secondaryLinks": [
+      {
+        "href": "https://hiringpledge.com/",
+        "label": "Take the hiring pledge"
+      },
+      {
+        "href": "https://fourdayswithai.com/",
+        "label": "Four Days with AI"
+      },
+      {
+        "href": "https://jobseekersunion.org/get-hired/",
+        "label": "Get Hired"
+      }
+    ]
+  },
+  {
+    "id": "equity-language-commons",
+    "title": "Equity Language Commons",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [
+      "movement"
+    ],
+    "short": "Every equity language guide, side by side",
+    "body": "<p>Every progressive organization I work with has an equity language guide, or wants one, or has three that quietly disagree with each other. The good ones are published by people doing careful work — but they're scattered across a few dozen PDFs, and when two of them rule differently on the same word, you're on your own to work out why.</p><p>Equity Language Commons puts them side by side. One page per term, every source organization's ruling on it, with the quote, the year, and a link back to the original. They contradict each other more often than you'd expect, and seeing that is more useful than picking whichever guide you happened to open first.</p><p>It's in beta and the index is still filling in. My cross-reference layer is CC BY 4.0; every source organization keeps its own words and its own credit. If a term is missing, or I've got one wrong, the Contribute page has four ways in — including one that doesn't need a GitHub account.</p>",
+    "href": "https://equitylanguagecommons.org",
+    "secondaryLinks": [
+      {
+        "href": "https://equitylanguagecommons.org/glossary/",
+        "label": "Browse the glossary"
+      },
+      {
+        "href": "https://equitylanguagecommons.org/sources/",
+        "label": "See the sources"
+      }
+    ]
+  },
+  {
+    "id": "claude-code-guardrails",
+    "title": "Claude Code guardrails",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [
+      "ai"
+    ],
+    "short": "Safety rules for AI coding assistants",
+    "body": "<p>Everyone I talk to at nonprofits is either using an AI coding assistant already or about to be. Almost none of them are security engineers, and the advice out there assumes they are. So I wrote down the handful of defaults I'd want a friend to have in place before they let an agent loose on their laptop.</p><p>The whole thing rests on one idea: everything the AI touches should be backed up somewhere it can't delete. You can't guarantee an agent never makes a mistake or gets talked into one — but you can make the worst day survivable. The repo has a drop-in <strong>CLAUDE.md</strong>, example permission and sandbox settings, an \"out of its reach\" checklist, and the research behind each choice so you can check my reasoning. MIT licensed, and honest about what it doesn't protect you from.</p>",
+    "href": "https://github.com/jordankrueger/backup-first-ai",
+    "secondaryLinks": [
+      {
+        "href": "/ai",
+        "label": "What I build with it"
+      }
+    ]
+  },
+  {
+    "id": "freehold",
+    "title": "Freehold",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [
+      "movement"
+    ],
+    "short": "Owning your own tools and data",
+    "body": "<p>I've been working with progressive nonprofits long enough to watch them get cornered by platforms they can't replace. Freehold is what happens when you sit with that frustration long enough — a framework for an internet where you create, publish, and actually own everything you share online. Your content lives on your own domain, hosted by whoever you trust, syndicated out to whatever networks you choose. No platform owning your audience. No algorithm rewriting what your followers see.</p><p>Not a company. Not a product. A proposal — and an invitation. The whitepaper is at <strong>freehold.is</strong>, published under CC BY 4.0. Quote it, fork it, build a piece of it.</p>",
+    "image": "/images/logo-freehold.png",
+    "href": "https://freehold.is",
+    "secondaryLinks": [
+      {
+        "href": "https://freehold-app.pages.dev",
+        "label": "Try the alpha app"
+      }
+    ]
+  },
+  {
+    "id": "awesome-actionkit",
+    "title": "Awesome ActionKit",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [],
+    "body": "<p>ActionKit powers email and advocacy for most large progressive organizations, but the best tooling around it has always been scattered — buried in Slack threads, ClientCon sessions, and the occasional vendor blog post. New admins spend months rediscovering things other people figured out years ago.</p><p>Awesome ActionKit is the hub I wish had existed when I started. A curated, CC0 list of snippets, recipes, integrations, consultants, and guides — the things that actually work, collected in one place that's easy to find and easy to contribute back to. CampaignHelp seeded it with a handful of repos (redirect blocks, mailing blocks, a health check). Everyone else is invited.</p>",
+    "href": "https://github.com/jordankrueger/awesome-actionkit",
+    "secondaryLinks": [
+      {
+        "href": "/tools#actionkit",
+        "label": "Browse the tools"
+      }
+    ]
+  },
+  {
+    "id": "progressives-for-ai",
+    "title": "Progressives for AI",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "movement",
+    "featuredIn": [],
+    "body": "<p>Most of the progressive conversation about AI is a fight between people who think it's going to destroy everything and people who aren't paying attention. I don't think either of those is the useful place to stand. The technology is here, our side is going to be using it either way, and I'd rather we were good at it than caught flat-footed.</p><p>Progressives for AI is a newsletter and a discussion group for people who want to think seriously about what this stuff can do for organizing, advocacy, and the work of running an organization — without the doomerism and without the hype. If that's the conversation you've been looking for, come have it with us.</p>",
+    "href": "https://progressivesforai.com/",
+    "aiDescription": "Newsletter for progressives who want to actually engage with AI instead of just being scared of it. Six issues published. Landing page, Beehiiv publication, Cloudflare Worker signup flow, and an N8N automation pipeline that generates LinkedIn and Bluesky drafts after each issue goes out.",
+    "tags": [
+      "Beehiiv",
+      "Cloudflare Workers",
+      "N8N",
+      "Claude API"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "progressive-email-suppression-list",
+    "title": "Progressive email suppression list",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [],
+    "body": "<p>Every big progressive organization has quietly built the same file over the years: the list of email domains that never deliver. Typos of the major providers, throwaway addresses, spam traps that can get your whole sending domain blocked. The large orgs have one. The small orgs, who need it most, usually don't — and there's no reason for all of us to keep rebuilding it separately.</p><p>So I combined them. The internal lists people have been passing around for years, plus the big community-maintained sets, deduped into one clean file of roughly 66,000 domains that rebuilds itself nightly. There are ten-minute import guides for ActionKit, Action Network, and Listmonk. Released under CC0 — no attribution required, just take it.</p><p>It's purely defensive. The list exists so you can <em>not</em> mail these addresses. Please don't use it for anything else.</p>",
+    "href": "https://github.com/jordankrueger/progressive-email-suppression"
+  },
+  {
+    "id": "small-tools-i-ve-open-sourced",
+    "title": "Small tools I've open-sourced",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [],
+    "body": "<p>Not everything deserves its own site. These are small, finished tools I open-sourced because someone else probably needs the same thing.</p><p><strong>Email Hasher</strong> normalizes a list of email addresses and hashes them in your browser for ad-platform audience uploads. The data never leaves your machine.</p><p><strong>Petition Delivery Formatter</strong> turns a CSV of signatures into a printable PDF, fully offline, for organizers who deliver the petition in person.</p><p><strong>Lease Tracker</strong> is a tiny app that tells you how many miles a day you can drive without going over your lease limit.</p><p><strong>Matrix Gatekeeper</strong> is a bot that makes people accept your community rules before they can join a Matrix space.</p>",
+    "href": "https://jordankrueger.github.io/email-hasher/",
+    "linkLabel": "Email Hasher",
+    "secondaryLinks": [
+      {
+        "href": "https://github.com/jordankrueger/petition-delivery-formatter",
+        "label": "Petition Delivery Formatter"
+      },
+      {
+        "href": "https://jordankrueger.github.io/lease-tracker/",
+        "label": "Lease Tracker"
+      },
+      {
+        "href": "https://github.com/jordankrueger/matrix-gatekeeper",
+        "label": "Matrix Gatekeeper"
+      }
+    ]
+  },
+  {
+    "id": "ready-for-aoc",
+    "title": "Ready for AOC",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [],
+    "body": "<p>A grassroots supporter hub for people who want to see Alexandria Ocasio-Cortez run for president. The petition doubles as the email signup, and the whole thing is deliberately money-free — no donations, no merchandise, nothing that would drag it into political committee territory with the FEC.</p><p>An independent effort. Not affiliated with AOC, and not affiliated with any campaign committee.</p>",
+    "href": "https://readyforaoc.com"
+  },
+  {
+    "id": "highspeedrail-tv",
+    "title": "HighSpeedRail.TV",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "movement",
+    "featuredIn": [],
+    "body": "<p>American high-speed rail coverage is scattered across a few hundred YouTube channels, and most of the good stuff is made by people outside the US who are baffled that we don't have any. I wanted one place to watch it.</p><p>HighSpeedRail.TV is a curated video site for rail advocacy — new videos surfaced and reviewed weekly, with AI doing the first pass on what's worth including so the queue stays manageable. It's a small site about a big idea I'd like more Americans to see up close.</p>",
+    "href": "https://highspeedrail.tv",
+    "aiDescription": "Curated video site for high-speed rail advocacy. YouTube API-powered admin panel for searching, queueing, and reviewing videos. AI helps evaluate new content quickly. Auto-deploys on push.",
+    "tags": [
+      "Eleventy",
+      "Express",
+      "YouTube API",
+      "Cloudflare Pages"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "user-manuals",
+    "title": "User Manuals",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [],
+    "body": "<p>The best workplace tool I picked up at CREDO Action was the \"user manual.\" Each person writes a short document explaining what they need to do their best work and be a whole person at the office.</p><p>Most of us never say those things out loud. When we do, coworkers can plan around them instead of guessing. I built usermanuals.guide so any team can run the exercise without a consultant.</p>",
+    "image": "/images/logos/logo-usermanuals.png",
+    "href": "https://usermanuals.guide/"
+  },
+  {
+    "id": "ai-progress-tracker",
+    "title": "AI Progress Tracker",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [
+      "personal"
+    ],
+    "short": "Scoring Dario Amodei's predictions",
+    "body": "<p>When Anthropic CEO Dario Amodei published \"Machines of Loving Grace,\" it was one of the few concrete sets of predictions about where AI is headed. Predictions deserve a scorecard. I built the AI Progress Tracker to map each of his milestones to what has actually happened, with sources.</p><p>It is not a fan site and not a hit piece. It is a living record, useful whether you are excited about what is coming or deeply skeptical.</p>",
+    "href": "https://aiprogresstracker.com/",
+    "aiDescription": "My first AI build, before Claude Code even existed. Tracks the predictions from Dario Amodei's \"Machines of Loving Grace\" essay across four categories: biology, neuroscience, economics, and governance. Progress bars, expandable sections, and a Reddit community for discussion. Originally on Vercel, recently migrated to Cloudflare Pages.",
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "Tailwind",
+      "Cloudflare Pages"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "starbase-118-pbem-rpg",
+    "title": "StarBase 118 PBEM RPG",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [
+      "starbase"
+    ],
+    "short": "The community itself",
+    "body": "<p>That's a lot of letters, right? PBEM stands for \"Play By Email,\" and RPG stands for \"Role-Playing Game.\"</p><p>In 1994, on AOL, I co-founded a Star Trek role-playing game soon after learning about them in chat rooms. I was a Star Trek fanatic, as a kid, and I loved the utopian vision of the future mixed with the sense of cool, calm competency that everyone on the show gave off amidst the vast interplay of species in the galaxy.</p><p>That game grew into a community that I still have a hard time believing exists to this day, and which I've led for over 30 years.</p><p>Over the years I've watched people go through many phases of life, meet fellow members and get married, have kids, and even divorce. It's been the privilege of a lifetime to lead and watch all of this happen.</p><p>Beyond all that, the game provided me with a testing ground for leadership, community, and technology like perhaps nothing else could have.</p>",
+    "image": "/images/logo-starbase118.jpg",
+    "href": "https://www.starbase118.net",
+    "secondaryLinks": [
+      {
+        "href": "https://trekstories.net",
+        "label": "Read the ebooks"
+      },
+      {
+        "href": "https://medium.com/@jordankrueger/how-roleplaying-gives-lgbtq-and-non-binary-people-an-outlet-to-explore-themselves-b119813bb23b",
+        "label": "RPGs & LGBTQ+"
+      }
+    ]
+  },
+  {
+    "id": "ak-help",
+    "title": "AK Help",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "movement",
+    "featuredIn": [
+      "ai"
+    ],
+    "short": "AI help for ActionKit users",
+    "aiDescription": "AI help for ActionKit users (the advocacy platform most progressive nonprofits run on). A Playwright scraper pulls 114 help docs and 176 real support emails, anonymizes them, and feeds an AI knowledge base. Freemium SaaS with Stripe billing, magic-link auth, and a monthly auto-refresh pipeline.",
+    "tags": [
+      "Next.js",
+      "Playwright",
+      "Stripe",
+      "Claude Haiku"
+    ],
+    "status": "Live (Beta)",
+    "statusType": "live"
+  },
+  {
+    "id": "campaign-help",
+    "title": "campaign.help",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "movement",
+    "featuredIn": [],
+    "aiDescription": "My consulting firm's website. Built it in one session, pulling real testimonials and client logos from Notion. Compressed images 81%, wired up GA4, deployed to Cloudflare Pages.",
+    "tags": [
+      "Next.js",
+      "Cloudflare Pages",
+      "Notion API"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "mdm-fleet-management",
+    "title": "MDM Fleet Management",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "movement",
+    "featuredIn": [],
+    "aiDescription": "Runbook for managing Mac fleets at two nonprofit clients. FileVault key escrow, Escrow Buddy deployment, remediation tracking, and a side-by-side comparison of Mosyle vs. JAMF Now.",
+    "tags": [
+      "Mosyle",
+      "JAMF Now",
+      "macOS"
+    ],
+    "status": "Active",
+    "statusType": "active"
+  },
+  {
+    "id": "ai-code-review-pipeline",
+    "title": "AI Code Review Pipeline",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "movement",
+    "featuredIn": [
+      "ai"
+    ],
+    "short": "Two AIs review every pull request",
+    "aiDescription": "Dual-LLM code review deployed across 28 repos. Every pull request gets reviewed by OpenAI Codex and cross-checked by Claude. The two models reconcile disagreements before a summary hits the PR. Branch protection enforced on all public repos. Backed by a quality-gate layer: pre-commit TypeScript/ESLint in 5 active repos, a global type-check hook on every file edit, and a nightly N8N workflow snapshot-to-git across 3 automation instances.",
+    "tags": [
+      "GitHub Actions",
+      "Claude API",
+      "OpenAI Codex"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  },
+  {
+    "id": "staff-operations-platform",
+    "title": "Staff Operations Platform",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [
+      "starbase"
+    ],
+    "short": "Replacing spreadsheets for 136 members",
+    "aiDescription": "Replacing the mess of Google Sheets, email chains, and tribal knowledge we'd been using. 15-table data model, 136 members imported, NocoDB backend, Authentik SSO, Next.js admin panel with role-based access. Then: a full 10-point security audit — IDOR fixes, CSRF validation, rate limiting, audit logging, PII filtering by role, and an error diagnostics dashboard.",
+    "tags": [
+      "Next.js 15",
+      "NocoDB",
+      "PostgreSQL",
+      "Authentik"
+    ],
+    "status": "In Progress",
+    "statusType": "active"
+  },
+  {
+    "id": "visitor-fingerprinting-plugin",
+    "title": "Visitor Fingerprinting Plugin",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "WordPress plugin that fingerprints visitors (canvas, WebGL, fonts, screen data) and checks them against banned users when someone applies to join. Catches the folks who get banned and come back under a new name.",
+    "tags": [
+      "PHP",
+      "WordPress",
+      "JavaScript"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  },
+  {
+    "id": "438k-post-archive",
+    "title": "438K-Post Archive",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [
+      "starbase"
+    ],
+    "short": "Every story the community has written",
+    "aiDescription": "Every collaborative story the community has ever written, stored in Firebase. Cloud Functions handle the data processing, with automated backups to iDrive (5.2GB raw, 1.76GB compressed).",
+    "tags": [
+      "Firebase",
+      "Cloud Functions",
+      "Node.js"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "4-pipeline-backup-system",
+    "title": "4-Pipeline Backup System",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "Offsite backups for everything: cPanel snapshots, custom DB dumps (had to work around a 268MB kernel memory cap), Firebase archive exports, and VPS configs. Migrated all 4 servers from iDrive to Backblaze B2 after iDrive proved unreliable.",
+    "tags": [
+      "rclone",
+      "Backblaze B2",
+      "Bash",
+      "cron"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  },
+  {
+    "id": "1-2m-email-archive",
+    "title": "1.2M Email Archive",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "1.22 million messages across three accounts (446K personal Gmail, 775K SB118 Gmail, iCloud), indexed for full-text search using Notmuch and Xapian. Instant server-side search that would take grep minutes now takes milliseconds.",
+    "tags": [
+      "Notmuch",
+      "Xapian",
+      "Bash",
+      "LaunchAgent"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  },
+  {
+    "id": "mediawiki-10x-speedup",
+    "title": "MediaWiki 10x Speedup",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "Got a 54,000-page wiki from 1.5s down to 0.15s page loads. Migrated to PHP 8.2 + FPM, added APCu caching, turned on OPcache JIT, and cleaned out a 1.38GB stale cache table.",
+    "tags": [
+      "MediaWiki",
+      "PHP-FPM",
+      "APCu"
+    ],
+    "status": "Complete",
+    "statusType": "complete"
+  },
+  {
+    "id": "wordpress-14x-speedup",
+    "title": "WordPress 14x Speedup",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "WordPress Multisite homepage went from 3.4s to 0.24s. Cleaned out 87MB of orphaned tables, removed 5 themes nobody was using, and optimized 284 database tables.",
+    "tags": [
+      "WordPress",
+      "WP-CLI",
+      "MariaDB"
+    ],
+    "status": "Complete",
+    "statusType": "complete"
+  },
+  {
+    "id": "seo-program",
+    "title": "SEO Program",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "SEO overhaul across all 5 web properties. RankMath on WordPress, GA4 everywhere, Search Console for 3 domains, 11 new content pieces, and drip email campaigns.",
+    "tags": [
+      "RankMath",
+      "GA4",
+      "Sendy"
+    ],
+    "status": "Ongoing",
+    "statusType": "active"
+  },
+  {
+    "id": "constitution-rewrite",
+    "title": "Constitution Rewrite",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "Rewrote the community's governing documents from scratch. Read through 114 forum posts of old debate, pulled together two previous rewrite attempts, and put together an annotated review presentation with a 55-row traceability matrix. After the first review round, migrated 102 web annotations into 14 discussion threads on the community forum — automated via the forum API — so the debate could happen where people actually talk.",
+    "tags": [
+      "Markdown",
+      "HTML",
+      "Forum API"
+    ],
+    "status": "Under Review",
+    "statusType": "active"
+  },
+  {
+    "id": "self-hosted-workflow-automation",
+    "title": "Self-Hosted Workflow Automation",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "Deployed Activepieces (open-source, MIT-licensed) as an N8N alternative for the community's FOSS committee. Docker Compose on the VPS, wired into the same backup pipeline as everything else, with a public docs page explaining how to contribute workflows.",
+    "tags": [
+      "Activepieces",
+      "Docker",
+      "Postgres"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "annual-address-builder",
+    "title": "Annual Address Builder",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "App for putting together the community's annual address from 11 groups' submissions. Role-based auth, Claude API for AI-assisted summaries, and wiki integration.",
+    "tags": [
+      "React",
+      "Express",
+      "Claude API"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  },
+  {
+    "id": "server-monitoring",
+    "title": "Server Monitoring",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "Self-hosted Netdata with custom health alerts and a status dashboard that pulls live metrics via API every 30 seconds.",
+    "tags": [
+      "Netdata",
+      "Apache"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "security-plugin",
+    "title": "Security Plugin",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "WordPress must-use plugin that locks down private multisite sub-sites. The old plugin left the REST API and RSS feeds wide open. This one blocks everything. Covers 6 internal staff sites.",
+    "tags": [
+      "PHP",
+      "WordPress MU"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  },
+  {
+    "id": "email-infrastructure",
+    "title": "Email Infrastructure",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "starbase",
+    "featuredIn": [],
+    "aiDescription": "Set up Sendy for 3 brands after AWS SES denied production access. Switched to SMTP2GO, designed custom HTML email templates, built a 3-email drip sequence, and redid 9 notification templates across 4 sites.",
+    "tags": [
+      "Sendy",
+      "SMTP2GO"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  },
+  {
+    "id": "drift",
+    "title": "Drift",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [
+      "personal"
+    ],
+    "short": "My productivity app, built in one sitting",
+    "aiDescription": "My main productivity app, built from nothing to deployed in one sitting. Task management that lets me bounce between projects without guilt, a debt payoff tracker (avalanche method), uptime monitoring for 17 sites, a content drafting dashboard, and one-click posting to Bluesky via the AtProto SDK.",
+    "tags": [
+      "Next.js",
+      "SQLite",
+      "Docker",
+      "Drizzle ORM",
+      "AtProto"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "domain-locker",
+    "title": "Domain Locker",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [],
+    "aiDescription": "Self-hosted portfolio monitor for the 47 domains I own across personal and client work. Tracks expiration dates, DNS changes, SSL certs, and WHOIS updates, with a daily refresh and a dashboard that finally tells me what's about to lapse before the registrar does.",
+    "tags": [
+      "Angular",
+      "Postgres",
+      "Docker",
+      "OrbStack"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "smart-bookmarks",
+    "title": "Smart Bookmarks",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [],
+    "aiDescription": "Click a bookmarklet on any page. A Cloudflare Worker grabs the content, Claude generates a title, description, and tags, and it all saves to Raindrop.io. I never have to tag bookmarks manually again.",
+    "tags": [
+      "Cloudflare Workers",
+      "Claude API",
+      "Raindrop.io"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  },
+  {
+    "id": "fathom-sync",
+    "title": "Fathom Sync",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [],
+    "aiDescription": "I kept losing action items after meetings. This polls Fathom AI (the meeting note-taker) and syncs summaries to Notion while turning action items into tasks in Drift. Runs twice a day on its own.",
+    "tags": [
+      "TypeScript",
+      "Notion API",
+      "LaunchAgent"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  },
+  {
+    "id": "healthy-eating-system",
+    "title": "Healthy Eating System",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [],
+    "aiDescription": "Not an app, more of a system. ADHD plus reactive hypoglycemia means I can't rely on willpower for meal decisions. 64-item food database, auto-generated grocery lists, and a Friday reminder to confirm Saturday pickup.",
+    "tags": [
+      "Notion",
+      "Shell",
+      "LaunchAgent"
+    ],
+    "status": "Active",
+    "statusType": "active"
+  },
+  {
+    "id": "secrets-manager",
+    "title": "Secrets Manager",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [],
+    "aiDescription": "261-line Python CLI that keeps API keys in sync across two config files at once. Found 2 mismatches the first time I ran it.",
+    "tags": [
+      "Python"
+    ],
+    "status": "In Use",
+    "statusType": "deployed"
+  },
+  {
+    "id": "lease-tracker",
+    "title": "Lease Tracker",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [
+      "personal"
+    ],
+    "short": "How many miles can I drive today?",
+    "aiDescription": "React PWA that answers one question: \"How many miles can I drive today?\" Tracks remaining daily mileage for my car lease. Works offline. Fits in a single HTML file.",
+    "tags": [
+      "React",
+      "PWA",
+      "GitHub Pages"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "personality-profile",
+    "title": "Personality Profile",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [],
+    "aiDescription": "Fed Claude 1,023 of my AI conversations plus a formal psych evaluation and had it build a personality profile. Using AI to understand how I use AI. Pretty meta.",
+    "tags": [
+      "Python",
+      "Claude Batch API"
+    ],
+    "status": "Complete",
+    "statusType": "complete"
+  },
+  {
+    "id": "actual-budget",
+    "title": "Actual Budget",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [],
+    "aiDescription": "Self-hosted personal and business finance tracking with SimpleFIN bank sync across 12 accounts. Custom CLI for querying both budgets. Uncovered $7,500/mo in personal subscriptions and fixed a -$99K \"To Budget\" bug caused by how credit card starting balances were categorized.",
+    "tags": [
+      "Docker",
+      "Node.js",
+      "SimpleFIN"
+    ],
+    "status": "Live",
+    "statusType": "live"
+  },
+  {
+    "id": "weekly-content-sprint",
+    "title": "Weekly Content Sprint",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [],
+    "aiDescription": "Every Monday at 7:30am, an N8N workflow wakes up, reads my session logs from the previous week, grabs starred articles from my RSS reader, and sends everything to Claude. Output: content drafts across four tracks (personal, consulting, newsletter, high-speed rail) plus story ideas. The drafts now flow into a 14-channel daily content queue that auto-schedules them to Tue/Thu/Fri and surfaces what's due in my morning briefing email.",
+    "tags": [
+      "N8N",
+      "Claude API",
+      "LaunchAgent"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  },
+  {
+    "id": "prompt-injection-defense",
+    "title": "Prompt Injection Defense",
+    "areas": [
+      "personal"
+    ],
+    "builtWithAI": true,
+    "aiGroup": "personal",
+    "featuredIn": [],
+    "aiDescription": "Claude Code hits all three legs of what security researchers call the \"Lethal Trifecta\": private data, exposure to untrusted content, and the ability to take real-world actions. Built a multi-layer defense: behavioral rules, a PostToolUse detection hook that scans for 9 injection patterns, and email sanitization with 5 layers of content stripping.",
+    "tags": [
+      "Bash",
+      "Python",
+      "Claude Code Hooks"
+    ],
+    "status": "Deployed",
+    "statusType": "deployed"
+  }
+]
