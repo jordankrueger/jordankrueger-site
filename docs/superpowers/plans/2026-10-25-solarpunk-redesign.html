@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solarpunk build plan</title>
+<style>
+  /* ---------------------------------------------------------------
+     Spec companion template.
+     Copy this file next to a spec.md, delete the blocks you don't need,
+     fill in the rest. It renders as a live reference for every block,
+     so you can also just open it to see what's available.
+
+     Layout rules come from .claude/rules/html-page-layout.md.
+     --gutter is the page gutter; --inset MUST equal the nav card's
+     inner padding, or the header text stops lining up with body text.
+     --------------------------------------------------------------- */
+  :root {
+    --gutter: 1.5rem;
+    --inset: 1.1rem;
+
+    --ink: #1e232b;
+    --muted: #667085;
+    --line: #e2e5ea;
+    --page: #f6f7f9;
+    --card: #ffffff;
+    --accent: #2b5fa8;
+    --accent-soft: #eef3fb;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    --add: #1a7f4b;
+    --add-bg: #eefaf3;
+    --del: #b42318;
+    --del-bg: #fef3f2;
+    --warn: #b45309;
+    --warn-bg: #fffbeb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- header band --------------------------------------------- */
+  header { background: var(--ink); color: #fff; padding: 2.5rem 0 2.25rem; }
+  header .inner {
+    max-width: 72rem; margin: 0 auto;
+    padding-left:  calc(var(--gutter) + var(--inset));
+    padding-right: calc(var(--gutter) + var(--inset));
+  }
+  header .kicker {
+    text-transform: uppercase; letter-spacing: .12em; font-size: .75rem;
+    opacity: .7; margin-bottom: .5rem;
+  }
+  header h1 { margin: 0 0 .5rem; font-size: 2rem; letter-spacing: -.015em; line-height: 1.2; }
+  header .sub { margin: 0; opacity: .8; font-size: .95rem; }
+  /* The global `code` rule below paints a near-white background, which inside
+     this dark band leaves white inherited text on near-white — invisible. The
+     subtitle carries <code>spec.md</code>, so scope a dark-band variant. */
+  header code {
+    background: rgba(255,255,255,.14); color: #fff;
+    border: 1px solid rgba(255,255,255,.22);
+  }
+  .status-pill {
+    display: inline-block; margin-top: 1rem;
+    background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3);
+    border-radius: 999px; padding: .3rem .9rem; font-size: .8rem;
+  }
+
+  /* --- shell / nav ---------------------------------------------- */
+  .shell {
+    max-width: 72rem; margin: 0 auto; display: flex; gap: 2.5rem;
+    padding-left: var(--gutter); padding-right: var(--gutter);
+    padding-top: 3.25rem; padding-bottom: 5rem;
+    align-items: flex-start;
+  }
+  nav {
+    flex: 0 0 15rem; position: sticky; top: 1.5rem;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: var(--inset);
+  }
+  nav h2 { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 0 0 .7rem; }
+  nav ul { list-style: none; margin: 0; padding: 0; }
+  nav a {
+    display: block; padding: .32rem .45rem; margin: 0 -.45rem;
+    color: var(--ink); text-decoration: none; font-size: .875rem;
+    border-radius: 6px; line-height: 1.35;
+  }
+  nav a:hover { background: var(--page); }
+  nav a.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+  article { flex: 1 1 auto; min-width: 0; }
+
+  section {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.5rem 1.7rem 1.7rem; margin-bottom: 1.25rem;
+    scroll-margin-top: 1.5rem;
+  }
+  h2 { margin: 0 0 .9rem; font-size: 1.3rem; letter-spacing: -.01em; }
+  h3 { margin: 1.7rem 0 .6rem; font-size: 1rem; }
+  h3:first-of-type { margin-top: .9rem; }
+  p { margin: .7rem 0; }
+  ul, ol { margin: .7rem 0; padding-left: 1.35rem; }
+  li { margin: .4rem 0; }
+  code { background: var(--page); border-radius: 4px; padding: .1rem .35rem; font-family: var(--mono); font-size: .875em; }
+  .hint { color: var(--muted); font-size: .85rem; font-style: italic; }
+
+  /* ============================================================
+     BLOCK VOCABULARY
+     Use these instead of inventing a new visual per spec.
+     ============================================================ */
+
+  /* 1. VERDICT — the one-paragraph answer, above everything else. */
+  .verdict {
+    background: var(--accent-soft); border: 1px solid #cfdcef;
+    border-left: 4px solid var(--accent);
+    border-radius: 10px; padding: 1.1rem 1.3rem; margin-bottom: 1.25rem;
+  }
+  .verdict h2 { margin: 0 0 .5rem; font-size: 1.05rem; color: var(--accent); }
+  .verdict p:last-child { margin-bottom: 0; }
+
+  /* 2. DIAGRAM — wrapper for inline SVG. Scrolls, never overflows the page. */
+  figure.diagram { margin: 1.2rem 0; }
+  figure.diagram .frame {
+    overflow-x: auto; background: var(--page);
+    border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem;
+  }
+  figure.diagram svg { display: block; max-width: 100%; height: auto; }
+  figure.diagram figcaption { margin-top: .5rem; font-size: .85rem; color: var(--muted); }
+
+  /* 3. FILE TREE — what the change touches, marked by kind. */
+  .file-tree {
+    /* white-space: pre is load-bearing — without it the newlines in the markup
+       collapse and the whole tree renders as one wrapped paragraph. */
+    font-family: var(--mono); font-size: .82rem; line-height: 1.75;
+    white-space: pre;
+    background: var(--page); border: 1px solid var(--line); border-radius: 10px;
+    padding: 1rem 1.1rem; margin: 1.1rem 0; overflow-x: auto;
+  }
+  /* The tree MUST live in a <pre> — see the block below. This container sets no
+     white-space:pre, so bare text collapses; and any repo whose formatter runs
+     over the copied file (prettier, say) will re-flow bare text into one line.
+     <pre> survives both. It inherits the container's font so nothing else moves. */
+  .file-tree pre { margin: 0; font: inherit; }
+  .file-tree .t-add { color: var(--add); }
+  .file-tree .t-mod { color: var(--warn); }
+  .file-tree .t-del { color: var(--del); text-decoration: line-through; }
+  .file-tree .t-note { color: var(--muted); }
+
+  /* 4. DATA MODEL — field / type / notes. Never a bare markdown table. */
+  .table-wrap {
+    width: 100%; overflow-x: auto; margin: 1.1rem 0;
+    border: 1px solid var(--line); border-radius: 10px; background: var(--card);
+  }
+  table { width: 100%; min-width: 34rem; border-collapse: collapse; }
+  th, td { text-align: left; vertical-align: top; padding: .65rem .8rem; border-bottom: 1px solid var(--line); }
+  th { font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); background: var(--page); }
+  tr:last-child td { border-bottom: 0; }
+  td.type { font-family: var(--mono); font-size: .82rem; color: var(--accent); white-space: nowrap; }
+  .data-model caption {
+    caption-side: top; text-align: left; font-family: var(--mono); font-size: .85rem;
+    padding: .65rem .8rem; background: var(--page); border-bottom: 1px solid var(--line); color: var(--ink);
+  }
+
+  /* 5. API ENDPOINT — method + path + shapes. */
+  .api {
+    border: 1px solid var(--line); border-radius: 10px; margin: 1.1rem 0; overflow: hidden;
+  }
+  .api .line {
+    display: flex; gap: .7rem; align-items: center; flex-wrap: wrap;
+    background: var(--page); padding: .7rem .9rem; border-bottom: 1px solid var(--line);
+  }
+  .api .method {
+    font-family: var(--mono); font-size: .72rem; font-weight: 700; letter-spacing: .05em;
+    padding: .2rem .5rem; border-radius: 5px; background: var(--accent); color: #fff;
+  }
+  .api .method.post { background: var(--add); }
+  .api .method.delete { background: var(--del); }
+  .api .path { font-family: var(--mono); font-size: .87rem; }
+  .api .body { padding: .9rem 1rem; }
+  .api .body p { margin: .3rem 0; font-size: .9rem; }
+  .api pre { margin: .5rem 0 0; }
+
+  /* 6. DIFF — before/after, the smallest honest slice. */
+  .diff {
+    font-family: var(--mono); font-size: .82rem; line-height: 1.7;
+    border: 1px solid var(--line); border-radius: 10px; margin: 1.1rem 0;
+    overflow-x: auto; background: var(--card);
+  }
+  .diff .f { background: var(--page); padding: .5rem .9rem; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .78rem; }
+  .diff .l { padding: .05rem .9rem; white-space: pre; }
+  .diff .l.add { background: var(--add-bg); color: var(--add); }
+  .diff .l.del { background: var(--del-bg); color: var(--del); }
+
+  /* 7. ANNOTATED CODE — code left, numbered notes right. */
+  .annotated { margin: 1.1rem 0; }
+  .annotated pre {
+    margin: 0; background: var(--page); border: 1px solid var(--line);
+    border-radius: 10px; padding: 1rem 1.1rem; overflow-x: auto;
+    font-family: var(--mono); font-size: .82rem; line-height: 1.7;
+  }
+  .annotated .pin {
+    display: inline-block; min-width: 1.25rem; height: 1.25rem; line-height: 1.25rem;
+    text-align: center; border-radius: 999px; background: var(--accent); color: #fff;
+    font-size: .7rem; font-weight: 700; font-family: var(--mono);
+  }
+  .annotated ol.notes { list-style: none; padding: 0; margin: .8rem 0 0; counter-reset: pin; }
+  .annotated ol.notes li {
+    position: relative; padding-left: 2rem; margin: .5rem 0; font-size: .9rem; counter-increment: pin;
+  }
+  .annotated ol.notes li::before {
+    content: counter(pin); position: absolute; left: 0; top: .2rem;
+    min-width: 1.25rem; height: 1.25rem; line-height: 1.25rem; text-align: center;
+    border-radius: 999px; background: var(--accent); color: #fff;
+    font-size: .7rem; font-weight: 700; font-family: var(--mono);
+  }
+
+  /* 8. DECISION — a call that's been made, with the reason. */
+  .decision {
+    border: 1px solid var(--line); border-left: 4px solid var(--add);
+    background: var(--add-bg); border-radius: 8px; padding: .9rem 1.1rem; margin: 1.1rem 0;
+  }
+  .decision.deferred { border-left-color: var(--warn); background: var(--warn-bg); }
+  .decision .label {
+    font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--add); display: block; margin-bottom: .25rem;
+  }
+  .decision.deferred .label { color: var(--warn); }
+  .decision p { margin: .3rem 0; font-size: .93rem; }
+  .decision .why { color: var(--muted); }
+
+  /* 9. REUSE / ADDS — every step names what it reuses before what it adds. */
+  .reuse { display: flex; flex-wrap: wrap; gap: .5rem; margin: .6rem 0 .3rem; font-size: .85rem; }
+  .reuse span { padding: .25rem .6rem; border-radius: 6px; }
+  .reuse .r { background: var(--page); color: var(--muted); border: 1px solid var(--line); }
+  .reuse .a { background: var(--add-bg); color: var(--add); border: 1px solid #c4e8d5; }
+
+  /* 10. OPEN QUESTIONS — one block, at the bottom, each with a default. */
+  .open-questions { border-color: #e6d6b8; background: #fffdf7; }
+  .open-questions h2 { color: var(--warn); }
+  .open-questions ol { list-style: none; padding: 0; counter-reset: q; }
+  .open-questions li {
+    counter-increment: q; position: relative; padding-left: 2.2rem;
+    margin: 1rem 0; padding-bottom: 1rem; border-bottom: 1px solid var(--line);
+  }
+  .open-questions li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .open-questions li::before {
+    content: "Q" counter(q); position: absolute; left: 0; top: .1rem;
+    font-family: var(--mono); font-size: .72rem; font-weight: 700; color: var(--warn);
+  }
+  .open-questions .q { font-weight: 600; margin: 0 0 .3rem; }
+  .open-questions .default { margin: .3rem 0 0; font-size: .9rem; color: var(--muted); }
+  .open-questions .default b { color: var(--ink); }
+
+  @media (max-width: 60rem) {
+    :root { --inset: 1.1rem; }         /* redefine the var, never hard-code box padding */
+    .shell { display: block; padding-top: 2rem; }
+    nav { position: static; width: 100%; margin-bottom: 1.25rem; }
+    header h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<header><div class="inner">
+  <div class="kicker">jordankrueger.com &middot; Plan companion</div>
+  <h1>Solarpunk build plan</h1>
+  <p class="sub">Jordan Krueger &middot; October 2026 &middot; companion to <code>2026-10-25-solarpunk-redesign.md</code></p>
+  <span class="status-pill">Ready to build</span>
+</div></header>
+<div class="shell">
+  <nav><h2>Contents</h2><ul>
+    <li><a href="#verdict">Verdict</a></li>
+    <li><a href="#steps">The six slices</a></li>
+    <li><a href="#proof">How it's proven</a></li>
+    <li><a href="#rules">Rules every slice follows</a></li>
+  </ul></nav>
+  <article>
+    <div class="verdict" id="verdict"><h2>Verdict</h2>
+      <p>The redesign is split into six slices that run in order. Slices 1&ndash;4 are each built by a Sonnet worker in its own copy of the dev branch, then reviewed by me before it's merged into the dev site. Slice 5 is my whole-site check, and slice 6 is your headshots plus launch. The live site stays as it is until slice 6, and only after you say "ship it". The new palette was checked before writing this: every text-and-background pair passes the accessibility contrast standard (lowest is 4.67 to 1, against a 4.5 minimum). Full plan: <code>docs/superpowers/plans/2026-10-25-solarpunk-redesign.md</code>; design: <a href="../specs/2026-10-25-solarpunk-redesign-design.html">the spec companion</a>.</p>
+    </div>
+    <section id="steps"><h2>The six slices &mdash; reuse before adds</h2>
+<h3>Slice 1 &mdash; colors, font, hard-coded colors</h3>
+<div class="reuse"><span class="r">Reuses the existing color names, the self-hosted font setup</span><span class="a">Adds new color values, Bricolage Grotesque (one file), a contrast test, reduced-motion setting</span></div>
+<p>A small test checks every text color against its background. It is written first and fails on today's colors, then passes after the swap, and is proven able to fail again on purpose. About 20 hard-coded colors in 11 files get pointed at the shared colors. Worker: Sonnet, own copy of the branch, own preview port.</p>
+<h3>Slice 2 &mdash; header and footer</h3>
+<div class="reuse"><span class="r">Reuses the existing menu, phone menu button and links</span><span class="a">Adds the sun-and-leaf logo, the Subscribe pill, a one-band footer</span></div>
+<p>The handwritten Rock Salt logo is retired. Every footer link is kept; a check compares the old and new link lists so nothing gets dropped.</p>
+<h3>Slice 3 &mdash; homepage</h3>
+<div class="reuse"><span class="r">Reuses Hero, newsletter, blog cards, contact form</span><span class="a">Adds the drawing around your photo, the circuit divider, practice cards, the blog vine</span></div>
+<p>The "Hiya &amp; welcome!" and "About me" headings lose their emoji. The spam-check widgets and form settings on the newsletter and contact forms are explicitly off-limits; only their look changes.</p>
+<h3>Slice 4 &mdash; remaining pages</h3>
+<div class="reuse"><span class="r">Reuses every existing card component</span><span class="a">Adds per-page polish, and the small Star Trek console strip on About</span></div>
+<p>About, AI, Projects, Tools, the blog list, blog posts, and the small pages. One commit per page.</p>
+<h3>Slice 5 &mdash; whole-site check</h3>
+<div class="reuse"><span class="r">Reuses the design checklist and screenshot review</span><span class="a">Adds nothing new</span></div>
+<p>Done by me in the main session: the design "humanizer" checklist on every page, the screenshot critique loop, a keyboard pass, a Codex review of the full change, then the dev link goes to you.</p>
+<h3>Slice 6 &mdash; headshots and launch</h3>
+<div class="reuse"><span class="r">Reuses the placeholder file names already wired in</span><span class="a">Adds your photos</span></div>
+<p>Only after you say "ship it": pick up any new posts, push, pull request, wait for every check, merge, watch Cloudflare until the new version is live, then check the live site, including real test sign-ups to your own address.</p>
+
+    </section>
+    <section id="proof"><h2>How it's proven to work</h2>
+      <div class="table-wrap"><table><thead><tr><th>Check</th><th>When</th><th>Proves</th></tr></thead><tbody>
+        <tr><td>Contrast test</td><td>Every slice</td><td>Text stays readable; shown able to fail</td></tr>
+        <tr><td>Clean build</td><td>Every slice</td><td>The site still compiles</td></tr>
+        <tr><td>No stray colors</td><td>Every slice</td><td>Every color comes from the shared palette</td></tr>
+        <tr><td>Screenshots, desktop and phone, actually read</td><td>Every slice</td><td>It looks like the mockup</td></tr>
+        <tr><td>Design checklist, critique loop, keyboard pass, Codex review</td><td>Slice 5</td><td>No AI-design tells, nothing unreachable by keyboard</td></tr>
+        <tr><td>Live deploy watched, fonts and photos fetched, real form sign-ups</td><td>Slice 6</td><td>It works on the real site</td></tr>
+      </tbody></table></div>
+    </section>
+    <section id="rules"><h2>Rules every slice follows</h2>
+      <div class="decision"><span class="label">Rule</span><p>No pushes and no pull request until slice 6.</p><p class="why">A pushed branch gets a public preview link with placeholder photos on it.</p></div>
+      <div class="decision"><span class="label">Rule</span><p>No content changes except the four heading emoji.</p><p class="why">You asked to keep the content; only the look changes.</p></div>
+      <div class="decision"><span class="label">Rule</span><p>Form spam checks and form settings are off-limits.</p><p class="why">Restyling must not break sign-ups; slice 6 proves it with real test submissions.</p></div>
+    </section>
+  </article>
+</div>
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function sync() {
+    var best = 0;
+    for (var i = 0; i < targets.length; i++) {
+      if (targets[i] && targets[i].getBoundingClientRect().top <= 90) best = i;
+    }
+    links.forEach(function (a, i) { a.classList.toggle('active', i === best); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  sync();
+})();
+</script>
+
+</body>
+</html>
