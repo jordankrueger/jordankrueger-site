@@ -43,6 +43,20 @@ const tracks = data.tracks;
   </section>
 </BaseLayout>
 
+<script>
+  // Shuffle the list on every visit (Jordan, 2026-10-25). Without JavaScript the
+  // playlist order shows; the numbers come from a CSS counter, so they stay 1 to N.
+  const list = document.querySelector('.sw-list');
+  if (list) {
+    const rows = [...list.children];
+    for (let i = rows.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [rows[i], rows[j]] = [rows[j], rows[i]];
+    }
+    list.append(...rows);
+  }
+</script>
+
 <style>
   .sw-back { display: inline-block; margin-bottom: var(--spacing-sm); font-size: 0.9rem; font-weight: 600; }
   .sw-head h1 { font-size: clamp(2.2rem, 4.4vw, 3.4rem); }
