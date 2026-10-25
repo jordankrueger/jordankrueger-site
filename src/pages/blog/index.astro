@@ -151,7 +151,7 @@ const allTags = Object.keys(TOPICS).filter(t => used.has(t));
       });
       countEl.textContent = tag === 'all'
         ? allText
-        : `${shown} posts in ${btn.dataset.label}`;
+        : `${shown} ${shown === 1 ? 'post' : 'posts'} in ${btn.dataset.label}`;
     });
   });
 
