@@ -17,7 +17,7 @@ const allTags = Object.keys(TOPICS).filter(t => used.has(t));
     <div class="container">
       <h1>All posts</h1>
       <p class="blog-subtitle">Thoughts on technology, nonprofit operations, AI, and building in public.</p>
-      <p class="blog-count" id="blog-count" data-all={`${posts.length} posts, newest first.`}>{posts.length} posts, newest first.</p>
+      <p class="blog-count" id="blog-count">{posts.length} posts, newest first.</p>
 
       {allTags.length > 0 && (
         <div class="tag-filter" id="tag-filter">
@@ -130,6 +130,7 @@ const allTags = Object.keys(TOPICS).filter(t => used.has(t));
   const filterBtns = document.querySelectorAll('.filter-tag');
   const items = document.querySelectorAll('.blog-grid-item');
   const countEl = document.getElementById('blog-count');
+  const allText = countEl.textContent;
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -149,7 +150,7 @@ const allTags = Object.keys(TOPICS).filter(t => used.has(t));
         }
       });
       countEl.textContent = tag === 'all'
-        ? countEl.dataset.all
+        ? allText
         : `${shown} posts in ${btn.dataset.label}`;
     });
   });
