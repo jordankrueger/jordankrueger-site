@@ -84,7 +84,7 @@
     {
       "title": "Bend & Break",
       "artist": "FM-84 & Ollie Wride",
-      "apple": "https://music.apple.com/us/album/bend-break-instrumental/1842390281?i=1842390283",
+      "apple": "https://music.apple.com/us/album/bend-break/1842390281?i=1842390282",
       "appleArtist": "https://music.apple.com/us/artist/fm-84/985344931",
       "spotify": null,
       "spotifySearch": "https://open.spotify.com/search/Bend%20%26%20Break%20FM-84"
@@ -100,7 +100,7 @@
     {
       "title": "Now I'm Alive (feat. Dana Jean Phoenix)",
       "artist": "Michael Oakley",
-      "apple": "https://music.apple.com/us/album/now-im-alive-instrumental/1616545086?i=1616545429",
+      "apple": "https://music.apple.com/us/album/now-im-alive-feat-dana-jean-phoenix/1610893425?i=1610893869",
       "appleArtist": "https://music.apple.com/us/artist/michael-oakley/334962830",
       "spotify": null,
       "spotifySearch": "https://open.spotify.com/search/Now%20I%27m%20Alive%20Michael%20Oakley"
@@ -266,14 +266,6 @@
       "spotifySearch": "https://open.spotify.com/search/There%20is%20Still%20Good%20in%20You%20Magic%20Sword"
     },
     {
-      "title": "Heart Worth Breaking",
-      "artist": "The Midnight",
-      "apple": "https://music.apple.com/us/album/heart-worth-breaking-live/1700206130?i=1700206137",
-      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
-      "spotify": null,
-      "spotifySearch": "https://open.spotify.com/search/Heart%20Worth%20Breaking%20The%20Midnight"
-    },
-    {
       "title": "Ghost",
       "artist": "GUNSHIP & Power Glove",
       "apple": "https://music.apple.com/us/album/ghost/1649496035?i=1649496040",
@@ -388,10 +380,14 @@
   ],
   "unmatched": [
     {
+      "title": "Heart Worth Breaking",
+      "artist": "The Midnight",
+      "why": "no confident Apple Music match"
+    },
+    {
       "title": "After Dark x Sweater Weather remix (Slowed to Perfection)",
       "artist": "",
       "why": "no artist in the library export"
     }
-  ],
-  "note": "Spotify links are search links: song.link retired its free API (401 PUBLIC_API_ACCESS_DEPRECATED, 2026-10-25). Exact track links need a Spotify developer app."
+  ]
 }
