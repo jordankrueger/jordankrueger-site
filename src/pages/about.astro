@@ -10,7 +10,7 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
     <div class="container about-intro">
       <div class="about-intro-text">
         <h1 class="fade-up">I'm Jordan! I love<br />🖖 Star Trek,<br />😎 synthwave music, and<br />🤖 technology</h1>
-        <hr class="section-rule" />
+        <div class="console-strip" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
       </div>
       <div class="about-intro-image fade-up">
         <img src="/images/headshot-about.jpg" alt="Jordan Krueger" width="1200" height="1200" />
@@ -22,13 +22,13 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
   <section class="section about-bio-section">
     <div class="container about-bio">
       <div class="about-bio-text fade-up">
-        <h2>🔧 What I Do (and Why I Do It)</h2>
+        <h2>What I Do (and Why I Do It)</h2>
         <p><em>What gets me out of bed is helping people do mission-driven work without tech-induced migraines.</em></p>
         <p>My clients are some of the sharpest, most passionate people in the progressive movement — but let's be real: <strong>Tech sometimes confounds and befuddles the best of us.</strong></p>
         <p>My job is to resolve trouble and confusion as quickly as possible.</p>
         <p>Whether that means helping to implement a new process that makes work easier, or onboarding new hires with as little muss & fuss as possible, or even organizing shared Google Drives — I'm the person they call when "this shouldn't be this hard" turns into "wow, that was easier than I expected."</p>
 
-        <h2>🧠 What I'm Known For</h2>
+        <h2>What I'm Known For</h2>
         <p>Here's what people say when they work with me:</p>
         <blockquote>"Jordan has never seemed like just a consultant — he's an integral part of my team who's always thinking about how to set us up for success."</blockquote>
         <blockquote>"Jordan is the single most reliable person I've worked with in the progressive movement... a force multiplier for organizational capacity."</blockquote>
@@ -142,12 +142,29 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
   }
 
   .about-intro h1 {
-    line-height: 1.4;
+    font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+    line-height: 1.2;
   }
+
+  .console-strip {
+    display: flex;
+    gap: 5px;
+    height: 8px;
+    max-width: 24rem;
+    margin-top: var(--spacing-md);
+  }
+  .console-strip span:nth-child(1) { flex: 0 0 7rem; background: var(--color-sun); border-radius: 8px 0 0 8px; }
+  .console-strip span:nth-child(2) { flex: 1 1 auto; background: var(--color-bg-green); }
+  .console-strip span:nth-child(3) { flex: 0 0 3rem; background: var(--color-sprout); }
+  .console-strip span:nth-child(4) { flex: 0 0 1.5rem; background: var(--color-accent); border-radius: 0 8px 8px 0; }
 
   .about-intro-image img {
     width: 100%;
-    border-radius: var(--radius-lg);
+    max-width: 440px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 auto;
   }
 
   .about-bio {
@@ -167,7 +184,7 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
   }
 
   blockquote {
-    border-left: 3px solid var(--color-accent);
+    border-left: 3px solid var(--color-sprout);
     padding-left: var(--spacing-sm);
     margin: var(--spacing-sm) 0;
     font-style: italic;

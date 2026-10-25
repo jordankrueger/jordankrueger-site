@@ -15,7 +15,8 @@ const { title } = Astro.props;
 <style>
   .expandable {
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-white);
     margin: var(--spacing-sm) 0;
   }
 
@@ -23,18 +24,18 @@ const { title } = Astro.props;
     padding: 0.75rem 1rem;
     cursor: pointer;
     font-weight: 500;
-    background: var(--color-bg);
-    border-radius: var(--radius-sm);
+    background: var(--color-bg-white);
+    border-radius: var(--radius-md);
     user-select: none;
   }
 
   summary:hover {
-    background: var(--color-bg-warm);
+    background: var(--color-bg-green);
   }
 
   .expandable[open] summary {
     border-bottom: 1px solid var(--color-border);
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 
   .expandable-content {
