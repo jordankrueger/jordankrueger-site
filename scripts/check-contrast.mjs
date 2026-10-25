@@ -19,30 +19,20 @@ function ratio(a, b) {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-// [foreground token, background token, minimum ratio]
-// 4.5 = body text; 3 = large text (24px+, or 18.66px+ bold) and UI parts.
+// Every text color the site uses, checked on every background it can sit on
+// (cross product, so a pair can't be missed), plus the few fixed pairs.
+// 4.5:1 is the WCAG AA minimum for body text.
+const textTokens = [
+  'color-text', 'color-text-light', 'color-text-logo', 'color-accent',
+  'color-accent-hover', 'color-sun-text', 'color-panel', 'color-success', 'color-error',
+];
+const backgrounds = [
+  'color-bg', 'color-bg-white', 'color-bg-green', 'color-bg-warm', 'color-bg-blue', 'color-bg-peach',
+];
 const pairs = [
-  ['color-text', 'color-bg', 4.5],
-  ['color-text', 'color-bg-white', 4.5],
-  ['color-text', 'color-bg-green', 4.5],
-  ['color-text', 'color-bg-warm', 4.5],
-  ['color-text', 'color-bg-blue', 4.5],
-  ['color-text', 'color-bg-peach', 4.5],
-  ['color-text-light', 'color-bg', 4.5],
-  ['color-text-light', 'color-bg-white', 4.5],
-  ['color-text-logo', 'color-bg', 4.5],
-  ['color-accent', 'color-bg', 4.5],
-  ['color-accent', 'color-bg-white', 4.5],
-  ['color-accent', 'color-bg-green', 4.5],
-  ['color-accent', 'color-bg-warm', 4.5],
-  ['color-accent-hover', 'color-bg', 4.5],
+  ...textTokens.flatMap(fg => backgrounds.map(bg => [fg, bg, 4.5])),
   ['color-on-accent', 'color-accent', 4.5],
   ['color-on-accent', 'color-accent-hover', 4.5],
-  ['color-sun-text', 'color-bg', 4.5],
-  ['color-sun-text', 'color-bg-warm', 4.5],
-  ['color-panel', 'color-bg-blue', 4.5],
-  ['color-success', 'color-bg', 4.5],
-  ['color-error', 'color-bg', 4.5],
   ['color-code-text', 'color-code-bg', 4.5],
 ];
 
