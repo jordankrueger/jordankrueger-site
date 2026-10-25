@@ -120,7 +120,7 @@ Illustration language: flat fills, one line color (leaf), one line weight (2.5px
 - **One font family.** Bricolage Grotesque for headings and body. Fewer files to self-host, and the mockup Jordan approved uses one family.
 - **No push until launch.** A pushed branch gets a public Cloudflare Pages preview showing placeholder headshots, which breaks the "never ship internal status onto a live surface" rule.
 - **No dark mode.** The site has none today; adding it doubles the contrast and illustration work.
-- **Heading emoji removed, body emoji kept** (default, pending Jordan's answer below): `Hiya & welcome! 👋` (h1, Hero), `About me 🤔` (h2, index), `🔧 What I Do (and Why I Do It)` and `🧠 What I'm Known For` (h2, about). The emoji list in the About page headline (`🖖 Star Trek`, `😎 synthwave`, `🤖 technology`) is content, not decoration, and stays.
+- **Heading emoji removed, body emoji kept** (Jordan, 2026-10-25): `Hiya & welcome! 👋` (h1, Hero), `About me 🤔` (h2, index), `🔧 What I Do (and Why I Do It)` and `🧠 What I'm Known For` (h2, about). The emoji list in the About page headline (`🖖 Star Trek`, `😎 synthwave`, `🤖 technology`) is content, not decoration, and stays.
 
 ## How it is verified
 
@@ -130,4 +130,4 @@ Illustration language: flat fills, one line color (leaf), one line weight (2.5px
 
 ## Open questions
 
-1. **Heading emoji.** What's decided: whether to remove emoji from the four `h1`/`h2` headings listed above. Either way: removing them makes the headings match the drawn illustration style and drops a common AI-design tell; keeping them keeps the old playful tone in text. Recommendation: remove them, keep emoji in body copy. Reversing it later is a one-line edit per heading.
+None. The heading-emoji question was answered on 2026-10-25 (remove from headings, keep in body text) and is recorded under Decisions.
