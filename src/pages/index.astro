@@ -37,8 +37,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   <section class="practices-band bg-green">
   <h2 class="section-heading practices-heading fade-up">Two practices I run</h2>
   <div class="panel-wrap">
-    <div class="ak-panel fade-up">
-      <div class="diptych-grid">
+    <div class="diptych-grid fade-up">
         <div class="diptych-half">
           <span class="practice-kicker">My consultancy</span>
           <h3>CampaignHelp</h3>
@@ -62,7 +61,6 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
           </div>
           <a href="https://groundedai.help" target="_blank" rel="noopener" class="btn btn-outline practice-cta">Get notified at launch →</a>
         </div>
-      </div>
     </div>
   </div>
   </section>
@@ -137,11 +135,6 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     padding: 0 var(--spacing-md);
   }
 
-  .ak-panel {
-    max-width: var(--max-width);
-    margin: 0 auto;
-  }
-
   .about-panel {
     max-width: var(--max-width);
     margin: var(--spacing-xl) auto;
@@ -153,6 +146,8 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
 
   /* Practices: two cards side by side */
   .diptych-grid {
+    max-width: var(--max-width);
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto 1fr auto auto;
@@ -260,6 +255,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   }
 
   /* Vine: a line across the top of the row, a node above each card */
+  .post-item { position: relative; }
   .posts-grid::before {
     content: '';
     position: absolute;
@@ -282,7 +278,6 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     background: var(--color-bg);
     border: 2.5px solid var(--color-accent);
   }
-  .post-item { position: relative; }
 
   .placeholder-text {
     text-align: center;
