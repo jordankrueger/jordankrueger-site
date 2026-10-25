@@ -41,9 +41,9 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
         <div class="diptych-half">
           <span class="practice-kicker">My consultancy</span>
           <h3>CampaignHelp</h3>
-          <p>Fractional tech and operations for progressive nonprofits. Whatever piece your team can't get to — websites, AI workflows, security setup, infrastructure rescue.</p>
+          <p>IT and operations support for progressive nonprofits and advocacy groups, so your staff can spend their time on campaigns instead of tech.</p>
           <ul class="practice-services" role="list">
-            {["Websites", "AI workflows", "Security setup", "Fractional support"].map(item => <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>{item}</li>)}
+            {["Ongoing tech & platform support", "Workflow automation", "Hardware management", "Training & onboarding"].map(item => <li><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>{item}</li>)}
           </ul>
           <a href="https://campaign.help" target="_blank" rel="noopener" class="btn btn-primary practice-cta">See how I help →</a>
         </div>
@@ -68,6 +68,8 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
       <div class="about-body">
         <p>Hi, I'm Jordan. I run <a href="https://campaign.help">CampaignHelp</a>, where I help progressive nonprofits and advocacy organizations stop wrestling with their technology — ActionKit, Google Workspace, tool migrations, workflow automation, and everything in between.</p>
         <p>I've worked with Win Without War, 350.org, Color Of Change, MomsRising, and others. Nearly two decades in the progressive movement means I already know your tools, your campaign cycle, and your budget constraints.</p>
+        <p>I live in Pittsburgh, and outside of work I still run StarBase 118, the Star Trek roleplaying community I started on AOL in 1994. I also love synthwave music.</p>
+        <p>I'm a left accelerationist: I want AI built faster, and I want what it makes possible shared with everyone. An end to poverty, disease, loneliness, and war is the end goal.</p>
         <a href="/about" class="read-more">Read my full story →</a>
       </div>
     </section>
