@@ -34,10 +34,10 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   <NewsletterSignup />
 
   <!-- Practices -->
-  <section class="practices-band">
+  <section class="practices-band bg-green">
   <h2 class="section-heading practices-heading fade-up">Two practices I run</h2>
   <div class="panel-wrap">
-    <div class="ak-panel practice-diptych fade-up">
+    <div class="ak-panel fade-up">
       <div class="diptych-grid">
         <div class="diptych-half">
           <span class="practice-kicker">My consultancy</span>
@@ -89,7 +89,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
       {posts.length > 0 ? (
         <div class="posts-grid">
           {posts.map((post, i) => (
-            <div class={`fade-up delay-${Math.min(i + 1, 4)}`}>
+            <div class={`post-item fade-up delay-${Math.min(i + 1, 4)}`}>
               <BlogPostCard
                 title={post.data.title}
                 description={post.data.description}
@@ -126,7 +126,6 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   }
 
   .practices-band {
-    background: var(--color-bg-green);
     padding: var(--spacing-xl) 0;
   }
 
@@ -256,13 +255,11 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-md);
+    position: relative;
+    padding-top: 1.6rem; /* room for the vine */
   }
 
   /* Vine: a line across the top of the row, a node above each card */
-  .posts-grid {
-    position: relative;
-    padding-top: 1.6rem;
-  }
   .posts-grid::before {
     content: '';
     position: absolute;
@@ -273,7 +270,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     background: var(--color-sprout);
     opacity: 0.6;
   }
-  .posts-grid > :global(div)::before {
+  .post-item::before {
     content: '';
     position: absolute;
     top: -1.6rem;
@@ -285,7 +282,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     background: var(--color-bg);
     border: 2.5px solid var(--color-accent);
   }
-  .posts-grid > :global(div) { position: relative; }
+  .post-item { position: relative; }
 
   .placeholder-text {
     text-align: center;
@@ -328,7 +325,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
       padding-top: 0;
     }
     .posts-grid::before,
-    .posts-grid > :global(div)::before {
+    .post-item::before {
       display: none;
     }
   }
