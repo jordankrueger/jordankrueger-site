@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solarpunk redesign plan</title>
+<style>
+  /* ---------------------------------------------------------------
+     Spec companion template.
+     Copy this file next to a spec.md, delete the blocks you don't need,
+     fill in the rest. It renders as a live reference for every block,
+     so you can also just open it to see what's available.
+
+     Layout rules come from .claude/rules/html-page-layout.md.
+     --gutter is the page gutter; --inset MUST equal the nav card's
+     inner padding, or the header text stops lining up with body text.
+     --------------------------------------------------------------- */
+  :root {
+    --gutter: 1.5rem;
+    --inset: 1.1rem;
+
+    --ink: #1e232b;
+    --muted: #667085;
+    --line: #e2e5ea;
+    --page: #f6f7f9;
+    --card: #ffffff;
+    --accent: #2b5fa8;
+    --accent-soft: #eef3fb;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    --add: #1a7f4b;
+    --add-bg: #eefaf3;
+    --del: #b42318;
+    --del-bg: #fef3f2;
+    --warn: #b45309;
+    --warn-bg: #fffbeb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- header band --------------------------------------------- */
+  header { background: var(--ink); color: #fff; padding: 2.5rem 0 2.25rem; }
+  header .inner {
+    max-width: 72rem; margin: 0 auto;
+    padding-left:  calc(var(--gutter) + var(--inset));
+    padding-right: calc(var(--gutter) + var(--inset));
+  }
+  header .kicker {
+    text-transform: uppercase; letter-spacing: .12em; font-size: .75rem;
+    opacity: .7; margin-bottom: .5rem;
+  }
+  header h1 { margin: 0 0 .5rem; font-size: 2rem; letter-spacing: -.015em; line-height: 1.2; }
+  header .sub { margin: 0; opacity: .8; font-size: .95rem; }
+  /* The global `code` rule below paints a near-white background, which inside
+     this dark band leaves white inherited text on near-white — invisible. The
+     subtitle carries <code>spec.md</code>, so scope a dark-band variant. */
+  header code {
+    background: rgba(255,255,255,.14); color: #fff;
+    border: 1px solid rgba(255,255,255,.22);
+  }
+  .status-pill {
+    display: inline-block; margin-top: 1rem;
+    background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3);
+    border-radius: 999px; padding: .3rem .9rem; font-size: .8rem;
+  }
+
+  /* --- shell / nav ---------------------------------------------- */
+  .shell {
+    max-width: 72rem; margin: 0 auto; display: flex; gap: 2.5rem;
+    padding-left: var(--gutter); padding-right: var(--gutter);
+    padding-top: 3.25rem; padding-bottom: 5rem;
+    align-items: flex-start;
+  }
+  nav {
+    flex: 0 0 15rem; position: sticky; top: 1.5rem;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: var(--inset);
+  }
+  nav h2 { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 0 0 .7rem; }
+  nav ul { list-style: none; margin: 0; padding: 0; }
+  nav a {
+    display: block; padding: .32rem .45rem; margin: 0 -.45rem;
+    color: var(--ink); text-decoration: none; font-size: .875rem;
+    border-radius: 6px; line-height: 1.35;
+  }
+  nav a:hover { background: var(--page); }
+  nav a.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+  article { flex: 1 1 auto; min-width: 0; }
+
+  section {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.5rem 1.7rem 1.7rem; margin-bottom: 1.25rem;
+    scroll-margin-top: 1.5rem;
+  }
+  h2 { margin: 0 0 .9rem; font-size: 1.3rem; letter-spacing: -.01em; }
+  h3 { margin: 1.7rem 0 .6rem; font-size: 1rem; }
+  h3:first-of-type { margin-top: .9rem; }
+  p { margin: .7rem 0; }
+  ul, ol { margin: .7rem 0; padding-left: 1.35rem; }
+  li { margin: .4rem 0; }
+  code { background: var(--page); border-radius: 4px; padding: .1rem .35rem; font-family: var(--mono); font-size: .875em; }
+  .hint { color: var(--muted); font-size: .85rem; font-style: italic; }
+
+  /* ============================================================
+     BLOCK VOCABULARY
+     Use these instead of inventing a new visual per spec.
+     ============================================================ */
+
+  /* 1. VERDICT — the one-paragraph answer, above everything else. */
+  .verdict {
+    background: var(--accent-soft); border: 1px solid #cfdcef;
+    border-left: 4px solid var(--accent);
+    border-radius: 10px; padding: 1.1rem 1.3rem; margin-bottom: 1.25rem;
+  }
+  .verdict h2 { margin: 0 0 .5rem; font-size: 1.05rem; color: var(--accent); }
+  .verdict p:last-child { margin-bottom: 0; }
+
+  /* 2. DIAGRAM — wrapper for inline SVG. Scrolls, never overflows the page. */
+  figure.diagram { margin: 1.2rem 0; }
+  figure.diagram .frame {
+    overflow-x: auto; background: var(--page);
+    border: 1px solid var(--line); border-radius: 10px; padding: 1.2rem;
+  }
+  figure.diagram svg { display: block; max-width: 100%; height: auto; }
+  figure.diagram figcaption { margin-top: .5rem; font-size: .85rem; color: var(--muted); }
+
+  /* 3. FILE TREE — what the change touches, marked by kind. */
+  .file-tree {
+    /* white-space: pre is load-bearing — without it the newlines in the markup
+       collapse and the whole tree renders as one wrapped paragraph. */
+    font-family: var(--mono); font-size: .82rem; line-height: 1.75;
+    white-space: pre;
+    background: var(--page); border: 1px solid var(--line); border-radius: 10px;
+    padding: 1rem 1.1rem; margin: 1.1rem 0; overflow-x: auto;
+  }
+  /* The tree MUST live in a <pre> — see the block below. This container sets no
+     white-space:pre, so bare text collapses; and any repo whose formatter runs
+     over the copied file (prettier, say) will re-flow bare text into one line.
+     <pre> survives both. It inherits the container's font so nothing else moves. */
+  .file-tree pre { margin: 0; font: inherit; }
+  .file-tree .t-add { color: var(--add); }
+  .file-tree .t-mod { color: var(--warn); }
+  .file-tree .t-del { color: var(--del); text-decoration: line-through; }
+  .file-tree .t-note { color: var(--muted); }
+
+  /* 4. DATA MODEL — field / type / notes. Never a bare markdown table. */
+  .table-wrap {
+    width: 100%; overflow-x: auto; margin: 1.1rem 0;
+    border: 1px solid var(--line); border-radius: 10px; background: var(--card);
+  }
+  table { width: 100%; min-width: 34rem; border-collapse: collapse; }
+  th, td { text-align: left; vertical-align: top; padding: .65rem .8rem; border-bottom: 1px solid var(--line); }
+  th { font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); background: var(--page); }
+  tr:last-child td { border-bottom: 0; }
+  td.type { font-family: var(--mono); font-size: .82rem; color: var(--accent); white-space: nowrap; }
+  .data-model caption {
+    caption-side: top; text-align: left; font-family: var(--mono); font-size: .85rem;
+    padding: .65rem .8rem; background: var(--page); border-bottom: 1px solid var(--line); color: var(--ink);
+  }
+
+  /* 5. API ENDPOINT — method + path + shapes. */
+  .api {
+    border: 1px solid var(--line); border-radius: 10px; margin: 1.1rem 0; overflow: hidden;
+  }
+  .api .line {
+    display: flex; gap: .7rem; align-items: center; flex-wrap: wrap;
+    background: var(--page); padding: .7rem .9rem; border-bottom: 1px solid var(--line);
+  }
+  .api .method {
+    font-family: var(--mono); font-size: .72rem; font-weight: 700; letter-spacing: .05em;
+    padding: .2rem .5rem; border-radius: 5px; background: var(--accent); color: #fff;
+  }
+  .api .method.post { background: var(--add); }
+  .api .method.delete { background: var(--del); }
+  .api .path { font-family: var(--mono); font-size: .87rem; }
+  .api .body { padding: .9rem 1rem; }
+  .api .body p { margin: .3rem 0; font-size: .9rem; }
+  .api pre { margin: .5rem 0 0; }
+
+  /* 6. DIFF — before/after, the smallest honest slice. */
+  .diff {
+    font-family: var(--mono); font-size: .82rem; line-height: 1.7;
+    border: 1px solid var(--line); border-radius: 10px; margin: 1.1rem 0;
+    overflow-x: auto; background: var(--card);
+  }
+  .diff .f { background: var(--page); padding: .5rem .9rem; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .78rem; }
+  .diff .l { padding: .05rem .9rem; white-space: pre; }
+  .diff .l.add { background: var(--add-bg); color: var(--add); }
+  .diff .l.del { background: var(--del-bg); color: var(--del); }
+
+  /* 7. ANNOTATED CODE — code left, numbered notes right. */
+  .annotated { margin: 1.1rem 0; }
+  .annotated pre {
+    margin: 0; background: var(--page); border: 1px solid var(--line);
+    border-radius: 10px; padding: 1rem 1.1rem; overflow-x: auto;
+    font-family: var(--mono); font-size: .82rem; line-height: 1.7;
+  }
+  .annotated .pin {
+    display: inline-block; min-width: 1.25rem; height: 1.25rem; line-height: 1.25rem;
+    text-align: center; border-radius: 999px; background: var(--accent); color: #fff;
+    font-size: .7rem; font-weight: 700; font-family: var(--mono);
+  }
+  .annotated ol.notes { list-style: none; padding: 0; margin: .8rem 0 0; counter-reset: pin; }
+  .annotated ol.notes li {
+    position: relative; padding-left: 2rem; margin: .5rem 0; font-size: .9rem; counter-increment: pin;
+  }
+  .annotated ol.notes li::before {
+    content: counter(pin); position: absolute; left: 0; top: .2rem;
+    min-width: 1.25rem; height: 1.25rem; line-height: 1.25rem; text-align: center;
+    border-radius: 999px; background: var(--accent); color: #fff;
+    font-size: .7rem; font-weight: 700; font-family: var(--mono);
+  }
+
+  /* 8. DECISION — a call that's been made, with the reason. */
+  .decision {
+    border: 1px solid var(--line); border-left: 4px solid var(--add);
+    background: var(--add-bg); border-radius: 8px; padding: .9rem 1.1rem; margin: 1.1rem 0;
+  }
+  .decision.deferred { border-left-color: var(--warn); background: var(--warn-bg); }
+  .decision .label {
+    font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--add); display: block; margin-bottom: .25rem;
+  }
+  .decision.deferred .label { color: var(--warn); }
+  .decision p { margin: .3rem 0; font-size: .93rem; }
+  .decision .why { color: var(--muted); }
+
+  /* 9. REUSE / ADDS — every step names what it reuses before what it adds. */
+  .reuse { display: flex; flex-wrap: wrap; gap: .5rem; margin: .6rem 0 .3rem; font-size: .85rem; }
+  .reuse span { padding: .25rem .6rem; border-radius: 6px; }
+  .reuse .r { background: var(--page); color: var(--muted); border: 1px solid var(--line); }
+  .reuse .a { background: var(--add-bg); color: var(--add); border: 1px solid #c4e8d5; }
+
+  /* 10. OPEN QUESTIONS — one block, at the bottom, each with a default. */
+  .open-questions { border-color: #e6d6b8; background: #fffdf7; }
+  .open-questions h2 { color: var(--warn); }
+  .open-questions ol { list-style: none; padding: 0; counter-reset: q; }
+  .open-questions li {
+    counter-increment: q; position: relative; padding-left: 2.2rem;
+    margin: 1rem 0; padding-bottom: 1rem; border-bottom: 1px solid var(--line);
+  }
+  .open-questions li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .open-questions li::before {
+    content: "Q" counter(q); position: absolute; left: 0; top: .1rem;
+    font-family: var(--mono); font-size: .72rem; font-weight: 700; color: var(--warn);
+  }
+  .open-questions .q { font-weight: 600; margin: 0 0 .3rem; }
+  .open-questions .default { margin: .3rem 0 0; font-size: .9rem; color: var(--muted); }
+  .open-questions .default b { color: var(--ink); }
+
+  @media (max-width: 60rem) {
+    :root { --inset: 1.1rem; }         /* redefine the var, never hard-code box padding */
+    .shell { display: block; padding-top: 2rem; }
+    nav { position: static; width: 100%; margin-bottom: 1.25rem; }
+    header h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <div class="kicker">jordankrueger.com &middot; Spec companion</div>
+    <h1>Solarpunk redesign</h1>
+    <p class="sub">Jordan Krueger &middot; October 2026 &middot; companion to <code>2026-10-25-solarpunk-redesign-design.md</code></p>
+    <span class="status-pill">Reviewed, one question for you</span>
+  </div>
+</header>
+
+<div class="shell">
+  <nav>
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#verdict">Verdict</a></li>
+      <li><a href="#look">The look</a></li>
+      <li><a href="#files">What changes</a></li>
+      <li><a href="#steps">Steps</a></li>
+      <li><a href="#safety">What could break</a></li>
+      <li><a href="#decisions">Decisions</a></li>
+      <li><a href="#open-questions">Open question</a></li>
+    </ul>
+  </nav>
+
+  <article>
+
+    <div class="verdict" id="verdict">
+      <h2>Verdict</h2>
+      <p>Re-skin jordankrueger.com in the Solarpunk look you picked: cream, leaf green and sun yellow, Bricolage Grotesque type, and a sun, solar panel and circuit-vine drawn around your photo. The words and page layout stay. Because the site already keeps its colors and fonts in one settings file, most of the change is swapping those values; the new parts are the logo, the hero drawing, a circuit-line divider and the blog "vine". Everything is built on the private dev site (<code>jordans-mac-mini:4322</code>). Nothing is pushed to GitHub until your headshots are in and you say "ship it", because pushing creates a public preview link.</p>
+    </div>
+
+    <section id="look">
+      <h2>The look</h2>
+      <p>The approved mockup is round 3, look 2: <a href="http://jordans-mac-mini:3008/personal/jordankrueger-site-work/looks/#solar">open it here</a>. The plan writes its colors and rules down so every page matches it:</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>What</th><th>Value</th><th>Where it shows</th></tr></thead>
+        <tbody>
+          <tr><td>Page background</td><td class="type">#fbf7ec cream</td><td>Every page</td></tr>
+          <tr><td>Accent</td><td class="type">#2f6b3f leaf green</td><td>Buttons, links, headline highlight</td></tr>
+          <tr><td>Small accents</td><td class="type">#f1b544 sun yellow</td><td>Drawings, link underlines, Subscribe pill</td></tr>
+          <tr><td>Text</td><td class="type">#21342a / #4c5d51</td><td>Headings / body</td></tr>
+          <tr><td>Font</td><td class="type">Bricolage Grotesque</td><td>Headings and body, hosted on the site itself</td></tr>
+          <tr><td>Drawings</td><td class="type">flat, one green line</td><td>Same line thickness everywhere, no shadows</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="files">
+      <h2>What changes</h2>
+      <div class="file-tree">
+<pre>
+src/
+  styles/
+    <span class="t-mod">global.css</span>             <span class="t-note">new color, font, shape values (names kept)</span>
+    <span class="t-del">fonts.css</span>              <span class="t-note">deleted: unused copy of public/fonts.css</span>
+  layouts/
+    <span class="t-mod">BaseLayout.astro</span>       <span class="t-note">font preloads point at the new font</span>
+    <span class="t-mod">BlogPost.astro</span>         <span class="t-note">2 hard-coded colors to tokens</span>
+  components/
+    <span class="t-mod">Header.astro, Footer.astro</span>  <span class="t-note">sun-and-leaf logo replaces the handwritten one</span>
+    <span class="t-mod">Hero.astro</span>             <span class="t-note">drawing around the round headshot</span>
+    <span class="t-add">CircuitDivider.astro</span>   <span class="t-note">new: the circuit line between sections</span>
+    <span class="t-mod">ToolCard, AiProjectCard, AiStoryCard, NewsletterSignup, ContactForm</span>
+                           <span class="t-note">hard-coded colors to tokens</span>
+  pages/
+    <span class="t-mod">index, about, ai, projects, tools, blog/*</span>  <span class="t-note">polish only where tokens leave gaps</span>
+public/
+  <span class="t-mod">fonts.css</span>                <span class="t-note">the stylesheet that actually loads</span>
+  fonts/
+    <span class="t-add">bricolage-*.woff2</span>      <span class="t-note">new</span>
+    <span class="t-del">dm-sans-*, lora-*, rocksalt-400</span>  <span class="t-note">deleted once unused</span>
+  images/
+    <span class="t-note">headshot-hero.jpg, headshot-about.jpg   placeholders until your photos arrive</span>
+</pre>
+      </div>
+    </section>
+
+    <section id="steps">
+      <h2>Steps &mdash; reuse before adds</h2>
+      <h3>Step 1 &mdash; colors and fonts</h3>
+      <div class="reuse"><span class="r">Reuses the existing color names in <code>global.css</code> and the self-hosted font setup</span><span class="a">Adds new values, Bricolage files, a reduced-motion setting</span></div>
+      <p>Re-skins most of the site at once. Then about 20 hard-coded colors in 11 files get pointed at the shared colors.</p>
+      <h3>Step 2 &mdash; header and footer</h3>
+      <div class="reuse"><span class="r">Reuses the existing header, including its phone menu button</span><span class="a">Adds the sun-and-leaf logo and the Subscribe pill</span></div>
+      <h3>Step 3 &mdash; homepage</h3>
+      <div class="reuse"><span class="r">Reuses Hero, newsletter, blog cards, contact form</span><span class="a">Adds the hero drawing, the circuit divider, the blog vine</span></div>
+      <h3>Step 4 &mdash; other pages</h3>
+      <div class="reuse"><span class="r">Reuses every existing card component</span><span class="a">Adds polish where needed, and a small Star Trek console strip on About</span></div>
+      <h3>Step 5 &mdash; checks</h3>
+      <p>Design checklist (the "humanizer" for design), screenshots of every page on desktop and phone, a color-contrast test that is proven able to fail, a keyboard pass, and a clean build.</p>
+      <h3>Step 6 &mdash; headshots and launch</h3>
+      <p>Your photos go in at the placeholder names. Only after you say "ship it": pick up any posts published meanwhile, push, open the pull request, merge, then check the live site, including real test submissions of both forms to your own address.</p>
+    </section>
+
+    <section id="safety">
+      <h2>What could break, and how we'd know</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Risk</th><th>How it's caught</th><th>Way back</th></tr></thead>
+        <tbody>
+          <tr><td>A font file missing (silent fallback to a system font)</td><td>Every font URL checked on dev and on the live site</td><td>Re-add the file</td></tr>
+          <tr><td>The restyle hides the newsletter or contact form's spam check</td><td>Both forms submitted live with your address after launch</td><td>Revert the style change</td></tr>
+          <tr><td>The live deploy fails or stalls after merge</td><td>Cloudflare's deployment list watched until the new version is live; 15 minutes with no deploy counts as stalled</td><td>One-click rollback to the previous version in Cloudflare</td></tr>
+          <tr><td>A required review check fails or hangs</td><td>Watched until done; never merged while anything is red or pending</td><td>Fix on the branch and re-run</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="decisions">
+      <h2>Decisions</h2>
+      <div class="decision"><span class="label">Decided</span><p>Nothing is pushed until launch.</p><p class="why">A pushed branch gets a public preview link showing the placeholder headshots.</p></div>
+      <div class="decision"><span class="label">Decided</span><p>Keep the existing color names; only change their values.</p><p class="why">The Tools page's content files refer to four of them by name, so renaming would mean editing content for no visual gain.</p></div>
+      <div class="decision"><span class="label">Decided</span><p>One font family, hosted on the site, loaded the same way as today.</p><p class="why">Astro now has a newer fonts feature; switching to it in the same change adds a second thing that can go wrong. It can be a later, separate change.</p></div>
+      <div class="decision deferred"><span class="label">Deferred</span><p>Dark mode.</p><p class="why">The site has none today, and it would double the contrast and drawing work.</p></div>
+    </section>
+
+    <section id="open-questions" class="open-questions">
+      <h2>Open question</h2>
+      <ol>
+        <li>
+          <p class="q">Remove the emoji from four headings? (&ldquo;Hiya &amp; welcome! 👋&rdquo;, &ldquo;About me 🤔&rdquo;, &ldquo;🔧 What I Do&rdquo;, &ldquo;🧠 What I'm Known For&rdquo;)</p>
+          <p>Removing them makes the headings match the drawn style and drops a common AI-design tell. Keeping them keeps the old playful tone. The emoji list in the About headline (Star Trek, synthwave, technology) stays either way.</p>
+          <p class="default">Recommended: <b>remove them from headings, keep emoji in body text.</b> Easy to undo later: one line per heading.</p>
+        </li>
+      </ol>
+    </section>
+
+  </article>
+</div>
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var targets = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function sync() {
+    var best = 0;
+    for (var i = 0; i < targets.length; i++) {
+      if (targets[i] && targets[i].getBoundingClientRect().top <= 90) best = i;
+    }
+    links.forEach(function (a, i) { a.classList.toggle('active', i === best); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  sync();
+})();
+</script>
+
+</body>
+</html>

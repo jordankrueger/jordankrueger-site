@@ -83,6 +83,7 @@ Illustration language: flat fills, one line color (leaf), one line weight (2.5px
 - `design-critique` screenshot loop on every page at 1280px and 500px wide.
 - A contrast check: a small script that computes WCAG contrast for every text/background token pair used, asserting 4.5:1 for body text and 3:1 for large text and UI. Proven able to fail by temporarily setting `--color-text-light` to a light value and confirming it goes red.
 - `npm run build` passes.
+- A keyboard pass on every page: Tab through the menu (including the phone menu button), links, buttons and both forms; every stop has a visible focus ring.
 
 ### Step 6: headshots and launch
 
