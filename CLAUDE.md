@@ -127,3 +127,7 @@ Output directory: `dist`
 ## Housekeeping backlog
 - `public/images/logo-hiringpledge.jpg` and `logo-fourdayswithai.jpg` are no longer used on /projects (2026-10-04). Grep other pages before deleting.
 - Decide whether to merge/review the `turnstile-forms` branch above, or drop it.
+
+## Redesign (in progress, started 2026-10-25)
+New visual design for the whole site; content and most of the layout stay. Work happens on the local `redesign` branch in the worktree `personal/jordankrueger-site-work/redesign`, previewed with `npx astro dev --host 0.0.0.0 --port 4322` at http://jordans-mac-mini:4322 (Tailscale only). The branch is not pushed, because pushing would make a public Cloudflare Pages preview.
+- Headshots: `public/images/headshot-hero.jpg` (Hero.astro) and `public/images/headshot-about.jpg` (about.astro) are gray placeholders. Drop the real photos in at those names (square, compress under 500KB). Then delete `hero-jordan.png` and `jordan-portrait.jpg` if nothing else uses them.
