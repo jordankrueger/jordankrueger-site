@@ -294,6 +294,12 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   @media (max-width: 900px) {
     .posts-grid {
       grid-template-columns: repeat(2, 1fr);
+      padding-top: 0;
+    }
+    /* The vine only reads as one row; once cards wrap, drop it. */
+    .posts-grid::before,
+    .post-item::before {
+      display: none;
     }
     .diptych-grid {
       grid-template-columns: 1fr;
@@ -317,11 +323,6 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     }
     .posts-grid {
       grid-template-columns: 1fr;
-      padding-top: 0;
-    }
-    .posts-grid::before,
-    .post-item::before {
-      display: none;
     }
   }
 </style>

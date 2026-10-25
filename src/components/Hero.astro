@@ -40,7 +40,7 @@ import SocialIcons from './SocialIcons.astro';
 </section>
 
 <style>
-  .hero { background: var(--color-bg); padding: var(--spacing-xl) 0 var(--spacing-2xl); }
+  .hero { background: var(--color-bg); padding: var(--spacing-xl) 0 var(--spacing-2xl); overflow-x: clip; }
 
   .hero-inner {
     display: grid;
@@ -75,7 +75,7 @@ import SocialIcons from './SocialIcons.astro';
   .hero-photo { position: relative; isolation: isolate; width: 100%; max-width: 440px; aspect-ratio: 1; margin-left: auto; }
   .hero-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
   .hero-art { position: absolute; inset: -12% -12% -14% -16%; z-index: -1; overflow: visible; }
-  .hero-art .line { vector-effect: non-scaling-stroke; stroke-width: 2px; }
+  .hero-art .line { vector-effect: non-scaling-stroke; stroke-width: 2.5px; }
 
   @media (max-width: 640px) {
     .hero-inner {
