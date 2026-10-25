@@ -9,7 +9,8 @@ interface Props {
 
 const { title, description, tags, status, statusType } = Astro.props;
 // First sentence for the closed row; the full text shows when the row opens.
-const first = description.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? description;
+// A closing quote can follow the end punctuation ("…today?" Then…).
+const first = description.match(/^.*?[.!?]["'”’)]*(?=\s|$)/)?.[0] ?? description;
 ---
 
 <details class="ai-row">

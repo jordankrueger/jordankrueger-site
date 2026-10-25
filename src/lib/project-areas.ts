@@ -37,8 +37,18 @@ export const FEATURED_ORDER = {
 const rank = new Map(fileOrder.map((e, i) => [e.id, i]));
 type ProjectData = Awaited<ReturnType<typeof getCollection<'projects'>>>[number]['data'];
 
+// The file loader keys entries by `id`, so a missing or repeated id silently drops an
+// entry. Fail the build instead.
+const ids = fileOrder.map(e => e.id);
+if (ids.some(id => !id) || new Set(ids).size !== ids.length) {
+  throw new Error('src/content/projects.json: every entry needs a unique, non-empty id');
+}
+
 export async function getProjects(keep: (data: ProjectData) => boolean = () => true) {
   const entries = await getCollection('projects');
+  if (entries.length !== fileOrder.length) {
+    throw new Error(`projects collection loaded ${entries.length} of ${fileOrder.length} entries in projects.json`);
+  }
   return entries
     .filter(e => keep(e.data))
     .sort((a, b) => rank.get(a.id)! - rank.get(b.id)!)
