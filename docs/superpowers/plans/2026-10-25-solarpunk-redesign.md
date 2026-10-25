@@ -755,3 +755,29 @@ Each task: read the page, apply the design system, screenshot at both widths, re
 - Each slice: `node scripts/check-contrast.mjs` (exit 0; shown able to fail in Task 1.3 step 6), `npm run build` (exit 0), the color grep (no output), and read screenshots at 1280 and 500 wide of every touched page.
 - Whole site: slice 5's slop test, design-critique loop, keyboard pass and Codex review.
 - Live: slice 6's deployment poll, marker and font `curl`s, and real form submissions to Jordan's address.
+
+---
+
+## Slice 5b: round 2 content and the Projects hub (added 2026-10-25)
+
+Source of truth: the spec's "Round 2" section. Slice 5a (checklists, six blog topics, All posts heading, tools space) is already merged. Remaining work, one commit per task:
+
+### Task 5b.1: homepage copy
+- `src/pages/index.astro` About panel: add the two paragraphs from the spec after the existing two, before "Read my full story". Exact text from the spec.
+- CampaignHelp card: description and the four checklist items from the spec, same SVG check markup and `role="list"` already there. Grounded AI card untouched.
+
+### Task 5b.2: projects content collection and migration check
+- `src/content/projects.json` with every entry; `projects` collection in `src/content.config.ts` (file loader, zod schema with the spec's fields and rules: `areas` non-empty; `aiGroup` required when `builtWithAI`; `short` required when `featuredIn` non-empty).
+- `scripts/check-projects-migration.mjs`: reads the pre-change `src/pages/projects.astro` and `src/pages/ai.astro` from the pinned base SHA given in the worker brief, and asserts (a) every old entry exists once in the JSON with identical preserved fields, (b) the three merged entries are single entries with both field sets, (c) each hub column's `featuredIn` members are exactly the spec's three, (d) every `builtWithAI` entry has `aiDescription`, `tags`, `status`, `statusType`. Prints a difference count; exit 1 on any. Prove it fails by altering one field in the JSON, then revert.
+
+### Task 5b.3: hub and area pages
+- `/projects` (rewrite `src/pages/projects.astro`): the C1 field guide from `looks/projects-c.html#c1`: heading, lede, four columns with line drawing (inline SVG with stroke attributes set directly on the paths, not via a CSS class, since `<use>` blocks outside CSS), intro sentence, three featured entries with their `short` lines, "See all" link. Built with AI column: "Read the story and every build" to `/ai`; its featured entries link to their own `href` where present.
+- `/projects/movement`, `/projects/starbase-118`, `/projects/personal` (new `src/pages/projects/*.astro`, one shared layout component): area heading, intro sentence, every entry in the area as a card with title, image if any, `body` (or `aiDescription`), and links (`href` with `linkLabel`, `secondaryLinks`). A small "Back to Projects" link at the top.
+- Remove the old Projects header image block; delete `public/images/projects-hero.jpg` if `grep -rn projects-hero src` finds nothing else.
+
+### Task 5b.4: AI page as grouped expandable rows
+- `src/pages/ai.astro`: keep the hero, stats, story and stories sections as they are. Replace the three project card grids with three groups ("For the movement", "For StarBase 118", "For my own life") built from the collection's `builtWithAI` entries by `aiGroup`; each entry is a `<details>` row: `<summary>` shows title, the first sentence of `aiDescription`, and the status pill; opening shows the full `aiDescription` and tags. No script.
+- Playwright check: open three rows by keyboard (Tab to the summary, Enter), assert `open` is set and the description is visible.
+
+### Task 5b.5: checks
+- `node scripts/check-contrast.mjs`, `node scripts/check-projects-migration.mjs` (0 differences), `./node_modules/.bin/astro build` (all four project routes in the output), the color grep, the keyboard and sideways-scroll scripts on `/projects`, the three area pages and `/ai`, and every link on the hub resolving to a built route.
