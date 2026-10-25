@@ -1,99 +1,22 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import { AREAS, FEATURED_ORDER } from '../lib/project-areas';
 
-const projects = [
-  {
-    title: "Job Seeker's Union",
-    description: `<p>Job hunting treats people as isolated individuals. The problems are collective: ghost jobs, screening nobody explains, silence after interviews, and productivity gains that never turn into time off. I started the Job Seeker's Union in 2026 to treat those as standards we can change.</p><p>It is an advocacy organization, founder-led and starting in public. Two older projects of mine now live under it. The Transparent Hiring Pledge asks employers to commit to honest postings, clear timelines, human review, and closing the loop with every applicant. Four Days with AI makes the case for returning AI productivity gains to workers as time. The newest piece is Get Hired, a free resource center. It starts with the deadlines after a layoff, because unemployment, COBRA, and the ACA Marketplace will not wait for the job search.</p><p>There are no dues and no formal membership yet. The one action today is to subscribe for updates.</p>`,
-    href: 'https://jobseekersunion.org',
-    secondaryLinks: [
-      { href: 'https://hiringpledge.com/', label: 'Take the hiring pledge' },
-      { href: 'https://fourdayswithai.com/', label: 'Four Days with AI' },
-      { href: 'https://jobseekersunion.org/get-hired/', label: 'Get Hired' },
-    ],
-  },
-  {
-    title: 'Equity Language Commons',
-    description: `<p>Every progressive organization I work with has an equity language guide, or wants one, or has three that quietly disagree with each other. The good ones are published by people doing careful work — but they're scattered across a few dozen PDFs, and when two of them rule differently on the same word, you're on your own to work out why.</p><p>Equity Language Commons puts them side by side. One page per term, every source organization's ruling on it, with the quote, the year, and a link back to the original. They contradict each other more often than you'd expect, and seeing that is more useful than picking whichever guide you happened to open first.</p><p>It's in beta and the index is still filling in. My cross-reference layer is CC BY 4.0; every source organization keeps its own words and its own credit. If a term is missing, or I've got one wrong, the Contribute page has four ways in — including one that doesn't need a GitHub account.</p>`,
-    href: 'https://equitylanguagecommons.org',
-    secondaryLinks: [
-      { href: 'https://equitylanguagecommons.org/glossary/', label: 'Browse the glossary' },
-      { href: 'https://equitylanguagecommons.org/sources/', label: 'See the sources' },
-    ],
-  },
-  {
-    title: 'Claude Code guardrails',
-    description: `<p>Everyone I talk to at nonprofits is either using an AI coding assistant already or about to be. Almost none of them are security engineers, and the advice out there assumes they are. So I wrote down the handful of defaults I'd want a friend to have in place before they let an agent loose on their laptop.</p><p>The whole thing rests on one idea: everything the AI touches should be backed up somewhere it can't delete. You can't guarantee an agent never makes a mistake or gets talked into one — but you can make the worst day survivable. The repo has a drop-in <strong>CLAUDE.md</strong>, example permission and sandbox settings, an "out of its reach" checklist, and the research behind each choice so you can check my reasoning. MIT licensed, and honest about what it doesn't protect you from.</p>`,
-    href: 'https://github.com/jordankrueger/backup-first-ai',
-    secondaryLinks: [{ href: '/ai', label: 'What I build with it' }],
-  },
-  {
-    title: 'Freehold',
-    description: `<p>I've been working with progressive nonprofits long enough to watch them get cornered by platforms they can't replace. Freehold is what happens when you sit with that frustration long enough — a framework for an internet where you create, publish, and actually own everything you share online. Your content lives on your own domain, hosted by whoever you trust, syndicated out to whatever networks you choose. No platform owning your audience. No algorithm rewriting what your followers see.</p><p>Not a company. Not a product. A proposal — and an invitation. The whitepaper is at <strong>freehold.is</strong>, published under CC BY 4.0. Quote it, fork it, build a piece of it.</p>`,
-    image: '/images/logo-freehold.png',
-    href: 'https://freehold.is',
-    secondaryLinks: [{ href: 'https://freehold-app.pages.dev', label: 'Try the alpha app' }],
-  },
-  {
-    title: 'Awesome ActionKit',
-    description: `<p>ActionKit powers email and advocacy for most large progressive organizations, but the best tooling around it has always been scattered — buried in Slack threads, ClientCon sessions, and the occasional vendor blog post. New admins spend months rediscovering things other people figured out years ago.</p><p>Awesome ActionKit is the hub I wish had existed when I started. A curated, CC0 list of snippets, recipes, integrations, consultants, and guides — the things that actually work, collected in one place that's easy to find and easy to contribute back to. CampaignHelp seeded it with a handful of repos (redirect blocks, mailing blocks, a health check). Everyone else is invited.</p>`,
-    href: 'https://github.com/jordankrueger/awesome-actionkit',
-    secondaryLinks: [{ href: '/tools#actionkit', label: 'Browse the tools' }],
-  },
-  {
-    title: 'Progressives for AI',
-    description: `<p>Most of the progressive conversation about AI is a fight between people who think it's going to destroy everything and people who aren't paying attention. I don't think either of those is the useful place to stand. The technology is here, our side is going to be using it either way, and I'd rather we were good at it than caught flat-footed.</p><p>Progressives for AI is a newsletter and a discussion group for people who want to think seriously about what this stuff can do for organizing, advocacy, and the work of running an organization — without the doomerism and without the hype. If that's the conversation you've been looking for, come have it with us.</p>`,
-    href: 'https://progressivesforai.com/',
-  },
-  {
-    title: 'Progressive email suppression list',
-    description: `<p>Every big progressive organization has quietly built the same file over the years: the list of email domains that never deliver. Typos of the major providers, throwaway addresses, spam traps that can get your whole sending domain blocked. The large orgs have one. The small orgs, who need it most, usually don't — and there's no reason for all of us to keep rebuilding it separately.</p><p>So I combined them. The internal lists people have been passing around for years, plus the big community-maintained sets, deduped into one clean file of roughly 66,000 domains that rebuilds itself nightly. There are ten-minute import guides for ActionKit, Action Network, and Listmonk. Released under CC0 — no attribution required, just take it.</p><p>It's purely defensive. The list exists so you can <em>not</em> mail these addresses. Please don't use it for anything else.</p>`,
-    href: 'https://github.com/jordankrueger/progressive-email-suppression',
-  },
-  {
-    title: "Small tools I've open-sourced",
-    description: `<p>Not everything deserves its own site. These are small, finished tools I open-sourced because someone else probably needs the same thing.</p><p><strong>Email Hasher</strong> normalizes a list of email addresses and hashes them in your browser for ad-platform audience uploads. The data never leaves your machine.</p><p><strong>Petition Delivery Formatter</strong> turns a CSV of signatures into a printable PDF, fully offline, for organizers who deliver the petition in person.</p><p><strong>Lease Tracker</strong> is a tiny app that tells you how many miles a day you can drive without going over your lease limit.</p><p><strong>Matrix Gatekeeper</strong> is a bot that makes people accept your community rules before they can join a Matrix space.</p>`,
-    href: 'https://jordankrueger.github.io/email-hasher/',
-    linkLabel: 'Email Hasher',
-    secondaryLinks: [
-      { href: 'https://github.com/jordankrueger/petition-delivery-formatter', label: 'Petition Delivery Formatter' },
-      { href: 'https://jordankrueger.github.io/lease-tracker/', label: 'Lease Tracker' },
-      { href: 'https://github.com/jordankrueger/matrix-gatekeeper', label: 'Matrix Gatekeeper' },
-    ],
-  },
-  {
-    title: 'Ready for AOC',
-    description: `<p>A grassroots supporter hub for people who want to see Alexandria Ocasio-Cortez run for president. The petition doubles as the email signup, and the whole thing is deliberately money-free — no donations, no merchandise, nothing that would drag it into political committee territory with the FEC.</p><p>An independent effort. Not affiliated with AOC, and not affiliated with any campaign committee.</p>`,
-    href: 'https://readyforaoc.com',
-  },
-  {
-    title: 'HighSpeedRail.TV',
-    description: `<p>American high-speed rail coverage is scattered across a few hundred YouTube channels, and most of the good stuff is made by people outside the US who are baffled that we don't have any. I wanted one place to watch it.</p><p>HighSpeedRail.TV is a curated video site for rail advocacy — new videos surfaced and reviewed weekly, with AI doing the first pass on what's worth including so the queue stays manageable. It's a small site about a big idea I'd like more Americans to see up close.</p>`,
-    href: 'https://highspeedrail.tv',
-  },
-  {
-    title: 'User Manuals',
-    description: `<p>The best workplace tool I picked up at CREDO Action was the "user manual." Each person writes a short document explaining what they need to do their best work and be a whole person at the office.</p><p>Most of us never say those things out loud. When we do, coworkers can plan around them instead of guessing. I built usermanuals.guide so any team can run the exercise without a consultant.</p>`,
-    image: '/images/logos/logo-usermanuals.png',
-    href: 'https://usermanuals.guide/',
-  },
-  {
-    title: 'AI Progress Tracker',
-    description: `<p>When Anthropic CEO Dario Amodei published "Machines of Loving Grace," it was one of the few concrete sets of predictions about where AI is headed. Predictions deserve a scorecard. I built the AI Progress Tracker to map each of his milestones to what has actually happened, with sources.</p><p>It is not a fan site and not a hit piece. It is a living record, useful whether you are excited about what is coming or deeply skeptical.</p>`,
-    href: 'https://aiprogresstracker.com/',
-  },
-  {
-    title: 'StarBase 118 PBEM RPG',
-    description: `<p>That's a lot of letters, right? PBEM stands for "Play By Email," and RPG stands for "Role-Playing Game."</p><p>In 1994, on AOL, I co-founded a Star Trek role-playing game soon after learning about them in chat rooms. I was a Star Trek fanatic, as a kid, and I loved the utopian vision of the future mixed with the sense of cool, calm competency that everyone on the show gave off amidst the vast interplay of species in the galaxy.</p><p>That game grew into a community that I still have a hard time believing exists to this day, and which I've led for over 30 years.</p><p>Over the years I've watched people go through many phases of life, meet fellow members and get married, have kids, and even divorce. It's been the privilege of a lifetime to lead and watch all of this happen.</p><p>Beyond all that, the game provided me with a testing ground for leadership, community, and technology like perhaps nothing else could have.</p>`,
-    image: '/images/logo-starbase118.jpg',
-    href: 'https://www.starbase118.net',
-    secondaryLinks: [
-      { href: 'https://trekstories.net', label: 'Read the ebooks' },
-      { href: 'https://medium.com/@jordankrueger/how-roleplaying-gives-lgbtq-and-non-binary-people-an-outlet-to-explore-themselves-b119813bb23b', label: 'RPGs & LGBTQ+' },
-    ],
-  },
-];
+const all = await getCollection('projects');
+const featured = (col: keyof typeof FEATURED_ORDER) => FEATURED_ORDER[col].map(title => {
+  const entry = all.find(e => e.data.title === title && e.data.featuredIn.includes(col));
+  if (!entry?.data.short) throw new Error(`Featured entry "${title}" missing for column "${col}"`);
+  return entry.data;
+});
+
+// Colors come from the site tokens; stroke attributes sit on the paths (no CSS class).
+const columns = [
+  { key: 'movement', heading: AREAS.movement.heading, intro: AREAS.movement.intro, href: AREAS.movement.path, all: AREAS.movement.all, linkEntries: false },
+  { key: 'starbase', heading: AREAS.starbase.heading, intro: AREAS.starbase.intro, href: AREAS.starbase.path, all: AREAS.starbase.all, linkEntries: false },
+  { key: 'personal', heading: AREAS.personal.heading, intro: AREAS.personal.intro, href: AREAS.personal.path, all: AREAS.personal.all, linkEntries: false },
+  { key: 'ai', heading: 'Built with AI', intro: "I'm not a developer. I built all of this anyway.", href: '/ai', all: 'Read the story and every build', linkEntries: true },
+] as const;
 
 const tools = [
   { label: 'Sites: Astro' },
@@ -106,17 +29,62 @@ const tools = [
 ];
 ---
 
-<BaseLayout title="Projects — Jordan Krueger" description="I love tinkering with new technologies and launching ideas.">
-  <!-- Intro -->
-  <section class="section bg-green">
-    <div class="container projects-intro">
-      <div class="projects-intro-text">
-        <h1>I love tinkering with new technologies and launching ideas.</h1>
-        <p class="projects-subtitle">Personal projects, advocacy experiments, and a 32-year-old role-playing community.</p>
-        <hr class="section-rule" />
-      </div>
-      <div class="projects-intro-image">
-        <img src="/images/projects-hero.jpg" alt="Projects" loading="lazy" />
+<BaseLayout title="Projects — Jordan Krueger" description="Things I've started, run or built, in four parts of my life.">
+  <section class="section hub-head">
+    <div class="container">
+      <h1>Projects</h1>
+      <p class="hub-lede">Things I've started, run or built, in four parts of my life.</p>
+      <div class="guide">
+        {columns.map(col => (
+          <div class="col">
+            {col.key === 'movement' && (
+              <svg class="icon" viewBox="0 0 56 56" aria-hidden="true">
+                <circle cx="20" cy="22" r="10" fill="var(--color-bg-warm)" />
+                <path fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M8 46h40" />
+                <path fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M28 46V30c0-6 5-11 12-11 0 7-5 11-12 11" />
+                <path fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M28 36c-5 0-9-3-9-8 5 0 9 3 9 8" />
+              </svg>
+            )}
+            {col.key === 'starbase' && (
+              <svg class="icon" viewBox="0 0 56 56" aria-hidden="true">
+                <path d="M8 12h18v6H14a6 6 0 0 0-6 6z" fill="var(--color-sun)" />
+                <rect x="8" y="26" width="6" height="18" fill="var(--color-panel-cell)" />
+                <rect x="18" y="38" width="14" height="6" fill="var(--color-sprout)" />
+                <rect x="35" y="38" width="13" height="6" fill="var(--color-sun)" />
+                <rect x="29" y="12" width="19" height="6" fill="var(--color-panel-cell)" />
+              </svg>
+            )}
+            {col.key === 'personal' && (
+              <svg class="icon" viewBox="0 0 56 56" aria-hidden="true">
+                <path fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M10 28 28 12l18 16" />
+                <path fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M15 24v20h26V24" />
+                <rect x="23" y="32" width="10" height="12" fill="var(--color-bg-green)" />
+                <circle cx="42" cy="14" r="5" fill="var(--color-sun)" />
+              </svg>
+            )}
+            {col.key === 'ai' && (
+              <svg class="icon" viewBox="0 0 56 56" aria-hidden="true">
+                <path fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M8 44h14V30h14V16" />
+                <circle cx="22" cy="44" r="3" fill="var(--color-bg)" stroke="var(--color-accent)" stroke-width="2" />
+                <circle cx="36" cy="30" r="3" fill="var(--color-bg)" stroke="var(--color-accent)" stroke-width="2" />
+                <path d="M36 16c0-6 5-10 12-10 0 7-5 10-12 10z" fill="var(--color-sprout)" />
+              </svg>
+            )}
+            <h2>{col.heading}</h2>
+            <p class="what">{col.intro}</p>
+            <ul role="list">
+              {featured(col.key).map(item => (
+                <li>
+                  {col.linkEntries && item.href
+                    ? <a href={item.href} target="_blank" rel="noopener"><b>{item.title}</b></a>
+                    : <b>{item.title}</b>}
+                  <span>{item.short}</span>
+                </li>
+              ))}
+            </ul>
+            <a class="all" href={col.href}>{col.all}</a>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -140,11 +108,6 @@ const tools = [
     </div>
   </section>
 
-  <!-- Project Cards -->
-  {projects.map((project, i) => (
-    <ProjectCard {...project} index={i} />
-  ))}
-
   <!-- Elsewhere on this site -->
   <section class="elsewhere-row">
     <div class="container">
@@ -160,26 +123,44 @@ const tools = [
 </BaseLayout>
 
 <style>
+  .hub-head { padding-top: var(--spacing-xl); }
+  .hub-head h1 { font-size: clamp(2.2rem, 4.4vw, 3.4rem); margin-bottom: 0.6rem; }
+  .hub-lede { max-width: 38rem; margin-bottom: var(--spacing-lg); font-size: 1.1rem; }
+
+  .guide {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+  .col {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1.4rem 1.3rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .icon { width: 3.5rem; height: 3.5rem; display: block; }
+  .col h2 { font-size: 1.2rem; margin: 0.9rem 0 0.25rem; letter-spacing: -0.01em; }
+  .what { font-size: 0.9rem; margin-bottom: 1rem; min-height: 2.8em; }
+  .col ul { list-style: none; padding: 0; margin: 0 0 1rem; border-top: 1px solid var(--color-border); }
+  .col li { padding: 0.6rem 0; border-bottom: 1px solid var(--color-border); font-size: 0.92rem; line-height: 1.45; }
+  .col li b { display: block; color: var(--color-text-logo); font-weight: 700; }
+  .col li a { text-decoration: none; }
+  .col li a:hover b { text-decoration: underline; }
+  .col li span { display: block; font-size: 0.84rem; }
+  .all { margin-top: auto; font-weight: 700; font-size: 0.92rem; }
+  .all::after { content: " →"; }
+
+  @media (max-width: 900px) {
+    .guide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .guide { grid-template-columns: 1fr; }
+  }
+
   .projects-desc-section {
     padding-top: var(--spacing-xl);
-  }
-
-  .projects-intro {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-lg);
-    align-items: center;
-  }
-
-  /* section-rule is defined in global.css */
-
-  .projects-intro h1 {
-    font-size: clamp(2.2rem, 4.4vw, 3.4rem);
-  }
-
-  .projects-intro-image img {
-    width: 100%;
-    border-radius: var(--radius-md);
   }
 
   .projects-desc {
@@ -217,18 +198,9 @@ const tools = [
   }
 
   @media (max-width: 640px) {
-    .projects-intro,
     .projects-desc {
       grid-template-columns: 1fr;
     }
-  }
-
-  /* Subtitle under H1 */
-  .projects-subtitle {
-    font-size: 1.05rem;
-    color: var(--color-text-light);
-    margin: 0.5rem 0 var(--spacing-sm);
-    font-style: italic;
   }
 
   /* Elsewhere on this site */
