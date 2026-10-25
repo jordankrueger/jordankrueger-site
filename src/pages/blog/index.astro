@@ -73,7 +73,7 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
     font-size: 0.85rem;
     color: var(--color-text-light);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
   }
 
   .filter-tag:hover {
