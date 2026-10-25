@@ -131,3 +131,33 @@ Illustration language: flat fills, one line color (leaf), one line weight (2.5px
 ## Open questions
 
 None. The heading-emoji question was answered on 2026-10-25 (remove from headings, keep in body text) and is recorded under Decisions.
+
+## Round 2: Jordan's feedback on the dev site (2026-10-25)
+
+Jordan reviewed the merged slices 1-4 and asked for content and structure changes on top of the re-skin. Already merged as slice 5a: the CampaignHelp card checklist style, six blog topics enforced in the content schema, the "All posts" heading with a count, and a missing space on /tools. This section covers what remains. Each item names the decision and where it came from.
+
+### Decisions
+
+- **Homepage "About me" panel gains two paragraphs** (Jordan's own edit of a voice-box draft, saved 2026-10-25; one typo fixed, "to shared" to "shared"):
+  "I live in Pittsburgh, and outside of work I still run StarBase 118, the Star Trek roleplaying community I started on AOL in 1994. I also love synthwave music."
+  "I'm a left accelerationist: I want AI built faster, and I want what it makes possible shared with everyone. An end to poverty, disease, loneliness, and war is the end goal."
+  They go after the existing two paragraphs and before "Read my full story". No other wording changes.
+- **CampaignHelp card copy** (Jordan's edit, saved 2026-10-25): description "IT and operations support for progressive nonprofits and advocacy groups, so your staff can spend their time on campaigns instead of tech." Checklist, in this order: "Ongoing tech & platform support", "Workflow automation", "Hardware management", "Training & onboarding". The checks render as the existing SVG check icon, not emoji. Button stays "See how I help". The Grounded AI card is unchanged.
+- **Projects becomes a hub (option C1, "field guide")**, chosen from the mockup at `personal/jordankrueger-site-work/looks/projects-c.html#c1`. `/projects` shows four columns, one per area, each with a small line drawing, one sentence, its three featured entries, and a link to the area page:
+  - Movement work: `/projects/movement`, everything on today's Projects page except StarBase 118.
+  - StarBase 118: `/projects/starbase-118`, the StarBase 118 entry from today's Projects page plus the 14 community builds from `/ai`.
+  - Personal tools: `/projects/personal`, the 12 personal builds from `/ai`.
+  - Built with AI: links to `/ai`, which keeps its story and full build list, restyled into three groups of one-line rows that expand (option A's AI page from `looks/projects.html#a`).
+  Featured three per area, as in the mockup: Job Seeker's Union, Equity Language Commons, Freehold; StarBase 118 PBEM RPG, Staff Operations Platform, 438K-Post Archive; Drift, AI Progress Tracker, Lease Tracker; AK Help, AI Code Review Pipeline, Claude Code guardrails.
+  Area intro sentences are the mockup's: "Projects for progressive organizing and the people doing it." / "The Star Trek community I founded in 1994, and what runs it." / "Small tools I built to run my own life a little better." / "I'm not a developer. I built all of this anyway." Hub heading "Projects", lede "Things I've started, run or built, in four parts of my life."
+- **One data source.** All entries move into `src/data/projects.ts` (title, short line, full description, links, image, area, featured flag), and `/projects`, the three area pages and `/ai` all read from it, so an entry is edited in one place. Entry text is moved, not rewritten; the one-line descriptions for the 12 featured entries are the mockup's lines.
+- **No header image on the hub.** The four drawings replace the old Projects header image (Jordan's item 5 is satisfied by the hub itself unless he asks again). `public/images/projects-hero.jpg` is removed if nothing else uses it.
+- **Deferred to after Jordan sends the song list:** the synthwave music page (one entry per song with Apple Music, Spotify and artist links) and the three About-page buttons (Synthwave, StarBase 118, Technology). They ship together so no button points at a missing page.
+
+### Reliability for these changes
+
+| Step | Fails loudly? | Report goes somewhere safe? | Can it recover? | Would we notice if it went quiet? |
+|---|---|---|---|---|
+| Moving entries into `src/data/projects.ts` | A missing field is a TypeScript/Astro build error; a dropped entry is silent | Session report | Revert the commit | Only because it is checked: a script compares the set of entry titles before and after (today's `projects.astro` + `ai.astro` vs the new data file) and must match exactly |
+| New area routes | A broken route 404s | Session report | Fix and rebuild | Build output lists every route; the check confirms `/projects/movement`, `/projects/starbase-118`, `/projects/personal` exist and every hub link resolves |
+| Old links to `/projects` and `/ai` | n/a (both URLs stay) | n/a | n/a | Footer, Tools and AI page links are grepped and still resolve |
