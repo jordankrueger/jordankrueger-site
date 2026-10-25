@@ -37,7 +37,7 @@ const entryCountLabel = entryCount === 1 ? '1 tool' : `${entryCount} tools`;
 
 <section class="section-wrap">
   <div class="cat-panel" id={slug}>
-   <div class:list={["cat-head", color]}>
+    <div class:list={["cat-head", color]}>
     <div class="cat-header">
       <h2>{name}</h2>
       <div class="cat-meta">
@@ -51,7 +51,7 @@ const entryCountLabel = entryCount === 1 ? '1 tool' : `${entryCount} tools`;
       </div>
     </div>
     <p class="cat-desc">{description}</p>
-   </div>
+    </div>
 
     <div class="grid">
       {sortedEntries.map(entry => (
@@ -71,7 +71,6 @@ const entryCountLabel = entryCount === 1 ? '1 tool' : `${entryCount} tools`;
     overflow: hidden;
   }
   .cat-head { padding: var(--spacing-md) var(--spacing-lg) var(--spacing-xs); }
-  .cat-head .cat-desc { margin-bottom: var(--spacing-xs); }
   .cat-header { margin-bottom: var(--spacing-xs); }
   .cat-header h2 { margin-bottom: 0.2rem; }
   .cat-meta {
@@ -81,7 +80,7 @@ const entryCountLabel = entryCount === 1 ? '1 tool' : `${entryCount} tools`;
   .cat-desc {
     color: var(--color-text);
     margin-top: var(--spacing-xs);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
     max-width: 640px;
   }
   .grid {

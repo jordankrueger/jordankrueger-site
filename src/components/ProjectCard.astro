@@ -13,7 +13,7 @@ const reversed = index % 2 === 1;
 ---
 
 <div class="project-card-wrap">
-  <div class:list={["project-card-panel", "fade-up", reversed ? "band" : "surface"]}>
+  <div class:list={["project-card-panel", "fade-up", reversed ? "bg-green" : "bg-white"]}>
     <div class:list={["project-card-inner", { reversed }]}>
       <div class="project-card-header">
         <h2>{title}</h2>
@@ -49,8 +49,6 @@ const reversed = index % 2 === 1;
     padding: var(--spacing-lg);
   }
 
-  .project-card-panel.surface { background: var(--color-bg-white); }
-  .project-card-panel.band { background: var(--color-bg-green); }
 
   .project-card-inner {
     display: grid;

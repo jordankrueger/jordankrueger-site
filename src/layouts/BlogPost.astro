@@ -103,11 +103,12 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
 
 <style>
   .blog-post {
+    --measure: 68ch;
     padding: var(--spacing-xl) 0;
   }
 
   .post-header {
-    max-width: 68ch;
+    max-width: var(--measure);
     margin: 0 auto var(--spacing-lg);
   }
 
@@ -148,7 +149,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   }
 
   .post-cover {
-    max-width: 68ch;
+    max-width: var(--measure);
     width: 100%;
     margin: 0 auto var(--spacing-lg);
     display: block;
@@ -156,7 +157,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   }
 
   .post-content {
-    max-width: 68ch;
+    max-width: var(--measure);
     margin: 0 auto;
   }
 
@@ -230,7 +231,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   }
 
   .post-footer {
-    max-width: 68ch;
+    max-width: var(--measure);
     margin: var(--spacing-xl) auto 0;
     padding-top: var(--spacing-md);
     border-top: 1px solid var(--color-border);
