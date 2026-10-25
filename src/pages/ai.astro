@@ -1,9 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import AiProjectCard from '../components/AiProjectCard.astro';
+import { getCollection } from 'astro:content';
+import AiProjectRow from '../components/AiProjectRow.astro';
 import AiStoryCard from '../components/AiStoryCard.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import CircuitDivider from '../components/CircuitDivider.astro';
+import fileOrder from '../content/projects.json';
+
+const rank = (id: string) => fileOrder.findIndex(e => e.id === id);
+
+// Same order as the entries in projects.json.
+const builds = (await getCollection('projects'))
+  .filter(e => e.data.builtWithAI)
+  .sort((a, b) => rank(a.id) - rank(b.id));
 
 const stats = [
   { number: '50+', label: 'Projects Built' },
@@ -12,238 +21,15 @@ const stats = [
   { number: '28', label: 'Repos with AI Review' },
 ];
 
-const advocacyProjects = [
-  {
-    title: 'AK Help',
-    description: 'AI help for ActionKit users (the advocacy platform most progressive nonprofits run on). A Playwright scraper pulls 114 help docs and 176 real support emails, anonymizes them, and feeds an AI knowledge base. Freemium SaaS with Stripe billing, magic-link auth, and a monthly auto-refresh pipeline.',
-    tags: ['Next.js', 'Playwright', 'Stripe', 'Claude Haiku'],
-    status: 'Live (Beta)',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'campaign.help',
-    description: 'My consulting firm\'s website. Built it in one session, pulling real testimonials and client logos from Notion. Compressed images 81%, wired up GA4, deployed to Cloudflare Pages.',
-    tags: ['Next.js', 'Cloudflare Pages', 'Notion API'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'Progressives for AI',
-    description: 'Newsletter for progressives who want to actually engage with AI instead of just being scared of it. Six issues published. Landing page, Beehiiv publication, Cloudflare Worker signup flow, and an N8N automation pipeline that generates LinkedIn and Bluesky drafts after each issue goes out.',
-    tags: ['Beehiiv', 'Cloudflare Workers', 'N8N', 'Claude API'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'highspeedrail.tv',
-    description: 'Curated video site for high-speed rail advocacy. YouTube API-powered admin panel for searching, queueing, and reviewing videos. AI helps evaluate new content quickly. Auto-deploys on push.',
-    tags: ['Eleventy', 'Express', 'YouTube API', 'Cloudflare Pages'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'MDM Fleet Management',
-    description: 'Runbook for managing Mac fleets at two nonprofit clients. FileVault key escrow, Escrow Buddy deployment, remediation tracking, and a side-by-side comparison of Mosyle vs. JAMF Now.',
-    tags: ['Mosyle', 'JAMF Now', 'macOS'],
-    status: 'Active',
-    statusType: 'active' as const,
-  },
-  {
-    title: 'AI Code Review Pipeline',
-    description: 'Dual-LLM code review deployed across 28 repos. Every pull request gets reviewed by OpenAI Codex and cross-checked by Claude. The two models reconcile disagreements before a summary hits the PR. Branch protection enforced on all public repos. Backed by a quality-gate layer: pre-commit TypeScript/ESLint in 5 active repos, a global type-check hook on every file edit, and a nightly N8N workflow snapshot-to-git across 3 automation instances.',
-    tags: ['GitHub Actions', 'Claude API', 'OpenAI Codex'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-];
-
-const communityProjects = [
-  {
-    title: 'Staff Operations Platform',
-    description: 'Replacing the mess of Google Sheets, email chains, and tribal knowledge we\'d been using. 15-table data model, 136 members imported, NocoDB backend, Authentik SSO, Next.js admin panel with role-based access. Then: a full 10-point security audit — IDOR fixes, CSRF validation, rate limiting, audit logging, PII filtering by role, and an error diagnostics dashboard.',
-    tags: ['Next.js 15', 'NocoDB', 'PostgreSQL', 'Authentik'],
-    status: 'In Progress',
-    statusType: 'active' as const,
-  },
-  {
-    title: 'Visitor Fingerprinting Plugin',
-    description: 'WordPress plugin that fingerprints visitors (canvas, WebGL, fonts, screen data) and checks them against banned users when someone applies to join. Catches the folks who get banned and come back under a new name.',
-    tags: ['PHP', 'WordPress', 'JavaScript'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-  {
-    title: '438K-Post Archive',
-    description: 'Every collaborative story the community has ever written, stored in Firebase. Cloud Functions handle the data processing, with automated backups to iDrive (5.2GB raw, 1.76GB compressed).',
-    tags: ['Firebase', 'Cloud Functions', 'Node.js'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: '4-Pipeline Backup System',
-    description: 'Offsite backups for everything: cPanel snapshots, custom DB dumps (had to work around a 268MB kernel memory cap), Firebase archive exports, and VPS configs. Migrated all 4 servers from iDrive to Backblaze B2 after iDrive proved unreliable.',
-    tags: ['rclone', 'Backblaze B2', 'Bash', 'cron'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-  {
-    title: '1.2M Email Archive',
-    description: '1.22 million messages across three accounts (446K personal Gmail, 775K SB118 Gmail, iCloud), indexed for full-text search using Notmuch and Xapian. Instant server-side search that would take grep minutes now takes milliseconds.',
-    tags: ['Notmuch', 'Xapian', 'Bash', 'LaunchAgent'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-  {
-    title: 'MediaWiki 10x Speedup',
-    description: 'Got a 54,000-page wiki from 1.5s down to 0.15s page loads. Migrated to PHP 8.2 + FPM, added APCu caching, turned on OPcache JIT, and cleaned out a 1.38GB stale cache table.',
-    tags: ['MediaWiki', 'PHP-FPM', 'APCu'],
-    status: 'Complete',
-    statusType: 'complete' as const,
-  },
-  {
-    title: 'WordPress 14x Speedup',
-    description: 'WordPress Multisite homepage went from 3.4s to 0.24s. Cleaned out 87MB of orphaned tables, removed 5 themes nobody was using, and optimized 284 database tables.',
-    tags: ['WordPress', 'WP-CLI', 'MariaDB'],
-    status: 'Complete',
-    statusType: 'complete' as const,
-  },
-  {
-    title: 'SEO Program',
-    description: 'SEO overhaul across all 5 web properties. RankMath on WordPress, GA4 everywhere, Search Console for 3 domains, 11 new content pieces, and drip email campaigns.',
-    tags: ['RankMath', 'GA4', 'Sendy'],
-    status: 'Ongoing',
-    statusType: 'active' as const,
-  },
-  {
-    title: 'Constitution Rewrite',
-    description: 'Rewrote the community\'s governing documents from scratch. Read through 114 forum posts of old debate, pulled together two previous rewrite attempts, and put together an annotated review presentation with a 55-row traceability matrix. After the first review round, migrated 102 web annotations into 14 discussion threads on the community forum — automated via the forum API — so the debate could happen where people actually talk.',
-    tags: ['Markdown', 'HTML', 'Forum API'],
-    status: 'Under Review',
-    statusType: 'active' as const,
-  },
-  {
-    title: 'Self-Hosted Workflow Automation',
-    description: 'Deployed Activepieces (open-source, MIT-licensed) as an N8N alternative for the community\'s FOSS committee. Docker Compose on the VPS, wired into the same backup pipeline as everything else, with a public docs page explaining how to contribute workflows.',
-    tags: ['Activepieces', 'Docker', 'Postgres'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'Annual Address Builder',
-    description: 'App for putting together the community\'s annual address from 11 groups\' submissions. Role-based auth, Claude API for AI-assisted summaries, and wiki integration.',
-    tags: ['React', 'Express', 'Claude API'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-  {
-    title: 'Server Monitoring',
-    description: 'Self-hosted Netdata with custom health alerts and a status dashboard that pulls live metrics via API every 30 seconds.',
-    tags: ['Netdata', 'Apache'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'Security Plugin',
-    description: 'WordPress must-use plugin that locks down private multisite sub-sites. The old plugin left the REST API and RSS feeds wide open. This one blocks everything. Covers 6 internal staff sites.',
-    tags: ['PHP', 'WordPress MU'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-  {
-    title: 'Email Infrastructure',
-    description: 'Set up Sendy for 3 brands after AWS SES denied production access. Switched to SMTP2GO, designed custom HTML email templates, built a 3-email drip sequence, and redid 9 notification templates across 4 sites.',
-    tags: ['Sendy', 'SMTP2GO'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-];
-
-const personalProjects = [
-  {
-    title: 'AI Progress Tracker',
-    description: 'My first AI build, before Claude Code even existed. Tracks the predictions from Dario Amodei\'s "Machines of Loving Grace" essay across four categories: biology, neuroscience, economics, and governance. Progress bars, expandable sections, and a Reddit community for discussion. Originally on Vercel, recently migrated to Cloudflare Pages.',
-    tags: ['Next.js', 'TypeScript', 'Tailwind', 'Cloudflare Pages'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'Drift',
-    description: 'My main productivity app, built from nothing to deployed in one sitting. Task management that lets me bounce between projects without guilt, a debt payoff tracker (avalanche method), uptime monitoring for 17 sites, a content drafting dashboard, and one-click posting to Bluesky via the AtProto SDK.',
-    tags: ['Next.js', 'SQLite', 'Docker', 'Drizzle ORM', 'AtProto'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'Domain Locker',
-    description: 'Self-hosted portfolio monitor for the 47 domains I own across personal and client work. Tracks expiration dates, DNS changes, SSL certs, and WHOIS updates, with a daily refresh and a dashboard that finally tells me what\'s about to lapse before the registrar does.',
-    tags: ['Angular', 'Postgres', 'Docker', 'OrbStack'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'Smart Bookmarks',
-    description: 'Click a bookmarklet on any page. A Cloudflare Worker grabs the content, Claude generates a title, description, and tags, and it all saves to Raindrop.io. I never have to tag bookmarks manually again.',
-    tags: ['Cloudflare Workers', 'Claude API', 'Raindrop.io'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-  {
-    title: 'Fathom Sync',
-    description: 'I kept losing action items after meetings. This polls Fathom AI (the meeting note-taker) and syncs summaries to Notion while turning action items into tasks in Drift. Runs twice a day on its own.',
-    tags: ['TypeScript', 'Notion API', 'LaunchAgent'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-  {
-    title: 'Healthy Eating System',
-    description: 'Not an app, more of a system. ADHD plus reactive hypoglycemia means I can\'t rely on willpower for meal decisions. 64-item food database, auto-generated grocery lists, and a Friday reminder to confirm Saturday pickup.',
-    tags: ['Notion', 'Shell', 'LaunchAgent'],
-    status: 'Active',
-    statusType: 'active' as const,
-  },
-  {
-    title: 'Secrets Manager',
-    description: '261-line Python CLI that keeps API keys in sync across two config files at once. Found 2 mismatches the first time I ran it.',
-    tags: ['Python'],
-    status: 'In Use',
-    statusType: 'deployed' as const,
-  },
-  {
-    title: 'Lease Tracker',
-    description: 'React PWA that answers one question: "How many miles can I drive today?" Tracks remaining daily mileage for my car lease. Works offline. Fits in a single HTML file.',
-    tags: ['React', 'PWA', 'GitHub Pages'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'Personality Profile',
-    description: 'Fed Claude 1,023 of my AI conversations plus a formal psych evaluation and had it build a personality profile. Using AI to understand how I use AI. Pretty meta.',
-    tags: ['Python', 'Claude Batch API'],
-    status: 'Complete',
-    statusType: 'complete' as const,
-  },
-  {
-    title: 'Actual Budget',
-    description: 'Self-hosted personal and business finance tracking with SimpleFIN bank sync across 12 accounts. Custom CLI for querying both budgets. Uncovered $7,500/mo in personal subscriptions and fixed a -$99K "To Budget" bug caused by how credit card starting balances were categorized.',
-    tags: ['Docker', 'Node.js', 'SimpleFIN'],
-    status: 'Live',
-    statusType: 'live' as const,
-  },
-  {
-    title: 'Weekly Content Sprint',
-    description: 'Every Monday at 7:30am, an N8N workflow wakes up, reads my session logs from the previous week, grabs starred articles from my RSS reader, and sends everything to Claude. Output: content drafts across four tracks (personal, consulting, newsletter, high-speed rail) plus story ideas. The drafts now flow into a 14-channel daily content queue that auto-schedules them to Tue/Thu/Fri and surfaces what\'s due in my morning briefing email.',
-    tags: ['N8N', 'Claude API', 'LaunchAgent'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-  {
-    title: 'Prompt Injection Defense',
-    description: 'Claude Code hits all three legs of what security researchers call the "Lethal Trifecta": private data, exposure to untrusted content, and the ability to take real-world actions. Built a multi-layer defense: behavioral rules, a PostToolUse detection hook that scans for 9 injection patterns, and email sanitization with 5 layers of content stripping.',
-    tags: ['Bash', 'Python', 'Claude Code Hooks'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
-  },
-];
+const groups = [
+  { key: 'movement', label: 'For the movement' },
+  { key: 'starbase', label: 'For StarBase 118' },
+  { key: 'personal', label: 'For my own life' },
+].map(g => ({
+  ...g,
+  items: builds.filter(e => e.data.aiGroup === g.key),
+}));
+const byGroup = Object.fromEntries(groups.map(g => [g.key, g]));
 
 const stories = [
   {
@@ -399,11 +185,10 @@ const stories = [
         </p>
       </div>
 
-      <div class="ai-grid">
-        {advocacyProjects.map((project, i) => (
-          <div class={`fade-up delay-${Math.min((i % 3) + 1, 3)}`}>
-            <AiProjectCard {...project} />
-          </div>
+      <div class="ai-rows fade-up">
+        <div class="ai-group-head"><h3>{byGroup.movement.label}</h3><span>{byGroup.movement.items.length} builds</span></div>
+        {byGroup.movement.items.map(({ data }) => (
+          <AiProjectRow title={data.title} description={data.aiDescription!} tags={data.tags!} status={data.status!} statusType={data.statusType!} />
         ))}
       </div>
     </div>
@@ -420,11 +205,10 @@ const stories = [
         </p>
       </div>
 
-      <div class="ai-grid">
-        {communityProjects.map((project, i) => (
-          <div class={`fade-up delay-${Math.min((i % 3) + 1, 3)}`}>
-            <AiProjectCard {...project} />
-          </div>
+      <div class="ai-rows fade-up">
+        <div class="ai-group-head"><h3>{byGroup.starbase.label}</h3><span>{byGroup.starbase.items.length} builds</span></div>
+        {byGroup.starbase.items.map(({ data }) => (
+          <AiProjectRow title={data.title} description={data.aiDescription!} tags={data.tags!} status={data.status!} statusType={data.statusType!} />
         ))}
       </div>
     </div>
@@ -441,11 +225,10 @@ const stories = [
         </p>
       </div>
 
-      <div class="ai-grid">
-        {personalProjects.map((project, i) => (
-          <div class={`fade-up delay-${Math.min((i % 3) + 1, 3)}`}>
-            <AiProjectCard {...project} />
-          </div>
+      <div class="ai-rows fade-up">
+        <div class="ai-group-head"><h3>{byGroup.personal.label}</h3><span>{byGroup.personal.items.length} builds</span></div>
+        {byGroup.personal.items.map(({ data }) => (
+          <AiProjectRow title={data.title} description={data.aiDescription!} tags={data.tags!} status={data.status!} statusType={data.statusType!} />
         ))}
       </div>
     </div>
@@ -624,6 +407,31 @@ const stories = [
     color: var(--color-text-light);
     max-width: 500px;
     margin: 0 auto var(--spacing-md);
+  }
+
+  .ai-rows {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .ai-group-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    border-bottom: 2px solid var(--color-sprout);
+    padding-bottom: 0.35rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .ai-group-head h3 {
+    font-size: 1.15rem;
+  }
+
+  .ai-group-head span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-sun-text);
   }
 
   .ai-grid {
