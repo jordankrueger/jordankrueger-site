@@ -1,22 +1,35 @@
 /* Design Tokens */
 :root {
-  --color-bg: #EDEDED;
-  --color-bg-warm: #FCF3DE;
-  --color-bg-blue: #E5F2FA;
-  --color-bg-peach: #FCEFEA;
-  --color-bg-green: #EDF5EF;
-  --color-bg-white: #FFFFFF;
-  --color-border: #DCC0A0;
-  --color-text: #5C5248;
-  --color-text-light: #8A7E74;
-  --color-text-logo: #2C2C54;
-  --color-accent: #AF4C2A;
-  --color-accent-hover: #9A4224;
-  --color-shadow: #D9B2A9;
+  /* Solarpunk palette (spec: Design system) */
+  --color-bg: #fbf7ec;            /* cream page */
+  --color-bg-white: #fffdf7;      /* card surface */
+  --color-bg-green: #eef3e5;      /* band */
+  --color-bg-warm: #fbe7b8;       /* sun-soft */
+  --color-bg-blue: #e6eff2;       /* sky-soft */
+  --color-bg-peach: #f6e7da;      /* clay-soft */
+  --color-border: #dfe7d4;
+  --color-text: #4c5d51;          /* soft ink, body */
+  --color-text-light: #6f6750;    /* muted small print */
+  --color-text-logo: #21342a;     /* ink, headings and wordmark */
+  --color-accent: #2f6b3f;        /* leaf */
+  --color-accent-hover: #24563a;  /* leaf-dark */
+  --color-on-accent: #fbf7ec;     /* text on leaf buttons */
+  --color-sprout: #86b46f;        /* drawing fill, divider line */
+  --color-sun: #f1b544;           /* drawing, underline, small accents */
+  --color-sun-text: #85601a;      /* readable dark gold for dates and labels */
+  --color-sun-border: #ecd48f;
+  --color-panel: #2f4d5c;         /* solar panel; also dark blue-grey text on sky */
+  --color-panel-cell: #46707f;
+  --color-sky-border: #bcd3db;
+  --color-success: #24563a;
+  --color-error: #b3261e;
+  --color-code-bg: #1f2d26;
+  --color-code-text: #f3efe2;
+  --color-shadow: rgba(47, 107, 63, 0.35);
 
-  --font-heading: 'Lora', serif;
-  --font-body: 'DM Sans', sans-serif;
-  --font-signature: 'Rock Salt', cursive;
+  --font-heading: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-signature: 'Rock Salt', cursive; /* retired in slice 2 */
 
   --max-width: 1100px;
   --spacing-xs: 0.5rem;
@@ -26,14 +39,13 @@
   --spacing-xl: 3rem;
   --spacing-2xl: 4rem;
 
-  /* Carrd's signature soft radius */
   --radius-sm: 0.5rem;
-  --radius-md: 1rem;
+  --radius-md: 14px;
   --radius-lg: 2rem;
+  --radius-pill: 999px;
 
-  /* Warm shadow matching Carrd */
-  --shadow-soft: 0.3rem 0.4rem 0.625rem 0 var(--color-shadow);
-  --shadow-hover: 0.3rem 0.5rem 1rem 0 var(--color-shadow);
+  --shadow-soft: 0 8px 24px -14px var(--color-shadow);
+  --shadow-hover: 0 12px 28px -14px var(--color-shadow);
 }
 
 /* Reset */
@@ -87,13 +99,15 @@ a:hover {
 
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
-  color: var(--color-text);
-  line-height: 1.3;
+  color: var(--color-text-logo);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
-h1 { font-size: 2.25rem; font-weight: 700; }
-h2 { font-size: 1.75rem; font-weight: 600; }
-h3 { font-size: 1.35rem; font-weight: 600; }
+h1 { font-size: clamp(2.6rem, 5.5vw, 4.3rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.03; }
+h2 { font-size: 1.85rem; font-weight: 700; letter-spacing: -0.025em; }
+h3 { font-size: 1.35rem; font-weight: 700; }
 h4 { font-size: 1.1rem; font-weight: 600; }
 
 p {
@@ -127,44 +141,48 @@ ul, ol {
   padding: var(--spacing-lg) 0;
 }
 
-/* Buttons — Carrd's warm, rounded style */
+/* Buttons */
 .btn {
   display: inline-block;
-  padding: 0.8rem 2rem;
-  border-radius: var(--radius-lg);
-  font-family: var(--font-heading);
-  font-weight: 600;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-weight: 700;
   font-size: 0.95rem;
   text-align: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
   border: none;
   text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
 .btn-primary {
-  background: linear-gradient(305deg, var(--color-accent-hover) 0%, rgba(175,76,42,0.008) 37%), var(--color-accent);
-  color: #fff;
-  box-shadow: var(--shadow-soft);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
 }
 
 .btn-primary:hover {
   background: var(--color-accent-hover);
-  color: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 5px 16px rgba(175,76,42,0.35);
+  color: var(--color-on-accent);
 }
 
 .btn-outline {
   background-color: transparent;
   color: var(--color-accent);
-  border: 2px solid var(--color-accent);
+  box-shadow: inset 0 0 0 1.5px var(--color-accent);
 }
 
 .btn-outline:hover {
-  background-color: var(--color-accent);
-  color: #fff;
-  box-shadow: var(--shadow-soft);
+  background-color: var(--color-bg-green);
+  color: var(--color-accent-hover);
 }
 
 /* Colored section panels — Carrd's bordered card style */
@@ -205,7 +223,7 @@ ul, ol {
   z-index: 1000;
   padding: 0.5rem 1.5rem;
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
   border-radius: var(--radius-sm);
   font-weight: 600;
   text-decoration: none;
@@ -213,13 +231,13 @@ ul, ol {
 
 .skip-nav:focus {
   top: 0.5rem;
-  color: #fff;
+  color: var(--color-on-accent);
 }
 
 /* Section divider — the tan line from Carrd */
 .section-rule {
   border: none;
-  border-top: 2px solid var(--color-border);
+  border-top: 2px solid var(--color-sprout);
   width: 60px;
   margin: var(--spacing-sm) 0 0 0;
 }
@@ -241,6 +259,16 @@ ul, ol {
 .fade-up.delay-3 { transition-delay: 0.3s; }
 .fade-up.delay-4 { transition-delay: 0.35s; }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fade-up,
+  .fade-up.visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* Tablet */
 @media (max-width: 900px) {
   .panel {
@@ -251,7 +279,6 @@ ul, ol {
 /* Responsive */
 @media (max-width: 640px) {
   html { font-size: 15px; }
-  h1 { font-size: 1.75rem; }
   h2 { font-size: 1.4rem; }
   h3 { font-size: 1.15rem; }
 
