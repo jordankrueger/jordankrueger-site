@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import CircuitDivider from '../components/CircuitDivider.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import ContactForm from '../components/ContactForm.astro';
 import BlogPostCard from '../components/BlogPostCard.astro';
@@ -28,13 +29,15 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     ]
   })} />
   <Hero />
+  <CircuitDivider />
 
   <NewsletterSignup />
 
   <!-- Practices -->
+  <section class="practices-band">
   <h2 class="section-heading practices-heading fade-up">Two practices I run</h2>
   <div class="panel-wrap">
-    <section class="ak-panel practice-diptych fade-up">
+    <div class="ak-panel practice-diptych fade-up">
       <div class="diptych-grid">
         <div class="diptych-half">
           <span class="practice-kicker">My consultancy</span>
@@ -48,7 +51,6 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
           </div>
           <a href="https://campaign.help" target="_blank" rel="noopener" class="btn btn-primary practice-cta">See how I help →</a>
         </div>
-        <div class="diptych-divider" aria-hidden="true"></div>
         <div class="diptych-half">
           <span class="practice-kicker gah">Coming soon · my second practice</span>
           <h3>Grounded AI</h3>
@@ -61,13 +63,14 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
           <a href="https://groundedai.help" target="_blank" rel="noopener" class="btn btn-outline practice-cta">Get notified at launch →</a>
         </div>
       </div>
-    </section>
+    </div>
   </div>
+  </section>
 
   <!-- About Preview -->
   <div class="panel-wrap">
     <section class="about-panel fade-up">
-      <h2 class="about-heading">About me 🤔</h2>
+      <h2 class="about-heading">About me</h2>
       <hr class="section-rule about-rule" />
       <div class="about-body">
         <p>Hi, I'm Jordan. I run <a href="https://campaign.help">CampaignHelp</a>, where I help progressive nonprofits and advocacy organizations stop wrestling with their technology — ActionKit, Google Workspace, tool migrations, workflow automation, and everything in between.</p>
@@ -76,6 +79,8 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
       </div>
     </section>
   </div>
+
+  <CircuitDivider />
 
   <!-- Recent Blog Posts -->
   <section class="section">
@@ -120,44 +125,39 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     margin-bottom: var(--spacing-lg);
   }
 
-  .practices-heading {
-    margin-top: var(--spacing-xl);
+  .practices-band {
+    background: var(--color-bg-green);
+    padding: var(--spacing-xl) 0;
   }
 
-  /* Bordered offset panels — the Carrd signature look */
+  .practices-heading {
+    margin-bottom: var(--spacing-md);
+  }
+
   .panel-wrap {
     padding: 0 var(--spacing-md);
   }
 
   .ak-panel {
     max-width: var(--max-width);
-    margin: var(--spacing-md) auto;
-    background-color: var(--color-bg-peach);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
+    margin: 0 auto;
   }
 
   .about-panel {
     max-width: var(--max-width);
-    margin: var(--spacing-md) auto;
-    background-color: var(--color-bg-warm);
+    margin: var(--spacing-xl) auto;
+    background-color: var(--color-bg-white);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     padding: var(--spacing-lg);
   }
 
-  /* Practices diptych */
-  .practice-diptych {
-    padding: var(--spacing-xl) var(--spacing-lg);
-  }
-
+  /* Practices: two cards side by side */
   .diptych-grid {
     display: grid;
-    grid-template-columns: 1fr 1px 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto 1fr auto auto;
-    column-gap: var(--spacing-xl);
-    row-gap: 0.85rem;
+    column-gap: var(--spacing-md);
   }
 
   .diptych-half {
@@ -165,13 +165,14 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     grid-template-rows: subgrid;
     grid-row: 1 / 6;
     gap: 0.85rem;
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1.6rem 1.75rem 1.75rem;
   }
 
   .diptych-half h3 {
-    font-family: var(--font-heading);
     font-size: 1.85rem;
-    font-weight: 700;
-    color: var(--color-text);
     line-height: 1.1;
     margin: 0;
   }
@@ -183,20 +184,12 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     margin: 0;
   }
 
-  .diptych-divider {
-    background: var(--color-border);
-    grid-row: 1 / -1;
-    opacity: 0.7;
-  }
-
   .practice-kicker {
     display: inline-block;
     font-family: var(--font-body);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
+    font-size: 0.85rem;
     color: var(--color-accent);
-    font-weight: 700;
+    font-weight: 600;
     margin: 0;
   }
   .practice-kicker.gah {
@@ -212,11 +205,10 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
 
   .practice-services .pill {
     font-size: 0.8rem;
-    background: var(--color-bg-white);
-    border: 1px solid var(--color-border);
-    color: var(--color-text);
+    background: var(--color-bg-green);
+    color: var(--color-accent-hover);
     padding: 0.4rem 0.85rem;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     font-family: var(--font-body);
   }
 
@@ -266,6 +258,35 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     margin-bottom: var(--spacing-md);
   }
 
+  /* Vine: a line across the top of the row, a node above each card */
+  .posts-grid {
+    position: relative;
+    padding-top: 1.6rem;
+  }
+  .posts-grid::before {
+    content: '';
+    position: absolute;
+    top: 0.4rem;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-sprout);
+    opacity: 0.6;
+  }
+  .posts-grid > :global(div)::before {
+    content: '';
+    position: absolute;
+    top: -1.6rem;
+    left: 1.5rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 2.5px solid var(--color-accent);
+  }
+  .posts-grid > :global(div) { position: relative; }
+
   .placeholder-text {
     text-align: center;
     color: var(--color-text-light);
@@ -285,7 +306,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     .diptych-grid {
       grid-template-columns: 1fr;
       grid-template-rows: none;
-      row-gap: var(--spacing-lg);
+      row-gap: var(--spacing-md);
     }
     .diptych-half {
       display: flex;
@@ -293,24 +314,22 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
       gap: 0.85rem;
       grid-row: auto;
     }
-    .diptych-divider {
-      width: 100%;
-      height: 1px;
-      grid-row: auto;
-    }
-    .practice-diptych {
-      padding: var(--spacing-lg);
-    }
   }
 
   @media (max-width: 640px) {
-    .ak-panel,
     .about-panel {
       padding: var(--spacing-md) var(--spacing-sm);
-      border-radius: var(--radius-md);
+    }
+    .diptych-half {
+      padding: var(--spacing-md) var(--spacing-sm);
     }
     .posts-grid {
       grid-template-columns: 1fr;
+      padding-top: 0;
+    }
+    .posts-grid::before,
+    .posts-grid > :global(div)::before {
+      display: none;
     }
   }
 </style>
