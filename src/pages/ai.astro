@@ -15,15 +15,14 @@ const stats = [
   { number: '28', label: 'Repos with AI Review' },
 ];
 
-const groups = [
-  { key: 'movement', label: 'For the movement' },
-  { key: 'starbase', label: 'For StarBase 118' },
-  { key: 'personal', label: 'For my own life' },
-].map(g => ({
-  ...g,
-  items: builds.filter(e => e.aiGroup === g.key),
-}));
-const byGroup = Object.fromEntries(groups.map(g => [g.key, g]));
+const groupLabels = {
+  movement: 'For the movement',
+  starbase: 'For StarBase 118',
+  personal: 'For my own life',
+};
+const byGroup = Object.fromEntries(
+  Object.entries(groupLabels).map(([key, label]) => [key, { label, items: builds.filter(e => e.aiGroup === key) }]),
+) as Record<keyof typeof groupLabels, { label: string; items: typeof builds }>;
 
 const stories = [
   {

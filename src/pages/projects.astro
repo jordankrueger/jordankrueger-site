@@ -11,8 +11,8 @@ const featured = (col: keyof typeof FEATURED_ORDER) => FEATURED_ORDER[col].map(t
 
 // Colors come from the site tokens; stroke attributes sit on the paths (no CSS class).
 const columns = [
-  ...Object.entries(AREAS).map(([key, a]) => ({ key, heading: a.heading, intro: a.intro, href: a.path, all: a.all, linkEntries: false })),
-  { key: 'ai', heading: 'Built with AI', intro: "I'm not a developer. I built all of this anyway.", href: '/ai', all: 'Read the story and every build', linkEntries: true },
+  ...Object.entries(AREAS).map(([key, a]) => ({ key, heading: a.heading, intro: a.intro, href: a.path, all: a.all })),
+  { key: 'ai', heading: 'Built with AI', intro: "I'm not a developer. I built all of this anyway.", href: '/ai', all: 'Read the story and every build' },
 ];
 
 const tools = [
@@ -72,7 +72,7 @@ const tools = [
             <ul role="list">
               {featured(col.key as keyof typeof FEATURED_ORDER).map(item => (
                 <li>
-                  {col.linkEntries && item.href
+                  {col.key === 'ai' && item.href
                     ? <a href={item.href} target="_blank" rel="noopener"><b>{item.title}</b></a>
                     : <b>{item.title}</b>}
                   <span>{item.short}</span>
