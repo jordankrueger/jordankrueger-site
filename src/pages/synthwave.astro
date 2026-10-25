@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CircuitDivider from '../components/CircuitDivider.astro';
+import data from '../data/synthwave.json';
+
+// Built from Jordan's "BEST OF: Synthwave" Apple Music playlist by
+// personal/jordankrueger-site-work/music-data/fetch_links.py.
+const tracks = data.tracks;
+---
+
+<BaseLayout title="Best of Synthwave — Jordan Krueger" description="The synthwave songs I come back to most, with links to listen.">
+  <section class="section">
+    <div class="container sw-head">
+      <a href="/about" class="sw-back">← Back to About</a>
+      <h1>Best of Synthwave</h1>
+      <p class="sw-lede">The synthwave songs I come back to most. {tracks.length} tracks, with links to listen on Apple Music or Spotify.</p>
+    </div>
+  </section>
+
+  <CircuitDivider />
+
+  <section class="section">
+    <div class="container">
+      <ol class="sw-list">
+        {tracks.map(t => (
+          <li class="sw-row">
+            <div class="sw-song">
+              <span class="sw-title">{t.title}</span>
+              {t.appleArtist
+                ? <a class="sw-artist" href={t.appleArtist} target="_blank" rel="noopener">{t.artist}</a>
+                : <span class="sw-artist">{t.artist}</span>}
+            </div>
+            <div class="sw-listen">
+              <a href={t.apple} target="_blank" rel="noopener" aria-label={`${t.title} on Apple Music`}>Apple Music</a>
+              {t.spotify
+                ? <a href={t.spotify} target="_blank" rel="noopener" aria-label={`${t.title} on Spotify`}>Spotify</a>
+                : <a href={t.spotifySearch} target="_blank" rel="noopener" aria-label={`Find ${t.title} on Spotify`}>Find on Spotify</a>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .sw-back { display: inline-block; margin-bottom: var(--spacing-sm); font-size: 0.9rem; font-weight: 600; }
+  .sw-head h1 { font-size: clamp(2.2rem, 4.4vw, 3.4rem); }
+  .sw-lede { font-size: 1.1rem; margin-top: 0.75rem; max-width: 40rem; }
+  .sw-list { list-style: none; padding: 0; margin: 0; counter-reset: sw; }
+  .sw-row {
+    counter-increment: sw;
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.8rem 0.25rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .sw-row::before {
+    content: counter(sw);
+    font-weight: 700;
+    color: var(--color-sun-text);
+    font-size: 0.9rem;
+    text-align: right;
+  }
+  .sw-title { display: block; font-weight: 700; color: var(--color-text-logo); }
+  .sw-artist { font-size: 0.9rem; color: var(--color-text); }
+  a.sw-artist { text-decoration: none; border-bottom: 1px solid var(--color-border); }
+  a.sw-artist:hover { color: var(--color-accent); border-color: var(--color-accent); }
+  .sw-listen { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
+  .sw-listen a {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-green);
+    color: var(--color-accent-hover);
+    white-space: nowrap;
+  }
+  .sw-listen a:hover { background: var(--color-accent); color: var(--color-on-accent); }
+  @media (max-width: 640px) {
+    .sw-row { grid-template-columns: 2rem minmax(0, 1fr); }
+    .sw-listen { grid-column: 2; justify-content: flex-start; }
+  }
+</style>

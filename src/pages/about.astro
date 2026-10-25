@@ -11,6 +11,11 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
       <div class="about-intro-text">
         <h1 class="fade-up">I'm Jordan! I love<br />🖖 Star Trek,<br />😎 synthwave music, and<br />🤖 technology</h1>
         <div class="console-strip" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <nav class="interest-links fade-up" aria-label="My interests">
+          <a class="btn btn-outline" href="/synthwave">Synthwave</a>
+          <a class="btn btn-outline" href="/projects/starbase-118">Star Trek</a>
+          <a class="btn btn-outline" href="/ai">Technology &amp; AI</a>
+        </nav>
       </div>
       <div class="about-intro-image fade-up">
         <img src="/images/headshot-about.jpg" alt="Jordan Krueger" width="1200" height="1200" />
@@ -144,6 +149,17 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
   .about-intro h1 {
     font-size: clamp(2.2rem, 4.6vw, 3.4rem);
     line-height: 1.2;
+  }
+
+  .interest-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: var(--spacing-md);
+  }
+  .interest-links .btn {
+    padding: 0.55rem 1.15rem;
+    font-size: 0.9rem;
   }
 
   .console-strip {

@@ -1,0 +1,397 @@
+{
+  "playlist": "BEST OF: Synthwave",
+  "tracks": [
+    {
+      "title": "My Delorean",
+      "artist": "Timecop1983 & Primo the Alien",
+      "apple": "https://music.apple.com/us/album/my-delorean/1460278110?i=1460278126",
+      "appleArtist": "https://music.apple.com/us/artist/timecop1983/827647533",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/My%20Delorean%20Timecop1983"
+    },
+    {
+      "title": "Shadows (Instrumental)",
+      "artist": "The Midnight",
+      "apple": "https://music.apple.com/us/album/shadows-instrumental/1758763144?i=1758763145",
+      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Shadows%20%28Instrumental%29%20The%20Midnight"
+    },
+    {
+      "title": "Vampires",
+      "artist": "The Midnight",
+      "apple": "https://music.apple.com/us/album/vampires/1758759164?i=1758759413",
+      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Vampires%20The%20Midnight"
+    },
+    {
+      "title": "My First Crush (feat. Trevor Something)",
+      "artist": "Timecop1983",
+      "apple": "https://music.apple.com/us/album/my-first-crush-feat-trevor-something/1005700016?i=1005700512",
+      "appleArtist": "https://music.apple.com/us/artist/timecop1983/827647533",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/My%20First%20Crush%20Timecop1983"
+    },
+    {
+      "title": "Lovers (feat. Seawaves)",
+      "artist": "Timecop1983",
+      "apple": "https://music.apple.com/us/album/lovers-feat-seawaves/1132631866?i=1132632050",
+      "appleArtist": "https://music.apple.com/us/artist/timecop1983/827647533",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Lovers%20Timecop1983"
+    },
+    {
+      "title": "Goodbye (feat. Clive Farrington)",
+      "artist": "FM-84",
+      "apple": "https://music.apple.com/us/album/goodbye-feat-clive-farrington/1842390497?i=1842390778",
+      "appleArtist": "https://music.apple.com/us/artist/fm-84/985344931",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Goodbye%20FM-84"
+    },
+    {
+      "title": "Running in the Night",
+      "artist": "FM-84 & Ollie Wride",
+      "apple": "https://music.apple.com/us/album/running-in-the-night/1842390497?i=1842390499",
+      "appleArtist": "https://music.apple.com/us/artist/fm-84/985344931",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Running%20in%20the%20Night%20FM-84"
+    },
+    {
+      "title": "Jason (feat. Nikki Flores)",
+      "artist": "The Midnight",
+      "apple": "https://music.apple.com/us/album/jason-feat-nikki-flores/1758759164?i=1758759409",
+      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Jason%20The%20Midnight"
+    },
+    {
+      "title": "Sunset",
+      "artist": "The Midnight",
+      "apple": "https://music.apple.com/us/album/sunset/1758759164?i=1758759167",
+      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Sunset%20The%20Midnight"
+    },
+    {
+      "title": "Memories",
+      "artist": "The Midnight",
+      "apple": "https://music.apple.com/us/album/memories/1758759164?i=1758759417",
+      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Memories%20The%20Midnight"
+    },
+    {
+      "title": "Bend & Break",
+      "artist": "FM-84 & Ollie Wride",
+      "apple": "https://music.apple.com/us/album/bend-break-instrumental/1842390281?i=1842390283",
+      "appleArtist": "https://music.apple.com/us/artist/fm-84/985344931",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Bend%20%26%20Break%20FM-84"
+    },
+    {
+      "title": "Faded Memory (feat. Timecop1983)",
+      "artist": "Jessie Frye",
+      "apple": "https://music.apple.com/us/album/faded-memory-feat-timecop1983-feat-timecop1983/1392271447?i=1392271799",
+      "appleArtist": "https://music.apple.com/us/artist/jessie-frye/288596064",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Faded%20Memory%20Jessie%20Frye"
+    },
+    {
+      "title": "Now I'm Alive (feat. Dana Jean Phoenix)",
+      "artist": "Michael Oakley",
+      "apple": "https://music.apple.com/us/album/now-im-alive-instrumental/1616545086?i=1616545429",
+      "appleArtist": "https://music.apple.com/us/artist/michael-oakley/334962830",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Now%20I%27m%20Alive%20Michael%20Oakley"
+    },
+    {
+      "title": "Neon Daydreams (feat. Till Wild)",
+      "artist": "Dana Jean Phoenix",
+      "apple": "https://music.apple.com/us/album/neon-daydreams-feat-till-wild/1838461879?i=1838462170",
+      "appleArtist": "https://music.apple.com/us/artist/dana-jean-phoenix/335971340",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Neon%20Daydreams%20Dana%20Jean%20Phoenix"
+    },
+    {
+      "title": "Beyond Memory",
+      "artist": "NINA",
+      "apple": "https://music.apple.com/us/album/beyond-memory/1355861842?i=1355862046",
+      "appleArtist": "https://music.apple.com/us/artist/nina/602788607",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Beyond%20Memory%20NINA"
+    },
+    {
+      "title": "Don't You Give Up (feat. NINA)",
+      "artist": "Oscillian",
+      "apple": "https://music.apple.com/us/album/dont-you-give-up-feat-nina/1370100632?i=1370101031",
+      "appleArtist": "https://music.apple.com/us/artist/oscillian/1039748621",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Don%27t%20You%20Give%20Up%20Oscillian"
+    },
+    {
+      "title": "The Vibe",
+      "artist": "Yota",
+      "apple": "https://music.apple.com/us/album/the-vibe/1513466811?i=1513467177",
+      "appleArtist": "https://music.apple.com/us/artist/yota/74492711",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/The%20Vibe%20Yota"
+    },
+    {
+      "title": "Fixing Me With Love",
+      "artist": "Primo the Alien & Sunglasses Kid",
+      "apple": "https://music.apple.com/us/album/fixing-me-with-love/1527566619?i=1527566620",
+      "appleArtist": "https://music.apple.com/us/artist/primo-the-alien/1627298724",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Fixing%20Me%20With%20Love%20Primo%20the%20Alien"
+    },
+    {
+      "title": "Propagation",
+      "artist": "Com Truise",
+      "apple": "https://music.apple.com/us/album/propagation/1218824738?i=1218825104",
+      "appleArtist": "https://music.apple.com/us/artist/com-truise/407016659",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Propagation%20Com%20Truise"
+    },
+    {
+      "title": "Gravity (feat. Cadenti)",
+      "artist": "W O L F C L U B",
+      "apple": "https://music.apple.com/us/album/gravity-feat-cadenti/1474515698?i=1474515875",
+      "appleArtist": "https://music.apple.com/us/artist/w-o-l-f-c-l-u-b/1233212531",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Gravity%20W%20O%20L%20F%20C%20L%20U%20B"
+    },
+    {
+      "title": "The Night Was Ours",
+      "artist": "De Lorra",
+      "apple": "https://music.apple.com/us/album/the-night-was-ours/1545441628?i=1545441629",
+      "appleArtist": "https://music.apple.com/us/artist/de-lorra/1182102683",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/The%20Night%20Was%20Ours%20De%20Lorra"
+    },
+    {
+      "title": "Lost Boy",
+      "artist": "The Midnight",
+      "apple": "https://music.apple.com/us/album/lost-boy/1758762108?i=1758762290",
+      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Lost%20Boy%20The%20Midnight"
+    },
+    {
+      "title": "Tilt World",
+      "artist": "Dance With the Dead",
+      "apple": "https://music.apple.com/us/album/tilt-world/1197866100?i=1197866502",
+      "appleArtist": "https://music.apple.com/us/artist/dance-with-the-dead/1023072870",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Tilt%20World%20Dance%20With%20the%20Dead"
+    },
+    {
+      "title": "My Sky Has No Limit (feat. Till Wild & Robert Beachgrove)",
+      "artist": "Ultraboss",
+      "apple": "https://music.apple.com/us/album/my-sky-has-no-limit-feat-till-wild-robert-beachgrove/1545069771?i=1545069774",
+      "appleArtist": "https://music.apple.com/us/artist/ultraboss/1242555194",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/My%20Sky%20Has%20No%20Limit%20Ultraboss"
+    },
+    {
+      "title": "One Night",
+      "artist": "Timecop1983 & Josh Dally",
+      "apple": "https://music.apple.com/us/album/one-night/1543344456?i=1543344476",
+      "appleArtist": "https://music.apple.com/us/artist/timecop1983/827647533",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/One%20Night%20Timecop1983"
+    },
+    {
+      "title": "My Mistake",
+      "artist": "NINA",
+      "apple": "https://music.apple.com/us/album/my-mistake/835425207?i=835425225",
+      "appleArtist": "https://music.apple.com/us/artist/nina/602788607",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/My%20Mistake%20NINA"
+    },
+    {
+      "title": "Crying in Miami",
+      "artist": "Starletta",
+      "apple": "https://music.apple.com/us/album/crying-in-miami/1845841738?i=1845841739",
+      "appleArtist": "https://music.apple.com/us/artist/starletta/1499743477",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Crying%20in%20Miami%20Starletta"
+    },
+    {
+      "title": "Back to You",
+      "artist": "Timecop1983 & The Bad Dreamers",
+      "apple": "https://music.apple.com/us/album/back-to-you-end-theme/1368924689?i=1368924696",
+      "appleArtist": "https://music.apple.com/us/artist/timecop1983/827647533",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Back%20to%20You%20Timecop1983"
+    },
+    {
+      "title": "Perverted Precinct (feat. Tommy)",
+      "artist": "Perturbator",
+      "apple": "https://music.apple.com/us/album/perverted-precinct-feat-tommy/829738971?i=829739033",
+      "appleArtist": "https://music.apple.com/us/artist/perturbator/548930485",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Perverted%20Precinct%20Perturbator"
+    },
+    {
+      "title": "Cold Lights",
+      "artist": "The Birthday Massacre",
+      "apple": "https://music.apple.com/us/album/cold-lights/1599348985?i=1599349397",
+      "appleArtist": "https://music.apple.com/us/artist/the-birthday-massacre/76797904",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Cold%20Lights%20The%20Birthday%20Massacre"
+    },
+    {
+      "title": "The Weapon and the Soul",
+      "artist": "Magic Sword",
+      "apple": "https://music.apple.com/us/album/the-weapon-and-the-soul/1611395422?i=1611395429",
+      "appleArtist": "https://music.apple.com/us/artist/magic-sword/908854193",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/The%20Weapon%20and%20the%20Soul%20Magic%20Sword"
+    },
+    {
+      "title": "Change Your Heart or Die",
+      "artist": "The Midnight",
+      "apple": "https://music.apple.com/us/album/change-your-heart-or-die/1615535146?i=1615535147",
+      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Change%20Your%20Heart%20or%20Die%20The%20Midnight"
+    },
+    {
+      "title": "There is Still Good in You",
+      "artist": "Magic Sword",
+      "apple": "https://music.apple.com/us/album/there-is-still-good-in-you/1644926262?i=1644926265",
+      "appleArtist": "https://music.apple.com/us/artist/magic-sword/908854193",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/There%20is%20Still%20Good%20in%20You%20Magic%20Sword"
+    },
+    {
+      "title": "Heart Worth Breaking",
+      "artist": "The Midnight",
+      "apple": "https://music.apple.com/us/album/heart-worth-breaking-live/1700206130?i=1700206137",
+      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Heart%20Worth%20Breaking%20The%20Midnight"
+    },
+    {
+      "title": "Ghost",
+      "artist": "GUNSHIP & Power Glove",
+      "apple": "https://music.apple.com/us/album/ghost/1649496035?i=1649496040",
+      "appleArtist": "https://music.apple.com/us/artist/gunship/988231070",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Ghost%20GUNSHIP"
+    },
+    {
+      "title": "Daydreaming",
+      "artist": "Bunny X",
+      "apple": "https://music.apple.com/us/album/daydreaming/1683527512?i=1683527516",
+      "appleArtist": "https://music.apple.com/us/artist/bunny-x/458009240",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Daydreaming%20Bunny%20X"
+    },
+    {
+      "title": "Taste like Venom",
+      "artist": "GUNSHIP",
+      "apple": "https://music.apple.com/us/album/taste-like-venom/1688600151?i=1688600154",
+      "appleArtist": "https://music.apple.com/us/artist/gunship/988231070",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Taste%20like%20Venom%20GUNSHIP"
+    },
+    {
+      "title": "Crystalline",
+      "artist": "The Midnight",
+      "apple": "https://music.apple.com/us/album/crystalline/1758762013?i=1758762014",
+      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Crystalline%20The%20Midnight"
+    },
+    {
+      "title": "Sunrise",
+      "artist": "Shadowrunner & Primo the Alien",
+      "apple": "https://music.apple.com/us/album/sunrise/1555379965?i=1555379967",
+      "appleArtist": "https://music.apple.com/us/artist/shadowrunner/1504377469",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Sunrise%20Shadowrunner"
+    },
+    {
+      "title": "Yr Love",
+      "artist": "Holy Other",
+      "apple": "https://music.apple.com/us/album/yr-love/536733954?i=536733958",
+      "appleArtist": "https://music.apple.com/us/artist/holy-other/436197051",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Yr%20Love%20Holy%20Other"
+    },
+    {
+      "title": "Memory Reboot",
+      "artist": "VØJ, Narvent",
+      "apple": "https://music.apple.com/us/album/memory-reboot/1663316684?i=1663317235",
+      "appleArtist": "https://music.apple.com/us/artist/v%C3%B8j/1207544305",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Memory%20Reboot%20V%C3%98J"
+    },
+    {
+      "title": "I Feel Lost",
+      "artist": "Aaron Hibell",
+      "apple": "https://music.apple.com/us/album/i-feel-lost/1739730771?i=1739730772",
+      "appleArtist": "https://music.apple.com/us/artist/aaron-hibell/1126849981",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/I%20Feel%20Lost%20Aaron%20Hibell"
+    },
+    {
+      "title": "Stranger (feat. Mecha Maiko)",
+      "artist": "FM Attack",
+      "apple": "https://music.apple.com/us/album/stranger-feat-mecha-maiko/1459174565?i=1459174798",
+      "appleArtist": "https://music.apple.com/us/artist/fm-attack/326226886",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Stranger%20FM%20Attack"
+    },
+    {
+      "title": "I'll Wait",
+      "artist": "NINA",
+      "apple": "https://music.apple.com/us/album/ill-wait/1594934744?i=1594934745",
+      "appleArtist": "https://music.apple.com/us/artist/nina/602788607",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/I%27ll%20Wait%20NINA"
+    },
+    {
+      "title": "Hit Me Harder (Instrumental)",
+      "artist": "The Bad Dreamers",
+      "apple": "https://music.apple.com/us/album/hit-me-harder-instrumental/1523946824?i=1523946831",
+      "appleArtist": "https://music.apple.com/us/artist/the-bad-dreamers/1238859687",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Hit%20Me%20Harder%20%28Instrumental%29%20The%20Bad%20Dreamers"
+    },
+    {
+      "title": "Control",
+      "artist": "Michael Oakley",
+      "apple": "https://music.apple.com/us/album/control/1610893425?i=1610893577",
+      "appleArtist": "https://music.apple.com/us/artist/michael-oakley/334962830",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Control%20Michael%20Oakley"
+    },
+    {
+      "title": "Radio (201.7 AM)",
+      "artist": "FM-84 & Josh Dally",
+      "apple": "https://music.apple.com/us/album/radio-201-7-am/1895417168?i=6763649263",
+      "appleArtist": "https://music.apple.com/us/artist/fm-84/985344931",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Radio%20%28201.7%20AM%29%20FM-84"
+    },
+    {
+      "title": "Tonight, Tonight",
+      "artist": "The Midnight",
+      "apple": "https://music.apple.com/us/album/tonight-tonight/6798956904?i=6798956907",
+      "appleArtist": "https://music.apple.com/us/artist/the-midnight/925515043",
+      "spotify": null,
+      "spotifySearch": "https://open.spotify.com/search/Tonight%2C%20Tonight%20The%20Midnight"
+    }
+  ],
+  "unmatched": [
+    {
+      "title": "After Dark x Sweater Weather remix (Slowed to Perfection)",
+      "artist": "",
+      "why": "no artist in the library export"
+    }
+  ],
+  "note": "Spotify links are search links: song.link retired its free API (401 PUBLIC_API_ACCESS_DEPRECATED, 2026-10-25). Exact track links need a Spotify developer app."
+}
