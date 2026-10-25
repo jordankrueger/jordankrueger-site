@@ -2,25 +2,28 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogPostCard from '../../components/BlogPostCard.astro';
 import { getCollection } from 'astro:content';
+import { TOPICS, topicLabel } from '../../lib/topics';
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-// Extract all unique tags
-const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
+// Filter bar: the six topics in TOPICS order, skipping any with no posts
+const used = new Set(posts.flatMap(p => p.data.tags));
+const allTags = Object.keys(TOPICS).filter(t => used.has(t));
 ---
 
 <BaseLayout title="Blog — Jordan Krueger" description="Thoughts on technology, nonprofit operations, AI, and building in public.">
   <main class="section">
     <div class="container">
-      <h1>Blog</h1>
+      <h1>All posts</h1>
       <p class="blog-subtitle">Thoughts on technology, nonprofit operations, AI, and building in public.</p>
+      <p class="blog-count" id="blog-count" data-all={`${posts.length} posts, newest first.`}>{posts.length} posts, newest first.</p>
 
       {allTags.length > 0 && (
         <div class="tag-filter" id="tag-filter">
           <button class="filter-tag active" data-tag="all">All</button>
           {allTags.map(tag => (
-            <button class="filter-tag" data-tag={tag}>{tag}</button>
+            <button class="filter-tag" data-tag={tag} data-label={topicLabel(tag)}>{topicLabel(tag)}</button>
           ))}
         </div>
       )}
@@ -54,6 +57,12 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
 
   .blog-subtitle {
     color: var(--color-text-light);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .blog-count {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
     margin-bottom: var(--spacing-lg);
   }
 
@@ -120,6 +129,7 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
 <script>
   const filterBtns = document.querySelectorAll('.filter-tag');
   const items = document.querySelectorAll('.blog-grid-item');
+  const countEl = document.getElementById('blog-count');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -128,14 +138,19 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
+      let shown = 0;
       items.forEach(item => {
         const tags = (item.getAttribute('data-tags') || '').split(',');
         if (tag === 'all' || tags.includes(tag)) {
           item.removeAttribute('hidden');
+          shown++;
         } else {
           item.setAttribute('hidden', '');
         }
       });
+      countEl.textContent = tag === 'all'
+        ? countEl.dataset.all
+        : `${shown} posts in ${btn.dataset.label}`;
     });
   });
 

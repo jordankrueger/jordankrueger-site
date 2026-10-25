@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
+import { topicLabel } from '../lib/topics';
 
 interface PostRef {
   id: string;
@@ -62,7 +63,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
         {frontmatter.tags.length > 0 && (
           <div class="post-tags">
             {frontmatter.tags.map(tag => (
-              <a href={`/blog?tag=${tag}`} class="post-tag">{tag}</a>
+              <a href={`/blog?tag=${tag}`} class="post-tag">{topicLabel(tag)}</a>
             ))}
           </div>
         )}
