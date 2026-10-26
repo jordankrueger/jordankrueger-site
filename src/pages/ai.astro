@@ -14,10 +14,10 @@ const stats = [
 const advocacyProjects = [
   {
     title: 'AK Help',
-    description: 'AI help for ActionKit users (the advocacy platform most progressive nonprofits run on). A Playwright scraper pulls 114 help docs and 176 real support emails, anonymizes them, and feeds an AI knowledge base. Freemium SaaS with Stripe billing, magic-link auth, and a monthly auto-refresh pipeline.',
+    description: 'AI help for ActionKit users (the advocacy platform most progressive nonprofits run on). A Playwright scraper pulls 114 help docs and 176 real support emails, anonymizes them, and feeds an AI knowledge base. Freemium SaaS with Stripe billing, magic-link auth, and a monthly auto-refresh pipeline. Retired in July 2026.',
     tags: ['Next.js', 'Playwright', 'Stripe', 'Claude Haiku'],
-    status: 'Live (Beta)',
-    statusType: 'live' as const,
+    status: 'Retired',
+    statusType: 'complete' as const,
   },
   {
     title: 'campaign.help',
@@ -28,8 +28,8 @@ const advocacyProjects = [
   },
   {
     title: 'Progressives for AI',
-    description: 'Newsletter for progressives who want to actually engage with AI instead of just being scared of it. Six issues published. Landing page, Beehiiv publication, Cloudflare Worker signup flow, and an N8N automation pipeline that generates LinkedIn and Bluesky drafts after each issue goes out.',
-    tags: ['Beehiiv', 'Cloudflare Workers', 'N8N', 'Claude API'],
+    description: 'Newsletter for progressives who want to actually engage with AI instead of just being scared of it. Weekly, with 32 issues sent so far. Landing page, self-hosted Listmonk sending, a Cloudflare Worker signup flow, and an N8N workflow that adds each issue to the web archive.',
+    tags: ['Listmonk', 'Cloudflare Workers', 'N8N', 'Claude API'],
     status: 'Live',
     statusType: 'live' as const,
   },
@@ -59,10 +59,10 @@ const advocacyProjects = [
 const communityProjects = [
   {
     title: 'Staff Operations Platform',
-    description: 'Replacing the mess of Google Sheets, email chains, and tribal knowledge we\'d been using. 15-table data model, 136 members imported, NocoDB backend, Authentik SSO, Next.js admin panel with role-based access. Then: a full 10-point security audit — IDOR fixes, CSRF validation, rate limiting, audit logging, PII filtering by role, and an error diagnostics dashboard.',
+    description: 'Replacing the mess of Google Sheets, email chains, and tribal knowledge we\'d been using. 15-table data model, 136 members imported, NocoDB backend, Authentik SSO, Next.js admin panel with role-based access. Then: a full 10-point security audit — IDOR fixes, CSRF validation, rate limiting, audit logging, PII filtering by role, and an error diagnostics dashboard. Open to the whole active fleet since August 2026.',
     tags: ['Next.js 15', 'NocoDB', 'PostgreSQL', 'Authentik'],
-    status: 'In Progress',
-    statusType: 'active' as const,
+    status: 'Live',
+    statusType: 'live' as const,
   },
   {
     title: 'Visitor Fingerprinting Plugin',
@@ -73,14 +73,14 @@ const communityProjects = [
   },
   {
     title: '438K-Post Archive',
-    description: 'Every collaborative story the community has ever written, stored in Firebase. Cloud Functions handle the data processing, with automated backups to iDrive (5.2GB raw, 1.76GB compressed).',
-    tags: ['Firebase', 'Cloud Functions', 'Node.js'],
+    description: 'Every collaborative story the community has ever written. Moved off Firebase in August 2026 and now served from the main site, with the final export kept in Backblaze B2 and on the NAS.',
+    tags: ['Next.js', 'PostgreSQL', 'Backblaze B2'],
     status: 'Live',
     statusType: 'live' as const,
   },
   {
     title: '4-Pipeline Backup System',
-    description: 'Offsite backups for everything: cPanel snapshots, custom DB dumps (had to work around a 268MB kernel memory cap), Firebase archive exports, and VPS configs. Migrated all 4 servers from iDrive to Backblaze B2 after iDrive proved unreliable.',
+    description: 'Offsite backups for everything: cPanel snapshots, custom DB dumps (had to work around a 268MB kernel memory cap), the final Firebase archive export, and VPS configs. Migrated all 4 servers from iDrive to Backblaze B2 after iDrive proved unreliable.',
     tags: ['rclone', 'Backblaze B2', 'Bash', 'cron'],
     status: 'Deployed',
     statusType: 'deployed' as const,
@@ -230,10 +230,10 @@ const personalProjects = [
   },
   {
     title: 'Weekly Content Sprint',
-    description: 'Every Monday at 7:30am, an N8N workflow wakes up, reads my session logs from the previous week, grabs starred articles from my RSS reader, and sends everything to Claude. Output: content drafts across four tracks (personal, consulting, newsletter, high-speed rail) plus story ideas. The drafts now flow into a 14-channel daily content queue that auto-schedules them to Tue/Thu/Fri and surfaces what\'s due in my morning briefing email.',
+    description: 'Every Monday at 7:30am, an N8N workflow woke up, read my session logs from the previous week, grabbed starred articles from my RSS reader, and sent everything to Claude. Output: content drafts across four tracks (personal, consulting, newsletter, high-speed rail) plus story ideas. The drafts flowed into a 14-channel daily content queue that auto-scheduled them to Tue/Thu/Fri. Retired in August 2026.',
     tags: ['N8N', 'Claude API', 'LaunchAgent'],
-    status: 'Deployed',
-    statusType: 'deployed' as const,
+    status: 'Retired',
+    statusType: 'complete' as const,
   },
   {
     title: 'Prompt Injection Defense',
