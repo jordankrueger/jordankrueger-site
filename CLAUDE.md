@@ -119,7 +119,10 @@ Output directory: `dist`
 - `coaching.jordankrueger.com` — Retiring (May 2026). Carrd unpublish + DNS record deletion pending.
 
 ## Recent posts
+- **"Where are we actually going?"** (`/blog/where-are-we-actually-going/`) — published 2026-10-30, PR #78 (ea9c8eb), CI green, live-verified. Cover via Higgsfield `nano_banana_pro` (gpt-image-1 is retired). About 1,300 words, over the 800 cap; Jordan published anyway.
 - **"Can our own AI bodyguard stop AI dangers?"** (`/blog/ai-bodyguard/`) — published 2026-09-15, PR #57 (post) + #58 (Sources section), both squashed and merged, CI green, live-verified. Cover image via Higgsfield `nano_banana_pro`.
+
+**Gotcha:** a fresh worktree has no `node_modules`; run `npm ci` there before `npm run build` (the main tree's install was missing astro on 2026-10-30).
 
 ## Open branch — Cloudflare Turnstile (NOT merged)
 `turnstile-forms` branch (commit `b491d16`), pushed to origin, deliberately held. Adds Cloudflare Turnstile to the contact form and the newsletter signup form (CSP update, widget markup, worker siteverify, index.test.js). Rescued from an in-progress prior-session checkout on 2026-09-15 and verified byte-for-byte before committing. **Not reviewed or tested — do not merge without review**, since it puts a captcha on two live production forms.
