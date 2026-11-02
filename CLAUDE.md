@@ -119,6 +119,7 @@ Output directory: `dist`
 - `coaching.jordankrueger.com` — Retiring (May 2026). Carrd unpublish + DNS record deletion pending.
 
 ## Recent posts
+- **"I had 6,896 songs I'd never played, so I let rules decide what to do with them"** (`/blog/never-played-songs/`) — published 2026-11-02, PR #82 (6f8a1d5), CI green, live-verified. Cover via Higgsfield `nano_banana_pro` (246K). Research notes in `drafts/never-played-songs-research-notes.md` (drafts/ is gitignored, main tree only). Apple Sync Library delete page (support.apple.com/en-us/102344) cited by the ChatGPT review but not fetched by Claude; marked PARTIAL.
 - **"Where are we actually going?"** (`/blog/where-are-we-actually-going/`) — published 2026-10-30, PR #78 (ea9c8eb), CI green, live-verified. Cover via Higgsfield `nano_banana_pro` (gpt-image-1 is retired). About 1,300 words, over the 800 cap; Jordan published anyway.
 - **"Can our own AI bodyguard stop AI dangers?"** (`/blog/ai-bodyguard/`) — published 2026-09-15, PR #57 (post) + #58 (Sources section), both squashed and merged, CI green, live-verified. Cover image via Higgsfield `nano_banana_pro`.
 
