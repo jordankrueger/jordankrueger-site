@@ -52,6 +52,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
       "url": "https://jordankrueger.com/about"
     }
   })} />
+  <div class="read-progress" aria-hidden="true"></div>
   <article class="blog-post">
     <div class="container">
       <header class="post-header">
@@ -104,6 +105,27 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
 </BaseLayout>
 
 <style>
+  /* Reading progress: 4px sprout bar over the top edge, driven by page scroll. Hidden where unsupported or reduced motion. */
+  .read-progress { display: none; }
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .read-progress {
+        display: block;
+        position: fixed;
+        inset: 0 0 auto 0;
+        height: 4px;
+        z-index: 101;
+        pointer-events: none;
+        background: var(--color-sprout);
+        transform-origin: left;
+        transform: scaleX(0);
+        animation: read-fill linear both;
+        animation-timeline: scroll(root block);
+      }
+    }
+  }
+  @keyframes read-fill { to { transform: scaleX(1); } }
+
   .blog-post {
     --measure: 68ch;
     padding: var(--spacing-xl) 0;
