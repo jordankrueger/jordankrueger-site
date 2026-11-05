@@ -1,0 +1,74 @@
+---
+title: "Connect your website to the Fediverse"
+description: "Use your web address as your Bluesky name, get a verified link on Mastodon, and let people follow your site directly through Bridgy Fed. All free."
+pubDate: 2026-11-05
+tags: ["open-web"]
+coverImage: "/images/gallery/blog-own-your-corner-part-3.jpg"
+coverAlt: "Flat illustration in warm earth tones of the small terracotta-roofed house on its hill, linked by strings of lights and dotted paths to other small houses on nearby hills, with birds and envelopes traveling between them"
+draft: true
+---
+
+*Part 3 of 3 in **Own Your Corner of the Internet**. [Part 1](/blog/why-everyone-should-have-a-website/) makes the case for a website of your own. [Part 2](/blog/build-your-own-website/) shows you how to build one for about $11 a year.*
+
+You've got your own website. Now let's make it work with social media instead of competing with it.
+
+On the newer, open social networks, your web address can be your username, your proof of who you are, and even something people follow directly. Your site stops being a quiet corner of the internet and becomes your home base on the social web. Each of the three steps below takes about 10 minutes, and all of them are free.
+
+## What's the Fediverse?
+
+Think of email. You can use Gmail and your friend can use Outlook, and you can still write to each other. No single company owns email.
+
+The Fediverse works the same way for social media. It's a network of thousands of independently run social sites that all talk to each other. Mastodon is the best known. You can join any server and still follow people on all the others. No billionaire owns it, and there's no algorithm deciding what you see. Posts show up in the order they were written.
+
+Bluesky is a cousin. It's built on its own open system, and it lets anyone use their own web address as their username.
+
+Both share the idea from [Part 1](/blog/why-everyone-should-have-a-website/): your identity shouldn't belong to a platform. A website you own is where that identity can live.
+
+If you want to go deeper, [Elena Rossini](https://blog.elenarossini.com/) writes some of the clearest, most practical pieces on the Fediverse I've read. Start with her case for [why public institutions should embrace the Fediverse](https://blog.elenarossini.com/openness-transparency-and-reach-three-reasons-why-public-institutions-should-embrace-the-fediverse/).
+
+## Step 1: Make your web address your Bluesky name
+
+Most Bluesky names end in `.bsky.social`. Yours can be just your web address. Mine is [@jordankrueger.com](https://bsky.app/profile/jordankrueger.com). It's an easy way to prove the account is really you, because only the owner of a web address can set this up.
+
+1. In Bluesky, go to **Settings** → **Account** → **Handle**.
+2. Choose **I have my own domain** and type your web address.
+3. Bluesky shows you a short code to copy.
+4. In Cloudflare, open your web address, go to **DNS** → **Records**, and click **Add record**. Choose **TXT** as the type, and paste in the name and code Bluesky gave you. (DNS is the internet's address book. You're just adding a note that says "this Bluesky account is mine.")
+5. Back in Bluesky, click **Verify DNS Record**.
+
+Your old name keeps working, so nobody's links or mentions break.
+
+## Step 2: Get a green checkmark on Mastodon
+
+Mastodon doesn't sell checkmarks. Instead, it checks links. If your Mastodon profile links to your website, and your website links back, the link on your profile turns green with a checkmark. Anyone can see that the same person controls both.
+
+1. In Mastodon, go to **Edit profile** and add your web address under **Extra fields** (sometimes called profile metadata).
+2. Ask Claude to add the link back on your site: *"Add a link to my Mastodon profile, \[your Mastodon profile link\], in the footer, with rel=me so Mastodon can verify it."* (The `rel=me` part is a small tag that tells Mastodon "this is me.")
+3. Once your site updates, go back to Mastodon and save your profile again. The checkmark usually appears within a few minutes.
+
+## Step 3: Let people follow your website directly
+
+This is the fun one. A free service called [Bridgy Fed](https://fed.brid.gy/docs), run by a small nonprofit, turns your website into an account people can follow from Mastodon and Bluesky. When you publish a new post, it shows up in your followers' feeds. When they reply, the replies show up on your notifications page at Bridgy Fed, not on your site.
+
+You don't need to sign up anywhere new. Bridgy Fed makes a separate profile for your website. It's not your Bluesky account with the new name, so people follow the two separately.
+
+1. Make sure your site has an RSS feed, a behind-the-scenes list of your newest posts. The starter site from [Part 2](/blog/build-your-own-website/) already has one. If you're not sure, ask Claude: *"Does my site have an RSS feed, and is it linked from the homepage?"*
+2. Ask Claude to add a profile picture and a short description to your homepage in a way Bridgy Fed can read: *"Add my photo and a one-line bio to the homepage, with an h-card and meta tags so Bridgy Fed can use them for my profile."*
+3. Go to [Bridgy Fed](https://fed.brid.gy/), enter your web address, and connect it.
+4. Search for your site to see it: on Mastodon, `@yourname.com@web.brid.gy`; on Bluesky, `yourname.com.web.brid.gy`.
+
+It only shares posts from now on, not your old ones, so try it out by publishing something new.
+
+Want a cleaner name, like `@yourname.com@yourname.com`? That takes a small extra setup on your site. Ask Claude to walk you through Bridgy Fed's instructions for using your own domain.
+
+## Your home, connected
+
+Put it all together and you have the internet I keep arguing for in [Freehold](https://freehold.is). Your writing lives on your own web address, and it reaches people on whatever networks they use. If one network goes bad, you keep your home and your followers on the others.
+
+For more on why the Fediverse and AI tools belong on the same side, read [my earlier post on the Fediverse's AI problem](https://jordankrueger.com/blog/fediverse-ai-problem/).
+
+**Missed a part?** [Part 1: Why everyone should have a website](/blog/why-everyone-should-have-a-website/) · [Part 2: Build your own website for (almost) free](/blog/build-your-own-website/)
+
+---
+
+**Sources:** [Bridgy Fed docs](https://fed.brid.gy/docs) · [Mastodon link verification, via fedi.tips](https://fedi.tips/?p=976) · [Bluesky's guide to using your domain as your handle](https://bsky.social/about/blog/4-28-2023-domain-handle-tutorial) · [Elena Rossini on public institutions and the Fediverse](https://blog.elenarossini.com/openness-transparency-and-reach-three-reasons-why-public-institutions-should-embrace-the-fediverse/)
