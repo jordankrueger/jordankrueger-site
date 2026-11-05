@@ -1,9 +1,13 @@
 import rss from '@astrojs/rss';
 import { getCollection, render } from 'astro:content';
+import { experimental_AstroContainer as AstroContainer } from 'astro/container';
+import { loadRenderers } from 'astro:container';
+import { getContainerRenderer as getMDXRenderer } from '@astrojs/mdx/container-renderer';
 
 export async function GET(context) {
   const posts = (await getCollection('posts', ({ data }) => !data.draft))
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  const container = await AstroContainer.create({ renderers: await loadRenderers([getMDXRenderer()]) });
 
   const items = await Promise.all(posts.map(async (post) => {
     const { Content } = await render(post);
@@ -15,7 +19,7 @@ export async function GET(context) {
       pubDate: post.data.pubDate,
       description: post.data.description,
       link: `/blog/${post.id}/`,
-      content: post.body,
+      content: await container.renderToString(Content),
       customData: coverAbs
         ? `<coverImage>${coverAbs.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')}</coverImage>`
         : '',

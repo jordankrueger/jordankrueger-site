@@ -104,6 +104,11 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   {!frontmatter.hideNewsletter && <NewsletterSignup variant="compact" />}
 </BaseLayout>
 
+<!-- Posts can render NewsletterSignup inside MDX, where Astro does not bundle the component's script. -->
+<script>
+  import '../scripts/newsletter-form.ts';
+</script>
+
 <style>
   /* Reading progress: 4px sprout bar over the top edge, driven by page scroll. Hidden where unsupported or reduced motion. */
   .read-progress { display: none; }
