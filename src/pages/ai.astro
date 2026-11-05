@@ -102,10 +102,13 @@ const stories = [
         <a href="https://claude.ai/claude-code" target="_blank" rel="noopener">Claude Code</a>.
       </p>
 
-      <div class="ai-stats">
+      <div class="ai-stats" data-count>
         {stats.map(stat => (
           <div class="ai-stat fade-up">
-            <div class="ai-stat-number">{stat.number}</div>
+            <div class="ai-stat-number">
+              <span class="sr-only">{stat.number}</span>
+              <span class="count" aria-hidden="true" style={`--to:${parseInt(stat.number, 10)}`} data-s={stat.number.replace(/\d+/, '')}></span>
+            </div>
             <div class="ai-stat-label">{stat.label}</div>
           </div>
         ))}
@@ -325,6 +328,17 @@ const stories = [
     line-height: 1;
     margin-bottom: 0.25rem;
   }
+
+  /* Real number is in the sr-only span; the counter is decoration. It ends on the final value
+     with no JS (the animation only runs once the observer adds .visible) and under reduced motion. */
+  @property --n { syntax: '<integer>'; inherits: false; initial-value: 0; }
+  .count { counter-reset: n var(--to); }
+  .count::before { content: counter(n); }
+  .count::after { content: attr(data-s); }
+  @media (prefers-reduced-motion: no-preference) {
+    .ai-stats:global(.visible) .count { counter-reset: n var(--n); animation: count 1200ms var(--ease-out) both; }
+  }
+  @keyframes count { from { --n: 0; } to { --n: var(--to); } }
 
   .ai-stat-label {
     font-size: 0.78rem;
