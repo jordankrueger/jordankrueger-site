@@ -8,6 +8,7 @@ import { getProjects } from '../lib/project-areas';
 
 const builds = await getProjects(d => d.builtWithAI);
 
+// Count-up reads the leading integer and treats the rest as a suffix: plain integers with an optional "+" only.
 const stats = [
   { number: '50+', label: 'Projects Built' },
   { number: '9+', label: 'Live Apps' },
