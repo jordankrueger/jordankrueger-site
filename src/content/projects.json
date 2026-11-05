@@ -179,6 +179,28 @@
     "href": "https://readyforaoc.com"
   },
   {
+    "id": "do-big-things",
+    "title": "Do Big Things",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [],
+    "body": "<p>An open letter from voters to every Democrat in the next Congress: you have the majority, so use it. People co-sign with their first name and state, and the wall of signers keeps growing on the homepage.</p><p>The letter breaks into 13 plank pages, from prices and housing to the filibuster and the courts. A tracker follows where party leaders stand on each demand.</p>",
+    "href": "https://dobigthings.org"
+  },
+  {
+    "id": "ask-about-vaccines",
+    "title": "Ask About Vaccines",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [],
+    "body": "<p>A friendly chat where someone with a vaccine worry can talk it through. It runs on AI, and every factual claim it makes cites a source from a library I checked by hand.</p><p>Before an answer reaches you, a second model checks each sentence against the source it cites.</p>",
+    "href": "https://askaboutvaccines.org"
+  },
+  {
     "id": "highspeedrail-tv",
     "title": "HighSpeedRail.TV",
     "areas": [
