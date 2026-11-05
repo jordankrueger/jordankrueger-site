@@ -45,6 +45,13 @@
 
   --shadow-soft: 0 8px 24px -14px var(--color-shadow);
   --shadow-hover: 0 12px 28px -14px var(--color-shadow);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
 }
 
 /* Reset */
@@ -244,8 +251,8 @@ button:focus-visible {
 /* Scroll-triggered fade-up */
 .fade-up {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(8px);
+  transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out);
 }
 
 .fade-up.visible {
@@ -253,10 +260,10 @@ button:focus-visible {
   transform: translateY(0);
 }
 
-.fade-up.delay-1 { transition-delay: 0.1s; }
-.fade-up.delay-2 { transition-delay: 0.2s; }
-.fade-up.delay-3 { transition-delay: 0.3s; }
-.fade-up.delay-4 { transition-delay: 0.35s; }
+.fade-up.delay-1 { transition-delay: 70ms; }
+.fade-up.delay-2 { transition-delay: 140ms; }
+.fade-up.delay-3 { transition-delay: 210ms; }
+.fade-up.delay-4 { transition-delay: 280ms; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

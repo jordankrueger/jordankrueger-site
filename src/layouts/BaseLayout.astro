@@ -96,7 +96,7 @@ const isDefaultOgImage = ogImage === "/images/share.jpg";
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.fade-up').forEach(el => {
+  document.querySelectorAll('.fade-up, [data-count]').forEach(el => {
     if (el.getBoundingClientRect().top < window.innerHeight) {
       el.classList.add('visible');
     } else {
