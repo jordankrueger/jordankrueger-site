@@ -27,7 +27,7 @@ import SocialIcons from './SocialIcons.astro';
               <rect style="--i:3" x="3" y="13" width="10" height="8" rx="1" /><rect style="--i:4" x="14" y="13" width="10" height="8" rx="1" /><rect style="--i:5" x="25" y="13" width="10" height="8" rx="1" />
             </g>
           </g>
-          <path class="line wire" pathLength="1" d="M30 116 H70 V122 H112 V100" fill="none" stroke="var(--color-accent)" stroke-linecap="round" stroke-linejoin="round" />
+          <path class="line wire" d="M30 116 H70 V122 H112 V100" fill="none" stroke="var(--color-accent)" stroke-linecap="round" stroke-linejoin="round" />
           <circle class="line node n1" cx="70" cy="116" r="1.8" fill="var(--color-bg)" stroke="var(--color-accent)" />
           <circle class="line node n2" cx="112" cy="122" r="1.8" fill="var(--color-bg)" stroke="var(--color-accent)" />
           <g class="leaf">
@@ -83,17 +83,15 @@ import SocialIcons from './SocialIcons.astro';
   @media (prefers-reduced-motion: no-preference) {
     .sun { transform-box: fill-box; transform-origin: center; animation: sunrise 900ms var(--ease-out) both; }
     .cells rect { animation: cell var(--dur-long) var(--ease-out) both; animation-delay: calc(500ms + var(--i) * 70ms); }
-    .wire { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 900ms var(--ease-in-out) 700ms forwards; }
+    .wire { animation: wipe 900ms var(--ease-in-out) 700ms both; }
     .node { transform-box: fill-box; transform-origin: center; animation: pop 250ms var(--ease-out) both; }
     .n1 { animation-delay: 1000ms; }
     .n2 { animation-delay: 1350ms; }
     .leaf { transform-box: fill-box; transform-origin: 0% 100%; animation: unfurl 600ms var(--ease-out) 1500ms both; }
-    .photo { animation: fadein 600ms var(--ease-out) both; }
   }
   @keyframes sunrise { from { opacity: 0; transform: translateY(40%) scale(.7); } to { opacity: 1; transform: none; } }
   @keyframes cell { from { fill: var(--color-panel-cell); } 60% { fill: var(--color-sun); } to { fill: var(--color-panel-cell); } }
   @keyframes pop { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: none; } }
-  @keyframes fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
   @media (max-width: 640px) {
     .hero-inner {

@@ -147,14 +147,14 @@ const tools = [
         stroke-dashoffset: 1;
         animation: draw linear both;
         animation-timeline: view();
-        animation-range: entry 0% cover 30%;
+        animation-range: entry 0% entry 100%;
       }
       .icon :is(circle, rect, path):not([fill="none"]) {
         transform-box: fill-box;
         transform-origin: 50% 100%;
         animation: grow linear both;
         animation-timeline: view();
-        animation-range: entry 0% cover 40%;
+        animation-range: entry 0% entry 100%;
       }
     }
   }
