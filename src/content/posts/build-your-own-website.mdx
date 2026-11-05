@@ -62,21 +62,36 @@ That's it. No software to install yet. Claude will handle the rest when we get t
 
 ## Step 1: Launch a starter site in one click (5 minutes)
 
-{/* UNVERIFIED: the "Connect GitHub" and "Create and deploy" labels below are not in Cloudflare's docs. Confirm them during the screenshot run-through. */}
-
 Cloudflare has a button that does the boring setup for you. It copies a ready-made Astro blog into your GitHub, builds it, and puts it online.
 
-1. Open Cloudflare's [Astro guide](https://developers.cloudflare.com/workers/framework-guides/web-apps/astro/) and click the orange **Deploy to Workers** button. ("Workers" is just Cloudflare's name for its hosting, and "deploy" means "publish.")
-2. Log in to Cloudflare if asked.
-3. Click **Connect GitHub** and approve. This lets Cloudflare put your site's files in your GitHub filing cabinet.
-4. Give your project a name. Something like `my-site` is fine; visitors never see it.
-5. Click **Create and deploy** and wait a minute or two.
+1. Open Cloudflare's [Astro guide](https://developers.cloudflare.com/workers/framework-guides/web-apps/astro/) and click the dark **Deploy to Cloudflare** button. ("Deploy" just means "publish.")
 
-When it finishes, you'll see a temporary web address ending in `.workers.dev`. Click it. That's your website, live on the internet. You'll swap in your own address in Step 4.
+![Cloudflare's Astro guide, with the dark Deploy to Cloudflare button under the heading "Or just deploy"](/images/gallery/own-your-corner/deploy-to-cloudflare-button.jpg)
+*The button sits about a third of the way down the guide.*
+
+2. Log in to Cloudflare. You'll land on a page called "Set up your application."
+3. Open the **Git account** dropdown. The first time, choose **New GitHub connection**. GitHub will ask you to install the "Cloudflare Workers and Pages" app. Choose your account, pick **All repositories**, and click **Install & Authorize**. This lets Cloudflare put your site's files in your GitHub filing cabinet. Back on Cloudflare, your GitHub account now shows in the dropdown. Pick it.
+
+![The Set up your application form with the Git account dropdown open, listing a connected GitHub account and the options New GitHub connection and New GitLab connection](/images/gallery/own-your-corner/git-account-dropdown.jpg)
+*First time here? Choose New GitHub connection. After that, your account is in the list.*
+
+4. Type a **Project name**. Something like `my-site` is fine; visitors never see it.
+5. Click **Deploy**.
+
+![The Set up your application form filled in, with a GitHub account chosen, a project name typed in and the blue Deploy button at the bottom right](/images/gallery/own-your-corner/set-up-your-application.jpg)
+*That's the whole form. Leave the other boxes as they are.*
+
+Cloudflare now copies the starter site into a new project in your GitHub account and builds it. That takes about a minute. You can watch a live log scroll by while it works.
+
+![Cloudflare's build page, with progress steps from Initializing to Deploying and a live log of the build underneath](/images/gallery/own-your-corner/first-build-log.jpg)
+*You don't need to read the log. Just wait for it to finish.*
+
+When it's done, your project's **Overview** page shows a temporary web address ending in `.workers.dev`. Click **Visit** at the top right. That's your website, live on the internet. You'll swap in your own address in Step 4.
+
+![The Astro starter blog's homepage, headed "Hello, Astronaut!" with a short welcome from the template](/images/gallery/own-your-corner/astro-starter-site.jpg)
+*Your starter site. It's generic for now. Step 2 fixes that.*
 
 What just happened behind the scenes: Cloudflare put a copy of the site's files in your GitHub account, and connected the two. From now on, any change saved to GitHub goes live automatically.
-
-*\[Screenshot: the Deploy to Workers screen\]*
 
 ## Step 2: Make it yours with Claude (20 minutes)
 
@@ -86,13 +101,29 @@ Right now it's a generic starter blog. Time to make it look and sound like you. 
 
 Claude Code is a version of Claude that can open your site's files, make the changes itself, and put them back in your GitHub filing cabinet. It runs right in your web browser, so there's nothing to install.
 
-1. Go to Claude Code on the web and connect your GitHub account.
-2. Pick the project Cloudflare just created.
-3. Tell it what you want in plain English. For example:
+1. Go to [Claude Code on the web](https://claude.ai/code). Connect your GitHub account if it asks.
+2. Pick the **Default** cloud environment. Then use the **Repo** picker to choose the project Cloudflare just created. ("Repo" is short for repository, GitHub's word for a project's folder.)
+3. Tell it what you want in plain English, and send it. For example:
 
 > This is my personal website. Change the site name to "Josh Smith" and the tagline to "Organizer, writer, and occasional baker." Replace the sample blog posts with one short post called "Hello, world" that I can edit later. Use a warm color palette with a dark green accent. Add an About page with a placeholder bio.
 
-4. Claude saves its changes as a "pull request," GitHub's term for changes waiting for your OK. Review it, and when you're happy, click **Merge**. About a minute later, your live site updates.
+![Claude Code on the web with the Default environment selected, the project chosen in the Repo picker and the example request typed in the message box](/images/gallery/own-your-corner/claude-code-request.jpg)
+*Pick the environment and the project, type your request, send.*
+
+4. Claude makes the changes and explains them in plain English. It saves them as a draft "pull request," GitHub's term for changes waiting for your OK. It may also tidy things you didn't ask for. In my run-through, it removed the template's social media links and fixed a broken image. It tells you what it did, so give the list a read.
+
+![Claude Code's reply, listing the changes it made for the request and then a separate list of other changes it made without being asked](/images/gallery/own-your-corner/claude-code-result.jpg)
+*First what you asked for, then what else it changed.*
+
+> **Heads up: your first pull request will probably show a red X.** That's Cloudflare's check failing. You didn't break anything. The starter template is missing a setting Cloudflare needs for its preview builds. Open the failed check's details and copy the error. Paste it to Claude with: *"Cloudflare says the build failed. Here's the error. Please fix it."* In my run-through, Claude fixed it in one message and the check turned green.
+
+5. To publish, open the pull request on GitHub. Click **Ready for review**, then **Merge pull request**, then **Confirm merge**. About a minute later, your live site updates.
+
+![A GitHub pull request showing "All checks have passed" and "No conflicts with base branch" above a green Merge pull request button](/images/gallery/own-your-corner/pr-merge-button.jpg)
+*Green checks mean it's ready to merge.*
+
+![The finished site: "Josh Smith" in large type, the tagline "Organizer, writer, and occasional baker." in dark green, and a short welcome line on a warm cream background](/images/gallery/own-your-corner/finished-site.jpg)
+*The same starter site after one request to Claude.*
 
 ### Path B: Free plan (copy and paste)
 
@@ -100,7 +131,10 @@ Slower, but it costs nothing.
 
 1. In GitHub, open your project and find the file you want to change. A good first one is `src/consts.ts`, a short settings file that holds your site's name and description.
 2. Copy everything in the file and paste it into Claude along with your request: *"Change the site title to Josh Smith and give me the full updated file."*
-3. Back in GitHub, click the pencil icon to edit, paste Claude's version over the old one, and click **Commit changes** (GitHub's word for "save").
+3. Back in GitHub, click the pencil icon to edit. Paste Claude's version over the old one, and click **Commit changes...** (GitHub's word for "save").
+
+![GitHub's file editor open on src/consts.ts, with SITE_TITLE set to "Astro Blog" and a Commit changes button at the top right](/images/gallery/own-your-corner/github-edit-consts.jpg)
+*The settings file in GitHub's editor. Your site's name is on line 4.*
 
 Either way, Cloudflare notices the change in GitHub and rebuilds your site on its own.
 
@@ -108,9 +142,12 @@ Either way, Cloudflare notices the change in GitHub and rebuilds your site on it
 
 This is the one part that costs money. A .com runs about $11 a year at Cloudflare.
 
-1. In the Cloudflare dashboard, choose **Register domains**.
-2. Search for the name you want. Your own name is a great choice if it's available.
+1. In the Cloudflare dashboard, open **Domains**, then **Registrations**, and click **Buy domain**.
+2. Search for the name you want. Your own name is a great choice if it's available. Each result shows the first-year price and the renewal price. A .com was $11.17 a year when I checked on November 5, 2026.
 3. Add it to your cart, enter your contact info, and pay.
+
+![Cloudflare's Register domain search, showing one name across many endings with first-year and renewal prices, the .com at $11.17](/images/gallery/own-your-corner/register-domain-search.jpg)
+*Every result shows what you pay now and what it renews at.*
 
 Normally, the owner's contact info for a web address is public. Cloudflare hides yours for free, so your home address stays private. (A few endings, like .us, don't allow this privacy.) Auto-renew is on by default. Leave auto-renew on so you never lose your address by accident.
 
@@ -119,12 +156,24 @@ Normally, the owner's contact info for a web address is public. Cloudflare hides
 Because you bought your web address at Cloudflare, connecting it takes a few clicks. The bold words below are the exact button and menu names you'll see.
 
 1. In the Cloudflare dashboard, go to **Workers & Pages** and click your project.
-2. Open **Settings**, then **Domains & Routes**, and click **Add**.
-3. Choose **Custom Domain** (Cloudflare's term for your own web address) and type it in, like `joshsmith.com`.
-4. Click **Add Custom Domain**.
+2. Open the **Domains** tab and click **Add Domain**.
+
+![Cloudflare project page on the Domains tab, showing the workers.dev address and an empty Custom Domains and Routes list with a blue Add Domain button](/images/gallery/own-your-corner/worker-domains-tab.jpg)
+*Add Domain is the blue button on the right.*
+
+3. Pick your web address from the list.
+
+![A Connect domain box listing a web address the account owns, ready to click](/images/gallery/own-your-corner/connect-domain-pick.jpg)
+*Cloudflare lists the addresses you own. Click yours.*
+
+4. The **Subdomain** box is optional. Leave it empty to use your main address, like `joshsmith.com`. Or type something like `blog` to use `blog.joshsmith.com`. Then click **Add domain**.
+
+![The Connect to box with an optional Subdomain field, a Production setting and a blue Add domain button](/images/gallery/own-your-corner/connect-domain-subdomain.jpg)
+*I typed "demo" for this run-through. Leave it empty for your main address.*
+
 5. Ask Claude to set your web address in the site's settings: *"Change the site address in astro.config to https://joshsmith.com."* (The starter uses a stand-in, `https://example.com`.)
 
-Cloudflare sets up the address and the security certificate (the padlock in the browser) for you. Give it a few minutes, then visit your web address. Your site is now officially yours.
+Your address now shows under **Custom Domains and Routes**. Cloudflare sets up the address and the security certificate (the padlock in the browser) for you. Give it a few minutes, then visit your web address. Your site is now officially yours.
 
 ## Step 5: Keep it growing
 
@@ -147,11 +196,11 @@ Prompts worth using:
 
 ## If you get stuck
 
-**Cloudflare says an update failed.** Open your project in Cloudflare, click the update marked as failed, and copy the error message you see. Paste it into Claude and ask it to fix the problem.
+**Cloudflare says an update failed.** Open your project in Cloudflare and go to the **Deployments** tab. Click the failed build to see its log, and copy the error message. Paste it into Claude and ask it to fix the problem. That's exactly how the red X on my first pull request got fixed (see the heads-up in Step 2).
 
 **My change didn't show up.** Wait two minutes, then force your browser to load the newest version: press Cmd+Shift+R on a Mac or Ctrl+Shift+R on Windows. Still nothing? Check that the change actually saved in GitHub.
 
-**My web address says "not found."** A brand-new web address can take up to an hour to work everywhere. Double-check your web address is listed under your project's **Domains & Routes**.
+**My web address says "not found."** A brand-new web address can take up to an hour to work everywhere. Check that it's listed under **Custom Domains and Routes** on your project's **Domains** tab.
 
 **Is hosting really free?** For a personal site, yes. Cloudflare doesn't charge to show simple sites like this one, and you'd need a huge amount of traffic before a paid plan came up.
 
