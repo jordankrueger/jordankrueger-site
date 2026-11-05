@@ -80,7 +80,7 @@ import SocialIcons from './SocialIcons.astro';
   .hero-art .line { vector-effect: non-scaling-stroke; stroke-width: 2.5px; }
 
   /* One sequence on load (about 2 s), then still. Reduced motion = finished drawing. */
-  @media (prefers-reduced-motion: no-preference) {
+  @media screen and (prefers-reduced-motion: no-preference) {
     .sun { transform-box: fill-box; transform-origin: center; animation: sunrise 900ms var(--ease-out) both; }
     .cells rect { animation: cell var(--dur-long) var(--ease-out) both; animation-delay: calc(500ms + var(--i) * 70ms); }
     .wire { animation: wipe 900ms var(--ease-in-out) 700ms both; }

@@ -336,7 +336,7 @@ const stories = [
   .count { counter-reset: n var(--to); }
   .count::before { content: counter(n); }
   .count::after { content: attr(data-s); }
-  @media (prefers-reduced-motion: no-preference) {
+  @media screen and (prefers-reduced-motion: no-preference) {
     .ai-stats:global(.visible) .count { counter-reset: n var(--n); animation: count 1200ms var(--ease-out) both; }
   }
   @keyframes count { from { --n: 0; } to { --n: var(--to); } }

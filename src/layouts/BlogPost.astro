@@ -108,7 +108,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   /* Reading progress: 4px sprout bar over the top edge, driven by page scroll. Hidden where unsupported or reduced motion. */
   .read-progress { display: none; }
   @supports (animation-timeline: scroll()) {
-    @media (prefers-reduced-motion: no-preference) {
+    @media screen and (prefers-reduced-motion: no-preference) {
       .read-progress {
         display: block;
         position: fixed;
