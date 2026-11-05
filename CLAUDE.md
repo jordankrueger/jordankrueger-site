@@ -18,7 +18,7 @@ npm run dev
 - `src/content/posts/` — MDX blog posts (content collection)
 - `src/content/tools/` — YAML files for the `/tools` portal content collection (one file per category)
 - `src/styles/` — global.css (design tokens and base styles)
-- `public/fonts/` — Self-hosted woff2 fonts (Bricolage Grotesque variable); `@font-face` rules live in `public/fonts.css`
+- `public/fonts/` — Self-hosted woff2 fonts (Bricolage Grotesque variable); `@font-face` rules live in `public/fonts.css` (also used by the Starter Pack share page, so keep it)
 - `scripts/check-contrast.mjs` — WCAG contrast check on the `:root` color tokens; run `node scripts/check-contrast.mjs` after any token change (exit 1 = a pair fails)
 - `public/images/` — All site images with descriptive names
 - `carrd-export/` — Original Carrd site for content reference
@@ -130,20 +130,17 @@ Output directory: `dist`
 
 **Gotcha:** a fresh worktree has no `node_modules`; run `npm ci` there before `npm run build` (the main tree's install was missing astro on 2026-10-30).
 
-## Open branch — Cloudflare Turnstile (NOT merged)
-`turnstile-forms` branch (commit `b491d16`), pushed to origin, deliberately held. Adds Cloudflare Turnstile to the contact form and the newsletter signup form (CSP update, widget markup, worker siteverify, index.test.js). Rescued from an in-progress prior-session checkout on 2026-09-15 and verified byte-for-byte before committing. **Not reviewed or tested — do not merge without review**, since it puts a captcha on two live production forms.
+## Old branch — `turnstile-forms` (superseded)
+`turnstile-forms` (commit `b491d16`) is still on origin but superseded: Turnstile shipped on `main` separately and is live on the contact and newsletter forms. Never merge it; delete it once Jordan OKs (unmerged commits, so ask first).
 
-## Housekeeping backlog
-- `public/images/logo-hiringpledge.jpg` and `logo-fourdayswithai.jpg` are no longer used on /projects (2026-10-04). Grep other pages before deleting.
-- Decide whether to merge/review the `turnstile-forms` branch above, or drop it.
-
-## Redesign (in progress, started 2026-10-25)
-New visual design for the whole site; content and most of the layout stay. Work happens on the local `redesign` branch in the worktree `personal/jordankrueger-site-work/redesign`, previewed with `npx astro dev --host 0.0.0.0 --port 4322` at http://jordans-mac-mini:4322 (Tailscale only). The branch is not pushed, because pushing would make a public Cloudflare Pages preview.
-- Headshots DONE 2026-11-05: `headshot-hero.jpg` = Jordan_0547 (warm curtain), `headshot-about.jpg` = Jordan_0545 (gray backdrop); 800px squares under 90KB, originals in `~/ClaudeCode/dropbox/`. Old `hero-jordan.png` / `jordan-portrait.jpg` deleted. origin/main merged in 2026-11-05 (67c9575); three newer posts retagged to fit the six topics.
-- **Not committed on purpose:** the "left accelerationist" manifesto section in `src/pages/about.astro` (working-tree change since 2026-10-25, no record Jordan approved it or that it went through voice + humanizer). Keep it out of commits until Jordan says keep, edit or drop.
-- **Launch item: Own Your Corner series (added 2026-11-05).** Three posts are in `src/content/posts/` as `draft: true`: `why-everyone-should-have-a-website`, `build-your-own-website`, `connect-your-website-to-the-fediverse` (covers `public/images/gallery/blog-own-your-corner-part-{1,2,3}.jpg`; research notes in the main tree's `drafts/own-your-corner/`). At "ship it", flip all three to `draft: false` and set `pubDate` to launch day, but only once both are true:
-  - (a) DONE 2026-11-05: Part 2 rewritten to match the 2026-11-05 run-through (Deploy to Cloudflare button, Git account dropdown, Deploy, Domains → Registrations → Buy domain, project → Domains tab → Add Domain, red-X heads-up on the first pull request). 14 screenshots in `public/images/gallery/own-your-corner/` (Cloudflare login email covered in the header). The Starter Pack checklist got the same label fixes. Placeholder and UNVERIFIED comment removed.
-  - (b) DONE 2026-11-05 (commit a514fee): Starter Pack page at `public/share/starter-pack-17c6c919faea/` (live URL after deploy: https://jordankrueger.com/share/starter-pack-17c6c919faea/), and Part 2's signup form. Part 2 renders `NewsletterSignup` inline with `bonus="starter-pack"` and its own copy props; `hideNewsletter: true` in its frontmatter skips the layout's form so the post has one form. Parts 1 and 3 keep the layout form.
-  - (b) DONE 2026-11-05: starter-pack Worker change deployed (progressives-signup version f9a5938e, PR jordankrueger/progressives-for-ai#35) and test-submitted from the live jordankrueger.com form; Resend delivered "Your Website Starter Pack" to Jordan. Nothing left before the series can go live with the redesign.
-  - DONE 2026-11-05: Part 2's contact line now reads "Need this set up for your organization? CampaignHelp can do it for you." linking to https://campaign.help.
-- **Motion (2026-11-05, Jordan picked concepts A+B from `../motion-concepts/index.html`):** homepage hero plays one load sequence (sun, panel cells, circuit wipe, leaf); `CircuitDivider` and /projects drawings reveal on scroll (CSS scroll-driven, complete when unsupported or already on screen); `.fade-up` toned down and hidden only under `html.js` (set inline in BaseLayout head) so no-JS visitors see everything; /ai stats count up (real numbers in sr-only text); blog posts get a reading progress bar. All motion sits in `@media screen and (prefers-reduced-motion: no-preference)`. Gotcha: `vector-effect: non-scaling-stroke` breaks `pathLength` dash drawing (dash resolves in px, line ends gappy), so the hero wire and divider use a `clip-path` wipe (`@keyframes wipe` in global.css). Claude + Codex reviewed; commits 4892d5b..25d14bd.
+## Redesign — launched 2026-11-05
+Solarpunk redesign shipped in PR #86 (squash d3e1e9e); rollback = revert that commit via PR. Spec and plan stay in `docs/superpowers/`.
+- **Headshots:** `headshot-hero.jpg` (Jordan_0547, warm curtain) and `headshot-about.jpg` (Jordan_0545, gray backdrop), 800px squares; originals in `~/ClaudeCode/dropbox/`.
+- **About page** carries the "left accelerationist" manifesto section (Jordan approved 2026-11-05).
+- **Own Your Corner series** published at launch (parts 1–3, pubDate 2026-11-05 at 17:00/17:01/17:02Z so they sort in order). Part 2 renders `NewsletterSignup` inline with `bonus="starter-pack"` and sets `hideNewsletter: true`; the Starter Pack page is `public/share/starter-pack-17c6c919faea/`. Research notes in the main tree's `drafts/own-your-corner/`.
+- **Newsletter form script** lives in `src/scripts/newsletter-form.ts`, imported by both `NewsletterSignup.astro` and `BlogPost.astro`. Gotcha: a component rendered inside MDX does not get its `<script>` bundled, so any form used in a post depends on the layout import.
+- **RSS** renders each post to HTML with the Astro container API (`rss.xml.js`, MDX renderer from `@astrojs/mdx/container-renderer`); `post.body` was raw MDX.
+- **Motion** (Jordan picked concepts A+B from `../motion-concepts/index.html`): hero load sequence, `CircuitDivider` and /projects drawings reveal on scroll (CSS scroll-driven, complete when unsupported or already on screen), toned-down `.fade-up` hidden only under `html.js`, /ai count-up with real numbers in sr-only text, blog reading progress bar. All motion sits in `@media screen and (prefers-reduced-motion: no-preference)`. Gotcha: `vector-effect: non-scaling-stroke` breaks `pathLength` dash drawing, so the hero wire and divider use a `clip-path` wipe (`@keyframes wipe` in global.css).
+- **Images:** keep covers at max 1600px, progressive JPEG around q78 (Pillow, keep the result only if smaller). Shrunk 2026-11-05 from 12.5MB to 4.7MB.
+- **Shared style hooks** (2026-11-05 cleanup): `.legal-prose` for privacy/terms/accessibility, `--fs-page-title` for page h1s. (`.area-back` and `.sw-back` stay local: a global `.back-link` would collide with the blog layout's own `.back-link`.)
+- **Not done (low priority):** Turnstile `api.js` loads on every page, not only pages with forms; `/projects/{movement,personal,starbase-118}` are three near-identical files that could be one `[area].astro`.
