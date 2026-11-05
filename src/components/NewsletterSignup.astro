@@ -2,25 +2,42 @@
 interface Props {
   variant?: 'default' | 'compact';
   id?: string;
+  // Optional copy and bonus overrides (e.g. the Starter Pack form in Part 2 of Own Your Corner).
+  bonus?: string;
+  label?: string;
+  title?: string;
+  desc?: string;
+  button?: string;
+  success?: string;
 }
-const { variant = 'default', id = 'subscribe' } = Astro.props;
+const {
+  variant = 'default',
+  id = 'subscribe',
+  bonus,
+  label = 'Subscribe to',
+  title = 'Mission Control ➡️',
+  desc = "I share thoughts on online tools, learnings from my nonprofit advocacy consulting business, projects I'm launching, Artificial Intelligence, and personal updates — directly to your inbox.",
+  button = 'Subscribe',
+  success = "You're on the list. Thanks!",
+} = Astro.props;
 ---
 
 <div class:list={["newsletter-wrap", variant]} id={id}>
   <section class:list={["newsletter-panel", variant]}>
     <div class="newsletter-inner">
       <div class="newsletter-text">
-        <p class="newsletter-label">Subscribe to</p>
-        <p class="newsletter-title">Mission Control ➡️</p>
+        <p class="newsletter-label">{label}</p>
+        <p class="newsletter-title">{title}</p>
         <hr class="newsletter-divider" />
       </div>
       <div class="newsletter-form-wrap">
-        <p class="newsletter-desc">I share thoughts on online tools, learnings from my nonprofit advocacy consulting business, projects I'm launching, Artificial Intelligence, and personal updates — directly to your inbox.</p>
-        <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="newsletter-form">
-          <label class="sr-only">Email address</label>
-          <input type="email" name="email" placeholder="Your email" required maxlength="256" />
+        <p class="newsletter-desc">{desc}</p>
+        <form method="post" action="https://progressives-signup.restless-salad-a31e.workers.dev" class="newsletter-form" data-success={success}>
+          <label class="sr-only" for={`newsletter-email-${id}`}>Email address</label>
+          <input type="email" id={`newsletter-email-${id}`} name="email" placeholder="Your email" required maxlength="256" autocomplete="email" />
           <input type="hidden" name="list" value="mission-control" />
-          <button type="submit" class="btn btn-primary">Subscribe</button>
+          {bonus && <input type="hidden" name="bonus" value={bonus} />}
+          <button type="submit" class="btn btn-primary">{button}</button>
           <div
             id={`newsletter-turnstile-${id}`}
             class="cf-turnstile"
@@ -51,7 +68,7 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
     padding: var(--spacing-lg);
-    background-color: var(--color-bg-warm);
+    background-color: var(--color-bg-white);
   }
 
   .newsletter-panel.compact {
@@ -120,8 +137,8 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
   .newsletter-form input {
     flex: 1;
     padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
     font-family: var(--font-body);
     font-size: 0.95rem;
     background: var(--color-bg-white);
@@ -140,11 +157,11 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
   }
 
   .newsletter-status.success {
-    color: #2d7a3a;
+    color: var(--color-success);
   }
 
   .newsletter-status.error {
-    color: #c0392b;
+    color: var(--color-error);
   }
 
   @media (max-width: 640px) {
@@ -172,48 +189,5 @@ const { variant = 'default', id = 'subscribe' } = Astro.props;
 </style>
 
 <script>
-  document.querySelectorAll<HTMLFormElement>('form.newsletter-form').forEach((form) => {
-    const status = form.parentElement?.querySelector<HTMLParagraphElement>('.newsletter-status');
-    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    const originalLabel = btn?.textContent ?? 'Subscribe';
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!status || !btn) return;
-
-      btn.disabled = true;
-      btn.textContent = 'Subscribing...';
-      status.hidden = true;
-
-      const data = Object.fromEntries(new FormData(form).entries());
-
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-        const body = await res.json();
-
-        if (res.ok && body.success) {
-          status.textContent = "You're on the list. Thanks!";
-          status.className = 'newsletter-status success';
-          status.hidden = false;
-          form.reset();
-        } else {
-          status.textContent = body.error || 'Something went wrong. Please try again.';
-          status.className = 'newsletter-status error';
-          status.hidden = false;
-        }
-      } catch {
-        status.textContent = 'Network error. Please try again.';
-        status.className = 'newsletter-status error';
-        status.hidden = false;
-      }
-
-      btn.disabled = false;
-      btn.textContent = originalLabel;
-      (window as any).turnstile?.reset(form.querySelector('.cf-turnstile'));
-    });
-  });
+  import '../scripts/newsletter-form.ts';
 </script>

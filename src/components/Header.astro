@@ -1,4 +1,6 @@
 ---
+import LogoMark from './LogoMark.astro';
+
 const navLinks = [
   { href: '/blog', label: 'Blog' },
   { href: '/projects', label: 'Projects' },
@@ -13,7 +15,7 @@ const currentPath = Astro.url.pathname;
 
 <header class="site-header">
   <div class="container header-inner">
-    <a href="/" class="logo">Jordan Krueger</a>
+    <a href="/" class="logo"><LogoMark /><span>Jordan Krueger</span></a>
 
     <nav class="desktop-nav" aria-label="Main navigation">
       {navLinks.map(link => (
@@ -27,7 +29,7 @@ const currentPath = Astro.url.pathname;
       ))}
     </nav>
 
-    <a href="/#subscribe" class="btn btn-primary subscribe-btn desktop-only">Subscribe</a>
+    <a href="/#subscribe" class="subscribe-pill desktop-only">Subscribe</a>
 
     <button class="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
       <span class="hamburger"></span>
@@ -56,7 +58,7 @@ const currentPath = Astro.url.pathname;
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--color-bg-white);
+    background: var(--color-bg);
     border-bottom: 1px solid var(--color-border);
   }
 
@@ -69,17 +71,19 @@ const currentPath = Astro.url.pathname;
   }
 
   .logo {
-    font-family: var(--font-signature);
-    font-size: 1.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
     color: var(--color-text-logo);
     text-decoration: none;
     white-space: nowrap;
   }
 
-  .logo:hover {
-    color: var(--color-text-logo);
-    opacity: 0.85;
-  }
+  .logo:hover { color: var(--color-accent); }
 
   .desktop-nav {
     display: flex;
@@ -88,23 +92,34 @@ const currentPath = Astro.url.pathname;
 
   .nav-link {
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-text);
     text-decoration: none;
     padding: 0.25rem 0;
     border-bottom: 2px solid transparent;
-    transition: all 0.2s ease;
+    transition: color 0.15s ease, border-color 0.15s ease;
   }
 
   .nav-link:hover,
   .nav-link.active {
     color: var(--color-accent);
-    border-bottom-color: var(--color-accent);
+    border-bottom-color: var(--color-sun);
   }
 
-  .subscribe-btn {
-    font-size: 0.85rem;
-    padding: 0.5rem 1.25rem;
+  .subscribe-pill {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    background: var(--color-bg-warm);
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .subscribe-pill:hover {
+    background: var(--color-sun);
+    color: var(--color-text-logo);
   }
 
   .desktop-only {
@@ -124,7 +139,7 @@ const currentPath = Astro.url.pathname;
     display: block;
     width: 22px;
     height: 2px;
-    background: var(--color-text);
+    background: var(--color-text-logo);
     position: relative;
     transition: background 0.2s ease;
   }
@@ -136,7 +151,7 @@ const currentPath = Astro.url.pathname;
     left: 0;
     width: 22px;
     height: 2px;
-    background: var(--color-text);
+    background: var(--color-text-logo);
     transition: transform 0.2s ease;
   }
 
@@ -161,7 +176,7 @@ const currentPath = Astro.url.pathname;
     display: none;
     position: fixed;
     inset: 4rem 0 0;
-    background: var(--color-bg-white);
+    background: var(--color-bg);
     z-index: 99;
     padding: var(--spacing-lg) var(--spacing-md);
   }
@@ -190,7 +205,7 @@ const currentPath = Astro.url.pathname;
     color: var(--color-accent);
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 900px) {
     .desktop-nav,
     .desktop-only {
       display: none;

@@ -1,0 +1,27 @@
+<svg class="circuit-divider" viewBox="0 0 1200 40" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+  <path class="d-line" d="M0 30 H560 L572 18 H628 L640 30 H1200" fill="none" stroke="var(--color-sprout)" />
+  <circle cx="572" cy="18" r="3.5" fill="var(--color-bg)" stroke="var(--color-accent)" />
+  <path class="d-leaf" d="M628 18 c0-9 6-14 15-14 0 9-6 14-15 14z" fill="var(--color-sprout)" />
+</svg>
+<style>
+  .circuit-divider { display: block; width: 100%; height: 40px; }
+  .circuit-divider path[stroke], .circuit-divider circle { vector-effect: non-scaling-stroke; stroke-width: 2.5px; }
+
+  /* Draws as it scrolls into view; unsupported or reduced motion = shown complete. */
+  @supports (animation-timeline: view()) {
+    @media screen and (prefers-reduced-motion: no-preference) {
+      .d-line {
+        animation: wipe linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 80%;
+      }
+      .d-leaf {
+        transform-box: fill-box;
+        transform-origin: 0% 100%;
+        animation: unfurl linear both;
+        animation-timeline: view();
+        animation-range: entry 80% entry 100%;
+      }
+    }
+  }
+</style>

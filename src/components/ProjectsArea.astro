@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from './ProjectCard.astro';
+import { AREAS, getProjects, type AreaKey } from '../lib/project-areas';
+
+interface Props { area: AreaKey }
+const { area } = Astro.props;
+const { heading, intro } = AREAS[area];
+
+const entries = await getProjects(d => d.areas.includes(area));
+const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const describe = (d: (typeof entries)[number]) => d.body ?? `<p>${escape(d.aiDescription ?? '')}</p>`;
+
+// Entries with an image keep the full-width panel; the rest sit in a calm two-column
+// grid, so a long area page doesn't become a zigzag of identical panels.
+const withImage = entries.filter(d => d.image);
+const compact = entries.filter(d => !d.image);
+---
+
+<BaseLayout title={`${heading} — Projects — Jordan Krueger`} description={intro}>
+  <section class="section bg-green">
+    <div class="container">
+      <a href="/projects" class="area-back">← Back to Projects</a>
+      <h1>{heading}</h1>
+      <p class="area-intro">{intro}</p>
+    </div>
+  </section>
+
+  {withImage.map((data, i) => (
+    <ProjectCard
+      title={data.title}
+      description={describe(data)}
+      image={data.image}
+      href={data.href}
+      linkLabel={data.linkLabel}
+      secondaryLinks={data.secondaryLinks}
+      index={i}
+    />
+  ))}
+
+  {compact.length > 0 && (
+    <section class="section">
+      <div class="container area-grid">
+        {compact.map(data => (
+          <article class="area-card">
+            <h2>{data.title}</h2>
+            <div class="area-body" set:html={describe(data)} />
+            {(data.href || data.secondaryLinks?.length) && (
+              <div class="area-links">
+                {data.href && <a href={data.href} target="_blank" rel="noopener">{data.linkLabel ?? 'Learn more'}</a>}
+                {data.secondaryLinks?.map(l => <a href={l.href} target={l.href.startsWith('/') ? undefined : '_blank'} rel={l.href.startsWith('/') ? undefined : 'noopener'}>{l.label}</a>)}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .area-back {
+    display: inline-block;
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .area-intro {
+    font-size: 1.1rem;
+    margin-top: 0.75rem;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  }
+  .area-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-md);
+    align-items: start;
+  }
+  .area-card {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1.4rem 1.6rem 1.5rem;
+  }
+  .area-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+  .area-body {
+    font-size: 0.95rem;
+  }
+  .area-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    margin-top: 0.9rem;
+    font-weight: 700;
+    font-size: 0.92rem;
+  }
+  .area-links a {
+    text-decoration: none;
+    border-bottom: 2px solid var(--color-sun-text);
+  }
+  @media (max-width: 760px) {
+    .area-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

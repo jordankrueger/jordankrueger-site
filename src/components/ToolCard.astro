@@ -38,8 +38,7 @@ const isComingSoon = status === 'coming-soon';
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
-    box-shadow: var(--shadow-soft);
-    transition: all 0.2s ease;
+    transition: box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
     min-height: 170px;
@@ -47,7 +46,6 @@ const isComingSoon = status === 'coming-soon';
     color: var(--color-text);
   }
   .tool-card:hover {
-    transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
     color: var(--color-text);
   }
@@ -79,7 +77,7 @@ const isComingSoon = status === 'coming-soon';
   .chip {
     font-size: 0.72rem;
     padding: 0.18rem 0.55rem;
-    border-radius: 0.8rem;
+    border-radius: var(--radius-pill);
     background: var(--color-bg);
     color: var(--color-text);
     font-weight: 500;
@@ -87,23 +85,23 @@ const isComingSoon = status === 'coming-soon';
   }
   .chip.built {
     background: var(--color-accent);
-    color: #fff;
+    color: var(--color-on-accent);
     border-color: var(--color-accent);
   }
   .chip.external {
     background: var(--color-bg-blue);
-    border-color: #b3d4e8;
-    color: #2c5f7d;
+    border-color: var(--color-sky-border);
+    color: var(--color-panel);
   }
   .chip.free {
     background: var(--color-bg-green);
-    border-color: #b8d4bf;
-    color: #3a5128;
+    border-color: var(--color-border);
+    color: var(--color-accent-hover);
   }
   .chip.soon {
     background: var(--color-bg-warm);
-    border-color: #e0c690;
-    color: #7a5a1a;
+    border-color: var(--color-sun-border);
+    color: var(--color-sun-text);
     font-style: italic;
   }
 </style>

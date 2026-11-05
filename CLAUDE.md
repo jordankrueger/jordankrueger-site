@@ -17,21 +17,26 @@ npm run dev
 - `src/components/` — Reusable UI components
 - `src/content/posts/` — MDX blog posts (content collection)
 - `src/content/tools/` — YAML files for the `/tools` portal content collection (one file per category)
-- `src/styles/` — global.css (design tokens), fonts.css (@font-face)
-- `public/fonts/` — Self-hosted woff2 fonts (DM Sans, Lora, Rock Salt)
+- `src/styles/` — global.css (design tokens and base styles)
+- `public/fonts/` — Self-hosted woff2 fonts (Bricolage Grotesque variable); `@font-face` rules live in `public/fonts.css`
+- `scripts/check-contrast.mjs` — WCAG contrast check on the `:root` color tokens; run `node scripts/check-contrast.mjs` after any token change (exit 1 = a pair fails)
 - `public/images/` — All site images with descriptive names
 - `carrd-export/` — Original Carrd site for content reference
 
 ## Design System
-- **Colors:** `--color-accent: #AF4C2A` (WCAG AA), `--color-text: #5C5248`, `--color-bg: #EDEDED`
-- **Fonts:** DM Sans (body), Lora (headings), Rock Salt (logo only)
+Solarpunk (redesign, 2026-10-25). Spec: `docs/superpowers/specs/2026-10-25-solarpunk-redesign-design.md`.
+- **Colors:** all tokens in `:root` of `src/styles/global.css`; no literal colors anywhere else. Cream page `--color-bg: #fbf7ec`, ink `--color-text-logo: #21342a`, body `--color-text: #4c5d51`, leaf accent `--color-accent: #2f6b3f`, sun `#f1b544` (decoration only; use `--color-sun-text` for text)
+- **Fonts:** Bricolage Grotesque (headings and body, weights 400-700)
+- **Shape:** cards 14px radius with 1px border; buttons and tags pill-shaped
 - **Breakpoints:** 900px (tablet), 640px (mobile)
 
 ## Pages
 - `/` — Homepage with services, about, blog posts, newsletter, contact
 - `/blog` — Blog listing
-- `/projects` — Project showcase (full-width ProjectCard panels). Job Seeker's Union card is first (Hiring Pledge and Four Days with AI are buttons on it, not separate cards); a "Small tools I've open-sourced" card lists the small repos.
-- `/ai` — AI showcase (40+ projects built with Claude Code, compact card grid). Data lives in page frontmatter arrays. Uses `AiProjectCard` and `AiStoryCard` components.
+- `/projects` — Projects hub (redesign round 2, 2026-10-25): four columns (Movement work, StarBase 118, Personal tools, Built with AI), each with a drawing, an intro line, three featured entries and a link. Area pages: `/projects/movement`, `/projects/starbase-118`, `/projects/personal` (shared `ProjectsArea.astro`; entries with an image get a full `ProjectCard` panel, the rest a two-column card grid).
+- **Project data lives in one place:** `src/content/projects.json` (the `projects` content collection; zod schema in `src/content.config.ts`, so `astro build` rejects a missing or mistyped field). Fields: `areas`, `builtWithAI`/`aiGroup`, `featuredIn`/`short` (hub picks; order set by `FEATURED_ORDER` in `src/lib/project-areas.ts`), Projects-page fields (`body` HTML, `image`, `href`, `linkLabel`, `secondaryLinks`) and AI-page fields (`aiDescription`, `tags`, `status`, `statusType`). Add or edit a project there, not in the pages.
+- `/ai` — "I'm not a developer. I built all of this anyway." Hero, stats, story and stories live in `ai.astro`; the builds come from the `projects` collection (`builtWithAI`), shown as grouped `<details>` rows (`AiProjectRow.astro`).
+- `/synthwave` — "Best of Synthwave": Jordan's favorite synthwave tracks with Apple Music, artist and Spotify links. Data in `src/data/synthwave.json`, rebuilt from the Apple Music library export with `uv run python scripts/build-synthwave.py` (Spotify links are search links; exact ones would need a Spotify developer app). Linked from the About page's interest buttons (Synthwave, Star Trek, Technology & AI).
 - `/tools` — Progressives Projects Portal. Curated catalog of free/open tools for advocacy orgs. Data lives in the `tools` Astro content collection (`src/content/tools/*.yaml`). One YAML file per category; each file contains `category:` metadata and an `entries:` array. Adding a tool = editing the relevant YAML + push. Zod schema lives in `src/content.config.ts`. Uses `ToolCard` and `ToolCategory` components.
 - `/building` — Building in Public series (posts tagged `claude-code`). No `building.astro` page exists — `public/_redirects` 301s `/building` → `/blog?tag=claude-code` instead (verified live 2026-07-27, returns 200 after redirect). Not a broken route, just an unconventional implementation — worth knowing before assuming a missing page needs building.
 - `/about` — About page
@@ -131,3 +136,14 @@ Output directory: `dist`
 ## Housekeeping backlog
 - `public/images/logo-hiringpledge.jpg` and `logo-fourdayswithai.jpg` are no longer used on /projects (2026-10-04). Grep other pages before deleting.
 - Decide whether to merge/review the `turnstile-forms` branch above, or drop it.
+
+## Redesign (in progress, started 2026-10-25)
+New visual design for the whole site; content and most of the layout stay. Work happens on the local `redesign` branch in the worktree `personal/jordankrueger-site-work/redesign`, previewed with `npx astro dev --host 0.0.0.0 --port 4322` at http://jordans-mac-mini:4322 (Tailscale only). The branch is not pushed, because pushing would make a public Cloudflare Pages preview.
+- Headshots DONE 2026-11-05: `headshot-hero.jpg` = Jordan_0547 (warm curtain), `headshot-about.jpg` = Jordan_0545 (gray backdrop); 800px squares under 90KB, originals in `~/ClaudeCode/dropbox/`. Old `hero-jordan.png` / `jordan-portrait.jpg` deleted. origin/main merged in 2026-11-05 (67c9575); three newer posts retagged to fit the six topics.
+- **Not committed on purpose:** the "left accelerationist" manifesto section in `src/pages/about.astro` (working-tree change since 2026-10-25, no record Jordan approved it or that it went through voice + humanizer). Keep it out of commits until Jordan says keep, edit or drop.
+- **Launch item: Own Your Corner series (added 2026-11-05).** Three posts are in `src/content/posts/` as `draft: true`: `why-everyone-should-have-a-website`, `build-your-own-website`, `connect-your-website-to-the-fediverse` (covers `public/images/gallery/blog-own-your-corner-part-{1,2,3}.jpg`; research notes in the main tree's `drafts/own-your-corner/`). At "ship it", flip all three to `draft: false` and set `pubDate` to launch day, but only once both are true:
+  - (a) DONE 2026-11-05: Part 2 rewritten to match the 2026-11-05 run-through (Deploy to Cloudflare button, Git account dropdown, Deploy, Domains → Registrations → Buy domain, project → Domains tab → Add Domain, red-X heads-up on the first pull request). 14 screenshots in `public/images/gallery/own-your-corner/` (Cloudflare login email covered in the header). The Starter Pack checklist got the same label fixes. Placeholder and UNVERIFIED comment removed.
+  - (b) DONE 2026-11-05 (commit a514fee): Starter Pack page at `public/share/starter-pack-17c6c919faea/` (live URL after deploy: https://jordankrueger.com/share/starter-pack-17c6c919faea/), and Part 2's signup form. Part 2 renders `NewsletterSignup` inline with `bonus="starter-pack"` and its own copy props; `hideNewsletter: true` in its frontmatter skips the layout's form so the post has one form. Parts 1 and 3 keep the layout form.
+  - (b) DONE 2026-11-05: starter-pack Worker change deployed (progressives-signup version f9a5938e, PR jordankrueger/progressives-for-ai#35) and test-submitted from the live jordankrueger.com form; Resend delivered "Your Website Starter Pack" to Jordan. Nothing left before the series can go live with the redesign.
+  - DONE 2026-11-05: Part 2's contact line now reads "Need this set up for your organization? CampaignHelp can do it for you." linking to https://campaign.help.
+- **Motion (2026-11-05, Jordan picked concepts A+B from `../motion-concepts/index.html`):** homepage hero plays one load sequence (sun, panel cells, circuit wipe, leaf); `CircuitDivider` and /projects drawings reveal on scroll (CSS scroll-driven, complete when unsupported or already on screen); `.fade-up` toned down and hidden only under `html.js` (set inline in BaseLayout head) so no-JS visitors see everything; /ai stats count up (real numbers in sr-only text); blog posts get a reading progress bar. All motion sits in `@media screen and (prefers-reduced-motion: no-preference)`. Gotcha: `vector-effect: non-scaling-stroke` breaks `pathLength` dash drawing (dash resolves in px, line ends gappy), so the hero wire and divider use a `clip-path` wipe (`@keyframes wipe` in global.css). Claude + Codex reviewed; commits 4892d5b..25d14bd.

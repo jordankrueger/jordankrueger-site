@@ -70,12 +70,16 @@
   .contact-form input,
   .contact-form textarea {
     padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
     font-family: var(--font-body);
     font-size: 0.95rem;
     background: var(--color-bg-white);
     resize: vertical;
+  }
+
+  .contact-form textarea {
+    border-radius: var(--radius-md);
   }
 
   .contact-form input:focus,
@@ -97,11 +101,11 @@
   }
 
   .contact-status.success {
-    color: #2d7a3a;
+    color: var(--color-success);
   }
 
   .contact-status.error {
-    color: #c0392b;
+    color: var(--color-error);
   }
 
   @media (max-width: 640px) {

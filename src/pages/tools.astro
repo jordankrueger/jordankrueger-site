@@ -33,7 +33,7 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
       <p class="tools-hero-intro">
         A curated index of free and open resources for advocacy orgs, nonprofits, and campaign staff.
         Some I've built. Most I just rely on. All of them earn their keep.
-        Nothing here is paid &mdash; for CampaignHelp's paid work,
+        Nothing here is paid &mdash; for CampaignHelp's paid work,{' '}
         <a href="https://campaign.help">head over here</a>.
       </p>
 
@@ -139,6 +139,7 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
 
 <style>
   .tools-hero-wrap { padding-top: var(--spacing-md); }
+  .tools-hero { border-radius: var(--radius-md); }
   .tools-hero h1 {
     margin-bottom: var(--spacing-sm);
     max-width: 820px;
@@ -201,9 +202,9 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
   .ak-featured {
     max-width: var(--max-width);
     margin: 0 auto;
-    background-color: var(--color-bg-peach);
+    background-color: var(--color-bg-white);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     padding: var(--spacing-lg);
   }
   .ak-featured-kicker {
@@ -242,8 +243,8 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
   .ak-form input {
     flex: 1;
     padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
     font-family: var(--font-body);
     font-size: 0.95rem;
     background: var(--color-bg-white);
@@ -257,8 +258,8 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'short', day
     font-size: 0.9rem;
     margin-top: 0.6rem;
   }
-  .ak-form-status.success { color: #2d7a3a; }
-  .ak-form-status.error { color: #c0392b; }
+  .ak-form-status.success { color: var(--color-success); }
+  .ak-form-status.error { color: var(--color-error); }
 
   @media (max-width: 640px) {
     .ak-featured-body { grid-template-columns: 1fr; }

@@ -25,6 +25,7 @@ const isDefaultOgImage = ogImage === "/images/share.jpg";
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light only" />
@@ -58,9 +59,8 @@ const isDefaultOgImage = ogImage === "/images/share.jpg";
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Font preloads -->
-    <link rel="preload" href="/fonts/dm-sans-400.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/lora-700.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Font preload -->
+    <link rel="preload" href="/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- Fonts -->
     <link rel="stylesheet" href="/fonts.css" />
@@ -93,11 +93,12 @@ const isDefaultOgImage = ogImage === "/images/share.jpg";
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.fade-up').forEach(el => {
+  document.querySelectorAll('.fade-up, [data-count]').forEach(el => {
     if (el.getBoundingClientRect().top < window.innerHeight) {
       el.classList.add('visible');
     } else {

@@ -10,10 +10,15 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
     <div class="container about-intro">
       <div class="about-intro-text">
         <h1 class="fade-up">I'm Jordan! I love<br />🖖 Star Trek,<br />😎 synthwave music, and<br />🤖 technology</h1>
-        <hr class="section-rule" />
+        <div class="console-strip" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <nav class="interest-links fade-up" aria-label="My interests">
+          <a class="btn btn-outline" href="/synthwave">Synthwave</a>
+          <a class="btn btn-outline" href="/projects/starbase-118">Star Trek</a>
+          <a class="btn btn-outline" href="/ai">Technology &amp; AI</a>
+        </nav>
       </div>
       <div class="about-intro-image fade-up">
-        <img src="/images/jordan-portrait.jpg" alt="Jordan Krueger" width="2293" height="2293" />
+        <img src="/images/headshot-about.jpg" alt="Jordan Krueger" width="1200" height="1200" />
       </div>
     </div>
   </section>
@@ -22,13 +27,13 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
   <section class="section about-bio-section">
     <div class="container about-bio">
       <div class="about-bio-text fade-up">
-        <h2>🔧 What I Do (and Why I Do It)</h2>
+        <h2>What I Do (and Why I Do It)</h2>
         <p><em>What gets me out of bed is helping people do mission-driven work without tech-induced migraines.</em></p>
         <p>My clients are some of the sharpest, most passionate people in the progressive movement — but let's be real: <strong>Tech sometimes confounds and befuddles the best of us.</strong></p>
         <p>My job is to resolve trouble and confusion as quickly as possible.</p>
         <p>Whether that means helping to implement a new process that makes work easier, or onboarding new hires with as little muss & fuss as possible, or even organizing shared Google Drives — I'm the person they call when "this shouldn't be this hard" turns into "wow, that was easier than I expected."</p>
 
-        <h2>🧠 What I'm Known For</h2>
+        <h2>What I'm Known For</h2>
         <p>Here's what people say when they work with me:</p>
         <blockquote>"Jordan has never seemed like just a consultant — he's an integral part of my team who's always thinking about how to set us up for success."</blockquote>
         <blockquote>"Jordan is the single most reliable person I've worked with in the progressive movement... a force multiplier for organizational capacity."</blockquote>
@@ -127,6 +132,21 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
       </div>
     </div>
   </section>
+
+  <!-- Manifesto -->
+  <section class="section">
+    <div class="container">
+      <div class="about-bio-text about-manifesto fade-up">
+        <h2>What I mean by "left accelerationist"</h2>
+        <p>I call myself a left accelerationist, and here's what I mean by that. The plain-English version is "pro-AI progressive": I want AI built faster, and I want what it makes possible shared with everyone.</p>
+        <p>My day job is helping progressive nonprofits with their technology. So I spend a lot of time thinking about what small teams can do with better tools. AI is the biggest jump in that kind of capacity I've seen. I think it's our best shot in my lifetime at ending poverty, disease, loneliness and war.</p>
+        <p>The idea has roots on the left. In 2013, Nick Srnicek and Alex Williams argued that the left should stop resisting new technology and put it to work for people. Aaron Bastani later imagined automation and clean energy ending scarcity for everyone. I'm with them on the direction. I part ways with the louder accelerationism you hear in tech circles over who all this is for.</p>
+        <p>Speed, alone, doesn't decide who benefits. I want the public to hold a real ownership stake—the kind Bernie Sanders proposed this year—in the most powerful AI companies. The gains should go back to every person as a dividend. I want universal services, so healthcare, housing and education don't depend on whether your job survived automation. I want a shorter work week at the same pay as productivity climbs. And I want the tools themselves in the hands of workers, organizers and the folks who usually get them last.</p>
+        <p>There are real ways this goes wrong. If a handful of companies and billionaires keeps hold of it, we get today's inequality, only faster. If people lose their jobs before there's a safety net, they pay for progress they don't share in. And the same systems that could cure diseases can be used to watch and control people, so democratic oversight matters as much as the code.</p>
+        <p>Plenty of people on the left want to slow AI down or stop it. I understand why: they've watched technology get used against workers before. I think they're right about the risks. I just don't think stopping it is possible or desirable, and trying to slow it down hands the future to whoever keeps building. I'd rather we shape it.</p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
@@ -142,12 +162,40 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
   }
 
   .about-intro h1 {
-    line-height: 1.4;
+    font-size: clamp(2.2rem, 4.6vw, 3.4rem);
+    line-height: 1.2;
   }
+
+  .interest-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: var(--spacing-md);
+  }
+  .interest-links .btn {
+    padding: 0.55rem 1.15rem;
+    font-size: 0.9rem;
+  }
+
+  .console-strip {
+    display: flex;
+    gap: 5px;
+    height: 8px;
+    max-width: 24rem;
+    margin-top: var(--spacing-md);
+  }
+  .console-strip span:nth-child(1) { flex: 0 0 7rem; background: var(--color-sun); border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+  .console-strip span:nth-child(2) { flex: 1 1 auto; background: var(--color-bg-green); }
+  .console-strip span:nth-child(3) { flex: 0 0 3rem; background: var(--color-sprout); }
+  .console-strip span:nth-child(4) { flex: 0 0 1.5rem; background: var(--color-accent); border-radius: 0 8px 8px 0; }
 
   .about-intro-image img {
     width: 100%;
-    border-radius: var(--radius-lg);
+    max-width: 440px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 auto;
   }
 
   .about-bio {
@@ -166,8 +214,13 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
     margin-top: 0;
   }
 
+  .about-manifesto {
+    max-width: 46rem;
+    margin: 0 auto;
+  }
+
   blockquote {
-    border-left: 3px solid var(--color-accent);
+    border-left: 3px solid var(--color-sprout);
     padding-left: var(--spacing-sm);
     margin: var(--spacing-sm) 0;
     font-style: italic;
@@ -260,7 +313,7 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
     width: 100%;
     max-width: 300px;
     border-radius: var(--radius-md);
-    box-shadow: 0 4px 16px rgba(217,178,169,0.25);
+    box-shadow: var(--shadow-soft);
   }
 
   .timeline-item:nth-child(even) .timeline-image img {
