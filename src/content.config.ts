@@ -18,6 +18,8 @@ const posts = defineCollection({
     coverAlt: z.string().optional(),
     tags: z.array(topic).default([]),
     draft: z.boolean().default(false),
+    // Set when the post renders its own signup form inline (skips the layout's one).
+    hideNewsletter: z.boolean().default(false),
   }),
 });
 

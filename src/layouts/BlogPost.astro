@@ -17,6 +17,7 @@ interface Props {
     coverImage?: string;
     coverAlt?: string;
     tags: string[];
+    hideNewsletter?: boolean;
   };
   prevPost?: PostRef | null;
   nextPost?: PostRef | null;
@@ -99,7 +100,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
     </div>
   </article>
 
-  <NewsletterSignup variant="compact" />
+  {!frontmatter.hideNewsletter && <NewsletterSignup variant="compact" />}
 </BaseLayout>
 
 <style>

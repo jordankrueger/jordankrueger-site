@@ -6,7 +6,10 @@ tags: ["open-web", "ai", "claude-code"]
 coverImage: "/images/gallery/blog-own-your-corner-part-2.jpg"
 coverAlt: "Flat illustration in warm earth tones of a laptop on a wooden desk showing the same small terracotta-roofed house on screen, with a house blueprint, wooden building blocks, a potted plant, a coffee mug and a key"
 draft: true
+hideNewsletter: true
 ---
+
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
 
 *Part 2 of 3 in **Own Your Corner of the Internet**. [Part 1](/blog/why-everyone-should-have-a-website/) makes the case for a website of your own. [Part 3](/blog/connect-your-website-to-the-fediverse/) connects it to the new social web.*
 
@@ -156,13 +159,20 @@ Prompts worth using:
 
 **Get my free Website Starter Pack.** It's a one-page checklist of every step above, plus 20 copy-and-paste Claude prompts for building out your site: an About page, a portfolio, a newsletter signup, and more.
 
-*\[Email signup form: "Send me the Starter Pack"\]*
-
-You'll also get my occasional notes on using AI to build things you used to need a developer for. No spam, unsubscribe anytime.
+<NewsletterSignup
+  variant="compact"
+  id="starter-pack"
+  bonus="starter-pack"
+  label="Free download"
+  title="Website Starter Pack"
+  desc="I'll email you the link. You'll also get my occasional notes on using AI to build things you used to need a developer for. No spam, unsubscribe anytime."
+  button="Send me the Starter Pack"
+  success="Check your inbox. The Starter Pack is on its way."
+/>
 
 **Built something?** Send me the link. I'd love to see it, and I might feature it in a future post.
 
-*\[Optional: "Need this set up for your organization? Let's talk." → contact link\]*
+Need this set up for your organization? [CampaignHelp can do it for you](https://campaign.help).
 
 **Next, [Part 3: Connect your website to the Fediverse](/blog/connect-your-website-to-the-fediverse/).** Your web address becomes your name on Bluesky and Mastodon. Missed the start? [Part 1: Why everyone should have a website](/blog/why-everyone-should-have-a-website/).
 
