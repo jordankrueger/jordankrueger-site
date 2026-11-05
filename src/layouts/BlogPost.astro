@@ -72,7 +72,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
       </header>
 
       {frontmatter.coverImage && (
-        <img src={frontmatter.coverImage} alt={frontmatter.coverAlt || frontmatter.title} class="post-cover" />
+        <img src={frontmatter.coverImage} alt={frontmatter.coverAlt || frontmatter.title} class="post-cover" fetchpriority="high" />
       )}
 
       <div class="post-content">
