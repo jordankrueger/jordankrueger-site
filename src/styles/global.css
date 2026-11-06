@@ -257,7 +257,7 @@ button:focus-visible {
 }
 
 /* Shared by the hero, dividers and projects drawings (Astro scopes keyframes per component, so global ones live here) */
-@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 /* Left-to-right reveal for lines with non-scaling strokes (dash drawing breaks there); negative insets keep caps unclipped */
 @keyframes wipe { from { clip-path: inset(-10px 100% -10px -10px); } to { clip-path: inset(-10px -10px -10px -10px); } }
 @keyframes unfurl { from { opacity: 0; transform: scale(0) rotate(-40deg); } to { opacity: 1; transform: none; } }

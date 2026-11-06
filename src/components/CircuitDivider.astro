@@ -11,14 +11,18 @@
   @supports (animation-timeline: view()) {
     @media screen and (prefers-reduced-motion: no-preference) {
       .d-line {
-        animation: wipe linear both;
+        animation-name: wipe;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: view();
         animation-range: entry 0% entry 80%;
       }
       .d-leaf {
         transform-box: fill-box;
         transform-origin: 0% 100%;
-        animation: unfurl linear both;
+        animation-name: unfurl;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: view();
         animation-range: entry 80% entry 100%;
       }
