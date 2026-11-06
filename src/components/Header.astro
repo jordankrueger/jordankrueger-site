@@ -26,7 +26,7 @@ const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.s
     <nav class="desktop-nav" aria-label="Main navigation">
       {navLinks.map(link => link.children ? (
         <div class="nav-group">
-          <button class:list={['nav-link', 'nav-group-btn', { active: projectsActive }]} aria-expanded="false" aria-controls="projects-menu">
+          <button class:list={['nav-link', 'nav-group-btn', { active: projectsActive }]} aria-controls="projects-menu">
             {link.label}
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 4.5 3 3 3-3" /></svg>
           </button>
@@ -147,6 +147,9 @@ const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.s
     top: 100%;
     left: -1rem;
     min-width: 13rem;
+    max-height: calc(100vh - 4rem - 1rem);
+    max-height: calc(100dvh - 4rem - 1rem);
+    overflow-y: auto;
     margin: 0;
     padding: 0.5rem;
     list-style: none;
@@ -284,6 +287,10 @@ const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.s
     .hamburger::after { transition: transform 0.2s ease; }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .site-header a { transition: none; }
+  }
+
   @media (max-width: 900px) {
     .desktop-nav,
     .desktop-only {
@@ -301,6 +308,7 @@ const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.s
   const projectsBtn = group?.querySelector<HTMLButtonElement>('.nav-group-btn');
 
   if (group && projectsBtn) {
+    projectsBtn.setAttribute('aria-expanded', 'false');
     let pinned = false;
     let leaveTimer: ReturnType<typeof setTimeout>;
     const closeProjects = () => {
@@ -328,10 +336,11 @@ const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.s
     group.addEventListener('focusout', event => {
       if (!group.contains(event.relatedTarget as Node | null)) closeProjects();
     });
-    group.addEventListener('keydown', event => {
-      if (event.key === 'Escape') {
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && projectsBtn.getAttribute('aria-expanded') === 'true') {
+        const focusInside = group.contains(document.activeElement);
         closeProjects();
-        projectsBtn.focus();
+        if (focusInside) projectsBtn.focus();
       }
     });
     document.addEventListener('click', event => {
