@@ -42,6 +42,15 @@ try {
     await band.screenshot({ path: `/tmp/book-band-${width}.png` });
     console.log(`PASS ${width}: order, copy, links, loaded cover; screenshot /tmp/book-band-${width}.png`);
   }
+  await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
+  for (const width of [390, 900]) {
+    await page.setViewportSize({ width, height: 844 });
+    for (const button of await page.locator('.book-band .btn').all()) {
+      const right = await button.evaluate(el => el.getBoundingClientRect().right);
+      assert(right <= width, `${width} at 200% text: "${await button.innerText()}" right edge ${right} exceeds viewport ${width}`);
+    }
+    console.log(`PASS ${width}: every book button fits at 200% text size`);
+  }
   const response = await page.goto(new URL('/projects/movement', base).href);
   assert(response.ok(), `Movement projects returned ${response.status()}`);
   const title = page.getByRole('heading', { name: 'Where the Roads Used to Be', exact: true });

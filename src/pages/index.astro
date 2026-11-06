@@ -186,6 +186,10 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     gap: var(--spacing-sm);
   }
 
+  .book-actions .btn {
+    white-space: normal;
+  }
+
   @media (max-width: 899px) {
     .book-grid {
       grid-template-columns: 1fr;

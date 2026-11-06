@@ -134,7 +134,6 @@ Output directory: `dist`
 `turnstile-forms` (commit `b491d16`) is still on origin but superseded: Turnstile shipped on `main` separately and is live on the contact and newsletter forms. Never merge it; delete it once Jordan OKs (unmerged commits, so ask first).
 
 ## Redesign — launched 2026-11-05
-- **Book band:** homepage below the practices, plus a Movement projects entry; the hard-coded $12.99 price and Amazon/book-site URLs live in `src/pages/index.astro` + `src/content/projects.json`.
 Solarpunk redesign shipped in PR #86 (squash d3e1e9e); rollback = revert that commit via PR. Spec and plan stay in `docs/superpowers/`.
 - **Headshots:** `headshot-hero.jpg` (Jordan_0547, warm curtain) and `headshot-about.jpg` (Jordan_0545, gray backdrop), 800px squares; originals in `~/ClaudeCode/dropbox/`.
 - **About page** carries the "left accelerationist" manifesto section (Jordan approved 2026-11-05).
@@ -146,3 +145,4 @@ Solarpunk redesign shipped in PR #86 (squash d3e1e9e); rollback = revert that co
 - **Images:** keep covers at max 1600px, progressive JPEG around q78 (Pillow, keep the result only if smaller). Shrunk 2026-11-05 from 12.5MB to 4.7MB.
 - **Shared style hooks** (2026-11-05 cleanup): `.legal-prose` for privacy/terms/accessibility, `--fs-page-title` for page h1s. (`.area-back` and `.sw-back` stay local: a global `.back-link` would collide with the blog layout's own `.back-link`.)
 - **Not done (low priority):** Turnstile `api.js` loads on every page, not only pages with forms; `/projects/{movement,personal,starbase-118}` are three near-identical files that could be one `[area].astro`.
+- **Book band:** homepage below the practices, plus a Movement projects entry; the hard-coded $12.99 price and Amazon/book-site URLs live in `src/pages/index.astro` + `src/content/projects.json`.
