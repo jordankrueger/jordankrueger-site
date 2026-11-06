@@ -60,6 +60,22 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   </div>
   </section>
 
+  <section class="book-band">
+    <div class="container book-grid fade-up">
+      <img src="/images/book-cover.jpg" width="720" height="730" loading="lazy" alt="Cover of Where the Roads Used to Be: Bear and his dog Biscuit sit under a blossoming tree on a hill above Pittsburgh, with a whale-shaped airship overhead." />
+      <div class="book-copy">
+        <h2>I wrote a picture book</h2>
+        <p class="book-lead">What if the highways became wildflower meadows?</p>
+        <p><em>Where the Roads Used to Be</em> follows Bear through a whole life in a hopeful future: robots doing the heavy work, nobody needing money for the basics, and a chosen family that just keeps growing.</p>
+        <p class="book-note">For ages 4 to 8. Every paperback comes with a read-along edition.</p>
+        <div class="book-actions">
+          <a href="https://www.amazon.com/dp/B0HQC2G2CF" target="_blank" rel="noopener" class="btn btn-primary">Buy the paperback, $12.99</a>
+          <a href="https://wheretheroadsusedtobe.com/" target="_blank" rel="noopener" class="btn btn-outline">Visit the book's site</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- About Preview -->
   <div class="panel-wrap">
     <section class="about-panel fade-up">
@@ -130,6 +146,60 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
 
   .panel-wrap {
     padding: 0 var(--spacing-md);
+  }
+
+  .book-band {
+    background: var(--color-bg-warm);
+    padding: var(--spacing-xl) 0;
+  }
+
+  .book-grid {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: var(--spacing-xl);
+    align-items: center;
+  }
+
+  .book-grid img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .book-copy h2 {
+    margin-top: 0;
+  }
+
+  .book-lead {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .book-note {
+    color: var(--color-sun-text);
+    font-size: 0.9rem;
+  }
+
+  .book-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .book-actions .btn {
+    white-space: normal;
+  }
+
+  @media (max-width: 899px) {
+    .book-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+
+    .book-grid img {
+      max-width: 260px;
+      justify-self: center;
+    }
   }
 
   .about-panel {

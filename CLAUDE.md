@@ -145,3 +145,4 @@ Solarpunk redesign shipped in PR #86 (squash d3e1e9e); rollback = revert that co
 - **Images:** keep covers at max 1600px, progressive JPEG around q78 (Pillow, keep the result only if smaller). Shrunk 2026-11-05 from 12.5MB to 4.7MB.
 - **Shared style hooks** (2026-11-05 cleanup): `.legal-prose` for privacy/terms/accessibility, `--fs-page-title` for page h1s. (`.area-back` and `.sw-back` stay local: a global `.back-link` would collide with the blog layout's own `.back-link`.)
 - **Not done (low priority):** Turnstile `api.js` loads on every page, not only pages with forms; `/projects/{movement,personal,starbase-118}` are three near-identical files that could be one `[area].astro`.
+- **Book band:** homepage below the practices, plus a Movement projects entry; the hard-coded $12.99 price and Amazon/book-site URLs live in `src/pages/index.astro` + `src/content/projects.json`.
