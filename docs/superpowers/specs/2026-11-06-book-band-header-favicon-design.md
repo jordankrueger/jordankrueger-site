@@ -1,7 +1,7 @@
 # Book band, header menu and favicon — design
 
 Date: 2026-11-06. Site: jordankrueger.com (Astro 7, Cloudflare Pages). Personal project.
-Companion: http://jordans-mac-mini:3008/personal/jordankrueger-site/.claude/worktrees/book-header-docs/docs/superpowers/specs/2026-11-06-book-band-header-favicon-design.html
+Companion: http://jordans-mac-mini:3008/personal/design-mockups/jk-book/plan.html (served copy; source beside this file)
 
 ## Verdict
 
