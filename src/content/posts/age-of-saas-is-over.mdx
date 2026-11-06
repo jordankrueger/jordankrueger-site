@@ -1,0 +1,51 @@
+---
+title: "The age of SaaS is over. You control your internet."
+description: "We rented our software because building our own was too hard. AI agents changed that. Now the job is making sure everything we build can talk to everything else."
+pubDate: 2026-11-06T17:00:00Z
+tags: ["open-web", "ai"]
+coverImage: "/images/gallery/blog-age-of-saas-is-over.jpg"
+coverAlt: "Flat illustration in warm earth tones of a small cream house with a terracotta roof at the center of a hilly town, linked by strings of lights and dotted paths to a clock-tower town hall, a columned library, a meeting hall and neighboring houses, with a workbench of hand tools and building blocks in the foreground"
+draft: false
+---
+
+This builds on [Own Your Corner of the Internet](/blog/why-everyone-should-have-a-website/), my three-part series on having a website of your own. If you built one, this is what I think comes next.
+
+For most of my working life, "we need a tool for that" has had one answer: Find a company that sells it, pay every month, and live by its rules. Your email list, your event sign-ups, your member directory, your city's website. All rented. I've helped a lot of nonprofits pick those tools, and I've watched a lot of them get stuck with them.
+
+That deal made sense when building your own software meant hiring engineers. It doesn't anymore.
+
+## Building got cheap
+
+In [Part 2](/blog/build-your-own-website/), I walked through building a real website with Claude for about $11 a year, without writing code. The same AI agents can build a sign-up form, a shared calendar or a volunteer tracker. They can build a page that explains what your city council did last night.
+
+When building is cheap, renting looks different. You're paying someone else to decide what you can do with your own stuff.
+
+So I think the age of SaaS (software as a service) is ending. The companies won't disappear overnight. But the main reason we needed them, that building was too hard, is going away.
+
+A subscription buys more than the software, though. It buys backups, security updates and someone to call when something breaks. That work doesn't disappear. But it can come from a host you choose and can leave, the way your website does now. And the same AI agents that build a tool can help keep it running.
+
+## The catch is getting it all to talk
+
+There's a real risk here. If every town, group and person builds their own thing, we get a million tiny islands. None of them can talk to each other, and we're stuck all over again.
+
+The fix is old and boring: shared formats. Email works because every email program agrees on what a message looks like. Google and Portland's transit agency worked out a common format for bus and train schedules, [GTFS](https://en.wikipedia.org/wiki/GTFS). Once Google's trip planner could read it, other agencies had a reason to publish in it. Your website from [Part 3](/blog/connect-your-website-to-the-fediverse/) reaches Mastodon and Bluesky (through a bridge called Bridgy Fed) for the same reason.
+
+AI can do a lot of the building now. Our job is agreeing on the shapes, so whatever gets built plugs into everything else.
+
+## What I'm building
+
+That's why I started Townwright. A wright is someone who builds by hand, and Townwright builds what a town shares. Two pieces are underway.
+
+The first is the Open Site Content Standard. A city publishes its whole website once, as clean, structured content. Residents then read it however works for them: big text, a screen reader, plain language, Spanish or Chinese, or only what applies to their address.
+
+The UK already does a version of this. GOV.UK publishes its pages through an [open API](https://content-api.publishing.service.gov.uk/), and its documentation says "Anyone can use this API for any purpose." In October I checked the five local government sites where I live, near Pittsburgh: the city, the county, my township, the school district and the transit agency. Only one offered its pages through a structured feed a program could read, and I couldn't find a license to reuse the text on any of them. That's the gap. I'm building a first demo reader on the GOV.UK content now.
+
+The second is Meetinghouse, an open-source groups and events tool. Every public group will get a real web page and a calendar feed anyone can subscribe to. People will be able to follow it from the [Fediverse](/blog/connect-your-website-to-the-fediverse/#whats-the-fediverse) (the network of independent social sites that includes Mastodon), and its events show up there too. It's being built so any group can export everything and move. In Part 1, I wrote about Meta [cutting off the tools](https://techcrunch.com/2024/02/05/meta-cuts-off-third-party-access-to-facebook-groups-leaving-developers-and-customers-in-disarray/) organizers used to post to Facebook Groups, with 90 days' notice. With Meetinghouse, a group in that spot packs up and moves instead of starting over.
+
+## Where this goes
+
+Picture a country publishing its services in an open format, and then a state, and then your town. A neighbor who reads Spanish asks their AI assistant when leaf pickup is, and gets the answer with the official page one tap away. Your block club's events show up in the library calendar on their own. Your website sits right next to all of it, at an address you control.
+
+Nobody asks a platform for permission. Nobody starts over when a company changes its mind. AI agents do the building. Open standards keep it connected, so you stay in charge. It's the same idea behind [Freehold](https://freehold.is), my proposal for an internet without landlords, scaled up from one person to a whole town.
+
+You started building your piece of it when you set up your site. Maybe you run a town, a library or a group that's tired of renting its tools. Maybe you just want to help build the next pieces. Let's do it together.
