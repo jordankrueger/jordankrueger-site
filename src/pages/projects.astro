@@ -144,15 +144,18 @@ const tools = [
     @media screen and (prefers-reduced-motion: no-preference) {
       .icon path[fill="none"] {
         stroke-dasharray: 1;
-        stroke-dashoffset: 1;
-        animation: draw linear both;
+        animation-name: draw;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: view();
         animation-range: entry 0% entry 100%;
       }
       .icon :is(circle, rect, path):not([fill="none"]) {
         transform-box: fill-box;
         transform-origin: 50% 100%;
-        animation: grow linear both;
+        animation-name: grow;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: view();
         animation-range: entry 0% entry 100%;
       }

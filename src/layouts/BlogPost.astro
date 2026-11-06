@@ -123,13 +123,14 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
         pointer-events: none;
         background: var(--color-sprout);
         transform-origin: left;
-        transform: scaleX(0);
-        animation: read-fill linear both;
+        animation-name: read-fill;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: scroll(root block);
       }
     }
   }
-  @keyframes read-fill { to { transform: scaleX(1); } }
+  @keyframes read-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
   .blog-post {
     --measure: 68ch;
