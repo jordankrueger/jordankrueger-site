@@ -95,6 +95,25 @@ try {
     console.log(`PASS: ${step}`);
   };
 
+  for (const route of ['/', '/ai']) {
+    step = `1440x900 ${route}: desktop nav heights, bottoms and text baselines align within 0.5px`;
+    await page.goto(new URL(route, base).href);
+    await page.evaluate(() => document.fonts.ready);
+    const measurements = await page.locator('.desktop-nav > a, .nav-group-btn').evaluateAll(nodes => nodes.map(node => {
+      const box = node.getBoundingClientRect();
+      const text = [...node.childNodes].find(child => child.nodeType === Node.TEXT_NODE && child.textContent.trim());
+      const range = document.createRange();
+      range.selectNodeContents(text);
+      return { label: text.textContent.trim(), height: box.height, bottom: box.bottom, textBottom: range.getBoundingClientRect().bottom };
+    }));
+    assert.equal(measurements.length, 4, step);
+    for (const metric of ['height', 'bottom', 'textBottom']) {
+      const values = measurements.map(item => item[metric]);
+      assert.ok(Math.max(...values) - Math.min(...values) <= 0.5, `${step}: ${metric}\n${JSON.stringify(measurements, null, 2)}`);
+    }
+    console.log(`PASS: ${step}`);
+  }
+
   step = 'top bar contains Blog, Projects, About, CampaignHelp';
   await reset();
   assert.deepEqual(await page.locator('.desktop-nav > a, .desktop-nav > .nav-group > button').evaluateAll(nodes => nodes.map(node => {
