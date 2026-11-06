@@ -3,14 +3,20 @@ import LogoMark from './LogoMark.astro';
 
 const navLinks = [
   { href: '/blog', label: 'Blog' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/ai', label: 'AI' },
-  { href: '/tools', label: 'Tools' },
+  { href: '/projects', label: 'Projects', children: [
+    { href: '/projects', label: 'All projects' },
+    { href: '/projects/movement', label: 'Movement work' },
+    { href: '/projects/starbase-118', label: 'StarBase 118' },
+    { href: '/projects/personal', label: 'Personal tools' },
+    { href: '/ai', label: 'Built with AI' },
+    { href: '/tools', label: 'Tools for progressives' },
+  ] },
   { href: '/about', label: 'About' },
   { href: 'https://campaign.help', label: 'CampaignHelp', external: true },
 ];
 
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.replace(/\/$/, '');
+const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.startsWith(path));
 ---
 
 <header class="site-header">
@@ -18,13 +24,24 @@ const currentPath = Astro.url.pathname;
     <a href="/" class="logo"><LogoMark /><span>Jordan Krueger</span></a>
 
     <nav class="desktop-nav" aria-label="Main navigation">
-      {navLinks.map(link => (
+      {navLinks.map(link => link.children ? (
+        <div class="nav-group">
+          <button class:list={['nav-link', 'nav-group-btn', { active: projectsActive }]} aria-controls="projects-menu">
+            {link.label}
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 4.5 3 3 3-3" /></svg>
+          </button>
+          <ul id="projects-menu">
+            {link.children.map(child => <li><a href={child.href} aria-current={currentPath === child.href ? 'page' : undefined}>{child.label}</a></li>)}
+          </ul>
+        </div>
+      ) : (
         <a
           href={link.href}
           class:list={["nav-link", { active: !link.external && currentPath.startsWith(link.href) }]}
           {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}
         >
           {link.label}
+          {link.external && <><svg class="ext-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9 9 3M3 3h6v6" /></svg><span class="sr-only">(opens in a new tab)</span></>}
         </a>
       ))}
     </nav>
@@ -39,13 +56,19 @@ const currentPath = Astro.url.pathname;
   <!-- Mobile nav overlay -->
   <div class="mobile-nav-overlay" aria-hidden="true">
     <nav class="mobile-nav" aria-label="Mobile navigation">
-      {navLinks.map(link => (
+      {navLinks.map(link => link.children ? (
+        <div class="mobile-nav-group">
+          <span class="mobile-nav-label">{link.label}</span>
+          {link.children.map(child => <a href={child.href} class="mobile-nav-link" aria-current={currentPath === child.href ? 'page' : undefined}>{child.label}</a>)}
+        </div>
+      ) : (
         <a
           href={link.href}
           class:list={["mobile-nav-link", { active: !link.external && currentPath.startsWith(link.href) }]}
           {...(link.external ? { target: '_blank', rel: 'noopener' } : {})}
         >
           {link.label}
+          {link.external && <><svg class="ext-icon" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9 9 3M3 3h6v6" /></svg><span class="sr-only">(opens in a new tab)</span></>}
         </a>
       ))}
       <a href="/#subscribe" class="mobile-nav-link">Subscribe</a>
@@ -97,7 +120,6 @@ const currentPath = Astro.url.pathname;
     text-decoration: none;
     padding: 0.25rem 0;
     border-bottom: 2px solid transparent;
-    transition: color 0.15s ease, border-color 0.15s ease;
   }
 
   .nav-link:hover,
@@ -105,6 +127,54 @@ const currentPath = Astro.url.pathname;
     color: var(--color-accent);
     border-bottom-color: var(--color-sun);
   }
+
+  .nav-group { position: relative; }
+
+  .nav-group-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: inherit;
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+  }
+
+  #projects-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -1rem;
+    min-width: 13rem;
+    max-height: calc(100vh - 4rem - 1rem);
+    max-height: calc(100dvh - 4rem - 1rem);
+    overflow-y: auto;
+    margin: 0;
+    padding: 0.5rem;
+    list-style: none;
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+  }
+
+  :global(html.js) .nav-group-btn[aria-expanded="true"] + #projects-menu,
+  :global(html:not(.js)) .nav-group:hover #projects-menu,
+  :global(html:not(.js)) .nav-group:focus-within #projects-menu { display: block; }
+
+  #projects-menu a {
+    display: block;
+    padding: 0.55rem;
+    color: var(--color-text);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+  }
+
+  #projects-menu a:hover,
+  #projects-menu a[aria-current="page"] { background: var(--color-bg-warm); color: var(--color-accent); }
+
+  .ext-icon { width: 0.8em; height: 0.8em; margin-left: 0.2em; }
 
   .subscribe-pill {
     font-weight: 700;
@@ -114,7 +184,6 @@ const currentPath = Astro.url.pathname;
     padding: 0.45rem 1rem;
     border-radius: var(--radius-pill);
     text-decoration: none;
-    transition: background-color 0.15s ease, color 0.15s ease;
   }
 
   .subscribe-pill:hover {
@@ -141,7 +210,6 @@ const currentPath = Astro.url.pathname;
     height: 2px;
     background: var(--color-text-logo);
     position: relative;
-    transition: background 0.2s ease;
   }
 
   .hamburger::before,
@@ -152,7 +220,6 @@ const currentPath = Astro.url.pathname;
     width: 22px;
     height: 2px;
     background: var(--color-text-logo);
-    transition: transform 0.2s ease;
   }
 
   .hamburger::before { top: -7px; }
@@ -179,6 +246,8 @@ const currentPath = Astro.url.pathname;
     background: var(--color-bg);
     z-index: 99;
     padding: var(--spacing-lg) var(--spacing-md);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .mobile-nav-overlay[aria-hidden="false"] {
@@ -201,8 +270,25 @@ const currentPath = Astro.url.pathname;
   }
 
   .mobile-nav-link:hover,
-  .mobile-nav-link.active {
+  .mobile-nav-link.active,
+  .mobile-nav-link[aria-current="page"] {
     color: var(--color-accent);
+  }
+
+  .mobile-nav-group { display: flex; flex-direction: column; }
+  .mobile-nav-label { padding: 0.75rem 0; font-size: 1.25rem; font-weight: 600; }
+  .mobile-nav-group .mobile-nav-link { padding-left: 1rem; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nav-link { transition: color 0.15s ease, border-color 0.15s ease; }
+    .subscribe-pill { transition: background-color 0.15s ease, color 0.15s ease; }
+    .hamburger { transition: background 0.2s ease; }
+    .hamburger::before,
+    .hamburger::after { transition: transform 0.2s ease; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header a { transition: none; }
   }
 
   @media (max-width: 900px) {
@@ -218,6 +304,58 @@ const currentPath = Astro.url.pathname;
 </style>
 
 <script>
+  const group = document.querySelector<HTMLElement>('.nav-group');
+  const projectsBtn = group?.querySelector<HTMLButtonElement>('.nav-group-btn');
+
+  if (group && projectsBtn) {
+    projectsBtn.setAttribute('aria-expanded', 'false');
+    let pinned = false;
+    let pointerPressedInside = false;
+    let leaveTimer: ReturnType<typeof setTimeout>;
+    const endPointerPress = () => {
+      setTimeout(() => { pointerPressedInside = false; }, 0);
+    };
+    const closeProjects = () => {
+      clearTimeout(leaveTimer);
+      pinned = false;
+      projectsBtn.setAttribute('aria-expanded', 'false');
+    };
+
+    projectsBtn.addEventListener('click', () => {
+      if (pinned) closeProjects();
+      else {
+        pinned = true;
+        projectsBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
+    group.addEventListener('pointerenter', () => {
+      clearTimeout(leaveTimer);
+      if (matchMedia('(hover: hover)').matches) projectsBtn.setAttribute('aria-expanded', 'true');
+    });
+    group.addEventListener('pointerleave', () => {
+      leaveTimer = setTimeout(() => {
+        if (!pinned && !group.contains(document.activeElement)) closeProjects();
+      }, 150);
+    });
+    group.addEventListener('pointerdown', () => { pointerPressedInside = true; });
+    document.addEventListener('pointerup', endPointerPress);
+    document.addEventListener('pointercancel', endPointerPress);
+    group.addEventListener('focusout', event => {
+      // WebKit blurs before activating a pointer click inside the group.
+      if (!pointerPressedInside && !group.contains(event.relatedTarget as Node | null)) closeProjects();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && projectsBtn.getAttribute('aria-expanded') === 'true') {
+        const focusInside = group.contains(document.activeElement);
+        closeProjects();
+        if (focusInside) projectsBtn.focus();
+      }
+    });
+    document.addEventListener('click', event => {
+      if (!group.contains(event.target as Node)) closeProjects();
+    });
+  }
+
   const menuBtn = document.querySelector('.mobile-menu-btn');
   const overlay = document.querySelector('.mobile-nav-overlay');
 
