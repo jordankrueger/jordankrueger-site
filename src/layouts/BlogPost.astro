@@ -123,6 +123,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
         pointer-events: none;
         background: var(--color-sprout);
         transform-origin: left;
+        /* Use longhands: Vite 8's Lightning CSS minifier folds animation-timeline into a shorthand Chromium rejects; see scripts/check-scroll-animations.mjs. */
         animation-name: read-fill;
         animation-timing-function: linear;
         animation-fill-mode: both;

@@ -208,7 +208,6 @@ try {
   await button.click();
   await page.screenshot({ path: '/tmp/header-desktop.png' });
 
-  step = 'without JavaScript, hover and Tab focus open Projects';
   const noJS = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 900 } });
   const fallback = await noJS.newPage();
   fallback.setDefaultTimeout(4000);

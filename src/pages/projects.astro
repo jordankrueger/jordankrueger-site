@@ -144,6 +144,7 @@ const tools = [
     @media screen and (prefers-reduced-motion: no-preference) {
       .icon path[fill="none"] {
         stroke-dasharray: 1;
+        /* Use longhands: Vite 8's Lightning CSS minifier folds animation-timeline into a shorthand Chromium rejects; see scripts/check-scroll-animations.mjs. */
         animation-name: draw;
         animation-timing-function: linear;
         animation-fill-mode: both;

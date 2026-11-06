@@ -12,6 +12,7 @@
     @media screen and (prefers-reduced-motion: no-preference) {
       .circuit-divider { view-timeline-name: --divider; }
       .d-line {
+        /* Use longhands: Vite 8's Lightning CSS minifier folds animation-timeline into a shorthand Chromium rejects; see scripts/check-scroll-animations.mjs. */
         animation-name: wipe;
         animation-timing-function: linear;
         animation-fill-mode: both;
