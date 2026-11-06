@@ -23,16 +23,42 @@ try {
     await page.evaluate(() => document.fonts.ready);
   };
   const settle = () => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-  const measure = selector => page.locator(selector).evaluateAll(nodes => nodes.map(node => {
+  const measure = selector => (typeof selector === 'string' ? page.locator(selector) : selector).evaluateAll(nodes => nodes.map(node => {
     const style = getComputedStyle(node);
     const box = node.getBoundingClientRect();
     return {
       name: style.animationName, timeline: style.animationTimeline,
+      animations: node.getAnimations().map(animation => ({
+        css: animation instanceof CSSAnimation, name: animation.animationName,
+        state: animation.playState,
+        timeline: animation.timeline?.constructor.name,
+        parent: animation.timeline instanceof ViewTimeline && animation.timeline.subject === node.ownerSVGElement,
+      })),
+      clip: style.clipPath, transform: style.transform,
+      scaleX: new DOMMatrixReadOnly(style.transform).a,
       offset: style.strokeDashoffset, opacity: style.opacity, stroke: style.stroke,
       visible: node.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }) && (box.width > 0 || box.height > 0),
       top: box.top, bottom: box.bottom,
     };
   }));
+  const running = async (selector, name, timeline, label, parent = false) => {
+    const values = await measure(selector);
+    check(values.length > 0 && values.every(value => value.animations.some(animation =>
+      animation.css && animation.name === name && animation.state === 'running'
+      && animation.timeline === timeline && (!parent || animation.parent))), label, values.map(value => value.animations));
+  };
+  const enter = async (subject, fraction) => {
+    await subject.evaluate((node, fraction) => {
+      const { top, height } = node.getBoundingClientRect();
+      const timeline = node.getAnimations()[0]?.timeline;
+      // SVG timeline bounds include stroke geometry; the painted box can also be scaled.
+      const target = timeline instanceof ViewTimeline
+        ? timeline.startOffset.value + (timeline.endOffset.value - timeline.startOffset.value - innerHeight) * fraction
+        : scrollY + top + height * fraction - innerHeight;
+      scrollTo({ top: target, behavior: 'instant' });
+    }, fraction);
+    await settle();
+  };
   await visit('/blog/');
   const blog = await page.locator('a[href^="/blog/"]').evaluateAll(nodes => nodes.map(node => new URL(node.href).pathname).find(path => path !== '/blog/'));
   assert.ok(blog, 'No blog post link found');
@@ -78,6 +104,22 @@ try {
     }));
     check(values.every(value => Number.parseFloat(value.offset) === 0 && value.opacity === '1' && value.stroke !== 'none' && value.visible && value.top >= 0 && value.bottom <= 900), `projects icon ${index + 1} fully drawn in view`, values);
   }
+  // A short viewport lets even the first drawing enter from below without changing the page.
+  await page.setViewportSize({ width: 1440, height: 200 });
+  await visit('/projects/');
+  await settle();
+  await running(fills, 'grow', 'ViewTimeline', 'projects fills have running grow CSS animations on ViewTimeline');
+  for (const [index, node] of (await page.locator(strokes).all()).entries()) {
+    await enter(node, 0.5);
+    await running(node, 'draw', 'ViewTimeline', `projects draw ${index + 1} has a running CSS animation on ViewTimeline`);
+    const before = (await measure(node))[0];
+    await node.evaluate(node => node.ownerSVGElement.scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await settle();
+    const after = (await measure(node))[0];
+    check(Number.parseFloat(before.offset) > 0 && Number.parseFloat(before.offset) < 1 && Number.parseFloat(after.offset) === 0,
+      `projects offset ${index + 1} changes during entry and ends complete`, { before: before.offset, after: after.offset });
+  }
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.locator(strokes).evaluateAll(nodes => nodes.forEach(node => node.style.setProperty('animation-name', 'none', 'important')));
   values = await measure(strokes);
   check(values.every(value => Number.parseFloat(value.offset) === 0 && value.visible), 'projects strokes fail visible with animations disabled', values);
@@ -86,14 +128,59 @@ try {
   values = await measure(`${strokes}, ${fills}`);
   check(values.length > 0 && values.every(value => value.name === 'none' && Number.parseFloat(value.offset) === 0 && value.opacity === '1' && value.visible), 'reduced motion: no animations and drawings complete', values);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
+  for (const [width, height] of [[1440, 900], [390, 844]]) {
+    await page.setViewportSize({ width, height });
+    // Reload before each divider so an earlier scroll cannot prime its leaf.
+    await visit('/');
+    const dividers = await page.locator('.circuit-divider').count();
+    for (let index = 0; index < dividers; index++) {
+      await visit('/');
+      const divider = page.locator('.circuit-divider').nth(index);
+      await divider.evaluate(node => node.scrollIntoView({ block: 'center', behavior: 'instant' }));
+      await settle();
+      values = await divider.locator('.d-leaf').evaluateAll(nodes => nodes.map(node => ({
+        opacity: getComputedStyle(node).opacity, transform: getComputedStyle(node).transform,
+      })));
+      check(values.length === 1 && values[0].opacity === '1', `${width}: homepage divider ${index + 1} leaf visible at viewport center`, values);
+      await page.setViewportSize({ width, height: 200 });
+      for (const [selector, name, fraction] of [['.d-line', 'wipe', 0.4], ['.d-leaf', 'unfurl', 0.9]]) {
+        await enter(divider, fraction);
+        await running(divider.locator(selector), name, 'ViewTimeline', `${width}: divider ${index + 1} ${name} has a running CSS animation on parent ViewTimeline`, true);
+        const before = await divider.locator(selector).evaluate(node => {
+          const style = getComputedStyle(node);
+          return { clip: style.clipPath, opacity: style.opacity, unscaled: new DOMMatrixReadOnly(style.transform).isIdentity };
+        });
+        await divider.evaluate(node => node.scrollIntoView({ block: 'center', behavior: 'instant' }));
+        await settle();
+        const after = await divider.locator(selector).evaluate(node => {
+          const style = getComputedStyle(node);
+          return { clip: style.clipPath, opacity: style.opacity, unscaled: new DOMMatrixReadOnly(style.transform).isIdentity };
+        });
+        const complete = selector === '.d-line'
+          ? before.clip !== after.clip && /^inset\(-10px(?: calc\(0% - 10px\) -10px -10px)?\)$/.test(after.clip)
+          : Number(before.opacity) < 1 && after.opacity === '1' && !before.unscaled && after.unscaled;
+        check(complete, `${width}: divider ${index + 1} ${name} changes during entry and ends complete`, { before, after });
+      }
+      await page.setViewportSize({ width, height });
+    }
+  }
+  await page.setViewportSize({ width: 1440, height: 900 });
   await visit('/');
   for (const [selector, name] of [['.d-line', 'wipe'], ['.d-leaf', 'unfurl']]) {
     values = await measure(selector);
-    check(values.length > 0 && values.every(value => value.name === name && value.timeline === 'view()'), `homepage ${selector} uses ${name}`, values);
+    check(values.length > 0 && values.every(value => value.name === name && value.timeline === '--divider'), `homepage ${selector} uses ${name} on --divider`, values);
   }
   await visit(blog);
   values = await measure('.read-progress');
   check(values.length === 1 && values[0].name === 'read-fill' && values[0].timeline.startsWith('scroll('), 'blog reading progress animation applied', values);
+  await running('.read-progress', 'read-fill', 'ScrollTimeline', 'blog bar has a running read-fill CSS animation on ScrollTimeline');
+  await page.evaluate(() => scrollTo({ top: (document.documentElement.scrollHeight - innerHeight) * 0.25, behavior: 'instant' }));
+  await settle();
+  const partial = (await measure('.read-progress'))[0].scaleX;
+  await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+  await settle();
+  const full = (await measure('.read-progress'))[0].scaleX;
+  check(partial > 0 && partial < 1 && full === 1, 'blog scaleX changes with scroll and ends complete', { partial, full });
   await page.locator('.read-progress').evaluate(node => node.style.setProperty('animation-name', 'none', 'important'));
   const transform = await page.locator('.read-progress').evaluate(node => getComputedStyle(node).transform);
   check(transform === 'none', 'blog progress fails visible with animation disabled', { transform });

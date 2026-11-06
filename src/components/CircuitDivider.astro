@@ -10,11 +10,12 @@
   /* Draws as it scrolls into view; unsupported or reduced motion = shown complete. */
   @supports (animation-timeline: view()) {
     @media screen and (prefers-reduced-motion: no-preference) {
+      .circuit-divider { view-timeline-name: --divider; }
       .d-line {
         animation-name: wipe;
         animation-timing-function: linear;
         animation-fill-mode: both;
-        animation-timeline: view();
+        animation-timeline: --divider;
         animation-range: entry 0% entry 80%;
       }
       .d-leaf {
@@ -23,7 +24,7 @@
         animation-name: unfurl;
         animation-timing-function: linear;
         animation-fill-mode: both;
-        animation-timeline: view();
+        animation-timeline: --divider;
         animation-range: entry 80% entry 100%;
       }
     }
