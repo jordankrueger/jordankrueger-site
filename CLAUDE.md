@@ -20,6 +20,7 @@ npm run dev
 - `src/styles/` — global.css (design tokens and base styles)
 - `public/fonts/` — Self-hosted woff2 fonts (Bricolage Grotesque variable); `@font-face` rules live in `public/fonts.css` (also used by the Starter Pack share page, so keep it)
 - `scripts/check-contrast.mjs` — WCAG contrast check on the `:root` color tokens; run `node scripts/check-contrast.mjs` after any token change (exit 1 = a pair fails)
+- Any PR touching `Header.astro` runs `NODE_PATH=~/.claude/skills/playwright-skill/node_modules node scripts/check-header.mjs <preview-url>` against the Cloudflare Pages preview before merge and the live site after deploy.
 - `public/images/` — All site images with descriptive names
 - `carrd-export/` — Original Carrd site for content reference
 
