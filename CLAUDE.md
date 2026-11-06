@@ -134,6 +134,7 @@ Output directory: `dist`
 `turnstile-forms` (commit `b491d16`) is still on origin but superseded: Turnstile shipped on `main` separately and is live on the contact and newsletter forms. Never merge it; delete it once Jordan OKs (unmerged commits, so ask first).
 
 ## Redesign — launched 2026-11-05
+- **Book band:** homepage below the practices, plus a Movement projects entry; the hard-coded $12.99 price and Amazon/book-site URLs live in `src/pages/index.astro` + `src/content/projects.json`.
 Solarpunk redesign shipped in PR #86 (squash d3e1e9e); rollback = revert that commit via PR. Spec and plan stay in `docs/superpowers/`.
 - **Headshots:** `headshot-hero.jpg` (Jordan_0547, warm curtain) and `headshot-about.jpg` (Jordan_0545, gray backdrop), 800px squares; originals in `~/ClaudeCode/dropbox/`.
 - **About page** carries the "left accelerationist" manifesto section (Jordan approved 2026-11-05).
