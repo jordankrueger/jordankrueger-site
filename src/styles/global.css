@@ -282,6 +282,7 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  a, .btn { transition: none; }
   .fade-up,
   .fade-up.visible {
     opacity: 1;

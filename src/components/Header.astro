@@ -16,7 +16,7 @@ const navLinks = [
 ];
 
 const currentPath = Astro.url.pathname.replace(/\/$/, '');
-const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.startsWith(path));
+const projectsActive = navLinks.find(link => link.href === '/projects')?.children?.some(child => currentPath.startsWith(child.href));
 ---
 
 <header class="site-header">
@@ -288,10 +288,6 @@ const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.s
     .hamburger::after { transition: transform 0.2s ease; }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .site-header a { transition: none; }
-  }
-
   @media (max-width: 900px) {
     .desktop-nav,
     .desktop-only {
@@ -305,6 +301,7 @@ const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.s
 </style>
 
 <script>
+  const hoverQuery = matchMedia('(hover: hover)');
   const group = document.querySelector<HTMLElement>('.nav-group');
   const projectsBtn = group?.querySelector<HTMLButtonElement>('.nav-group-btn');
 
@@ -331,7 +328,7 @@ const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.s
     });
     group.addEventListener('pointerenter', () => {
       clearTimeout(leaveTimer);
-      if (matchMedia('(hover: hover)').matches) projectsBtn.setAttribute('aria-expanded', 'true');
+      if (hoverQuery.matches) projectsBtn.setAttribute('aria-expanded', 'true');
     });
     group.addEventListener('pointerleave', () => {
       leaveTimer = setTimeout(() => {
