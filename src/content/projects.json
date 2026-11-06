@@ -93,6 +93,24 @@
     ]
   },
   {
+    "id": "where-the-roads-used-to-be",
+    "title": "Where the Roads Used to Be",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "body": "<p>A picture book for ages 4 to 8. It follows Bear and his ever-growing chosen family through a hopeful future, for readers of every age who want to believe tomorrow can be kind, beautiful, healthy, and happy.</p><p>Every paperback unlocks a read-along edition that reads each page aloud.</p>",
+    "image": "/images/book-cover.jpg",
+    "href": "https://wheretheroadsusedtobe.com/",
+    "linkLabel": "Visit the book's site",
+    "secondaryLinks": [
+      {
+        "href": "https://www.amazon.com/dp/B0HQC2G2CF",
+        "label": "Buy the paperback"
+      }
+    ]
+  },
+  {
     "id": "awesome-actionkit",
     "title": "Awesome ActionKit",
     "areas": [
