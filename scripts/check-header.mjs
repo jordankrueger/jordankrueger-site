@@ -55,6 +55,45 @@ try {
     await pinPanel.waitFor({ state: 'hidden' });
     console.log(`PASS: ${step}`);
   };
+  const checkPointerClicks = async (clickPage, engine) => {
+    const clickButton = clickPage.locator('.nav-group-btn');
+    const clickPanel = clickPage.locator('#projects-menu');
+    // macOS WebKit's default keyboard settings include links with Option-Tab.
+    const tabKey = engine === 'WebKit' ? 'Alt+Tab' : 'Tab';
+    step = `${engine}: keyboard-open then click All projects navigates`;
+    await clickPage.mouse.move(10, 200);
+    await clickPage.goto(base);
+    await clickButton.focus();
+    await clickPage.keyboard.press('Enter');
+    assert.equal(await clickButton.getAttribute('aria-expanded'), 'true');
+    await clickPanel.locator('a[href="/projects"]').click();
+    await clickPage.waitForURL(url => /^\/projects\/?$/.test(url.pathname), { timeout: 4000 });
+    console.log(`PASS: ${step}`);
+
+    step = `${engine}: keyboard-open, Tab to child, then click Projects closes`;
+    await clickPage.mouse.move(10, 200);
+    await clickPage.goto(base);
+    await clickButton.focus();
+    await clickPage.keyboard.press('Enter');
+    assert.equal(await clickButton.getAttribute('aria-expanded'), 'true');
+    await clickPage.keyboard.press(tabKey);
+    assert.equal(await clickPage.locator(':focus').getAttribute('href'), '/projects');
+    await clickButton.click();
+    assert.equal(await clickButton.getAttribute('aria-expanded'), 'false', 'click from a focused child must close the pinned menu');
+    await clickPanel.waitFor({ state: 'hidden' });
+    console.log(`PASS: ${step}`);
+
+    step = `${engine}: focus leaving after a completed pointer press still closes`;
+    await clickPage.evaluate(() => new Promise(resolve => setTimeout(resolve, 0)));
+    await clickButton.focus();
+    await clickPage.keyboard.press('Enter');
+    await clickPanel.locator('a').last().focus();
+    await clickPage.keyboard.press(tabKey);
+    assert.equal(await clickPage.locator(':focus').getAttribute('href'), '/about');
+    assert.equal(await clickButton.getAttribute('aria-expanded'), 'false');
+    await clickPanel.waitFor({ state: 'hidden' });
+    console.log(`PASS: ${step}`);
+  };
 
   step = 'top bar contains Blog, Projects, About, CampaignHelp';
   await reset();
@@ -113,11 +152,21 @@ try {
 
   await checkPinning(page, 'Chromium');
 
-  step = 'outside click closes';
+  step = 'outside click closes a pinned menu with focus already outside';
+  await reset();
+  await button.hover();
+  // Keep focus outside so this case exercises the document click handler alone.
+  await button.evaluate(node => node.addEventListener('mousedown', event => event.preventDefault(), { once: true }));
   await button.click();
+  await away();
+  await page.waitForTimeout(220);
+  assert.ok(await page.locator('body').evaluate(node => node === document.activeElement));
+  await expanded(true);
   await page.locator('main').click({ position: { x: 10, y: 100 } });
   await expanded(false);
+  console.log(`PASS: ${step}`);
   await external(page.locator('.desktop-nav'));
+  await checkPointerClicks(page, 'Chromium');
 
   step = '1440x250 desktop can Tab to Tools for progressives inside the viewport';
   await page.setViewportSize({ width: 1440, height: 250 });
@@ -185,6 +234,7 @@ try {
     const webkitPage = await webkitBrowser.newPage({ viewport: { width: 1440, height: 900 } });
     webkitPage.setDefaultTimeout(4000);
     await checkPinning(webkitPage, 'WebKit');
+    await checkPointerClicks(webkitPage, 'WebKit');
   } else {
     console.log(`SKIP: installed WebKit does not match Playwright; expected ${webkit.executablePath()}`);
   }

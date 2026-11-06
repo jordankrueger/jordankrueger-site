@@ -310,7 +310,11 @@ const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.s
   if (group && projectsBtn) {
     projectsBtn.setAttribute('aria-expanded', 'false');
     let pinned = false;
+    let pointerPressedInside = false;
     let leaveTimer: ReturnType<typeof setTimeout>;
+    const endPointerPress = () => {
+      setTimeout(() => { pointerPressedInside = false; }, 0);
+    };
     const closeProjects = () => {
       clearTimeout(leaveTimer);
       pinned = false;
@@ -333,8 +337,12 @@ const projectsActive = ['/projects', '/ai', '/tools'].some(path => currentPath.s
         if (!pinned && !group.contains(document.activeElement)) closeProjects();
       }, 150);
     });
+    group.addEventListener('pointerdown', () => { pointerPressedInside = true; });
+    document.addEventListener('pointerup', endPointerPress);
+    document.addEventListener('pointercancel', endPointerPress);
     group.addEventListener('focusout', event => {
-      if (!group.contains(event.relatedTarget as Node | null)) closeProjects();
+      // WebKit blurs before activating a pointer click inside the group.
+      if (!pointerPressedInside && !group.contains(event.relatedTarget as Node | null)) closeProjects();
     });
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && projectsBtn.getAttribute('aria-expanded') === 'true') {
