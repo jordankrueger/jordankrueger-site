@@ -106,7 +106,7 @@ try {
       range.selectNodeContents(text);
       return { label: text.textContent.trim(), height: box.height, bottom: box.bottom, textBottom: range.getBoundingClientRect().bottom };
     }));
-    assert.equal(measurements.length, 4, step);
+    assert.equal(measurements.length, 5, step);
     for (const metric of ['height', 'bottom', 'textBottom']) {
       const values = measurements.map(item => item[metric]);
       assert.ok(Math.max(...values) - Math.min(...values) <= 0.5, `${step}: ${metric}\n${JSON.stringify(measurements, null, 2)}`);
@@ -114,13 +114,13 @@ try {
     console.log(`PASS: ${step}`);
   }
 
-  step = 'top bar contains Blog, Projects, About, CampaignHelp';
+  step = 'top bar contains Blog, Projects, About, 2076, CampaignHelp';
   await reset();
   assert.deepEqual(await page.locator('.desktop-nav > a, .desktop-nav > .nav-group > button').evaluateAll(nodes => nodes.map(node => {
     const copy = node.cloneNode(true);
     copy.querySelectorAll('svg, .sr-only').forEach(child => child.remove());
     return copy.textContent.trim();
-  })), ['Blog', 'Projects', 'About', 'CampaignHelp']);
+  })), ['Blog', 'Projects', 'About', '2076', 'CampaignHelp']);
 
   step = 'click opens six exact project links';
   await button.click();
