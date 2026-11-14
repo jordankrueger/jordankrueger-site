@@ -48,7 +48,7 @@ const scenes = [
       {scenes.map((s, i) => (
         <label class="pc-scene">
           <input type="radio" name="scene" value={s.value} checked={i === 0} />
-          <span>{s.label}</span>
+          <span><img src={`/images/postcards/${s.value}.webp`} alt="" width="22" height="22" loading="lazy" decoding="async" />{s.label}</span>
         </label>
       ))}
     </fieldset>
@@ -79,7 +79,7 @@ const scenes = [
 </div>
 
 <script>
-  import { drawCard, clean, LIMITS } from '../scripts/postcard-draw.js';
+  import { drawCard, clean, LIMITS, loadImages } from '../scripts/postcard-draw.js';
 
   for (const root of document.querySelectorAll<HTMLElement>('[data-postcard]')) {
     const form = root.querySelector<HTMLFormElement>('[data-pc-form]')!;
@@ -128,6 +128,9 @@ const scenes = [
     Promise.all(['500 40px Caveat', '700 40px Caveat', "700 26px 'Bricolage Grotesque'"].map(f => document.fonts.load(f)))
       .catch(() => {})
       .then(redraw);
+    loadImages(redraw);
+    // Chrome wipes a canvas whose GPU context was lost; draw again when it comes back.
+    canvas.addEventListener('contextrestored', redraw);
 
     root.querySelector('[data-pc-save]')!.addEventListener('click', () => {
       canvas.toBlob(blob => {
@@ -241,6 +244,8 @@ const scenes = [
     font-size: 0.95rem;
     color: var(--color-text-logo);
   }
+  .pc-scene span { display: inline-flex; align-items: center; gap: 0.45rem; padding-left: 0.4rem; }
+  .pc-scene img { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; }
   .pc-scene input:checked + span { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
 
   .pc input:focus-visible, .pc textarea:focus-visible, .pc-scene input:focus-visible + span, .pc .btn:focus-visible {
