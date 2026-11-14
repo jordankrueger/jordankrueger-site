@@ -1,0 +1,249 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CircuitDivider from '../components/CircuitDivider.astro';
+import PostcardMaker from '../components/PostcardMaker.astro';
+import { getCollection } from 'astro:content';
+
+const ext = { target: '_blank', rel: 'noopener' };
+
+// The 2076 series: published posts tagged `2076`, oldest first.
+const series = (await getCollection('posts', ({ data }) => !data.draft && data.tags.includes('2076')))
+  .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+---
+
+<BaseLayout title="2076 | Jordan Krueger" description="America just turned 250. What will it look like at 300? Hopeful about AI. Serious about a brighter future.">
+  <section class="section">
+    <div class="container y-narrow">
+      <p class="y-eyebrow fade-up">2076</p>
+      <h1 class="fade-up">America just turned 250. What will it look like at 300?</h1>
+      <p class="y-sub fade-up">Hopeful about AI. Serious about a brighter future.</p>
+      <p class="fade-up">I'm an optimist with a plan. In 2076, the United States turns 300. By then, I think we can live in a country where AI and robots do the heavy lifting, the planet is healing, no one has to work to survive, and government works for everyone.</p>
+      <p class="fade-up">That isn't a fantasy. Most of the pieces already exist in small form. This page is my map for growing them, and a running list of what I'm doing about it.</p>
+    </div>
+  </section>
+
+  <CircuitDivider />
+
+  <section class="section">
+    <div class="container y-narrow">
+      <h2>A Tuesday in 2076</h2>
+      <blockquote class="y-scene">
+        <p>It's a Tuesday in 2076. You walk to the community garden on a street that used to be a highway. Your doctor visit this morning was free. Your power comes from the neighborhood grid.</p>
+        <p>Your workweek is three days, because machines took on the rest, and the gains went to everyone instead of a few. You were born with a stake of your own, so rent was never the thing that kept you up at night. You spend most of your time with the people you love, on work you chose.</p>
+        <p class="y-scene-end">Nobody is rich in the old sense. Nobody is poor either.</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="y-narrow">The four pillars</h2>
+      <div class="y-pillars">
+        <article class="y-card">
+          <h3><span class="y-num">1</span> Friendly AI</h3>
+          <p><strong>In 2076:</strong> AI and robots that are safe and shared do the drudge work, so people get their time back and everyone shares in what the machines make.</p>
+          <p><strong>Why it's possible:</strong> AI already lets a one-person shop do the work of a team. I've built most of my recent projects that way. The question isn't whether AI changes work. It's who owns it and who benefits.</p>
+          <p><strong>The honest part:</strong> this only goes well if AI is safe and the gains are shared. I take the risks seriously, which is why "friendly" comes first.</p>
+        </article>
+        <article class="y-card">
+          <h3><span class="y-num">2</span> A healthy planet</h3>
+          <p><strong>In 2076:</strong> The grid is clean, industry is kept in check, food is cheap and plentiful, and land and rivers are being rewilded.</p>
+          <p><strong>Why it's possible:</strong> solar and wind are already among the cheapest ways to make new power. Cheap clean energy, plus AI and robots, makes repair work affordable at a scale we've never tried.</p>
+        </article>
+        <article class="y-card">
+          <h3><span class="y-num">3</span> Freedom from money worry</h3>
+          <p><strong>In 2076:</strong> The basics (healthcare, education, transit, food, a home) are free or nearly free. On top of that, every child is born with a stake of their own, big enough to live well, not just get by. No one has to work just to survive.</p>
+          <p><strong>Why it's possible:</strong> Alaska has paid every resident a share of its oil money since 1982. Connecticut gives $3,200 to babies born to families on Medicaid. Since 2026, every newborn in the US can get a $1,000 federal account. The idea is already law. It's just tiny.</p>
+          <p><strong>How big is the stake?</strong> Not a fixed dollar amount. As free basics grow and living gets cheaper, the stake needed to cover the rest gets smaller.</p>
+        </article>
+        <article class="y-card">
+          <h3><span class="y-num">4</span> Good governance</h3>
+          <p><strong>In 2076:</strong> Institutions people trust, can take part in, and that survive changes in who's in power.</p>
+          <p><strong>Why it's possible:</strong> ordinary people already help run things when they're given the chance. Ireland's citizens' assemblies led to its votes on marriage equality and abortion. US cities have used participatory budgeting for years. And states are passing the National Popular Vote compact, one at a time.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <CircuitDivider />
+
+  <section class="section">
+    <div class="container y-narrow">
+      <h2>How we get there</h2>
+      <p>Fifty years is long enough to change everything and short enough that most of us will see it. Here's the rough path.</p>
+      <ol class="y-timeline">
+        <li>
+          <p class="y-when">Now to 2030: win the argument.</p>
+          <p>Make a hopeful future the left's big ask again. Grow the first stakes and pilots that already exist.</p>
+        </li>
+        <li>
+          <p class="y-when">2050: plant.</p>
+          <ul>
+            <li>Safe AI takes on the drudge work</li>
+            <li>A clean grid, with industry kept in check</li>
+            <li>Free basics keep growing, and every newborn gets a real stake</li>
+            <li>The rules are fixed, and people take part in decisions</li>
+          </ul>
+        </li>
+        <li>
+          <p class="y-when">2076: grow.</p>
+          <ul>
+            <li>Shorter workweeks, with the gains shared</li>
+            <li>Cheap, plentiful food, and land being rewilded</li>
+            <li>Basics nearly free, and the first full stakes reach young adults</li>
+            <li>Citizens' assemblies are a normal part of government</li>
+          </ul>
+        </li>
+      </ol>
+      <p class="y-beyond"><em>And beyond: by 2100, work is by choice, the climate is repairing, and our institutions have earned people's trust.</em></p>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container y-narrow">
+      <h2>What I'm doing now</h2>
+      <p>A plan is only as good as what you do this year. Here's mine.</p>
+      <ul class="y-doing">
+        <li><strong>Friendly AI:</strong> my <a href="https://aiprogresstracker.com/" {...ext}>AI progress tracker</a>; Headline Checks, which fact-checks viral anti-AI headlines (coming soon); <a href="https://progressivesforai.com/" {...ext}>Progressives for AI</a>; and <a href="https://groundedai.help" {...ext}>Grounded AI</a> workshops that help nonprofits put AI to work.</li>
+        <li><strong>A healthy planet:</strong> <a href="https://wheretheroadsusedtobe.com/" {...ext}><em>Where the Roads Used to Be</em></a>, a picture book for ages 4 to 8 about a hopeful future.</li>
+        <li><strong>Freedom from money worry:</strong> a blog series on the birthright stake (starting soon).</li>
+        <li><strong>Good governance:</strong> <a href="https://dobigthings.org" {...ext}>Do Big Things</a>, the near-term agenda for fixing the rules, and the <a href="https://popularvotetracker.org" {...ext}>Popular Vote Tracker</a>.</li>
+      </ul>
+      <p>My day job is <a href="https://campaign.help" {...ext}>CampaignHelp</a>, where I help progressive organizations run better so they can get more done.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container y-narrow">
+      <h2>The hard parts</h2>
+      <p>A plan that skips the hard questions isn't a plan. Here are the ones I'm working through.</p>
+      <dl class="y-hard">
+        <dt>Who pays for it?</dt>
+        <dd>Mostly the wealth that AI and automation create, as long as the public owns a share of it. Add taxes on pollution and on very large fortunes.</dd>
+        <dt>How does it survive elections?</dt>
+        <dd>Build it the way Alaska and Norway built their funds: independent, and so popular that cutting it is political suicide. Social Security has lasted almost a century that way.</dd>
+        <dt>What if AI goes wrong?</dt>
+        <dd>Then none of this works. Safety and shared ownership come first, not as an afterthought.</dd>
+        <dt>Who pushes back, and why?</dt>
+        <dd>People who profit from things being scarce, and people who've been promised a better future before and didn't get it. The answer to both is early wins people can see.</dd>
+        <dt>Isn't this utopian?</dt>
+        <dd>Every big change looked that way at first: weekends, public schools, Social Security. Utopian just means nobody has drawn the map yet.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <CircuitDivider />
+
+  <section class="section">
+    <div class="container">
+      <h2 class="y-narrow">Join in</h2>
+      <div class="y-join">
+        <div class="y-card">
+          <h3>Send me your postcard from 2076.</h3>
+          <p class="y-narrow">In three sentences: where are you, what's your Tuesday like, and what did you help build to get there? I'll share my favorites (with your permission). Nobody can draw this map alone.</p>
+          <PostcardMaker />
+        </div>
+        <div class="y-card y-narrow">
+          <h3>Follow along.</h3>
+          <p>My newsletter, Mission Control, is where I share progress on the plan, plus the tools and projects I'm building along the way.</p>
+          <a href="/#subscribe" class="btn btn-primary">Subscribe</a>
+        </div>
+      </div>
+
+      <div class="y-narrow">
+        <h3 class="y-series-head">Read the series.</h3>
+        {series.length > 0 ? (
+          <ol class="y-series">
+            {series.map(post => (
+              <li>
+                <a href={`/blog/${post.id}/`}><strong>{post.data.title}</strong></a>
+                <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                {post.data.description && <p>{post.data.description}</p>}
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p>The first post is on its way. <a href="/#subscribe">Subscribe</a> to get it.</p>
+        )}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .y-narrow { max-width: 44rem; }
+  .y-eyebrow { font-weight: 700; letter-spacing: 0.12em; color: var(--color-sun-text); margin-bottom: 0.5rem; }
+  h1 { font-size: var(--fs-page-title); }
+  .y-sub { font-size: 1.25rem; font-weight: 600; color: var(--color-accent); margin: 0.75rem 0 var(--spacing-md); }
+
+  .y-scene {
+    margin: var(--spacing-md) 0 0;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-bg-warm);
+    border-left: 4px solid var(--color-sun);
+    border-radius: var(--radius-md);
+    font-size: 1.15rem;
+  }
+  .y-scene p + p { margin-top: 0.9rem; }
+  .y-scene-end { font-weight: 700; color: var(--color-text-logo); }
+
+  .y-pillars {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+  }
+  .y-card {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+  }
+  .y-card h3 { margin-top: 0; display: flex; align-items: center; gap: 0.6rem; }
+  .y-card p + p { margin-top: 0.75rem; }
+  .y-num {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex: none;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-bg-white);
+    font-size: 1rem;
+  }
+
+  .y-timeline { list-style: none; padding: 0; margin: var(--spacing-md) 0 0; border-left: 2px solid var(--color-border); }
+  .y-timeline > li { position: relative; padding: 0 0 var(--spacing-md) var(--spacing-md); }
+  .y-timeline > li::before {
+    content: '';
+    position: absolute;
+    left: calc(-0.5rem - 1px);
+    top: 0.3rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-sun);
+    border: 2px solid var(--color-bg);
+  }
+  .y-when { font-weight: 700; color: var(--color-text-logo); font-size: 1.1rem; margin-bottom: 0.4rem; }
+  .y-timeline ul { padding-left: 1.2rem; }
+  .y-beyond { margin-top: var(--spacing-sm); }
+
+  .y-doing, .y-series { padding-left: 1.2rem; margin: var(--spacing-sm) 0; }
+  .y-doing li + li, .y-series li + li { margin-top: 0.6rem; }
+
+  .y-hard dt { font-weight: 700; color: var(--color-text-logo); margin-top: var(--spacing-md); }
+  .y-hard dd { margin: 0.3rem 0 0; }
+
+  .y-join { display: grid; gap: var(--spacing-md); margin-top: var(--spacing-md); }
+  .y-join .btn { margin-top: var(--spacing-sm); }
+  .y-series-head { margin-top: var(--spacing-xl); }
+  .y-series time { display: block; font-size: 0.9rem; color: var(--color-sun-text); }
+  .y-series li p { margin-top: 0.2rem; }
+
+  @media (max-width: 640px) {
+    .y-pillars { grid-template-columns: 1fr; }
+    .y-scene { padding: var(--spacing-sm) var(--spacing-md); font-size: 1.05rem; }
+  }
+</style>

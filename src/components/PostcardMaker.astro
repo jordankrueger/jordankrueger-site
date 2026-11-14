@@ -1,0 +1,273 @@
+---
+// Postcard from 2076: form + live canvas preview. Drawing code in src/scripts/postcard-draw.js.
+// "Send it to Jordan" posts to functions/api/postcards.js (D1, Turnstile action "postcard").
+const example = {
+  name: 'Jordan',
+  from: 'Pittsburgh',
+  where: "On my porch, on a street that used to be a four-lane road. It's a garden now.",
+  tuesday: 'Three-day workweek, so Tuesday is garden day. Lunch is whatever the block grew.',
+  built: 'I helped my town start its first solar co-op back in 2031. Still proud of that one.',
+};
+const questions = [
+  { key: 'where', label: 'Where are you right now?' },
+  { key: 'tuesday', label: "What's your Tuesday like?" },
+  { key: 'built', label: 'What did you help build to get here?' },
+] as const;
+const scenes = [
+  { value: 'garden', label: 'Garden street' },
+  { value: 'river', label: 'River & wind' },
+  { value: 'night', label: 'City at night' },
+];
+---
+
+<div class="pc" data-postcard>
+  <form class="pc-form" data-pc-form>
+    <p class="pc-example" data-pc-example>Filled in with an example. Write your own over it.</p>
+
+    <div class="pc-row">
+      <div class="pc-field">
+        <label for="pc-name">Your name <span class="pc-opt">(optional)</span></label>
+        <input id="pc-name" name="name" type="text" maxlength="40" autocomplete="given-name" value={example.name} />
+      </div>
+      <div class="pc-field">
+        <label for="pc-from">Writing from</label>
+        <input id="pc-from" name="from" type="text" maxlength="32" autocomplete="address-level2" value={example.from} />
+      </div>
+    </div>
+
+    {questions.map(q => (
+      <div class="pc-field">
+        <label for={`pc-${q.key}`}>{q.label}</label>
+        <textarea id={`pc-${q.key}`} name={q.key} maxlength="140" rows="3" aria-describedby={`pc-${q.key}-count`}>{example[q.key]}</textarea>
+        <span class="pc-count" id={`pc-${q.key}-count`} data-count-for={q.key}></span>
+      </div>
+    ))}
+
+    <fieldset class="pc-scenes">
+      <legend>Picture on the front</legend>
+      {scenes.map((s, i) => (
+        <label class="pc-scene">
+          <input type="radio" name="scene" value={s.value} checked={i === 0} />
+          <span>{s.label}</span>
+        </label>
+      ))}
+    </fieldset>
+    <input type="text" name="website" tabindex="-1" autocomplete="off" class="pc-hp" aria-hidden="true" />
+  </form>
+
+  <div class="pc-preview">
+    <canvas width="1200" height="800" data-pc-canvas role="img" aria-label="Preview of your postcard from 2076. It shows the words from the form on the left."></canvas>
+    <div class="pc-actions">
+      <button type="button" class="btn btn-primary" data-pc-save>Save image</button>
+      <button type="button" class="btn btn-outline" data-pc-copy>Copy text</button>
+      <button type="button" class="btn btn-primary" data-pc-send>Send it to Jordan</button>
+    </div>
+    <div
+      class="cf-turnstile"
+      data-sitekey="0x4AAAAAAENA2SSitXnnEAkn"
+      data-action="postcard"
+      data-appearance="interaction-only"
+      data-size="compact"
+      data-theme="auto"
+    ></div>
+    <p class="pc-status" data-pc-status role="status" aria-live="polite"></p>
+    <label class="pc-fallback" hidden data-pc-fallback>
+      <span>Your postcard text (select it and copy):</span>
+      <textarea readonly rows="6"></textarea>
+    </label>
+  </div>
+</div>
+
+<script>
+  import { drawCard, clean, LIMITS } from '../scripts/postcard-draw.js';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-postcard]')) {
+    const form = root.querySelector<HTMLFormElement>('[data-pc-form]')!;
+    const canvas = root.querySelector<HTMLCanvasElement>('[data-pc-canvas]')!;
+    const ctx = canvas.getContext('2d')!;
+    const status = root.querySelector<HTMLElement>('[data-pc-status]')!;
+    const fallback = root.querySelector<HTMLElement>('[data-pc-fallback]')!;
+    const example = root.querySelector<HTMLElement>('[data-pc-example]')!;
+
+    const say = (msg: string, error = false) => {
+      status.textContent = msg;
+      status.classList.toggle('pc-error', error);
+    };
+
+    const data = () => {
+      const f = new FormData(form);
+      const get = (k: string) => String(f.get(k) ?? '');
+      return { name: get('name'), from: get('from'), where: get('where'), tuesday: get('tuesday'), built: get('built'), scene: get('scene') || 'garden', website: get('website') };
+    };
+
+    const text = () => {
+      const d = data();
+      const name = clean(d.name, LIMITS.name);
+      return [
+        'Greetings from 2076!',
+        `Hello from ${clean(d.from, LIMITS.from) || 'the future'}!`,
+        ...(['where', 'tuesday', 'built'] as const).map(k => clean(d[k], 140)).filter(Boolean),
+        `Love from the future,${name ? ' ' + name : ''}`,
+      ].join('\n');
+    };
+
+    const counters = () => {
+      for (const el of root.querySelectorAll<HTMLElement>('[data-count-for]')) {
+        const ta = form.elements.namedItem(el.dataset.countFor!) as HTMLTextAreaElement;
+        el.textContent = `${ta.value.length} / 140`;
+        el.classList.toggle('pc-count-full', ta.value.length >= 130);
+      }
+    };
+
+    const redraw = () => { drawCard(ctx, data()); counters(); };
+
+    form.addEventListener('input', () => { example.hidden = true; redraw(); });
+    form.addEventListener('submit', e => e.preventDefault());
+    redraw();
+    // Canvas text ignores font-display; draw again once Caveat and Bricolage are ready.
+    Promise.all(['500 40px Caveat', '700 40px Caveat', "700 26px 'Bricolage Grotesque'"].map(f => document.fonts.load(f)))
+      .catch(() => {})
+      .then(redraw);
+
+    root.querySelector('[data-pc-save]')!.addEventListener('click', () => {
+      canvas.toBlob(blob => {
+        if (!blob) { say("Couldn't make the image. Try again?", true); return; }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'postcard-from-2076.png';
+        document.body.append(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        say('Saved postcard-from-2076.png.');
+      }, 'image/png');
+    });
+
+    const send = root.querySelector<HTMLButtonElement>('[data-pc-send]')!;
+    const widget = root.querySelector<HTMLElement>('.cf-turnstile')!;
+    send.addEventListener('click', async () => {
+      const d = data();
+      if (!d.where.trim() && !d.tuesday.trim() && !d.built.trim()) {
+        say('Write at least one line on your postcard first.', true);
+        return;
+      }
+      const turnstileToken = widget.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]')?.value ?? '';
+      if (!turnstileToken) {
+        say('Still checking that you are human. Try again in a few seconds.', true);
+        return;
+      }
+      send.disabled = true;
+      send.textContent = 'Sending...';
+      say('');
+      try {
+        const res = await fetch('/api/postcards', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...d, turnstileToken }),
+        });
+        const out = await res.json().catch(() => ({}));
+        if (res.ok && out.ok) say('Mailed! Jordan reads every one.');
+        else say(out.error || 'Something went wrong. Please try again.', true);
+      } catch {
+        say('Network error. Check your connection and try again.', true);
+      }
+      send.disabled = false;
+      send.textContent = 'Send it to Jordan';
+      (window as any).turnstile?.reset(widget);
+    });
+
+    root.querySelector('[data-pc-copy]')!.addEventListener('click', async () => {
+      const t = text();
+      try {
+        await navigator.clipboard.writeText(t);
+        fallback.hidden = true;
+        say('Copied. Paste it into an email, a post, wherever.');
+      } catch {
+        const ta = fallback.querySelector('textarea')!;
+        ta.value = t;
+        fallback.hidden = false;
+        ta.focus();
+        ta.select();
+        say("Your browser blocked copying. The text is below, selected and ready to copy.");
+      }
+    });
+  }
+</script>
+
+<style>
+  .pc {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: var(--spacing-lg);
+    align-items: start;
+    margin-top: var(--spacing-md);
+  }
+  .pc-form { display: grid; gap: var(--spacing-sm); }
+  .pc-example {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-sun-text);
+    font-weight: 600;
+  }
+  .pc-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-sm); }
+  .pc-field { display: grid; gap: 0.3rem; }
+  .pc-field label, .pc-scenes legend { font-weight: 700; color: var(--color-text-logo); font-size: 0.95rem; }
+  .pc-opt { font-weight: 400; color: var(--color-text-light); }
+  .pc input[type='text'], .pc textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--color-text-logo);
+    background: var(--color-bg);
+    border: 1px solid var(--color-sky-border);
+    border-radius: var(--radius-sm);
+    padding: 0.55rem 0.7rem;
+  }
+  .pc textarea { resize: vertical; min-height: 4.5rem; }
+  .pc-count { justify-self: end; font-size: 0.85rem; color: var(--color-text-light); }
+  .pc-count-full { color: var(--color-sun-text); font-weight: 700; }
+
+  .pc-scenes { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .pc-scenes legend { padding: 0; margin-bottom: 0.4rem; }
+  .pc-scene { position: relative; cursor: pointer; }
+  .pc-scene input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .pc-scene span {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg);
+    font-size: 0.95rem;
+    color: var(--color-text-logo);
+  }
+  .pc-scene input:checked + span { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
+
+  .pc input:focus-visible, .pc textarea:focus-visible, .pc-scene input:focus-visible + span, .pc .btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .pc-preview { display: grid; gap: var(--spacing-sm); }
+  .pc-preview canvas {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-soft);
+  }
+  .pc-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .pc-actions .btn { margin-top: 0; }
+  .pc-status { margin: 0; min-height: 1.5em; font-size: 0.95rem; color: var(--color-success); }
+  .pc-status.pc-error { color: var(--color-error); }
+  .pc-hp { position: absolute; left: -9999px; }
+  .pc-fallback { display: grid; gap: 0.3rem; font-size: 0.95rem; }
+  .pc-fallback[hidden] { display: none; }
+
+  @media (max-width: 900px) {
+    .pc { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 420px) {
+    .pc-row { grid-template-columns: 1fr; }
+  }
+</style>
