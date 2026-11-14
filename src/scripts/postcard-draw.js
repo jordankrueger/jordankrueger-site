@@ -205,6 +205,30 @@
 
   var SCENES = { garden: sceneGarden, river: sceneRiver, night: sceneNight };
 
+  // Illustrated pictures (self-hosted, so the canvas stays exportable). The procedural
+  // scenes above draw until an image has loaded; loadImages(onLoad) triggers the redraw.
+  var IMAGES = {};
+  function loadImages(onLoad) {
+    Object.keys(SCENES).forEach(function (k) {
+      if (IMAGES[k]) return;
+      var img = new Image();
+      img.decoding = "async";
+      img.onload = function () { if (onLoad) onLoad(k); };
+      img.src = "/images/postcards/" + k + ".webp";
+      IMAGES[k] = img;
+    });
+  }
+  // Cover-fit: scale to fill w x h, crop the overflow evenly from both sides.
+  function paintScene(c, scene, x, y, w, h) {
+    var key = SCENES[scene] ? scene : "garden";
+    var img = IMAGES[key];
+    if (!(img && img.complete && img.naturalWidth)) { SCENES[key](c, x, y, w, h); return false; }
+    var s = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+    var cw = w / s, ch = h / s;
+    c.drawImage(img, (img.naturalWidth - cw) / 2, (img.naturalHeight - ch) / 2, cw, ch, x, y, w, h);
+    return true;
+  }
+
   function wrapLines(c, text, maxW) {
     var words = String(text).replace(/\s+/g, " ").trim().split(" ");
     var lines = [], line = "";
@@ -225,7 +249,13 @@
     c.strokeStyle = "#e7e2d3"; c.lineWidth = 2; c.strokeRect(1, 1, W - 2, H - 2);
     var px = 36, py = 36, pw = 500, ph = 728;
     c.save(); rr(c, px, py, pw, ph, 18); c.clip();
-    (SCENES[d.scene] || sceneGarden)(c, px, py, pw, ph);
+    if (paintScene(c, d.scene, px, py, pw, ph)) {
+      // Soft dark band behind the banner so it reads on busy, bright pictures.
+      var band = c.createLinearGradient(0, py + ph - 200, 0, py + ph);
+      band.addColorStop(0, "rgba(20,26,44,0)");
+      band.addColorStop(1, "rgba(20,26,44,.55)");
+      c.fillStyle = band; c.fillRect(px, py + ph - 200, pw, 200);
+    }
     c.restore();
     c.save();
     c.translate(px + pw / 2, py + ph - 70); c.rotate(-0.06);
@@ -246,7 +276,7 @@
     for (var i = 0; i <= 12; i++) { circle(c, sx + i * sw / 12, sy, 4.5, C.paper); circle(c, sx + i * sw / 12, sy + sh, 4.5, C.paper); }
     for (var j = 0; j <= 14; j++) { circle(c, sx, sy + j * sh / 14, 4.5, C.paper); circle(c, sx + sw, sy + j * sh / 14, 4.5, C.paper); }
     c.save(); c.beginPath(); c.rect(sx + 12, sy + 12, sw - 24, sh - 52); c.clip();
-    (SCENES[d.scene] || sceneGarden)(c, sx + 12, sy + 12, sw - 24, sh - 52);
+    paintScene(c, d.scene, sx + 12, sy + 12, sw - 24, sh - 52);
     c.restore();
     c.fillStyle = C.ink; c.font = "700 30px Caveat, cursive"; c.textAlign = "center"; c.textBaseline = "alphabetic";
     c.fillText("2076", sx + sw / 2, sy + sh - 14);
@@ -312,4 +342,4 @@
     c.restore();
   }
 
-export { W, H, LIMITS, clean, drawCard };
+export { W, H, LIMITS, clean, drawCard, loadImages };
