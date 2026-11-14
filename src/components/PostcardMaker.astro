@@ -1,7 +1,6 @@
 ---
 // Postcard from 2076: form + live canvas preview. Drawing code in src/scripts/postcard-draw.js.
-// No "Send it to Jordan" yet: the site has no backend to store postcards (needs a new
-// Pages Function + D1/KV binding). See the 2076 notes in CLAUDE.md.
+// "Send it to Jordan" posts to functions/api/postcards.js (D1, Turnstile action "postcard").
 const example = {
   name: 'Jordan',
   from: 'Pittsburgh',
@@ -53,6 +52,7 @@ const scenes = [
         </label>
       ))}
     </fieldset>
+    <input type="text" name="website" tabindex="-1" autocomplete="off" class="pc-hp" aria-hidden="true" />
   </form>
 
   <div class="pc-preview">
@@ -60,7 +60,16 @@ const scenes = [
     <div class="pc-actions">
       <button type="button" class="btn btn-primary" data-pc-save>Save image</button>
       <button type="button" class="btn btn-outline" data-pc-copy>Copy text</button>
+      <button type="button" class="btn btn-primary" data-pc-send>Send it to Jordan</button>
     </div>
+    <div
+      class="cf-turnstile"
+      data-sitekey="0x4AAAAAAENA2SSitXnnEAkn"
+      data-action="postcard"
+      data-appearance="interaction-only"
+      data-size="compact"
+      data-theme="auto"
+    ></div>
     <p class="pc-status" data-pc-status role="status" aria-live="polite"></p>
     <label class="pc-fallback" hidden data-pc-fallback>
       <span>Your postcard text (select it and copy):</span>
@@ -80,10 +89,15 @@ const scenes = [
     const fallback = root.querySelector<HTMLElement>('[data-pc-fallback]')!;
     const example = root.querySelector<HTMLElement>('[data-pc-example]')!;
 
+    const say = (msg: string, error = false) => {
+      status.textContent = msg;
+      status.classList.toggle('pc-error', error);
+    };
+
     const data = () => {
       const f = new FormData(form);
       const get = (k: string) => String(f.get(k) ?? '');
-      return { name: get('name'), from: get('from'), where: get('where'), tuesday: get('tuesday'), built: get('built'), scene: get('scene') || 'garden' };
+      return { name: get('name'), from: get('from'), where: get('where'), tuesday: get('tuesday'), built: get('built'), scene: get('scene') || 'garden', website: get('website') };
     };
 
     const text = () => {
@@ -117,7 +131,7 @@ const scenes = [
 
     root.querySelector('[data-pc-save]')!.addEventListener('click', () => {
       canvas.toBlob(blob => {
-        if (!blob) { status.textContent = "Couldn't make the image. Try again?"; return; }
+        if (!blob) { say("Couldn't make the image. Try again?", true); return; }
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -126,8 +140,37 @@ const scenes = [
         a.click();
         a.remove();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
-        status.textContent = 'Saved postcard-from-2076.png.';
+        say('Saved postcard-from-2076.png.');
       }, 'image/png');
+    });
+
+    const send = root.querySelector<HTMLButtonElement>('[data-pc-send]')!;
+    const widget = root.querySelector<HTMLElement>('.cf-turnstile')!;
+    send.addEventListener('click', async () => {
+      const d = data();
+      if (!d.where.trim() && !d.tuesday.trim() && !d.built.trim()) {
+        say('Write at least one line on your postcard first.', true);
+        return;
+      }
+      const turnstileToken = widget.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]')?.value ?? '';
+      send.disabled = true;
+      send.textContent = 'Sending...';
+      say('');
+      try {
+        const res = await fetch('/api/postcards', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...d, turnstileToken }),
+        });
+        const out = await res.json().catch(() => ({}));
+        if (res.ok && out.ok) say('Mailed! Jordan reads every one.');
+        else say(out.error || 'Something went wrong. Please try again.', true);
+      } catch {
+        say('Network error. Check your connection and try again.', true);
+      }
+      send.disabled = false;
+      send.textContent = 'Send it to Jordan';
+      (window as any).turnstile?.reset(widget);
     });
 
     root.querySelector('[data-pc-copy]')!.addEventListener('click', async () => {
@@ -135,14 +178,14 @@ const scenes = [
       try {
         await navigator.clipboard.writeText(t);
         fallback.hidden = true;
-        status.textContent = 'Copied. Paste it into an email, a post, wherever.';
+        say('Copied. Paste it into an email, a post, wherever.');
       } catch {
         const ta = fallback.querySelector('textarea')!;
         ta.value = t;
         fallback.hidden = false;
         ta.focus();
         ta.select();
-        status.textContent = "Your browser blocked copying. The text is below, selected and ready to copy.";
+        say("Your browser blocked copying. The text is below, selected and ready to copy.");
       }
     });
   }
@@ -212,6 +255,8 @@ const scenes = [
   .pc-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
   .pc-actions .btn { margin-top: 0; }
   .pc-status { margin: 0; min-height: 1.5em; font-size: 0.95rem; color: var(--color-success); }
+  .pc-status.pc-error { color: var(--color-error); }
+  .pc-hp { position: absolute; left: -9999px; }
   .pc-fallback { display: grid; gap: 0.3rem; font-size: 0.95rem; }
   .pc-fallback[hidden] { display: none; }
 
