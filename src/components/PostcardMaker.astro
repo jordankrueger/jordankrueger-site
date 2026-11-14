@@ -153,6 +153,10 @@ const scenes = [
         return;
       }
       const turnstileToken = widget.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]')?.value ?? '';
+      if (!turnstileToken) {
+        say('Still checking that you are human. Try again in a few seconds.', true);
+        return;
+      }
       send.disabled = true;
       send.textContent = 'Sending...';
       say('');
