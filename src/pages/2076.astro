@@ -1,8 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CircuitDivider from '../components/CircuitDivider.astro';
+import PostcardMaker from '../components/PostcardMaker.astro';
+import { getCollection } from 'astro:content';
 
 const ext = { target: '_blank', rel: 'noopener' };
+
+// The 2076 series: published posts tagged `2076`, oldest first.
+const series = (await getCollection('posts', ({ data }) => !data.draft && data.tags.includes('2076')))
+  .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 ---
 
 <BaseLayout title="2076 | Jordan Krueger" description="America just turned 250. What will it look like at 300? Hopeful about AI. Serious about a brighter future.">
@@ -129,32 +135,37 @@ const ext = { target: '_blank', rel: 'noopener' };
   <CircuitDivider />
 
   <section class="section">
-    <div class="container y-narrow">
-      <h2>Join in</h2>
+    <div class="container">
+      <h2 class="y-narrow">Join in</h2>
       <div class="y-join">
         <div class="y-card">
           <h3>Send me your postcard from 2076.</h3>
-          <p>In three sentences: where are you, what's your Tuesday like, and what did you help build to get there? I'll share my favorites (with your permission). Nobody can draw this map alone.</p>
+          <p class="y-narrow">In three sentences: where are you, what's your Tuesday like, and what did you help build to get there? I'll share my favorites (with your permission). Nobody can draw this map alone.</p>
+          <PostcardMaker />
         </div>
-        <div class="y-card">
+        <div class="y-card y-narrow">
           <h3>Follow along.</h3>
           <p>My newsletter, Mission Control, is where I share progress on the plan, plus the tools and projects I'm building along the way.</p>
           <a href="/#subscribe" class="btn btn-primary">Subscribe</a>
         </div>
       </div>
 
-      <h3 class="y-series-head">Read the series.</h3>
-      <p>Seven short posts, one at a time, starting soon:</p>
-      <ol class="y-series">
-        <li><strong>Let the robots do the dishes.</strong> Why a progressive should be excited about AI, and what it takes to share the gains.</li>
-        <li><strong>A Tuesday in 2076.</strong> One ordinary day in the world we're building.</li>
-        <li><strong>It's a ladder, not a leap.</strong> The four steps from fixing the rules to a life without money worry.</li>
-        <li><strong>Born free to choose.</strong> What if every kid started life with a stake instead of debt?</li>
-        <li><strong>Where the roads used to be.</strong> Repairing the land, and why I made a picture book about it.</li>
-        <li><strong>Governments that outlast elections.</strong> Institutions people trust and take part in.</li>
-        <li><strong>The hard parts.</strong> Who pays, who pushes back, and what you can do this month.</li>
-      </ol>
-      <p>Each title links to its post once it's live.</p>
+      <div class="y-narrow">
+        <h3 class="y-series-head">Read the series.</h3>
+        {series.length > 0 ? (
+          <ol class="y-series">
+            {series.map(post => (
+              <li>
+                <a href={`/blog/${post.id}/`}><strong>{post.data.title}</strong></a>
+                <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                {post.data.description && <p>{post.data.description}</p>}
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p>The first post is on its way. <a href="/#subscribe">Subscribe</a> to get it.</p>
+        )}
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -228,6 +239,8 @@ const ext = { target: '_blank', rel: 'noopener' };
   .y-join { display: grid; gap: var(--spacing-md); margin-top: var(--spacing-md); }
   .y-join .btn { margin-top: var(--spacing-sm); }
   .y-series-head { margin-top: var(--spacing-xl); }
+  .y-series time { display: block; font-size: 0.9rem; color: var(--color-sun-text); }
+  .y-series li p { margin-top: 0.2rem; }
 
   @media (max-width: 640px) {
     .y-pillars { grid-template-columns: 1fr; }

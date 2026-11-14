@@ -61,6 +61,10 @@ draft: false
 
 Tag `claude-code` to include in the Building in Public series at `/building` (see caveat above — it's a redirect, not a real page).
 
+Tag `2076` to add a post to the 2076 series: the "Read the series" block on `/2076` lists every published (non-draft) post with that tag automatically, oldest first (title, description, date). With none tagged it shows "The first post is on its way. Subscribe to get it."
+
+**/2076 postcard maker** (`src/components/PostcardMaker.astro`, drawing code `src/scripts/postcard-draw.js`, ported as-is from Jordan's reference): form + live 1200x800 canvas, Save image and Copy text. Handwriting font is self-hosted Caveat (`public/fonts/caveat-latin.woff2`, OFL, rule in `public/fonts.css`). No "Send it to Jordan" yet: the site has no Pages Functions, D1 or KV, so storing postcards needs new Cloudflare resources (a `functions/api/postcards.js` Pages Function plus a D1 binding on the Pages project).
+
 **Astro 7 punctuation gotcha:** Astro 7's Markdown renderer (Sätteri) maps a literal `--` in prose to an **en dash (–)**, not the em dash (—) that remark/rehype (Astro 5) produced via smartypants. If a draft uses `--` for an em dash, it will render wrong after the fact — write literal em dashes (`—`) directly in MDX instead of relying on `--` auto-conversion. (Caught 2026-07-27 during the Astro 5→7 upgrade: silently changed 16 asides across `fediverse-ai-problem.mdx` and `you-need-to-learn-ai.mdx`.)
 
 ## Writing standard (set 2026-10-04)
