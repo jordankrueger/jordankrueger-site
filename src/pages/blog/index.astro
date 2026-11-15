@@ -3,6 +3,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogPostCard from '../../components/BlogPostCard.astro';
 import { getCollection } from 'astro:content';
 import { TOPICS, topicLabel } from '../../lib/topics';
+import externalPosts from '../../data/external-posts.json';
+
+// Posts Jordan published on other sites. Add new ones to src/data/external-posts.json.
+const elsewhere = [...externalPosts].sort((a, b) => b.date.localeCompare(a.date));
+const fmtDate = (d: string) => new Date(d).toLocaleDateString('en-US', {
+  year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC',
+});
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -46,6 +53,24 @@ const allTags = Object.keys(TOPICS).filter(t => used.has(t));
       ) : (
         <p class="empty-state">Blog posts coming soon. Stay tuned!</p>
       )}
+
+      <section class="elsewhere" aria-labelledby="elsewhere-heading">
+        <h2 id="elsewhere-heading">Published elsewhere</h2>
+        <ul class="elsewhere-list">
+          {elsewhere.map(p => (
+            <li>
+              <a href={p.url} target="_blank" rel="noopener">
+                <span class="elsewhere-title">{p.title}</span>
+                <span class="elsewhere-meta">
+                  <time datetime={p.date}>{fmtDate(p.date)}</time>
+                  {' · '}on {p.publication ? `${p.site} (${p.publication})` : p.site}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a class="elsewhere-more" href="https://medium.com/@jordankrueger" target="_blank" rel="noopener">More on Medium →</a>
+      </section>
     </div>
   </main>
 </BaseLayout>
@@ -123,6 +148,63 @@ const allTags = Object.keys(TOPICS).filter(t => used.has(t));
     .blog-grid {
       grid-template-columns: 1fr;
     }
+  }
+
+  .elsewhere {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
+    max-width: 46rem;
+  }
+
+  .elsewhere h2 {
+    margin: 0 0 var(--spacing-sm);
+    font-size: 1.25rem;
+  }
+
+  .elsewhere-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .elsewhere-list li + li {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .elsewhere-list a {
+    display: block;
+    padding: 0.6rem 0;
+    text-decoration: none;
+  }
+
+  .elsewhere-title {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-logo);
+    transition: color 0.2s ease;
+  }
+
+  .elsewhere-list a:hover .elsewhere-title {
+    color: var(--color-accent);
+  }
+
+  .elsewhere-meta {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+  }
+
+  .elsewhere-meta time {
+    font-weight: 600;
+    color: var(--color-sun-text);
+  }
+
+  .elsewhere-more {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-accent);
   }
 </style>
 
