@@ -3,12 +3,13 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  imageAlt?: string;
   href?: string;
   linkLabel?: string;
   secondaryLinks?: { href: string; label: string }[];
   index?: number;
 }
-const { title, description, image, href, linkLabel = 'Learn More', secondaryLinks = [], index = 0 } = Astro.props;
+const { title, description, image, imageAlt = title, href, linkLabel = 'Learn More', secondaryLinks = [], index = 0 } = Astro.props;
 const reversed = index % 2 === 1;
 ---
 
@@ -18,8 +19,8 @@ const reversed = index % 2 === 1;
       <div class="project-card-header">
         <h2>{title}</h2>
         {image && (href
-          ? <a href={href} target="_blank" rel="noopener"><img src={image} alt={title} loading="lazy" class="project-card-image" /></a>
-          : <img src={image} alt={title} loading="lazy" class="project-card-image" />)}
+          ? <a href={href} target="_blank" rel="noopener"><img src={image} alt={imageAlt} loading="lazy" class="project-card-image" /></a>
+          : <img src={image} alt={imageAlt} loading="lazy" class="project-card-image" />)}
       </div>
       <div class="project-card-body">
         <Fragment set:html={description} />

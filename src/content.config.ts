@@ -56,13 +56,14 @@ const projects = defineCollection({
   loader: file('./src/content/projects.json'),
   schema: z.object({
     title: z.string(),
-    areas: z.array(area).min(1),
+    areas: z.array(area), // empty = shown only on /ai
     builtWithAI: z.boolean().default(false),
     aiGroup: area.optional(),
     featuredIn: z.array(z.enum([...areaKeys, 'ai'])).default([]),
     short: z.string().optional(),
     body: z.string().optional(),
     image: z.string().optional(),
+    imageAlt: z.string().optional(),
     href: z.string().optional(),
     linkLabel: z.string().optional(),
     secondaryLinks: z.array(z.object({ href: z.string(), label: z.string() })).optional(),
