@@ -311,7 +311,7 @@
     "featuredIn": [
       "ai"
     ],
-    "short": "AI help for ActionKit users",
+    "short": "AI help for ActionKit users, now retired",
     "aiDescription": "An AI assistant that answered ActionKit questions for campaign teams, so they didn't have to wait on a support ticket. It was a good test of what a focused AI helper can do for advocacy staff, and I've since shut it down.",
     "tags": [
       "Next.js",
