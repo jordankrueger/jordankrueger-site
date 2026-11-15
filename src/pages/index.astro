@@ -12,7 +12,10 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   .slice(0, 3);
 ---
 
-<BaseLayout title="Jordan Krueger: Operations nerd, tech translator.">
+<BaseLayout
+  title="Jordan Krueger: Hopeful about AI. Serious about a brighter future."
+  description="Jordan Krueger is an optimist with a plan: hopeful about AI, serious about a brighter future. Read his 2076 vision and his tech and AI work for nonprofits."
+>
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Person",
@@ -36,6 +39,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   <!-- Practices -->
   <section class="practices-band bg-green">
   <h2 class="section-heading practices-heading fade-up">Two practices I run</h2>
+  <p class="practices-intro fade-up">I'm an operations nerd and tech translator. I help progressive orgs cut through the noise, simplify their systems, and get back to the work that matters.</p>
   <div class="panel-wrap">
     <div class="diptych-grid fade-up">
         <div class="diptych-half">
@@ -82,10 +86,10 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
       <h2 class="about-heading">About me</h2>
       <hr class="section-rule about-rule" />
       <div class="about-body">
-        <p>Hi, I'm Jordan. I run <a href="https://campaign.help">CampaignHelp</a>, where I help progressive nonprofits and advocacy organizations stop wrestling with their technology — ActionKit, Google Workspace, tool migrations, workflow automation, and everything in between.</p>
-        <p>I've worked with Win Without War, 350.org, Color Of Change, MomsRising, and others. Nearly two decades in the progressive movement means I already know your tools, your campaign cycle, and your budget constraints.</p>
-        <p>I live in Pittsburgh, and outside of work I still run StarBase 118, the Star Trek roleplaying community I founded on AOL in 1994. I also love synthwave music.</p>
-        <p>I'm a left accelerationist: I want AI built faster, and I want what it makes possible shared with everyone. An end to poverty, disease, loneliness, and war is the end goal.</p>
+        <p><strong>I'm an optimist with a plan.</strong> America just turned 250, and I've sketched out what I want it to look like at 300. <a href="/2076">Read the plan</a>.</p>
+        <p>By day I run <a href="https://campaign.help">CampaignHelp</a> and <a href="https://groundedai.help">Grounded AI</a>, helping progressive nonprofits with their tech and with using AI well.</p>
+        <p>I'm hopeful about AI: I want it built well and its benefits shared with everyone.</p>
+        <p>I live in Pittsburgh, and I still run StarBase 118, the Star Trek roleplaying community I founded in 1994.</p>
         <a href="/about" class="read-more">Read my full story →</a>
       </div>
     </section>
@@ -141,7 +145,15 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   }
 
   .practices-heading {
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .practices-intro {
+    max-width: 40rem;
+    margin: 0 auto var(--spacing-lg);
+    padding: 0 var(--spacing-md);
+    text-align: center;
+    font-size: 1.05rem;
   }
 
   .panel-wrap {

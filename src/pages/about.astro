@@ -4,14 +4,18 @@ import StatsStack from '../components/StatsStack.astro';
 import PodcastEmbed from '../components/PodcastEmbed.astro';
 ---
 
-<BaseLayout title="About — Jordan Krueger" description="I'm Jordan! I love Star Trek, synthwave music, and technology.">
+<BaseLayout title="About — Jordan Krueger" description="I'm Jordan Krueger, an optimist with a plan. I run CampaignHelp and Grounded AI, live in Pittsburgh, and have run StarBase 118 since 1994.">
   <!-- Intro -->
-  <section class="section bg-white">
+  <section class="section bg-white about-hero">
     <div class="container about-intro">
       <div class="about-intro-text">
-        <h1 class="fade-up">I'm Jordan! I love<br />🖖 Star Trek,<br />😎 synthwave music, and<br />🤖 technology</h1>
+        <h1 class="fade-up">I'm an optimist with <span class="hl">a plan.</span></h1>
+        <p class="about-lead fade-up delay-1">America just turned 250, and I've sketched out what I want it to look like at 300: friendly AI, a healthy planet, freedom from money worry, and good governance.</p>
+        <div class="fade-up delay-2">
+          <a class="btn btn-primary" href="/2076">Read the 2076 plan →</a>
+        </div>
         <div class="console-strip" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-        <nav class="interest-links fade-up" aria-label="My interests">
+        <nav class="interest-links fade-up delay-3" aria-label="My interests">
           <a class="btn btn-outline" href="/synthwave">Synthwave</a>
           <a class="btn btn-outline" href="/projects/starbase-118">Star Trek</a>
           <a class="btn btn-outline" href="/ai">Technology &amp; AI</a>
@@ -23,29 +27,37 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
     </div>
   </section>
 
-  <!-- Bio + Stats -->
-  <section class="section about-bio-section">
-    <div class="container about-bio">
-      <div class="about-bio-text fade-up">
-        <h2>What I Do (and Why I Do It)</h2>
-        <p><em>What gets me out of bed is helping people do mission-driven work without tech-induced migraines.</em></p>
-        <p>My clients are some of the sharpest, most passionate people in the progressive movement — but let's be real: <strong>Tech sometimes confounds and befuddles the best of us.</strong></p>
-        <p>My job is to resolve trouble and confusion as quickly as possible.</p>
-        <p>Whether that means helping to implement a new process that makes work easier, or onboarding new hires with as little muss & fuss as possible, or even organizing shared Google Drives — I'm the person they call when "this shouldn't be this hard" turns into "wow, that was easier than I expected."</p>
+  <!-- What I do -->
+  <section class="section what-i-do">
+    <div class="container what-grid fade-up">
+      <h2 class="what-heading">What I do</h2>
+      <div class="what-body">
+        <p>By day I run <a href="https://campaign.help">CampaignHelp</a>, handling IT and operations for progressive nonprofits so their staff can focus on campaigns instead of tech. Through <a href="https://groundedai.help">Grounded AI</a>, I give talks and workshops and advise nonprofit operations leaders on using AI well.</p>
+        <p class="pull-line">I'm hopeful about AI: I want it built well and its benefits shared with everyone.</p>
+        <p>I live in Pittsburgh, and I still run StarBase 118, the Star Trek roleplaying community I founded in 1994.</p>
+      </div>
+    </div>
+  </section>
 
+  <!-- Known for + Stats -->
+  <section class="section bg-green known-band">
+    <div class="container known-grid">
+      <div class="known-main fade-up">
         <h2>What I'm Known For</h2>
         <p>Here's what people say when they work with me:</p>
-        <blockquote>"Jordan has never seemed like just a consultant — he's an integral part of my team who's always thinking about how to set us up for success."</blockquote>
-        <blockquote>"Jordan is the single most reliable person I've worked with in the progressive movement... a force multiplier for organizational capacity."</blockquote>
+        <div class="quote-cards">
+          <blockquote class="quote-card"><p>"Jordan has never seemed like just a consultant — he's an integral part of my team who's always thinking about how to set us up for success."</p></blockquote>
+          <blockquote class="quote-card"><p>"Jordan is the single most reliable person I've worked with in the progressive movement... a force multiplier for organizational capacity."</p></blockquote>
+        </div>
         <p>I'm especially good at:</p>
-        <ul>
+        <ul class="good-at" role="list">
           <li>Turning messy ops systems into intuitive ones</li>
           <li>Spotting simple fixes others miss</li>
           <li>Teaching tech without condescension</li>
           <li>And keeping things running — calmly, reliably, and well</li>
         </ul>
       </div>
-      <div class="about-bio-sidebar fade-up">
+      <div class="known-side fade-up">
         <StatsStack />
       </div>
     </div>
@@ -126,51 +138,41 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
           <h3 class="timeline-decade">The 2020s</h3>
           <p>CREDO Action was my home, my dream job, and where I thought I'd stay for many more years. I was devastated when we were told that CREDO was laying off its advocacy team in January of 2020. But as they say, <em>when one door closes, another opens</em>, and wow was that true for me!</p>
           <p>When the job hunt didn't go anywhere fast, I started taking on projects with organizations that I had worked in alliance with at CREDO Action. Soon, that transformed into a full-time consulting practice with <a href="https://campaign.help">CampaignHelp</a>.</p>
-          <p>Since then, I've worked with Win Without War, 350.org, Color Of Change, MomsRising, Mothers Out Front, UltraViolet, Caring Across Generations, and others — handling ActionKit administration, tool migrations, workflow automation, and digital security. I've also been building AI-powered tools for the advocacy space, including an <a href="https://akhelp.campaign.help">AI assistant for ActionKit</a> that helps campaign teams get answers without waiting on a support ticket.</p>
+          <p>Since then, I've worked with Win Without War, 350.org, Color Of Change, MomsRising, Mothers Out Front, UltraViolet, Caring Across Generations, and others, handling ActionKit administration, tool migrations, workflow automation, and digital security. These days I also help nonprofits use AI well through <a href="https://groundedai.help">Grounded AI</a>.</p>
           <p>Although, at times, it can be a bit scary running my own business, I wouldn't trade it for anything!</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Manifesto -->
-  <section class="section">
-    <div class="container">
-      <div class="about-bio-text about-manifesto fade-up">
-        <h2>What I mean by "left accelerationist"</h2>
-        <p>I call myself a left accelerationist, and here's what I mean by that. The plain-English version is "pro-AI progressive": I want AI built faster, and I want what it makes possible shared with everyone.</p>
-        <p>My day job is helping progressive nonprofits with their technology. So I spend a lot of time thinking about what small teams can do with better tools. AI is the biggest jump in that kind of capacity I've seen. I think it's our best shot in my lifetime at ending poverty, disease, loneliness and war.</p>
-        <p>The idea has roots on the left. In 2013, Nick Srnicek and Alex Williams argued that the left should stop resisting new technology and put it to work for people. Aaron Bastani later imagined automation and clean energy ending scarcity for everyone. I'm with them on the direction. I part ways with the louder accelerationism you hear in tech circles over who all this is for.</p>
-        <p>Speed, alone, doesn't decide who benefits. I want the public to hold a real ownership stake—the kind Bernie Sanders proposed this year—in the most powerful AI companies. The gains should go back to every person as a dividend. I want universal services, so healthcare, housing and education don't depend on whether your job survived automation. I want a shorter work week at the same pay as productivity climbs. And I want the tools themselves in the hands of workers, organizers and the folks who usually get them last.</p>
-        <p>There are real ways this goes wrong. If a handful of companies and billionaires keeps hold of it, we get today's inequality, only faster. If people lose their jobs before there's a safety net, they pay for progress they don't share in. And the same systems that could cure diseases can be used to watch and control people, so democratic oversight matters as much as the code.</p>
-        <p>Plenty of people on the left want to slow AI down or stop it. I understand why: they've watched technology get used against workers before. I think they're right about the risks. I just don't think stopping it is possible or desirable, and trying to slow it down hands the future to whoever keeps building. I'd rather we shape it.</p>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .about-bio-section {
-    padding-top: var(--spacing-xl);
-  }
-
   .about-intro {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-lg);
+    grid-template-columns: 1.15fr 1fr;
+    gap: var(--spacing-xl);
     align-items: center;
   }
 
   .about-intro h1 {
-    font-size: clamp(2.2rem, 4.6vw, 3.4rem);
-    line-height: 1.2;
+    font-size: var(--fs-page-title);
+    line-height: 1.05;
+    margin-bottom: var(--spacing-md);
+  }
+  .about-intro h1 .hl { color: var(--color-accent); }
+
+  .about-lead {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 34rem;
+    margin-bottom: var(--spacing-md);
   }
 
   .interest-links {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
-    margin-top: var(--spacing-md);
+    margin-top: var(--spacing-sm);
   }
   .interest-links .btn {
     padding: 0.55rem 1.15rem;
@@ -182,7 +184,7 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
     gap: 5px;
     height: 8px;
     max-width: 24rem;
-    margin-top: var(--spacing-md);
+    margin-top: var(--spacing-lg);
   }
   .console-strip span:nth-child(1) { flex: 0 0 7rem; background: var(--color-sun); border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
   .console-strip span:nth-child(2) { flex: 1 1 auto; background: var(--color-bg-green); }
@@ -198,34 +200,94 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
     margin: 0 auto;
   }
 
-  .about-bio {
+  /* What I do: heading in a narrow left column, copy on the right */
+  .what-i-do { padding: var(--spacing-2xl) 0; }
+  .what-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: var(--spacing-lg);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+    gap: var(--spacing-xl);
     align-items: start;
   }
-
-  .about-bio-text h2 {
-    margin-top: var(--spacing-lg);
-    margin-bottom: var(--spacing-sm);
+  .what-heading {
+    margin: 0;
+    padding-top: var(--spacing-sm);
+    border-top: 3px solid var(--color-sun);
+  }
+  .what-body { max-width: 42rem; }
+  .what-body p { font-size: 1.1rem; line-height: 1.7; }
+  .pull-line {
+    margin: var(--spacing-lg) 0;
+    padding-left: var(--spacing-md);
+    border-left: 4px solid var(--color-sprout);
+    font-size: clamp(1.35rem, 2.6vw, 1.7rem) !important;
+    line-height: 1.35 !important;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--color-text-logo);
   }
 
-  .about-bio-text h2:first-child {
-    margin-top: 0;
+  /* Known for + stats */
+  .known-band { padding: var(--spacing-2xl) 0; }
+  .known-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: var(--spacing-xl);
+    align-items: start;
   }
-
-  .about-manifesto {
-    max-width: 46rem;
-    margin: 0 auto;
+  .known-main h2 { margin-top: 0; margin-bottom: var(--spacing-sm); }
+  .quote-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0 var(--spacing-lg);
   }
-
-  blockquote {
-    border-left: 3px solid var(--color-sprout);
-    padding-left: var(--spacing-sm);
-    margin: var(--spacing-sm) 0;
-    font-style: italic;
-    color: var(--color-text-light);
+  .quote-card {
+    position: relative;
+    margin: 0;
+    padding: 2.4rem 1.4rem 1.4rem;
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
   }
+  .quote-card::before {
+    content: '';
+    position: absolute;
+    top: 1.1rem;
+    left: 1.4rem;
+    width: 2.2rem;
+    height: 0.45rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-sun);
+  }
+  .quote-card p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: var(--color-text-logo);
+  }
+  .good-at {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .good-at li {
+    position: relative;
+    padding-left: 1.6rem;
+  }
+  .good-at li::before {
+    content: '';
+    position: absolute;
+    left: 0.2rem;
+    top: 0.5em;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+  .known-side { position: sticky; top: 5.5rem; }
 
   .timeline-heading {
     text-align: center;
@@ -359,10 +421,16 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
     }
   }
 
+  @media (max-width: 900px) {
+    .what-grid,
+    .known-grid { grid-template-columns: 1fr; gap: var(--spacing-md); }
+    .known-side { position: static; }
+  }
+
   @media (max-width: 640px) {
-    .about-intro,
-    .about-bio {
+    .about-intro {
       grid-template-columns: 1fr;
+      gap: var(--spacing-md);
     }
 
     .about-intro-image {
@@ -373,5 +441,9 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
       max-width: 280px;
       margin: 0 auto;
     }
+
+    .quote-cards { grid-template-columns: 1fr; }
+    .what-i-do,
+    .known-band { padding: var(--spacing-xl) 0; }
   }
 </style>

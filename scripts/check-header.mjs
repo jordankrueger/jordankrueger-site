@@ -5,8 +5,8 @@ import { existsSync } from 'node:fs';
 const { chromium, webkit } = createRequire(import.meta.url)('playwright');
 const base = process.argv[2];
 assert.ok(base, 'Usage: node scripts/check-header.mjs <base-url>');
-const hrefs = ['/projects', '/projects/movement', '/projects/starbase-118', '/projects/personal', '/ai', '/tools'];
-const labels = ['All projects', 'Movement work', 'StarBase 118', 'Personal tools', 'Built with AI', 'Tools for progressives'];
+const hrefs = ['/2076', '/projects', '/projects/movement', '/projects/starbase-118', '/projects/personal', '/ai', '/tools'];
+const labels = ['2076', 'All projects', 'Movement work', 'StarBase 118', 'Personal tools', 'Built with AI', 'Tools for progressives'];
 const timer = setTimeout(() => { console.error('FAIL: header check exceeded 120s'); process.exit(1); }, 120_000);
 let browser;
 let webkitBrowser;
@@ -77,7 +77,7 @@ try {
     await clickPage.keyboard.press('Enter');
     assert.equal(await clickButton.getAttribute('aria-expanded'), 'true');
     await clickPage.keyboard.press(tabKey);
-    assert.equal(await clickPage.locator(':focus').getAttribute('href'), '/projects');
+    assert.equal(await clickPage.locator(':focus').getAttribute('href'), '/2076');
     await clickButton.click();
     assert.equal(await clickButton.getAttribute('aria-expanded'), 'false', 'click from a focused child must close the pinned menu');
     await clickPanel.waitFor({ state: 'hidden' });
@@ -89,7 +89,7 @@ try {
     await clickPage.keyboard.press('Enter');
     await clickPanel.locator('a').last().focus();
     await clickPage.keyboard.press(tabKey);
-    assert.equal(await clickPage.locator(':focus').getAttribute('href'), '/about');
+    assert.equal(await clickPage.locator(':focus').getAttribute('href'), '/blog');
     assert.equal(await clickButton.getAttribute('aria-expanded'), 'false');
     await clickPanel.waitFor({ state: 'hidden' });
     console.log(`PASS: ${step}`);
@@ -106,7 +106,7 @@ try {
       range.selectNodeContents(text);
       return { label: text.textContent.trim(), height: box.height, bottom: box.bottom, textBottom: range.getBoundingClientRect().bottom };
     }));
-    assert.equal(measurements.length, 5, step);
+    assert.equal(measurements.length, 4, step);
     for (const metric of ['height', 'bottom', 'textBottom']) {
       const values = measurements.map(item => item[metric]);
       assert.ok(Math.max(...values) - Math.min(...values) <= 0.5, `${step}: ${metric}\n${JSON.stringify(measurements, null, 2)}`);
@@ -114,15 +114,15 @@ try {
     console.log(`PASS: ${step}`);
   }
 
-  step = 'top bar contains Blog, Projects, About, 2076, CampaignHelp';
+  step = 'top bar contains About, Projects, Blog, CampaignHelp';
   await reset();
   assert.deepEqual(await page.locator('.desktop-nav > a, .desktop-nav > .nav-group > button').evaluateAll(nodes => nodes.map(node => {
     const copy = node.cloneNode(true);
     copy.querySelectorAll('svg, .sr-only').forEach(child => child.remove());
     return copy.textContent.trim();
-  })), ['Blog', 'Projects', 'About', '2076', 'CampaignHelp']);
+  })), ['About', 'Projects', 'Blog', 'CampaignHelp']);
 
-  step = 'click opens six exact project links';
+  step = 'click opens seven exact project links, 2076 first';
   await button.click();
   await expanded(true);
   assert.deepEqual(await links.allTextContents(), labels);
@@ -142,7 +142,7 @@ try {
   await button.click();
   step = 'Escape from a child restores button focus while pointer remains over button';
   await links.first().focus();
-  assert.equal(await page.locator(':focus').getAttribute('href'), '/projects');
+  assert.equal(await page.locator(':focus').getAttribute('href'), '/2076');
   await page.keyboard.press('Escape');
   await expanded(false);
   assert.ok(await button.evaluate(node => node === document.activeElement && node.matches(':hover')), 'Escape must restore focus from the child to the button');
@@ -167,7 +167,7 @@ try {
   await links.last().focus();
   await page.keyboard.press('Tab');
   await expanded(false);
-  assert.equal(await page.locator(':focus').getAttribute('href'), '/about');
+  assert.equal(await page.locator(':focus').getAttribute('href'), '/blog');
 
   await checkPinning(page, 'Chromium');
 
@@ -192,7 +192,7 @@ try {
   await reset();
   await button.focus();
   await page.keyboard.press('Enter');
-  for (let index = 0; index < 6; index++) await page.keyboard.press('Tab');
+  for (let index = 0; index < 7; index++) await page.keyboard.press('Tab');
   assert.equal(await page.locator(':focus').getAttribute('href'), '/tools');
   assert.ok(await links.last().evaluate(node => {
     const box = node.getBoundingClientRect();
@@ -222,11 +222,11 @@ try {
   await fallbackPanel.waitFor({ state: 'visible' });
   await fallback.mouse.move(10, 200);
   await fallbackPanel.waitFor({ state: 'hidden' });
-  await fallback.locator('.desktop-nav > a[href="/blog"]').focus();
+  await fallback.locator('.desktop-nav > a[href="/about"]').focus();
   await fallback.keyboard.press('Tab');
   await fallbackPanel.waitFor({ state: 'visible' });
   await fallback.keyboard.press('Tab');
-  assert.equal(await fallback.locator(':focus').getAttribute('href'), '/projects');
+  assert.equal(await fallback.locator(':focus').getAttribute('href'), '/2076');
   await noJS.close();
 
   step = 'reduced motion gives all desktop, dropdown and mobile header links a 0s transition';
@@ -257,7 +257,7 @@ try {
     console.log(`SKIP: installed WebKit does not match Playwright; expected ${webkit.executablePath()}`);
   }
 
-  step = '390x600 mobile lists six children and scrolls to clickable Subscribe';
+  step = '390x600 mobile lists seven children and scrolls to clickable Subscribe';
   await page.setViewportSize({ width: 390, height: 600 });
   await page.goto(base);
   await page.locator('.mobile-menu-btn').click();
