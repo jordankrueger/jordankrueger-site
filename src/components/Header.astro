@@ -165,6 +165,13 @@ const projectsActive = navLinks.find(link => link.href === '/projects')?.childre
   :global(html:not(.js)) .nav-group:hover #projects-menu,
   :global(html:not(.js)) .nav-group:focus-within #projects-menu { display: block; }
 
+  /* Decorative line setting 2076 apart from the project pages below it. */
+  #projects-menu li:first-child {
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
   #projects-menu a {
     display: block;
     padding: 0.55rem;
@@ -280,6 +287,8 @@ const projectsActive = navLinks.find(link => link.href === '/projects')?.childre
   .mobile-nav-group { display: flex; flex-direction: column; }
   .mobile-nav-label { padding: 0.75rem 0; font-size: 1.25rem; font-weight: 600; }
   .mobile-nav-group .mobile-nav-link { padding-left: 1rem; }
+  /* Every mobile link already has a bottom line, so 2076 gets a gap after its line instead. */
+  .mobile-nav-group .mobile-nav-label + .mobile-nav-link { margin-bottom: 0.75rem; }
 
   @media (prefers-reduced-motion: no-preference) {
     .nav-link { transition: color 0.15s ease, border-color 0.15s ease; }

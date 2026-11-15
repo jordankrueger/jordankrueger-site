@@ -1,5 +1,21 @@
 [
   {
+    "id": "do-big-things",
+    "title": "Do Big Things",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [
+      "movement"
+    ],
+    "body": "<p>An open letter from voters to every Democrat in the next Congress: you have the majority, so use it. People co-sign with their first name and state, and the wall of signers keeps growing on the homepage.</p><p>The letter breaks into 13 plank pages, from prices and housing to the filibuster and the courts. A tracker follows where party leaders stand on each demand.</p>",
+    "href": "https://dobigthings.org",
+    "image": "/images/projects/do-big-things.jpg",
+    "imageAlt": "The Do Big Things homepage: an open letter to every Democrat in the next Congress, with a form to co-sign it",
+    "short": "An open letter: Democrats, use the majority"
+  },
+  {
     "id": "job-seeker-s-union",
     "title": "Job Seeker's Union",
     "areas": [
@@ -25,7 +41,9 @@
         "href": "https://jobseekersunion.org/get-hired/",
         "label": "Get Hired"
       }
-    ]
+    ],
+    "image": "/images/projects/job-seekers-union.jpg",
+    "imageAlt": "The Job Seeker's Union homepage: Fair hiring. Fair work. A voice for workers."
   },
   {
     "id": "equity-language-commons",
@@ -49,83 +67,9 @@
         "href": "https://equitylanguagecommons.org/sources/",
         "label": "See the sources"
       }
-    ]
-  },
-  {
-    "id": "claude-code-guardrails",
-    "title": "Claude Code guardrails",
-    "areas": [
-      "movement"
     ],
-    "builtWithAI": false,
-    "featuredIn": [
-      "ai"
-    ],
-    "short": "Safety rules for AI coding assistants",
-    "body": "<p>Everyone I talk to at nonprofits is either using an AI coding assistant already or about to be. Almost none of them are security engineers, and the advice out there assumes they are. So I wrote down the handful of defaults I'd want a friend to have in place before they let an agent loose on their laptop.</p><p>The whole thing rests on one idea: everything the AI touches should be backed up somewhere it can't delete. You can't guarantee an agent never makes a mistake or gets talked into one — but you can make the worst day survivable. The repo has a drop-in <strong>CLAUDE.md</strong>, example permission and sandbox settings, an \"out of its reach\" checklist, and the research behind each choice so you can check my reasoning. MIT licensed, and honest about what it doesn't protect you from.</p>",
-    "href": "https://github.com/jordankrueger/backup-first-ai",
-    "secondaryLinks": [
-      {
-        "href": "/ai",
-        "label": "What I build with it"
-      }
-    ]
-  },
-  {
-    "id": "freehold",
-    "title": "Freehold",
-    "areas": [
-      "movement"
-    ],
-    "builtWithAI": false,
-    "featuredIn": [
-      "movement"
-    ],
-    "short": "Owning your own tools and data",
-    "body": "<p>I've been working with progressive nonprofits long enough to watch them get cornered by platforms they can't replace. Freehold is what happens when you sit with that frustration long enough — a framework for an internet where you create, publish, and actually own everything you share online. Your content lives on your own domain, hosted by whoever you trust, syndicated out to whatever networks you choose. No platform owning your audience. No algorithm rewriting what your followers see.</p><p>Not a company. Not a product. A proposal — and an invitation. The whitepaper is at <strong>freehold.is</strong>, published under CC BY 4.0. Quote it, fork it, build a piece of it.</p>",
-    "image": "/images/logo-freehold.png",
-    "href": "https://freehold.is",
-    "secondaryLinks": [
-      {
-        "href": "https://freehold-app.pages.dev",
-        "label": "Try the alpha app"
-      }
-    ]
-  },
-  {
-    "id": "where-the-roads-used-to-be",
-    "title": "Where the Roads Used to Be",
-    "areas": [
-      "movement"
-    ],
-    "builtWithAI": false,
-    "body": "<p>A picture book for ages 4 to 8. It follows Bear and his ever-growing chosen family through a hopeful future, for readers of every age who want to believe tomorrow can be kind, beautiful, healthy, and happy.</p><p>Every paperback unlocks a read-along edition that reads each page aloud.</p>",
-    "image": "/images/book-cover.jpg",
-    "href": "https://wheretheroadsusedtobe.com/",
-    "linkLabel": "Visit the book's site",
-    "secondaryLinks": [
-      {
-        "href": "https://www.amazon.com/dp/B0HQC2G2CF",
-        "label": "Buy the paperback"
-      }
-    ]
-  },
-  {
-    "id": "awesome-actionkit",
-    "title": "Awesome ActionKit",
-    "areas": [
-      "movement"
-    ],
-    "builtWithAI": false,
-    "featuredIn": [],
-    "body": "<p>ActionKit powers email and advocacy for most large progressive organizations, but the best tooling around it has always been scattered — buried in Slack threads, ClientCon sessions, and the occasional vendor blog post. New admins spend months rediscovering things other people figured out years ago.</p><p>Awesome ActionKit is the hub I wish had existed when I started. A curated, CC0 list of snippets, recipes, integrations, consultants, and guides — the things that actually work, collected in one place that's easy to find and easy to contribute back to. CampaignHelp seeded it with a handful of repos (redirect blocks, mailing blocks, a health check). Everyone else is invited.</p>",
-    "href": "https://github.com/jordankrueger/awesome-actionkit",
-    "secondaryLinks": [
-      {
-        "href": "/tools#actionkit",
-        "label": "Browse the tools"
-      }
-    ]
+    "image": "/images/projects/equity-language-commons.jpg",
+    "imageAlt": "The Equity Language Commons homepage, with a glossary entry comparing how source guides rule on one term"
   },
   {
     "id": "progressives-for-ai",
@@ -149,63 +93,24 @@
     "statusType": "live"
   },
   {
-    "id": "progressive-email-suppression-list",
-    "title": "Progressive email suppression list",
+    "id": "claude-code-guardrails",
+    "title": "Claude Code guardrails",
     "areas": [
       "movement"
     ],
     "builtWithAI": false,
-    "featuredIn": [],
-    "body": "<p>Every big progressive organization has quietly built the same file over the years: the list of email domains that never deliver. Typos of the major providers, throwaway addresses, spam traps that can get your whole sending domain blocked. The large orgs have one. The small orgs, who need it most, usually don't — and there's no reason for all of us to keep rebuilding it separately.</p><p>So I combined them. The internal lists people have been passing around for years, plus the big community-maintained sets, deduped into one clean file of roughly 66,000 domains that rebuilds itself nightly. There are ten-minute import guides for ActionKit, Action Network, and Listmonk. Released under CC0 — no attribution required, just take it.</p><p>It's purely defensive. The list exists so you can <em>not</em> mail these addresses. Please don't use it for anything else.</p>",
-    "href": "https://github.com/jordankrueger/progressive-email-suppression"
-  },
-  {
-    "id": "small-tools-i-ve-open-sourced",
-    "title": "Small tools I've open-sourced",
-    "areas": [
-      "movement"
+    "featuredIn": [
+      "ai"
     ],
-    "builtWithAI": false,
-    "featuredIn": [],
-    "body": "<p>Not everything deserves its own site. These are small, finished tools I open-sourced because someone else probably needs the same thing.</p><p><strong>Email Hasher</strong> normalizes a list of email addresses and hashes them in your browser for ad-platform audience uploads. The data never leaves your machine.</p><p><strong>Petition Delivery Formatter</strong> turns a CSV of signatures into a printable PDF, fully offline, for organizers who deliver the petition in person.</p><p><strong>Lease Tracker</strong> is a tiny app that tells you how many miles a day you can drive without going over your lease limit.</p><p><strong>Matrix Gatekeeper</strong> is a bot that makes people accept your community rules before they can join a Matrix space.</p>",
-    "href": "https://jordankrueger.github.io/email-hasher/",
-    "linkLabel": "Email Hasher",
+    "short": "Safety rules for AI coding assistants",
+    "body": "<p>Everyone I talk to at nonprofits is either using an AI coding assistant already or about to be. Almost none of them are security engineers, and the advice out there assumes they are. So I wrote down the handful of defaults I'd want a friend to have in place before they let an agent loose on their laptop.</p><p>The whole thing rests on one idea: everything the AI touches should be backed up somewhere it can't delete. You can't guarantee an agent never makes a mistake or gets talked into one — but you can make the worst day survivable. The repo has a drop-in <strong>CLAUDE.md</strong>, example permission and sandbox settings, an \"out of its reach\" checklist, and the research behind each choice so you can check my reasoning. MIT licensed, and honest about what it doesn't protect you from.</p><p>This won an AI for Organizing Prize from Higher Ground Institute in October 2026.</p>",
+    "href": "https://github.com/jordankrueger/backup-first-ai",
     "secondaryLinks": [
       {
-        "href": "https://github.com/jordankrueger/petition-delivery-formatter",
-        "label": "Petition Delivery Formatter"
-      },
-      {
-        "href": "https://jordankrueger.github.io/lease-tracker/",
-        "label": "Lease Tracker"
-      },
-      {
-        "href": "https://github.com/jordankrueger/matrix-gatekeeper",
-        "label": "Matrix Gatekeeper"
+        "href": "/ai",
+        "label": "What I build with it"
       }
     ]
-  },
-  {
-    "id": "ready-for-aoc",
-    "title": "Ready for AOC",
-    "areas": [
-      "movement"
-    ],
-    "builtWithAI": false,
-    "featuredIn": [],
-    "body": "<p>A grassroots supporter hub for people who want to see Alexandria Ocasio-Cortez run for president. The petition doubles as the email signup, and the whole thing is deliberately money-free — no donations, no merchandise, nothing that would drag it into political committee territory with the FEC.</p><p>An independent effort. Not affiliated with AOC, and not affiliated with any campaign committee.</p>",
-    "href": "https://readyforaoc.com"
-  },
-  {
-    "id": "do-big-things",
-    "title": "Do Big Things",
-    "areas": [
-      "movement"
-    ],
-    "builtWithAI": false,
-    "featuredIn": [],
-    "body": "<p>An open letter from voters to every Democrat in the next Congress: you have the majority, so use it. People co-sign with their first name and state, and the wall of signers keeps growing on the homepage.</p><p>The letter breaks into 13 plank pages, from prices and housing to the filibuster and the courts. A tracker follows where party leaders stand on each demand.</p>",
-    "href": "https://dobigthings.org"
   },
   {
     "id": "ask-about-vaccines",
@@ -248,55 +153,61 @@
     "builtWithAI": false,
     "featuredIn": [],
     "body": "<p>The best workplace tool I picked up at CREDO Action was the \"user manual.\" Each person writes a short document explaining what they need to do their best work and be a whole person at the office.</p><p>Most of us never say those things out loud. When we do, coworkers can plan around them instead of guessing. I built usermanuals.guide so any team can run the exercise without a consultant.</p>",
-    "image": "/images/logos/logo-usermanuals.png",
     "href": "https://usermanuals.guide/"
   },
   {
-    "id": "ai-progress-tracker",
-    "title": "AI Progress Tracker",
+    "id": "ready-for-aoc",
+    "title": "Ready for AOC",
     "areas": [
-      "personal"
-    ],
-    "builtWithAI": true,
-    "aiGroup": "personal",
-    "featuredIn": [
-      "personal"
-    ],
-    "short": "Scoring Dario Amodei's predictions",
-    "body": "<p>When Anthropic CEO Dario Amodei published \"Machines of Loving Grace,\" it was one of the few concrete sets of predictions about where AI is headed. Predictions deserve a scorecard. I built the AI Progress Tracker to map each of his milestones to what has actually happened, with sources.</p><p>It is not a fan site and not a hit piece. It is a living record, useful whether you are excited about what is coming or deeply skeptical.</p>",
-    "href": "https://aiprogresstracker.com/",
-    "aiDescription": "My first AI build, before Claude Code even existed. Tracks the predictions from Dario Amodei's \"Machines of Loving Grace\" essay across four categories: biology, neuroscience, economics, and governance. Progress bars, expandable sections, and a Reddit community for discussion. Originally on Vercel, recently migrated to Cloudflare Pages.",
-    "tags": [
-      "Next.js",
-      "TypeScript",
-      "Tailwind",
-      "Cloudflare Pages"
-    ],
-    "status": "Live",
-    "statusType": "live"
-  },
-  {
-    "id": "starbase-118-pbem-rpg",
-    "title": "StarBase 118 PBEM RPG",
-    "areas": [
-      "starbase"
+      "movement"
     ],
     "builtWithAI": false,
-    "featuredIn": [
-      "starbase"
+    "featuredIn": [],
+    "body": "<p>A grassroots supporter hub for people who want to see Alexandria Ocasio-Cortez run for president. The petition doubles as the email signup, and the whole thing is deliberately money-free — no donations, no merchandise, nothing that would drag it into political committee territory with the FEC.</p><p>An independent effort. Not affiliated with AOC, and not affiliated with any campaign committee.</p><p>After it gathered 1,400 signatures, I handed it over to the ReadyForAOC.org group.</p>"
+  },
+  {
+    "id": "awesome-actionkit",
+    "title": "Awesome ActionKit",
+    "areas": [
+      "movement"
     ],
-    "short": "The community itself",
-    "body": "<p>That's a lot of letters, right? PBEM stands for \"Play By Email,\" and RPG stands for \"Role-Playing Game.\"</p><p>In 1994, on AOL, I co-founded a Star Trek role-playing game soon after learning about them in chat rooms. I was a Star Trek fanatic, as a kid, and I loved the utopian vision of the future mixed with the sense of cool, calm competency that everyone on the show gave off amidst the vast interplay of species in the galaxy.</p><p>That game grew into a community that I still have a hard time believing exists to this day, and which I've led for over 30 years.</p><p>Over the years I've watched people go through many phases of life, meet fellow members and get married, have kids, and even divorce. It's been the privilege of a lifetime to lead and watch all of this happen.</p><p>Beyond all that, the game provided me with a testing ground for leadership, community, and technology like perhaps nothing else could have.</p>",
-    "image": "/images/logo-starbase118.jpg",
-    "href": "https://www.starbase118.net",
+    "builtWithAI": false,
+    "featuredIn": [],
+    "body": "<p>ActionKit powers email and advocacy for most large progressive organizations, but the best tooling around it has always been scattered — buried in Slack threads, ClientCon sessions, and the occasional vendor blog post. New admins spend months rediscovering things other people figured out years ago.</p><p>Awesome ActionKit is the hub I wish had existed when I started. A curated, CC0 list of snippets, recipes, integrations, consultants, and guides — the things that actually work, collected in one place that's easy to find and easy to contribute back to. CampaignHelp seeded it with a handful of repos (redirect blocks, mailing blocks, a health check). Everyone else is invited.</p>",
+    "href": "https://github.com/jordankrueger/awesome-actionkit",
     "secondaryLinks": [
       {
-        "href": "https://trekstories.net",
-        "label": "Read the ebooks"
-      },
+        "href": "/tools#actionkit",
+        "label": "Browse the tools"
+      }
+    ]
+  },
+  {
+    "id": "progressive-email-suppression-list",
+    "title": "Progressive email suppression list",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [],
+    "body": "<p>Every big progressive organization has quietly built the same file over the years: the list of email domains that never deliver. Typos of the major providers, throwaway addresses, spam traps that can get your whole sending domain blocked. The large orgs have one. The small orgs, who need it most, usually don't — and there's no reason for all of us to keep rebuilding it separately.</p><p>So I combined them. The internal lists people have been passing around for years, plus the big community-maintained sets, deduped into one clean file of roughly 66,000 domains that rebuilds itself nightly. There are ten-minute import guides for ActionKit, Action Network, and Listmonk. Released under CC0 — no attribution required, just take it.</p><p>It's purely defensive. The list exists so you can <em>not</em> mail these addresses. Please don't use it for anything else.</p>",
+    "href": "https://github.com/jordankrueger/progressive-email-suppression"
+  },
+  {
+    "id": "freehold",
+    "title": "Freehold",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [],
+    "short": "Owning your own tools and data",
+    "body": "<p>I've been working with progressive nonprofits long enough to watch them get cornered by platforms they can't replace. Freehold is what happens when you sit with that frustration long enough — a framework for an internet where you create, publish, and actually own everything you share online. Your content lives on your own domain, hosted by whoever you trust, syndicated out to whatever networks you choose. No platform owning your audience. No algorithm rewriting what your followers see.</p><p>Not a company. Not a product. A proposal — and an invitation. The whitepaper is at <strong>freehold.is</strong>, published under CC BY 4.0. Quote it, fork it, build a piece of it.</p>",
+    "href": "https://freehold.is",
+    "secondaryLinks": [
       {
-        "href": "https://medium.com/@jordankrueger/how-roleplaying-gives-lgbtq-and-non-binary-people-an-outlet-to-explore-themselves-b119813bb23b",
-        "label": "RPGs & LGBTQ+"
+        "href": "https://freehold-app.pages.dev",
+        "label": "Try the alpha app"
       }
     ]
   },
@@ -323,47 +234,84 @@
     "statusType": "complete"
   },
   {
-    "id": "campaign-help",
-    "title": "campaign.help",
+    "id": "small-tools-i-ve-open-sourced",
+    "title": "Small tools I've open-sourced",
     "areas": [
       "movement"
     ],
-    "builtWithAI": true,
-    "aiGroup": "movement",
+    "builtWithAI": false,
     "featuredIn": [],
-    "aiDescription": "My consulting firm's website. Built it in one session, pulling real testimonials and client logos from Notion. Compressed images 81%, wired up GA4, deployed to Cloudflare Pages.",
-    "tags": [
-      "Next.js",
-      "Cloudflare Pages",
-      "Notion API"
-    ],
-    "status": "Live",
-    "statusType": "live"
+    "body": "<p>Not everything deserves its own site. These are small, finished tools I open-sourced because someone else probably needs the same thing.</p><p><strong>Email Hasher</strong> normalizes a list of email addresses and hashes them in your browser for ad-platform audience uploads. The data never leaves your machine.</p><p><strong>Petition Delivery Formatter</strong> turns a CSV of signatures into a printable PDF, fully offline, for organizers who deliver the petition in person.</p><p><strong>Lease Tracker</strong> is a tiny app that tells you how many miles a day you can drive without going over your lease limit.</p><p><strong>Matrix Gatekeeper</strong> is a bot that makes people accept your community rules before they can join a Matrix space.</p>",
+    "href": "https://jordankrueger.github.io/email-hasher/",
+    "linkLabel": "Email Hasher",
+    "secondaryLinks": [
+      {
+        "href": "https://github.com/jordankrueger/petition-delivery-formatter",
+        "label": "Petition Delivery Formatter"
+      },
+      {
+        "href": "https://jordankrueger.github.io/lease-tracker/",
+        "label": "Lease Tracker"
+      },
+      {
+        "href": "https://github.com/jordankrueger/matrix-gatekeeper",
+        "label": "Matrix Gatekeeper"
+      }
+    ]
   },
   {
-    "id": "mdm-fleet-management",
-    "title": "MDM Fleet Management",
+    "id": "where-the-roads-used-to-be",
+    "title": "Where the Roads Used to Be",
     "areas": [
-      "movement"
+      "personal"
+    ],
+    "builtWithAI": false,
+    "body": "<p><em>Where the Roads Used to Be</em> follows Bear through a whole life in a hopeful future: robots doing the heavy work, nobody needing money for the basics, and a chosen family that just keeps growing.</p><p>For ages 4 to 8. Every paperback comes with a read-along edition.</p>",
+    "image": "/images/book-cover.jpg",
+    "href": "https://www.amazon.com/dp/B0HQC2G2CF",
+    "linkLabel": "Buy the paperback, $12.99",
+    "secondaryLinks": [
+      {
+        "href": "https://wheretheroadsusedtobe.com/",
+        "label": "Visit the book's site"
+      }
+    ],
+    "featuredIn": [
+      "personal"
+    ],
+    "short": "My picture book about a hopeful future",
+    "imageAlt": "The cover of Where the Roads Used to Be"
+  },
+  {
+    "id": "ai-progress-tracker",
+    "title": "AI Progress Tracker",
+    "areas": [
+      "personal"
     ],
     "builtWithAI": true,
-    "aiGroup": "movement",
-    "featuredIn": [],
-    "aiDescription": "Runbook for managing Mac fleets at two nonprofit clients. FileVault key escrow, Escrow Buddy deployment, remediation tracking, and a side-by-side comparison of Mosyle vs. JAMF Now.",
-    "tags": [
-      "Mosyle",
-      "JAMF Now",
-      "macOS"
+    "aiGroup": "personal",
+    "featuredIn": [
+      "personal"
     ],
-    "status": "Active",
-    "statusType": "active"
+    "short": "Scoring Dario Amodei's predictions",
+    "body": "<p>When Anthropic CEO Dario Amodei published \"Machines of Loving Grace,\" it was one of the few concrete sets of predictions about where AI is headed. Predictions deserve a scorecard. I built the AI Progress Tracker to map each of his milestones to what has actually happened, with sources.</p><p>It is not a fan site and not a hit piece. It is a living record, useful whether you are excited about what is coming or deeply skeptical.</p>",
+    "href": "https://aiprogresstracker.com/",
+    "aiDescription": "My first AI build, before Claude Code even existed. Tracks the predictions from Dario Amodei's \"Machines of Loving Grace\" essay across four categories: biology, neuroscience, economics, and governance. Progress bars, expandable sections, and a Reddit community for discussion. Originally on Vercel, recently migrated to Cloudflare Pages.",
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "Tailwind",
+      "Cloudflare Pages"
+    ],
+    "status": "Live",
+    "statusType": "live",
+    "image": "/images/projects/ai-progress-tracker.jpg",
+    "imageAlt": "The AI Progress Tracker homepage: a bar chart scoring each Machines of Loving Grace prediction from 0 to 100"
   },
   {
     "id": "ai-code-review-pipeline",
     "title": "AI Code Review Pipeline",
-    "areas": [
-      "movement"
-    ],
+    "areas": [],
     "builtWithAI": true,
     "aiGroup": "movement",
     "featuredIn": [
@@ -378,6 +326,31 @@
     ],
     "status": "Deployed",
     "statusType": "deployed"
+  },
+  {
+    "id": "starbase-118-pbem-rpg",
+    "title": "StarBase 118 PBEM RPG",
+    "areas": [
+      "starbase"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [
+      "starbase"
+    ],
+    "short": "The community itself",
+    "body": "<p>That's a lot of letters, right? PBEM stands for \"Play By Email,\" and RPG stands for \"Role-Playing Game.\"</p><p>In 1994, on AOL, I co-founded a Star Trek role-playing game soon after learning about them in chat rooms. I was a Star Trek fanatic, as a kid, and I loved the utopian vision of the future mixed with the sense of cool, calm competency that everyone on the show gave off amidst the vast interplay of species in the galaxy.</p><p>That game grew into a community that I still have a hard time believing exists to this day, and which I've led for over 30 years.</p><p>Over the years I've watched people go through many phases of life, meet fellow members and get married, have kids, and even divorce. It's been the privilege of a lifetime to lead and watch all of this happen.</p><p>Beyond all that, the game provided me with a testing ground for leadership, community, and technology like perhaps nothing else could have.</p>",
+    "image": "/images/logo-starbase118.jpg",
+    "href": "https://www.starbase118.net",
+    "secondaryLinks": [
+      {
+        "href": "https://trekstories.net",
+        "label": "Read the ebooks"
+      },
+      {
+        "href": "https://medium.com/@jordankrueger/how-roleplaying-gives-lgbtq-and-non-binary-people-an-outlet-to-explore-themselves-b119813bb23b",
+        "label": "RPGs & LGBTQ+"
+      }
+    ]
   },
   {
     "id": "staff-operations-platform",
@@ -757,9 +730,7 @@
     ],
     "builtWithAI": true,
     "aiGroup": "personal",
-    "featuredIn": [
-      "personal"
-    ],
+    "featuredIn": [],
     "short": "How many miles can I drive today?",
     "aiDescription": "React PWA that answers one question: \"How many miles can I drive today?\" Tracks remaining daily mileage for my car lease. Works offline. Fits in a single HTML file.",
     "tags": [
