@@ -16,6 +16,22 @@
     "short": "An open letter: Democrats, use the majority"
   },
   {
+    "id": "popular-vote-tracker",
+    "title": "Popular Vote Tracker",
+    "areas": [
+      "movement"
+    ],
+    "builtWithAI": false,
+    "featuredIn": [
+      "movement"
+    ],
+    "short": "Where the National Popular Vote compact stands",
+    "body": "<p>Tracks the National Popular Vote Interstate Compact: which states have joined, and how close it is to taking effect.</p>",
+    "href": "https://popularvotetracker.org",
+    "image": "/images/projects/popular-vote-tracker.jpg",
+    "imageAlt": "The Popular Vote Tracker homepage: Five statehouses can finish this, with cards for Arizona, Michigan, Nevada, Pennsylvania and Wisconsin"
+  },
+  {
     "id": "job-seeker-s-union",
     "title": "Job Seeker's Union",
     "areas": [

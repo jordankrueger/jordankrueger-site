@@ -27,7 +27,7 @@ export type AreaKey = keyof typeof AREAS;
 
 // Order of the three featured entries in each hub column.
 export const FEATURED_ORDER = {
-  movement: ['Do Big Things', "Job Seeker's Union", 'Equity Language Commons'],
+  movement: ['Do Big Things', 'Popular Vote Tracker', "Job Seeker's Union"],
   starbase: ['StarBase 118 PBEM RPG', 'Staff Operations Platform', '438K-Post Archive'],
   personal: ['Where the Roads Used to Be', 'AI Progress Tracker', 'Drift'],
   ai: ['AK Help', 'AI Code Review Pipeline', 'Claude Code guardrails'],
