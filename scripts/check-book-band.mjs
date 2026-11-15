@@ -51,12 +51,12 @@ try {
     }
     console.log(`PASS ${width}: every book button fits at 200% text size`);
   }
-  const response = await page.goto(new URL('/projects/movement', base).href);
-  assert(response.ok(), `Movement projects returned ${response.status()}`);
+  const response = await page.goto(new URL('/projects/personal', base).href);
+  assert(response.ok(), `Personal tools returned ${response.status()}`);
   const title = page.getByRole('heading', { name: 'Where the Roads Used to Be', exact: true });
   await title.scrollIntoViewIfNeeded();
-  assert(await title.isVisible(), 'Movement projects book title missing');
-  console.log(`PASS Movement projects book entry. Checked ${base}`);
+  assert(await title.isVisible(), 'Personal tools book title missing');
+  console.log(`PASS Personal tools book entry. Checked ${base}`);
 } catch (error) {
   console.error(`FAIL: ${error.message}`);
   process.exitCode = 1;
