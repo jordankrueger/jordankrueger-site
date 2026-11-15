@@ -312,7 +312,7 @@
       "ai"
     ],
     "short": "AI help for ActionKit users",
-    "aiDescription": "AI help for ActionKit users (the advocacy platform most progressive nonprofits run on). A Playwright scraper pulls 114 help docs and 176 real support emails, anonymizes them, and feeds an AI knowledge base. Freemium SaaS with Stripe billing, magic-link auth, and a monthly auto-refresh pipeline. Retired in July 2026.",
+    "aiDescription": "An AI assistant that answered ActionKit questions for campaign teams, so they didn't have to wait on a support ticket. It was a good test of what a focused AI helper can do for advocacy staff, and I've since shut it down.",
     "tags": [
       "Next.js",
       "Playwright",
