@@ -5,9 +5,8 @@ import SocialIcons from './SocialIcons.astro';
 <section class="hero">
   <div class="container hero-inner">
     <div class="hero-text">
-      <h1 class="hero-greeting fade-up">Hiya &amp; <span class="hl">welcome!</span></h1>
-      <p class="hero-intro fade-up delay-1">I'm Jordan: Operations nerd, tech translator.</p>
-      <p class="hero-sub fade-up delay-2">I help progressive orgs cut through the noise, simplify their systems, and get back to the work that matters.</p>
+      <p class="hero-intro fade-up">Hiya, I'm Jordan Krueger.</p>
+      <h1 class="hero-greeting fade-up delay-1">Hopeful about AI. Serious about a <span class="hl">brighter future.</span></h1>
       <div class="hero-actions fade-up delay-3">
         <a href="/about" class="btn btn-primary">Learn more</a>
         <a href="https://calendly.com/campaignhelp/30min" class="btn btn-outline" target="_blank" rel="noopener">Hire me</a>
@@ -51,21 +50,14 @@ import SocialIcons from './SocialIcons.astro';
     align-items: center;
   }
 
-  .hero-greeting { margin-bottom: var(--spacing-sm); }
+  .hero-greeting { margin-bottom: var(--spacing-md); }
   .hero-greeting .hl { color: var(--color-accent); }
 
   .hero-intro {
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--color-text-logo);
+    color: var(--color-accent);
     margin-bottom: var(--spacing-xs);
-  }
-
-  .hero-sub {
-    font-size: 1.05rem;
-    color: var(--color-text);
-    max-width: 32rem;
-    margin-bottom: var(--spacing-md);
   }
 
   .hero-actions {
