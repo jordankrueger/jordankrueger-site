@@ -1,6 +1,6 @@
 // GET /api/reddit-thread?id=<thread id> -> { points, comments } for the "Join the discussion" bar.
 // Only serves threads listed in /discussions.json (built from post frontmatter), so it is not an open proxy.
-// Successful answers are cached at the edge for 10 minutes.
+// Answers (including "unavailable") are cached at the edge for 10 minutes.
 import { REDDIT_UA, redditCounts } from '../../src/lib/discussions.mjs';
 
 const TTL = 600;
@@ -35,9 +35,8 @@ export async function onRequestGet({ request, env, waitUntil }) {
   } catch (err) {
     console.error('reddit-thread: fetch failed', err);
   }
-  if (!counts) return json({ error: 'unavailable' }, 502);
-
-  const out = json(counts, 200, TTL);
+  // Failures are cached too, so a Reddit block is not retried on every page view.
+  const out = counts ? json(counts, 200, TTL) : json({ error: 'unavailable' }, 502, TTL);
   waitUntil(cache.put(key, out.clone()));
   return out;
 }

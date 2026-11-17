@@ -73,7 +73,10 @@ const rows = [
         r.querySelector('[data-comments]')!.textContent = plural(c.comments, 'comment');
         r.querySelector<HTMLElement>('.discussion-counts')!.hidden = false;
       }
-    }).catch(() => {}); // keep the build-time counts, or none; the buttons still work
+    }).catch(err => {
+      // Keep the build-time counts (or none); the buttons still work.
+      console.warn(`Discussion counts: ${key} ${id} refresh failed`, err);
+    });
   }
 </script>
 
