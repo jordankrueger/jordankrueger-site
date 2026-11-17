@@ -6,8 +6,9 @@ import NewsletterSignup from '../components/NewsletterSignup.astro';
 import ContactForm from '../components/ContactForm.astro';
 import BlogPostCard from '../components/BlogPostCard.astro';
 import { getCollection } from 'astro:content';
+import { isVisible, scheduledLabel } from '../lib/schedule.mjs';
 
-const posts = (await getCollection('posts', ({ data }) => !data.draft))
+const posts = (await getCollection('posts', isVisible))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 ---
@@ -112,6 +113,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
                 slug={post.id}
                 coverImage={post.data.coverImage}
                 tags={post.data.tags}
+                scheduledFor={scheduledLabel(post)}
               />
             </div>
           ))}

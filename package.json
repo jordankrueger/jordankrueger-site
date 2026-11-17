@@ -6,7 +6,8 @@
     "dev": "astro dev --host",
     "build": "astro build",
     "preview": "astro preview --host",
-    "astro": "astro"
+    "astro": "astro",
+    "scheduled": "node scripts/scheduled-posts.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.4",

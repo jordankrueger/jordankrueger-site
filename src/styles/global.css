@@ -322,3 +322,16 @@ button:focus-visible {
     margin: var(--spacing-md) var(--spacing-sm);
   }
 }
+
+/* Dev-only: production builds leave scheduled posts out entirely (src/lib/schedule.mjs). */
+.scheduled-badge {
+  display: inline-block;
+  margin: 0 0 0.5rem;
+  padding: 0.15rem 0.7rem;
+  border: 1px solid var(--color-sun-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg-warm);
+  color: var(--color-sun-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+}

@@ -1,0 +1,36 @@
+# Publishes scheduled blog posts. Every hour it checks whether a post's pubDate
+# passed in the last 130 minutes (two runs' worth, in case GitHub skips one) and,
+# if so, calls the Cloudflare Pages deploy hook to rebuild production.
+# Hours with nothing due cost one quick check and no Cloudflare build.
+# Needs repo secret CF_PAGES_DEPLOY_HOOK (Pages > Settings > Builds > Deploy hooks, branch main).
+# "Run workflow" in the Actions tab forces a rebuild.
+
+name: Publish scheduled posts
+
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - id: check
+        run: node scripts/scheduled-posts.mjs --due-within 130 >> "$GITHUB_OUTPUT"
+      - name: Trigger Cloudflare Pages build
+        if: steps.check.outputs.due == 'true' || github.event_name == 'workflow_dispatch'
+        env:
+          HOOK: ${{ secrets.CF_PAGES_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "::error::Repo secret CF_PAGES_DEPLOY_HOOK is not set"; exit 1; fi
+          curl -fsS -X POST "$HOOK" > /dev/null
+          echo "Deploy hook called."
