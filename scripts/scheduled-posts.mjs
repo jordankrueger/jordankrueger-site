@@ -27,7 +27,7 @@ const posts = readdirSync(DIR, { recursive: true })
 if (process.argv.includes('--check-live')) {
   let due = false;
   for (const p of posts.filter((p) => !p.draft && p.at <= now && p.at > now - LOOKBACK)) {
-    const url = `${SITE}/blog/${p.id}/`;
+    const url = `${SITE}/blog/${p.id.normalize().split('/').map(encodeURIComponent).join('/')}/`;
     const res = await fetch(url, { method: 'HEAD', headers: { 'user-agent': 'jordankrueger-site scheduled-publish' } });
     console.error(`${res.status} ${url}`);
     if (res.status === 404) due = true;

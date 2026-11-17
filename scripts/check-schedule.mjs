@@ -33,4 +33,6 @@ assert.equal(fm('---\npubDate: "2026-12-01T09:30"\n---\nx').pubDate, '2026-12-01
 assert.equal(fm('---\npubDate: 2026-12-01 # scheduled\ndraft: true\n---\n').pubDate, '2026-12-01');
 assert.equal(fm('---\r\npubDate: 2026-12-01\r\ndraft: true\r\n---\r\n').draft, true);
 assert.equal(fm('---\ndescription: "Example:\npubDate: 2020-01-01\nend"\npubDate: 2099-12-01\n---\n').pubDate, '2099-12-01');
+assert.equal(t('2099-12-01T09:00:00+5:30'), '2099-12-01T03:30:00.000Z');   // one-digit offset hour
+assert.equal(fm('\uFEFF\n---\npubDate: 2026-12-01\n---\n').pubDate, '2026-12-01'); // BOM + blank line
 console.log('review checks passed');

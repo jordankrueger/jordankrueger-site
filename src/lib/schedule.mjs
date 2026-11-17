@@ -27,7 +27,7 @@ function nyOffset(t) {
 /** Instant a raw pubDate string goes live. Throws on text it cannot read. */
 export function goLiveTime(raw) {
   const s = String(raw).trim();
-  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})(?:(?:T|\s+)(\d{1,2}):(\d{2})(?::(\d{2})(\.\d+)?)?)?\s*(Z|([+-]\d{2}):?(\d{2})?)?$/i);
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})(?:(?:T|\s+)(\d{1,2}):(\d{2})(?::(\d{2})(\.\d+)?)?)?\s*(Z|([+-])(\d{1,2}):?(\d{2})?)?$/i);
   if (!m) throw new Error(`Unreadable pubDate: ${s}`);
   const ms = Math.round(Number(m[7] ?? 0) * 1000);
   const wall = Date.UTC(+m[1], +m[2] - 1, +m[3], +(m[4] ?? 0), +(m[5] ?? 0), +(m[6] ?? 0), ms);
@@ -37,7 +37,7 @@ export function goLiveTime(raw) {
   }
   let t;
   if (m[8]) {
-    const zone = m[9] ? `${m[9]}:${m[10] ?? '00'}` : 'Z';
+    const zone = m[9] ? `${m[9]}${m[10].padStart(2, '0')}:${m[11] ?? '00'}` : 'Z';
     t = Date.parse(new Date(wall).toISOString().replace('Z', zone));
   } else {
     // Try the offsets in force a day either side; keep the first that maps back to the
@@ -51,7 +51,7 @@ export function goLiveTime(raw) {
 
 /** Frontmatter of a post file, with timestamps kept as text (CORE_SCHEMA has none). */
 export function readFrontmatter(filePath) {
-  const text = readFileSync(resolve(filePath), 'utf8');
+  const text = readFileSync(resolve(filePath), 'utf8').replace(/^\uFEFF?\s*/, ''); // BOM or blank lines before ---
   const fm = text.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1];
   const data = fm ? yaml.load(fm, { schema: yaml.CORE_SCHEMA }) ?? {} : {};
   return { pubDate: data.pubDate, draft: data.draft === true, slug: data.slug };
