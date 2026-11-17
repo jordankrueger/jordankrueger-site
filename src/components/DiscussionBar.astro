@@ -1,7 +1,8 @@
 ---
-// "Join the discussion" bar for posts with `discussions` frontmatter. Rendered above and below the post.
+// "Discussed on" bar for posts with `discussions` frontmatter. Rendered above and below the post.
 // Counts are build-time values, refreshed in the browser (HN Firebase API; Reddit via /api/reddit-thread).
-// Buttons open the thread itself: neither site allows voting from a third-party page.
+// One neutral "Read the discussion" link per thread. No vote or comment asks: HN's guidelines forbid soliciting
+// upvotes or comments, and Reddit treats vote solicitation as manipulation.
 import { hnUrl, parseReddit } from '../lib/discussions.mjs';
 
 type Counts = { points: number; comments: number } | null;
@@ -32,16 +33,13 @@ const rows = [
     {rows.map(r => (
       <div class="discussion-row" data-discussion={r.key} data-id={r.id}>
         <p class="discussion-line">
-          Discussing on <strong>{r.name}</strong>
+          Discussed on <strong>{r.name}</strong>
           <span class="discussion-counts" hidden={!r.counts}>
             <span aria-hidden="true"> · </span><span data-points>{r.counts && plural(r.counts.points, 'point')}</span>
             <span aria-hidden="true"> · </span><span data-comments>{r.counts && plural(r.counts.comments, 'comment')}</span>
           </span>
         </p>
-        <div class="discussion-actions">
-          <a class="btn btn-primary discussion-btn" href={r.url}>Upvote on {r.name}</a>
-          <a class="btn btn-outline discussion-btn" href={r.url}>Join the discussion<span class="sr-only"> on {r.name}</span></a>
-        </div>
+        <a class="btn btn-outline discussion-btn" href={r.url}>Read the discussion<span class="sr-only"> on {r.name}</span></a>
       </div>
     ))}
   </aside>
@@ -120,12 +118,6 @@ const rows = [
     color: var(--color-text-logo);
   }
 
-  .discussion-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-xs);
-  }
-
   .discussion-btn {
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
@@ -136,7 +128,6 @@ const rows = [
   }
 
   @media (max-width: 640px) {
-    .discussion-actions, .discussion-btn { width: 100%; }
-    .discussion-btn { flex: 1 1 0; white-space: normal; }
+    .discussion-btn { width: 100%; white-space: normal; }
   }
 </style>

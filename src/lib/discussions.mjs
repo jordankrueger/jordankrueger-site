@@ -1,4 +1,4 @@
-// "Join the discussion" bars: thread URLs and build-time counts. Shared by BlogPost.astro,
+// "Discussed on" bars: thread URLs and build-time counts. Shared by BlogPost.astro,
 // src/pages/discussions.json.js and functions/api/reddit-thread.js (keep it dependency-free).
 
 // Canonical thread URL: https://www.reddit.com/r/<sub>/comments/<id>/<optional-slug>/
