@@ -1,7 +1,9 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
+import DiscussionBar from '../components/DiscussionBar.astro';
 import { topicLabel } from '../lib/topics';
+import { fetchDiscussionCounts } from '../lib/discussions.mjs';
 
 interface PostRef {
   id: string;
@@ -18,6 +20,7 @@ interface Props {
     coverAlt?: string;
     tags: string[];
     hideNewsletter?: boolean;
+    discussions?: { hackerNews?: number; reddit?: string };
   };
   prevPost?: PostRef | null;
   nextPost?: PostRef | null;
@@ -36,6 +39,9 @@ const dateStr = frontmatter.pubDate.toLocaleDateString('en-US', {
 const content = await Astro.slots.render('default');
 const words = content.replace(/<[^>]*>/g, '').split(/\s+/).length;
 const readingTime = Math.max(1, Math.ceil(words / 250));
+
+const { discussions } = frontmatter;
+const discussionCounts = discussions ? await fetchDiscussionCounts(discussions) : null;
 ---
 
 <BaseLayout title={`${frontmatter.title} — Jordan Krueger`} description={frontmatter.description} ogImage={frontmatter.coverImage} ogType="article">
@@ -77,9 +83,13 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
         <img src={frontmatter.coverImage} alt={frontmatter.coverAlt || frontmatter.title} class="post-cover" fetchpriority="high" />
       )}
 
+      {discussions && <DiscussionBar discussions={discussions} counts={discussionCounts!} position="top" />}
+
       <div class="post-content">
         <slot />
       </div>
+
+      {discussions && <DiscussionBar discussions={discussions} counts={discussionCounts!} position="bottom" />}
 
       <footer class="post-footer">
         <a href="/blog" class="back-link">&larr; Back to all posts</a>
