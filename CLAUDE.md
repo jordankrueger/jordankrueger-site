@@ -59,6 +59,16 @@ coverImage: "/images/gallery/cover.jpg"
 draft: false
 ```
 
+### Scheduled posts
+Give a finished post (`draft: false`) a future `pubDate`, merge it to `main`, and it goes live on its own at that time.
+- **Time zone:** a `pubDate` with no zone is New York time (a time in the spring-forward gap rolls forward): `pubDate: 2026-12-01` = midnight ET, `pubDate: 2026-12-01 09:00` = 9am ET. A `Z` or offset (`2026-12-01T14:00:00Z`) is taken as written. Logic: `src/lib/schedule.mjs` (it reads the raw frontmatter text, because the YAML parser would turn a zone-less time into UTC). Self-check: `node scripts/check-schedule.mjs`.
+- **Production** leaves a future post out of everything: its page, home and blog lists, tag filters, the /2076 series, prev/next links, `rss.xml` (so Mission Control too) and the sitemap. All six post queries use `isVisible` from that file; any new `getCollection('posts')` must too.
+- **Dev** (`npm run dev`) shows scheduled posts with a "Scheduled for <date> ET" badge on the post and its card.
+- **List what's coming:** `npm run scheduled` (prints each URL; flags future posts still marked `draft: true`).
+- **The rebuild:** `.github/workflows/scheduled-publish.yml` runs hourly at :07. If a post came due in the last 3 days and its page still 404s on jordankrueger.com, it POSTs the Cloudflare Pages deploy hook in repo secret `CF_PAGES_DEPLOY_HOOK`; otherwise it does nothing (no Cloudflare build), so a missed run heals on the next one. A post appears within about an hour of its time, plus build time. Any HTTP answer other than 200/404 fails the run (red in Actions). Post URLs follow Astro's ids (`github-slugger` per path segment, or a `slug:` field). "Run workflow" in the Actions tab forces a rebuild. GitHub can delay cron runs, and disables scheduled workflows in a public repo after 60 days with no commits.
+- **Known limit:** a cover image in `public/images/` is public as soon as it merges (only its post is held back). Use a non-obvious filename if that matters.
+- **Undo:** revert the PR that added it, then delete the deploy hook (Pages > Settings > Builds) and the `CF_PAGES_DEPLOY_HOOK` secret.
+
 Tag `claude-code` to include in the Building in Public series at `/building` (see caveat above — it's a redirect, not a real page).
 
 Tag `2076` to add a post to the 2076 series: the "Read the series" block on `/2076` lists every published (non-draft) post with that tag automatically, oldest first (title, description, date). With none tagged it shows "The first post is on its way. Subscribe to get it."

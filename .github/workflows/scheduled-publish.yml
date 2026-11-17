@@ -1,0 +1,38 @@
+# Publishes scheduled blog posts. Every hour it looks for posts whose pubDate
+# passed in the last 3 days but whose page still 404s on the live site and, if
+# any, calls the Cloudflare Pages deploy hook to rebuild production. A skipped
+# or failed run heals on the next one. Hours with nothing due cost no Cloudflare build.
+# Needs repo secret CF_PAGES_DEPLOY_HOOK (Pages > Settings > Builds > Deploy hooks, branch main).
+# "Run workflow" in the Actions tab forces a rebuild.
+
+name: Publish scheduled posts
+
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - id: check
+        run: node scripts/scheduled-posts.mjs --check-live >> "$GITHUB_OUTPUT"
+      - name: Trigger Cloudflare Pages build
+        if: steps.check.outputs.due == 'true' || github.event_name == 'workflow_dispatch'
+        env:
+          HOOK: ${{ secrets.CF_PAGES_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "::error::Repo secret CF_PAGES_DEPLOY_HOOK is not set"; exit 1; fi
+          curl -fsS -X POST "$HOOK" > /dev/null
+          echo "Deploy hook called."

@@ -3,11 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CircuitDivider from '../components/CircuitDivider.astro';
 import PostcardMaker from '../components/PostcardMaker.astro';
 import { getCollection } from 'astro:content';
+import { isVisible } from '../lib/schedule.mjs';
 
 const ext = { target: '_blank', rel: 'noopener' };
 
 // The 2076 series: published posts tagged `2076`, oldest first.
-const series = (await getCollection('posts', ({ data }) => !data.draft && data.tags.includes('2076')))
+const series = (await getCollection('posts', (p) => isVisible(p) && p.data.tags.includes('2076')))
   .sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 ---
 

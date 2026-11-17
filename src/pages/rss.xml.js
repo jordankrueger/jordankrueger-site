@@ -1,11 +1,12 @@
 import rss from '@astrojs/rss';
 import { getCollection, render } from 'astro:content';
+import { isVisible } from '../lib/schedule.mjs';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { loadRenderers } from 'astro:container';
 import { getContainerRenderer as getMDXRenderer } from '@astrojs/mdx/container-renderer';
 
 export async function GET(context) {
-  const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  const posts = (await getCollection('posts', isVisible))
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   const container = await AstroContainer.create({ renderers: await loadRenderers([getMDXRenderer()]) });
 

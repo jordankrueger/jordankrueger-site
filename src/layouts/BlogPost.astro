@@ -21,9 +21,10 @@ interface Props {
   };
   prevPost?: PostRef | null;
   nextPost?: PostRef | null;
+  scheduledFor?: string | null; // dev-only badge
 }
 
-const { frontmatter, prevPost, nextPost } = Astro.props;
+const { frontmatter, prevPost, nextPost, scheduledFor } = Astro.props;
 
 const dateStr = frontmatter.pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -56,6 +57,7 @@ const readingTime = Math.max(1, Math.ceil(words / 250));
   <article class="blog-post">
     <div class="container">
       <header class="post-header">
+        {scheduledFor && <p class="scheduled-badge">{scheduledFor}</p>}
         <div class="post-meta">
           <time datetime={frontmatter.pubDate.toISOString()}>{dateStr}</time>
           <span class="meta-sep">&middot;</span>

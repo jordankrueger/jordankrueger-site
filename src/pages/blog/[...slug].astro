@@ -1,9 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { isVisible, scheduledLabel } from '../../lib/schedule.mjs';
 import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
-  const allPosts = (await getCollection('posts', ({ data }) => !data.draft))
+  const allPosts = (await getCollection('posts', isVisible))
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   return allPosts.map((post, i) => ({
     params: { slug: post.id },
@@ -19,6 +20,6 @@ const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BlogPost frontmatter={post.data} prevPost={prevPost} nextPost={nextPost}>
+<BlogPost frontmatter={post.data} prevPost={prevPost} nextPost={nextPost} scheduledFor={scheduledLabel(post)}>
   <Content />
 </BlogPost>

@@ -8,8 +8,9 @@ interface Props {
   slug: string;
   coverImage?: string;
   tags?: string[];
+  scheduledFor?: string | null; // dev-only badge; production never builds scheduled posts
 }
-const { title, description, pubDate, slug, coverImage, tags = [] } = Astro.props;
+const { title, description, pubDate, slug, coverImage, tags = [], scheduledFor } = Astro.props;
 
 const dateStr = pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -23,6 +24,7 @@ const dateStr = pubDate.toLocaleDateString('en-US', {
     <img src={coverImage} alt={title} loading="lazy" class="blog-card-image" />
   )}
   <div class="blog-card-body">
+    {scheduledFor && <span class="scheduled-badge">{scheduledFor}</span>}
     <time datetime={pubDate.toISOString()}>{dateStr}</time>
     <h3>{title}</h3>
     <p>{description}</p>
