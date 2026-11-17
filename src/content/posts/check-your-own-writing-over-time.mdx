@@ -1,0 +1,95 @@
+---
+title: "How to check your own writing over time"
+description: "A step-by-step guide to checking your own writing for long-term changes, using an AI helper and the archives you already have. No coding needed."
+tags: ["ai"]
+pubDate: 2026-11-19 09:05
+draft: false
+coverImage: "/images/gallery/blog-desk-overhead.jpg"
+coverAlt: "Flat illustration in warm earth tones of a wooden desk seen from above, with an open notebook of looping handwritten lines and a fountain pen on one side, a laptop keyboard on the other, and a succulent, a speckled mug and a pair of reading glasses between them"
+---
+
+*Part 2 of 2. [Part 1: I checked 30 years of my writing for early signs of decline](/blog/30-years-of-my-writing/)*
+
+In [Part 1](/blog/30-years-of-my-writing/), I ran about 82,000 pieces of my own writing through a check. It looked for the kinds of language changes researchers link to early memory decline. Here's how to do the same with your own writing, even if you've never written a line of code.
+
+An AI coding helper does the technical parts. I used Claude Code. You bring the writing.
+
+Plan on an hour or two, mostly waiting for downloads.
+
+## Before you start
+
+These rules matter more than any of the steps:
+
+- **This is only for your own writing.** Don't run it on a parent's or partner's email without their clear OK.
+- **Keep it on your computer.** Your old messages are some of the most private things you own. In the steps below, the AI writes a script that runs on your machine and only shows you numbers.
+- **It's a curiosity, not a diagnosis.** If something worries you, the next step is a doctor, not more charts.
+
+## Step 1: Download your old writing
+
+Pick whatever you have. More years is better than more sources.
+
+- **Gmail:** [Google Takeout](https://takeout.google.com) lets you download your mail. Choose only "Mail" to keep it smaller.
+- **X (Twitter):** Settings → Your account → Download an archive of your data.
+- **Facebook:** Accounts Center → Your information and permissions → Download your information. Pick JSON format.
+- **Day One or other journals:** most journaling apps can export to JSON or plain text.
+- **Anything else:** old blog posts, school papers, forum posts. Plain text or Word files are fine.
+
+Some of these take a day or two to arrive. That's normal.
+
+## Step 2: Put it all in one folder
+
+Make a folder called `my-writing` and drop every download inside it. Still zipped is fine. Don't sort anything. The AI will figure out what's what.
+
+## Step 3: Give your AI helper this prompt
+
+Open your AI coding helper inside that folder and paste this in:
+
+> I want to see whether my own writing style has changed over the years. The files in this folder are exports of my email, social media, and other writing.
+>
+> Please write and run a script on this computer that:
+> 1. Finds only the writing I wrote myself (my sent email, my own posts and comments) and skips quoted replies, signatures, links, retweets, and repeated form letters.
+> 2. Measures each year, separately for each source: vocabulary variety (MATTR), words per sentence, vague words like "thing" and "stuff" per 1,000 words, pronouns per 1,000 words, the share of words not in a dictionary, and the share of long words.
+> 3. Treats anything I wrote after I started using AI writing tools (ask me when that was) as a separate group, because AI-drafted text doesn't reflect my own writing.
+> 4. Compares my most recent two years to my own earlier years, and tells me how far each measure has moved compared to my normal year-to-year ups and downs.
+> 5. Makes a simple page with a chart for each measure.
+>
+> Important: don't open, quote, or show me the text of any message. Process everything on this computer and only show me the numbers.
+
+The AI will probably ask you a few questions, like which email address is yours and when you started using AI to write. Answer them, and let it work.
+
+## Step 4: Read your results
+
+Look for a steady change in the "decline" direction, across more than one source, over several years. If something were changing, you'd see:
+
+- Vocabulary variety going down
+- Sentences getting shorter
+- Vague words and pronouns going up
+- Words not in the dictionary going up (though new tech words like "app" count here too)
+
+These usually *aren't* warning signs:
+
+- A change in only one source. That's usually a change in who you write to.
+- One odd year. Life happens.
+- A big jump the year Twitter went from 140 to 280 characters. Platforms change, too.
+
+In my own results, only two measures drifted the "wrong" way. Each did it in a single source, and both had obvious explanations. Everything else held steady or moved the other way.
+
+## Step 5 (optional): Track your typing
+
+Word choice says a lot about memory, but very little about Parkinson's. For that, the research points to typing rhythm: how long you hold each key down, and how much that varies.
+
+I use a small free logger on my Mac called Typing Rhythm. [Get it here.](https://github.com/jordankrueger/typing-rhythm) It records only timing, never which keys you press or what you type. And macOS blocks it from password fields entirely. After about two months of normal typing, it learns your baseline. Then it can show you if anything starts to drift.
+
+## Step 6: Keep some writing that's only yours
+
+I'd do this step even if you skip all the others. More of what we write now gets drafted or polished by AI, so our own natural writing is disappearing. Keep a journal. Text your friends in your own words. Save the prompts you type to AI. Years from now, that's the honest record you'll have to compare against.
+
+## If something does show up
+
+Don't panic, and don't diagnose yourself from a chart. Sleep, stress, depression, medication and life changes all move these numbers. Bring what you noticed to your doctor. They can do a proper memory or movement test. That's worth far more than anything a script can tell you.
+
+---
+
+*Missed Part 1? [Read how I checked 30 years of my own writing](/blog/30-years-of-my-writing/).*
+
+*Want to build your own website with AI tools? My free [Website Starter Pack](/blog/build-your-own-website/#starter-pack) walks you through it.*
