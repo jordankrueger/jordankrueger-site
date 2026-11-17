@@ -20,6 +20,12 @@ const posts = defineCollection({
     draft: z.boolean().default(false),
     // Set when the post renders its own signup form inline (skips the layout's one).
     hideNewsletter: z.boolean().default(false),
+    // Threads where the post is being discussed; shows the DiscussionBar above and below the post.
+    discussions: z.object({
+      hackerNews: z.number().int().positive().optional(), // HN item id
+      // Canonical thread URL (resolve /s/ share links first), e.g. https://www.reddit.com/r/foss/comments/1xylljb/
+      reddit: z.string().regex(/^https:\/\/(www\.|old\.)?reddit\.com\/r\/[A-Za-z0-9_]+\/comments\/[a-z0-9]{4,12}(\/|$)/).optional(),
+    }).optional(),
   }),
 });
 

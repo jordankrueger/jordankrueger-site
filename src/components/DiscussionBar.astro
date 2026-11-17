@@ -1,0 +1,144 @@
+---
+// "Discussed on" bar for posts with `discussions` frontmatter. Rendered above and below the post.
+// Counts are build-time values, refreshed in the browser (HN Firebase API; Reddit via /api/reddit-thread).
+// One neutral "Read the discussion" link per thread. No vote or comment asks: HN's guidelines forbid soliciting
+// upvotes or comments, and Reddit treats vote solicitation as manipulation.
+import { hnUrl, parseReddit } from '../lib/discussions.mjs';
+
+type Counts = { points: number; comments: number } | null;
+interface Props {
+  discussions: { hackerNews?: number; reddit?: string };
+  counts: { hackerNews: Counts; reddit: Counts };
+  position: 'top' | 'bottom';
+}
+
+const { discussions, counts, position } = Astro.props;
+const reddit = parseReddit(discussions.reddit);
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
+
+const rows = [
+  discussions.hackerNews && {
+    key: 'hn', id: String(discussions.hackerNews), name: 'Hacker News',
+    url: hnUrl(discussions.hackerNews), counts: counts.hackerNews,
+  },
+  reddit && {
+    key: 'reddit', id: reddit.id, name: `r/${reddit.sub}`,
+    url: reddit.url, counts: counts.reddit,
+  },
+].filter(Boolean) as { key: string; id: string; name: string; url: string; counts: Counts }[];
+---
+
+{rows.length > 0 && (
+  <aside class={`discussion-bar discussion-bar--${position}`} aria-label="Discussion of this post on other sites">
+    {rows.map(r => (
+      <div class="discussion-row" data-discussion={r.key} data-id={r.id}>
+        <p class="discussion-line">
+          Discussed on <strong>{r.name}</strong>
+          <span class="discussion-counts" hidden={!r.counts}>
+            {' '}<span class="discussion-count"><span aria-hidden="true">·&nbsp;</span><span data-points>{r.counts && plural(r.counts.points, 'point')}</span></span>
+            {' '}<span class="discussion-count"><span aria-hidden="true">·&nbsp;</span><span data-comments>{r.counts && plural(r.counts.comments, 'comment')}</span></span>
+          </span>
+        </p>
+        <a class="btn btn-outline discussion-btn" href={r.url}>Read the discussion<span class="sr-only"> on {r.name}</span></a>
+      </div>
+    ))}
+  </aside>
+)}
+
+<script>
+  const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
+
+  async function live(key: string, id: string) {
+    const url = key === 'hn'
+      ? `https://hacker-news.firebaseio.com/v0/item/${id}.json`
+      : `/api/reddit-thread?id=${encodeURIComponent(id)}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(String(res.status));
+    const d = await res.json();
+    return key === 'hn' ? { points: d.score, comments: d.descendants ?? 0 } : d;
+  }
+
+  const rows = [...document.querySelectorAll<HTMLElement>('[data-discussion]')];
+  const threads = new Map(rows.map(r => [`${r.dataset.discussion}:${r.dataset.id}`, r]));
+
+  for (const keyId of threads.keys()) {
+    const [key, id] = keyId.split(':');
+    const mine = rows.filter(r => r.dataset.discussion === key && r.dataset.id === id);
+    live(key, id).then(c => {
+      if (!Number.isFinite(c?.points)) throw new Error('no counts');
+      for (const r of mine) {
+        r.querySelector('[data-points]')!.textContent = plural(c.points, 'point');
+        r.querySelector('[data-comments]')!.textContent = plural(c.comments, 'comment');
+        r.querySelector<HTMLElement>('.discussion-counts')!.hidden = false;
+      }
+    }).catch(err => {
+      // Keep the build-time counts (or none); the buttons still work.
+      console.warn(`Discussion counts: ${key} ${id} refresh failed`, err);
+    });
+  }
+</script>
+
+<style>
+  .discussion-bar {
+    max-width: var(--measure, 68ch);
+    margin: 0 auto var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--color-bg-green);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: grid;
+    gap: var(--spacing-sm);
+  }
+
+  .discussion-bar--bottom {
+    margin-top: var(--spacing-lg);
+    margin-bottom: 0;
+  }
+
+  .discussion-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .discussion-row + .discussion-row {
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .discussion-line {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+
+  .discussion-line strong {
+    color: var(--color-text-logo);
+  }
+
+  .discussion-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  /* "· 28 comments" never splits across lines */
+  .discussion-count {
+    white-space: nowrap;
+  }
+
+  /* White fill so the button reads on the green band; the site's outline hover (green fill) would vanish here, so fill with the accent instead. */
+  .discussion-btn.btn-outline {
+    background-color: var(--color-bg-white);
+  }
+
+  .discussion-btn.btn-outline:hover {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  @media (max-width: 640px) {
+    .discussion-btn { width: 100%; white-space: normal; }
+  }
+</style>
