@@ -35,8 +35,8 @@ const rows = [
         <p class="discussion-line">
           Discussed on <strong>{r.name}</strong>
           <span class="discussion-counts" hidden={!r.counts}>
-            <span aria-hidden="true"> · </span><span data-points>{r.counts && plural(r.counts.points, 'point')}</span>
-            <span aria-hidden="true"> · </span><span data-comments>{r.counts && plural(r.counts.comments, 'comment')}</span>
+            {' '}<span class="discussion-count"><span aria-hidden="true">·&nbsp;</span><span data-points>{r.counts && plural(r.counts.points, 'point')}</span></span>
+            {' '}<span class="discussion-count"><span aria-hidden="true">·&nbsp;</span><span data-comments>{r.counts && plural(r.counts.comments, 'comment')}</span></span>
           </span>
         </p>
         <a class="btn btn-outline discussion-btn" href={r.url}>Read the discussion<span class="sr-only"> on {r.name}</span></a>
@@ -123,8 +123,19 @@ const rows = [
     font-size: 0.85rem;
   }
 
+  /* "· 28 comments" never splits across lines */
+  .discussion-count {
+    white-space: nowrap;
+  }
+
+  /* White fill so the button reads on the green band; the site's outline hover (green fill) would vanish here, so fill with the accent instead. */
   .discussion-btn.btn-outline {
     background-color: var(--color-bg-white);
+  }
+
+  .discussion-btn.btn-outline:hover {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
   }
 
   @media (max-width: 640px) {
