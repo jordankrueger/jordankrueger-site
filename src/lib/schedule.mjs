@@ -2,13 +2,15 @@
 // production build until that time passes. Shared by the Astro pages and by
 // scripts/scheduled-posts.mjs (the hourly GitHub Action and `npm run scheduled`).
 //
-// The YAML parser turns `2026-12-01 09:00` into 09:00 UTC, so the raw text is
-// read from the file instead: a date or time written without a timezone means
-// New York time. One with `Z` or an offset (`-05:00`) is taken as written.
+// Astro's YAML parser turns `2026-12-01 09:00` into 09:00 UTC, so the frontmatter
+// is re-read here with timestamps left as text: a date or time written without a
+// timezone means New York time. One with `Z` or an offset (`-05:00`) is taken as written.
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import yaml from 'js-yaml';
 
 const TZ = 'America/New_York';
+const DAY = 86_400_000;
 
 // Offset of New York from UTC (ms) at instant t.
 function nyOffset(t) {
@@ -19,27 +21,40 @@ function nyOffset(t) {
       hour: '2-digit', minute: '2-digit', second: '2-digit',
     }).formatToParts(new Date(t)).map((x) => [x.type, x.value]),
   );
-  return Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - t;
+  return Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - Math.floor(t / 1000) * 1000;
 }
 
 /** Instant a raw pubDate string goes live. Throws on text it cannot read. */
 export function goLiveTime(raw) {
-  const s = String(raw).trim().replace(/^["']|["']$/g, '');
-  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{1,2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?)?\s*(Z|[+-]\d{2}:?\d{2})?$/i);
+  const s = String(raw).trim();
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})(?:(?:T|\s+)(\d{1,2}):(\d{2})(?::(\d{2})(\.\d+)?)?)?\s*(Z|([+-]\d{2}):?(\d{2})?)?$/i);
   if (!m) throw new Error(`Unreadable pubDate: ${s}`);
-  if (m[7]) return new Date(s.replace(' ', 'T'));
-  const wall = Date.UTC(+m[1], +m[2] - 1, +m[3], +(m[4] ?? 0), +(m[5] ?? 0), +(m[6] ?? 0));
-  const first = wall - nyOffset(wall);
-  return new Date(wall - nyOffset(first)); // second pass settles DST changeover days
+  const ms = Math.round(Number(m[7] ?? 0) * 1000);
+  const wall = Date.UTC(+m[1], +m[2] - 1, +m[3], +(m[4] ?? 0), +(m[5] ?? 0), +(m[6] ?? 0), ms);
+  const w = new Date(wall); // rejects 2026-02-30, 25:00 and the like
+  if (w.getUTCMonth() + 1 !== +m[2] || w.getUTCDate() !== +m[3] || w.getUTCHours() !== +(m[4] ?? 0)) {
+    throw new Error(`Unreadable pubDate: ${s}`);
+  }
+  let t;
+  if (m[8]) {
+    const zone = m[9] ? `${m[9]}:${m[10] ?? '00'}` : 'Z';
+    t = Date.parse(new Date(wall).toISOString().replace('Z', zone));
+  } else {
+    // Try the offsets in force a day either side; keep the first that maps back to the
+    // written wall clock. In the spring-forward gap neither does, so take the later one.
+    const tries = [wall - nyOffset(wall - DAY), wall - nyOffset(wall + DAY)].sort((a, b) => a - b);
+    t = tries.find((c) => c + nyOffset(c) === wall) ?? tries[1];
+  }
+  if (!Number.isFinite(t)) throw new Error(`Unreadable pubDate: ${s}`);
+  return new Date(t);
 }
 
-/** Raw pubDate text and draft flag from a post file's frontmatter. */
+/** Frontmatter of a post file, with timestamps kept as text (CORE_SCHEMA has none). */
 export function readFrontmatter(filePath) {
-  const fm = readFileSync(resolve(filePath), 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '';
-  return {
-    pubDate: fm.match(/^pubDate:\s*(.+?)\s*$/m)?.[1],
-    draft: /^draft:\s*true\s*$/m.test(fm),
-  };
+  const text = readFileSync(resolve(filePath), 'utf8');
+  const fm = text.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1];
+  const data = fm ? yaml.load(fm, { schema: yaml.CORE_SCHEMA }) ?? {} : {};
+  return { pubDate: data.pubDate, draft: data.draft === true, slug: data.slug };
 }
 
 /** Go-live instant for an Astro posts-collection entry. */

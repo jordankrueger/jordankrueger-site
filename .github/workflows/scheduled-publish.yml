@@ -1,7 +1,7 @@
-# Publishes scheduled blog posts. Every hour it checks whether a post's pubDate
-# passed in the last 130 minutes (two runs' worth, in case GitHub skips one) and,
-# if so, calls the Cloudflare Pages deploy hook to rebuild production.
-# Hours with nothing due cost one quick check and no Cloudflare build.
+# Publishes scheduled blog posts. Every hour it looks for posts whose pubDate
+# passed in the last 3 days but whose page still 404s on the live site and, if
+# any, calls the Cloudflare Pages deploy hook to rebuild production. A skipped
+# or failed run heals on the next one. Hours with nothing due cost no Cloudflare build.
 # Needs repo secret CF_PAGES_DEPLOY_HOOK (Pages > Settings > Builds > Deploy hooks, branch main).
 # "Run workflow" in the Actions tab forces a rebuild.
 
@@ -24,8 +24,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
       - id: check
-        run: node scripts/scheduled-posts.mjs --due-within 130 >> "$GITHUB_OUTPUT"
+        run: node scripts/scheduled-posts.mjs --check-live >> "$GITHUB_OUTPUT"
       - name: Trigger Cloudflare Pages build
         if: steps.check.outputs.due == 'true' || github.event_name == 'workflow_dispatch'
         env:
