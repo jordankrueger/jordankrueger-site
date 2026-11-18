@@ -86,7 +86,7 @@ def e(s):
 
 SANS = "font-family:'DM Sans','Helvetica Neue',Arial,sans-serif;"
 SERIF = "font-family:'Lora',Georgia,'Times New Roman',serif;"
-WRAP = '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#EDEDED;"><tr><td style="{pad}">{inner}</td></tr></table>\n'
+WRAP = '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#FFFFFF;"><tr><td style="{pad}">{inner}</td></tr></table>\n'
 
 
 def card(p):
