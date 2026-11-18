@@ -53,7 +53,7 @@ def mc_campaigns():
 
 
 def unsent(camps):
-    return [c for c in camps if c["status"] in ("draft", "scheduled")]
+    return [c for c in camps if c["status"] in ("draft", "scheduled") and re.match(r"Mission Control \d+", c["name"])]
 
 
 def gather():
