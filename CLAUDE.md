@@ -101,6 +101,7 @@ Optional `linkLabel` prop sets the main button text (default "Learn More"), e.g.
 - **Newsletter signup:** POST to `https://progressives-signup.restless-salad-a31e.workers.dev`
   - Worker source: `side-hustle/progressives-for-ai/progressives-for-ai/worker.js` (personal CF account — use `PERSONAL_CLOUDFLARE_API_TOKEN`)
   - Signups go to **Listmonk Mission Control list (id 4)** on CH VPS (newsletter.campaign.help)
+  - **End-of-post box (`BlogPost.astro`):** posts tagged `ai` show the Progressives for AI box (`NewsletterSignup` with `list="progressives-for-ai"`, list 3, no Turnstile); every other post keeps Mission Control. One signup box per page. `hideNewsletter` still hides it (PR #114, 2026-11-18).
   - AK Template form also posts here with `bonus=ak-template` → triggers Resend transactional welcome email to new subscriber
   - **Cloudflare Turnstile is required for `list=mission-control` only.** Every Mission Control form must render the Jordan widget with `data-action="newsletter"`; current forms are `NewsletterSignup.astro` and the AK Template form in `pages/tools.astro`. The public site key lives in the components; `TURNSTILE_SECRET_KEY` is a secret on the shared Worker. Do not make Turnstile global on that Worker unless every Progressives for AI caller is updated too.
   - **Adding a new signup form (here or on any other site): see `claude-management/reference/signup-forms.md` for the canonical pattern (worker architecture, lookup+attach for existing subscribers, client-side response handling, anti-patterns).**
