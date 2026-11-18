@@ -113,7 +113,15 @@ const discussionCounts = discussions ? await fetchDiscussionCounts(discussions) 
     </div>
   </article>
 
-  {!frontmatter.hideNewsletter && <NewsletterSignup variant="compact" />}
+  {!frontmatter.hideNewsletter && <NewsletterSignup
+    variant="compact"
+    {...(frontmatter.tags.includes('ai') ? {
+      list: 'progressives-for-ai',
+      label: 'Subscribe to',
+      title: 'Progressives for AI',
+      desc: 'Free updates on AI from a progressive perspective. No spam, unsubscribe anytime.',
+    } : {})}
+  />}
 </BaseLayout>
 
 <!-- Posts can render NewsletterSignup inside MDX, where Astro does not bundle the component's script. -->
