@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import { isVisible } from '../lib/schedule.mjs';
 
 export async function GET(context) {
+  if (!context.site) throw new Error('/feed.json needs `site` (set in astro.config.mjs) to build absolute URLs');
   const posts = (await getCollection('posts', isVisible))
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   const abs = (p) => new URL(p, context.site).toString();

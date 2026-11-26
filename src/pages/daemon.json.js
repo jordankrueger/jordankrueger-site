@@ -2,7 +2,7 @@
 import { getDaemon } from '../lib/daemon.mjs';
 
 export async function GET(context) {
-  const d = await getDaemon(context.site);
+  const d = await getDaemon(context.site); // throws a clear build error if `site` is unset
   const body = {
     name: 'Jordan Krueger',
     url: new URL('/daemon', context.site).toString(),

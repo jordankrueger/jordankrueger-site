@@ -4,7 +4,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getDaemon } from '../lib/daemon.mjs';
 
-const d = await getDaemon(Astro.site!);
+const d = await getDaemon(Astro.site);
 ---
 
 <BaseLayout title="Daemon — Jordan Krueger" description="A live snapshot of what Jordan Krueger is doing, building and thinking about, for people and AI agents.">
