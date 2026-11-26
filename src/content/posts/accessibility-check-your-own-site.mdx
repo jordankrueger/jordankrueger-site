@@ -1,0 +1,29 @@
+---
+title: "Run an accessibility check on your own site before someone else does"
+description: "I checked 14 of my own websites. Most of what it found traced back to a few causes."
+pubDate: 2026-11-26
+tags: ["nonprofit-tech", "ai"]
+coverImage: "/images/gallery/blog-accessibility-check-your-own-site.jpg"
+coverAlt: "Flat illustration in warm earth tones of a wooden desk seen from above, with a paper website sketch under a magnifying glass, three matching terracotta color swatches circled in pencil, a closed laptop, a speckled mug and a small potted plant"
+draft: false
+---
+
+I recently read a [Reddit post](https://www.reddit.com/r/smallbusiness/comments/1xvfr5k/i_read_20_ada_website_lawsuits_from_the_same_law/) by someone who'd gone through 20 website accessibility lawsuits from one New York law firm. According to the post, all 20 complaints cited the same two problems: images with no text description, and links that don't say where they go.
+
+Those are things anybody can check, so I checked mine. I had Claude run an open-source tool called [axe](https://github.com/dequelabs/axe-core) over 14 of my personal sites and side projects. It looked at three pages on each, at desktop and phone widths. Claude also tabbed through the main forms using only the keyboard, stopping before it hit submit.
+
+On the pages it checked, none of the 14 had either of the problems from the lawsuits. Five had something else wrong.
+
+On one site, the check flagged a small label above the headings. The text was too faint against the background. When we checked all 193 pages on that site, at both widths, axe reported 5,208 contrast failures. It also reported 525 links that could only be told apart from the text around them by their color. Those counts include the same element showing up on page after page.
+
+That's why the numbers were so big. Most of it came down to two colors the whole site shares. We darkened those two, fixed two one-off colors and underlined the links in body text. Both of those checks went to zero.
+
+The fixes on the other sites were smaller. On one, a map had 51 links whose hidden labels didn't include the state name you see on screen. That trips up people who use their computer by voice and say what they see ("click Ohio"), and one template change fixed all 51. On this site, an embedded music player had no title, so a screen reader had nothing useful to call it.
+
+If you run operations at a nonprofit, a report with thousands of failures can look like months of work. Before you decide that, sort the report by cause instead of by page. Ask which color, which template or which button shows up the most. Start with anything that stops someone from donating or signing up. After that, fix the cause that repeats most, run the check again, and see what's left.
+
+You can do the first pass without a developer. The [WAVE browser extension](https://wave.webaim.org/extension/) checks whatever page you have open, right in your browser. Then put your mouse away and try to get through your donation form with the keyboard. Use Tab to move, Enter or Space to press buttons, and the arrow keys for menus. If you lose track of where you are, or can't finish, somebody else can't either.
+
+An automated check doesn't catch everything. The company behind axe says that in its own audits, automated testing found about [57% of the problems](https://www.deque.com/blog/automated-testing-study-identifies-57-percent-of-digital-accessibility-issues/). Passing it isn't legal cover, either. I haven't listened to my sites with a real screen reader yet.
+
+If you run it on your own site, I'd love to hear what your biggest repeat offender was!
