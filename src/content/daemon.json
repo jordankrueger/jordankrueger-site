@@ -1,0 +1,54 @@
+{
+  "jordan": {
+    "asOf": "2026-11-26",
+    "now": [
+      "Running CampaignHelp, handling IT and operations for progressive nonprofits.",
+      "Giving talks and workshops on using AI well through Grounded AI.",
+      "Working on the 2076 plan: what the US could look like at 300."
+    ],
+    "mission": "Help build the country I want the US to be at 300, in 2076. AI and robots do the heavy lifting and the planet is healing. No one has to work to survive, and government works for everyone.",
+    "goals": [
+      { "code": "G1", "goal": "Friendly AI: safe AI that's shared, so people get their time back.", "now": "the AI Progress Tracker, Progressives for AI, Grounded AI workshops." },
+      { "code": "G2", "goal": "A healthy planet: a clean grid, cheap food, land and rivers being rewilded.", "now": "Where the Roads Used to Be, a picture book for ages 4 to 8." },
+      { "code": "G3", "goal": "Freedom from money worry: free basics, plus a stake for every child.", "now": "a blog series on the birthright stake." },
+      { "code": "G4", "goal": "Good governance: institutions people trust and can take part in.", "now": "Do Big Things and the Popular Vote Tracker." }
+    ],
+    "predictions": [
+      { "code": "P1", "prediction": "By 2030, a hopeful future is the left's big ask again.", "confidence": "about even" },
+      { "code": "P2", "prediction": "By 2050, safe AI takes on most of the drudge work.", "confidence": "about even" },
+      { "code": "P3", "prediction": "By 2076, citizens' assemblies are a normal part of government.", "confidence": "unlikely" }
+    ],
+    "projects": [
+      { "name": "AI Progress Tracker", "url": "https://aiprogresstracker.com/", "line": "scores Dario Amodei's 18 predictions against the news every week." },
+      { "name": "Progressives for AI", "url": "https://progressivesforai.com/", "line": "is a weekly newsletter for progressives who want to engage with AI." },
+      { "name": "Do Big Things", "url": "https://dobigthings.org", "line": "is an open letter asking Democrats to use the majority." },
+      { "name": "Popular Vote Tracker", "url": "https://popularvotetracker.org", "line": "shows where the National Popular Vote compact stands." },
+      { "name": "Where the Roads Used to Be", "url": "https://wheretheroadsusedtobe.com/", "line": "is my picture book about a hopeful future." },
+      { "name": "StarBase 118", "url": "https://www.starbase118.net", "line": "is the Star Trek roleplaying community I founded in 1994 and still run." }
+    ],
+    "offering": [
+      { "text": "IT and operations for progressive nonprofits, through CampaignHelp.", "url": "https://campaign.help" },
+      { "text": "Talks, workshops and advice on using AI well, through Grounded AI.", "url": "https://groundedai.help" }
+    ],
+    "requesting": [
+      { "text": "Your postcard from 2076: where you are, what your Tuesday is like, and what you helped build.", "url": "https://jordankrueger.com/2076" },
+      { "text": "Speaking slots on AI, nonprofit operations or the 2076 plan." },
+      { "text": "Feedback on anything here, and collaborators for the projects above." }
+    ],
+    "resume": [
+      { "years": "2021–now", "role": "Founder, CampaignHelp" },
+      { "years": "2025–now", "role": "AI talks and workshops, Grounded AI" },
+      { "years": "2012–2020", "role": "Campaigner, then Director of Operations, CREDO Action" },
+      { "years": "2011–2012", "role": "Lobbyist, Progressive Change Campaign Committee" },
+      { "years": "2008–2011", "role": "Co-founder, Equality Network" },
+      { "years": "1994–now", "role": "Founder, StarBase 118" }
+    ],
+    "preferences": [
+      { "key": "Tools and data", "value": "I'd rather own them, self-hosted where I can." },
+      { "key": "News", "value": "RSS." },
+      { "key": "Building", "value": "Claude Code." },
+      { "key": "This site", "value": "Astro on Cloudflare Pages." },
+      { "key": "Contact", "value": "email, jordan@jordankrueger.com." }
+    ]
+  }
+}
