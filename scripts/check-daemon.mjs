@@ -10,16 +10,17 @@ const get = async (path) => base
   ? (await fetch(base + path)).text()
   : readFileSync(new URL(`../dist${path}`, import.meta.url), 'utf8');
 
-const page = await get(base ? '/daemon/' : '/daemon/index.html');
-const data = JSON.parse(await get('/daemon.json'));
-const feed = JSON.parse(await get('/feed.json'));
+const [page, dataText, feedText] = await Promise.all([
+  get(base ? '/daemon/' : '/daemon/index.html'), get('/daemon.json'), get('/feed.json'),
+]);
+const data = JSON.parse(dataText);
+const feed = JSON.parse(feedText);
 
 const SECTIONS = ['Now', 'Mission', 'Goals', 'Predictions', 'Projects', 'Offering', 'Requesting', 'Resume', 'Preferences', 'Signal'];
 for (const s of SECTIONS) assert.match(page, new RegExp(`</span> ${s}`), `page is missing section ${s}`);
 
-for (const k of ['asOf', 'now', 'mission', 'goals', 'predictions', 'projects', 'offering', 'requesting', 'resume', 'preferences', 'latestPost']) {
-  assert.ok(data[k], `daemon.json is missing ${k}`);
-}
+// The zod schema already guarantees the other fields; latestPost is computed.
+assert.ok(data.latestPost, 'daemon.json is missing latestPost');
 // Every goal, prediction and project in the data shows on the page.
 for (const g of data.goals) assert.ok(page.includes(g.code), `page is missing goal ${g.code}`);
 for (const p of data.predictions) assert.ok(page.includes(p.confidence), `page is missing confidence for ${p.code}`);
