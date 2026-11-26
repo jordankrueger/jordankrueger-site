@@ -1,0 +1,119 @@
+---
+// A live snapshot of Jordan for people and AI agents. Content lives in src/content/daemon.json;
+// /daemon.json serves the same data.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getDaemon } from '../lib/daemon.mjs';
+
+const d = await getDaemon(Astro.site!);
+const n = (i: number) => String(i).padStart(2, '0');
+---
+
+<BaseLayout title="Daemon — Jordan Krueger" description="A live snapshot of what Jordan Krueger is doing, building and thinking about, for people and AI agents.">
+  <section class="section daemon">
+    <div class="container daemon-wrap">
+      <header class="daemon-head">
+        <h1>Daemon</h1>
+        <p>This page is a live snapshot of what I'm doing, building and thinking about. It's written for people and for AI agents, so the same facts are in <a href="#signal">plain JSON</a> too. Agents welcome.</p>
+      </header>
+
+      <section class="d-card" aria-labelledby="d-now">
+        <h2 id="d-now"><span class="d-n">{n(1)}</span> Now <span class="d-asof">as of {d.asOf}</span></h2>
+        <ul role="list">
+          {d.now.map((t) => <li>{t}</li>)}
+          {d.latestPost && <li>Latest post: <a href={d.latestPost.url}>{d.latestPost.title}</a>.</li>}
+        </ul>
+      </section>
+
+      <section class="d-card" aria-labelledby="d-mission">
+        <h2 id="d-mission"><span class="d-n">{n(2)}</span> Mission</h2>
+        <p>{d.mission}</p>
+      </section>
+
+      <section class="d-card" aria-labelledby="d-goals">
+        <h2 id="d-goals"><span class="d-n">{n(3)}</span> Goals</h2>
+        <ul role="list">
+          {d.goals.map((g) => <li><span class="d-code">{g.code}</span>{g.goal}<span class="d-sub">Now: {g.now}</span></li>)}
+        </ul>
+      </section>
+
+      <section class="d-card" aria-labelledby="d-predictions">
+        <h2 id="d-predictions"><span class="d-n">{n(4)}</span> Predictions</h2>
+        <ul role="list">
+          {d.predictions.map((p) => <li><span class="d-code">{p.code}</span>{p.prediction} <span class="d-tag">{p.confidence}</span></li>)}
+        </ul>
+      </section>
+
+      <section class="d-card" aria-labelledby="d-projects">
+        <h2 id="d-projects"><span class="d-n">{n(5)}</span> Projects</h2>
+        <ul role="list">
+          {d.projects.map((p) => <li><a href={p.url}><b>{p.name}</b></a> {p.line}</li>)}
+        </ul>
+        <p class="d-more">Everything else: <a href="/projects">jordankrueger.com/projects</a></p>
+      </section>
+
+      <section class="d-card" aria-labelledby="d-offering">
+        <h2 id="d-offering"><span class="d-n">{n(6)}</span> Offering</h2>
+        <ul role="list">
+          {d.offering.map((o) => <li>{o.url ? <a href={o.url}>{o.text}</a> : o.text}</li>)}
+        </ul>
+      </section>
+
+      <section class="d-card" aria-labelledby="d-requesting">
+        <h2 id="d-requesting"><span class="d-n">{n(7)}</span> Requesting <span class="d-asof">as of {d.asOf}</span></h2>
+        <ul role="list">
+          {d.requesting.map((r) => <li>{r.url ? <a href={r.url}>{r.text}</a> : r.text}</li>)}
+        </ul>
+      </section>
+
+      <section class="d-card" aria-labelledby="d-resume">
+        <h2 id="d-resume"><span class="d-n">{n(8)}</span> Resume</h2>
+        <ul role="list">
+          {d.resume.map((r) => <li><span class="d-code">{r.years}</span>{r.role}</li>)}
+        </ul>
+        <p class="d-more">The long version: <a href="/about">jordankrueger.com/about</a></p>
+      </section>
+
+      <section class="d-card" aria-labelledby="d-preferences">
+        <h2 id="d-preferences"><span class="d-n">{n(9)}</span> Preferences</h2>
+        <ul role="list">
+          {d.preferences.map((p) => <li><b>{p.key}:</b> {p.value}</li>)}
+        </ul>
+      </section>
+
+      <section class="d-card" id="signal" aria-labelledby="d-signal">
+        <h2 id="d-signal"><span class="d-n">{n(10)}</span> Signal</h2>
+        <ul role="list">
+          <li><span class="d-code">PROFILE</span><a href="/daemon.json"><code>/daemon.json</code></a> has everything on this page.</li>
+          <li><span class="d-code">FEED</span><a href="/feed.json"><code>/feed.json</code></a> lists my blog posts as a JSON Feed. <a href="/rss.xml"><code>/rss.xml</code></a> still works.</li>
+          <li>Items marked "as of" are short-lived. Check the date before you rely on one.</li>
+        </ul>
+      </section>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .daemon-wrap { max-width: 48rem; }
+  .daemon-head { padding: 0 var(--spacing-md); margin-bottom: var(--spacing-lg); }
+  .daemon-head h1 { font-size: var(--fs-page-title); color: var(--color-text-logo); margin: 0 0 var(--spacing-xs); }
+  .d-card {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+  }
+  .d-card h2 { display: flex; gap: 0.6rem; align-items: baseline; flex-wrap: wrap; font-size: 1.25rem; margin: 0 0 var(--spacing-xs); }
+  .d-card p { margin: 0; }
+  .d-n, .d-code, .d-asof { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--color-accent); }
+  .d-n { font-size: 0.9rem; }
+  .d-asof { margin-left: auto; font-size: 0.8rem; font-weight: 400; color: var(--color-sun-text); }
+  .d-card ul { list-style: none; padding: 0; margin: 0; }
+  .d-card li { padding: 0.4rem 0; border-top: 1px solid var(--color-border); }
+  .d-card li:first-child { border-top: 0; }
+  .d-code { font-weight: 700; margin-right: 0.5rem; }
+  .d-sub { display: block; font-size: 0.95rem; }
+  .d-tag { display: inline-block; font-size: 0.85rem; border: 1px solid var(--color-border); border-radius: var(--radius-pill); padding: 0 0.6rem; }
+  .d-more { margin-top: var(--spacing-xs) !important; font-size: 0.95rem; }
+  .d-card li b { color: var(--color-text-logo); }
+</style>

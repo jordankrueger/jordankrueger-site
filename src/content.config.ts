@@ -88,4 +88,27 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { posts, tools, projects };
+// The /daemon page, /daemon.json and /feed.json profile. One entry ("jordan").
+const code = z.string().regex(/^[A-Z]\d+$/); // G1, P2...
+const link = z.object({ text: z.string(), url: z.string().url().optional() });
+const daemon = defineCollection({
+  loader: file('./src/content/daemon.json'),
+  schema: z.object({
+    asOf: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), // date the short-lived lists (now, requesting) were last checked
+    now: z.array(z.string()).min(1),
+    mission: z.string(),
+    goals: z.array(z.object({ code, goal: z.string(), now: z.string() })).min(1),
+    predictions: z.array(z.object({
+      code,
+      prediction: z.string(),
+      confidence: z.enum(['almost certain', 'likely', 'about even', 'unlikely', 'remote']),
+    })),
+    projects: z.array(z.object({ name: z.string(), url: z.string().url(), line: z.string() })).min(1),
+    offering: z.array(link),
+    requesting: z.array(link),
+    resume: z.array(z.object({ years: z.string(), role: z.string() })),
+    preferences: z.array(z.object({ key: z.string(), value: z.string() })),
+  }),
+});
+
+export const collections = { posts, tools, projects, daemon };
