@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StatsStack from '../components/StatsStack.astro';
 import PodcastEmbed from '../components/PodcastEmbed.astro';
+import SupportLinks from '../components/SupportLinks.astro';
 ---
 
 <BaseLayout title="About — Jordan Krueger" description="I'm Jordan Krueger, an optimist with a plan. I run CampaignHelp and Grounded AI, live in Pittsburgh, and have run StarBase 118 since 1994.">
@@ -145,6 +146,10 @@ import PodcastEmbed from '../components/PodcastEmbed.astro';
       </div>
     </div>
   </section>
+
+  <div class="container">
+    <SupportLinks />
+  </div>
 </BaseLayout>
 
 <style>
