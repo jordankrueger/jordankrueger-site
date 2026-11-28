@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import DiscussionBar from '../components/DiscussionBar.astro';
+import SupportLinks from '../components/SupportLinks.astro';
 import { topicLabel } from '../lib/topics';
 import { fetchDiscussionCounts } from '../lib/discussions.mjs';
 
@@ -90,6 +91,8 @@ const discussionCounts = discussions ? await fetchDiscussionCounts(discussions) 
       </div>
 
       {discussions && <DiscussionBar discussions={discussions} counts={discussionCounts!} position="bottom" />}
+
+      <SupportLinks />
 
       <footer class="post-footer">
         <a href="/blog" class="back-link">&larr; Back to all posts</a>

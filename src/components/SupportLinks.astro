@@ -1,0 +1,58 @@
+---
+// Tip jar: one plain Ko-fi link, no third-party scripts, so the CSP in public/_headers does not change.
+// Ko-fi accepts Venmo on its side, so there is no separate Venmo button. Set to '' to hide the box.
+import { checkTipUrl } from '../lib/support.mjs';
+
+const KOFI_URL = checkTipUrl('https://ko-fi.com/jordankrueger');
+---
+
+{KOFI_URL && (
+  <aside class="support" aria-labelledby="support-heading">
+    <h2 id="support-heading">Tip jar</h2>
+    <p>Everything I write here is free. If something helped you and you'd like to say thanks, you can send me a tip on Ko-fi (it takes Venmo, too).</p>
+    <p class="support-actions">
+      <a class="btn btn-primary" href={KOFI_URL} target="_blank" rel="noopener">
+        Buy me a coffee on Ko-fi
+        <svg class="support-ext" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9 9 3M3 3h6v6" /></svg>
+        <span class="sr-only">(opens in a new tab)</span>
+      </a>
+    </p>
+  </aside>
+)}
+
+<style>
+  .support {
+    max-width: var(--measure, 68ch);
+    margin: var(--spacing-lg) auto 0;
+    padding: var(--spacing-md);
+    background: var(--color-bg-warm);
+    border: 1px solid var(--color-sun-border);
+    border-radius: var(--radius-md);
+  }
+
+  .support h2 {
+    margin: 0 0 var(--spacing-xs);
+    font-size: 1.35rem;
+  }
+
+  .support p { margin: 0; }
+
+  .support .support-actions { margin-top: var(--spacing-sm); }
+
+  .support-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+  }
+
+  .support-ext {
+    width: 0.7rem;
+    height: 0.7rem;
+    flex: none;
+  }
+
+  @media (max-width: 640px) {
+    .support-actions .btn { display: flex; white-space: normal; }
+  }
+</style>
